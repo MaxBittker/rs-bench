@@ -4,9 +4,8 @@
   "description": "Benchmark suite for evaluating AI agents on RuneScape gameplay tasks",
   "scripts": {
     "generate": "bun generate-tasks.ts",
-    "extract": "bun extract-results.ts",
-    "extract:skills": "bun extract-skill-results.ts",
-    "extract:combat": "bun extract-combat-results.ts",
-    "extract:gold": "bun extract-gold-results.ts"
+    "extract": "bun extractors/extract-results.ts",
+    "extract:skills": "bun extractors/extract-skill-results.ts",
+    "extract:gold": "bun extractors/extract-gold-results.ts"
   }
 }

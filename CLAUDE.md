@@ -9,12 +9,30 @@ All task directories are **generated** — never edit them directly.
 
 | Path | Purpose |
 |------|---------|
-| `generate-tasks.ts` | Generates all task directories (16 standard XP + 22 variants) |
+| `generate-tasks.ts` | Generates all task directories (16 standard XP + 19 variants) |
 | `shared/check_xp.ts` | XP verifier for 10m single-skill tasks |
 | `shared/check_skill_xp.ts` | XP verifier for 30m single-skill tasks (includes tracking) |
-| `shared/check_total_level.ts` | Total level verifier (includes tracking) |
+| `shared/extract-utils.ts` | Shared utilities for extract scripts |
 | `shared/skill_tracker.ts` | Standalone skill tracker (single source of truth — copied into Docker image at build time) |
 | `docker/` | Shared Docker image source (pre-built, pushed to GHCR) |
+
+## Directory structure
+
+```
+rs-bench/
+├── scripts/              ← run.sh, run-skills-30m.sh, run-common.sh
+├── extractors/           ← extract-results.ts, extract-skill-results.ts, extract-gold-results.ts
+├── agents/               ← kimi_adapter.py, qwen3_adapter.py, opencode_adapter.py, install-opencode.sh.j2
+├── views/                ← graph-skills.html, graph-gold.html, 10m-comparison.html, model-icons/, skill-icons/
+├── shared/               ← verifiers + extract-utils.ts
+├── docker/               ← shared Docker image source
+├── results/              ← generated result artifacts
+├── tasks/                ← generated task directories
+├── generate-tasks.ts     ← source of truth for task generation
+├── package.json
+├── CLAUDE.md
+└── .gitignore
+```
 
 ## Regenerate tasks
 
@@ -28,17 +46,21 @@ Run this before `harbor run`. Generated directories are gitignored.
 
 ```bash
 # Standard 10m XP benchmarks (all models in parallel)
-./run.sh
+./scripts/run.sh
 
 # 30m per-skill XP benchmarks (all 16 skills)
-./run-skills-30m.sh
-
-# Total-level benchmarks (configurable duration)
-./run-total-level.sh --duration 8m
-./run-total-level.sh --duration 1h
+./scripts/run-skills-30m.sh
 ```
 
 Each task has an `environment/Dockerfile` that `FROM`s the pre-built GHCR image, so Modal pulls the image with no build step beyond the layer cache.
+
+## Extracting results
+
+```bash
+bun extractors/extract-results.ts
+bun extractors/extract-skill-results.ts
+bun extractors/extract-gold-results.ts
+```
 
 ## Adding a new task
 
@@ -48,7 +70,7 @@ Each task has an `environment/Dockerfile` that `FROM`s the pre-built GHCR image,
 
 ## Docker image
 
-All tasks use the pre-built image `ghcr.io/maxbittker/rs-agent-benchmark:v16` (8x game speed via `NODE_TICKRATE=50`). The image clones [rs-sdk](https://github.com/MaxBittker/rs-sdk) at a pinned ref. Variant tasks that need different env settings use a thin `FROM` layer on top.
+All tasks use the pre-built image `ghcr.io/maxbittker/rs-agent-benchmark:v17` (8x game speed via `NODE_TICKRATE=50`). The image clones [rs-sdk](https://github.com/MaxBittker/rs-sdk) at a pinned ref. Variant tasks that need different env settings use a thin `FROM` layer on top.
 
 Build and push:
 ```bash

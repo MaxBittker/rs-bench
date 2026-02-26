@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RS-Agent Benchmark Results</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-<script src="_data.js"></script>
+<script src="../results/_data.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -139,13 +139,13 @@
 
 <script>
 const MODELS = {
-  opus:     { name: 'Claude Opus 4.6',    color: '#8b7355', icon: '../model-icons/anthropic.svg' },
-  sonnet46: { name: 'Claude Sonnet 4.6',  color: '#e07850', icon: '../model-icons/anthropic.svg' },
-  sonnet45: { name: 'Claude Sonnet 4.5',  color: '#c0954a', icon: '../model-icons/anthropic.svg' },
-  haiku:    { name: 'Claude Haiku 4.5',   color: '#e06090', icon: '../model-icons/anthropic.svg' },
-  codex:    { name: 'Codex CLI',          color: '#10a37f', icon: '../model-icons/openai.png'    },
-  gemini:   { name: 'Gemini CLI',         color: '#4285f4', icon: '../model-icons/gemini.webp'  },
-  glm:      { name: 'GLM-5',             color: '#aa44cc', icon: '../model-icons/zai.png'       },
+  opus:     { name: 'Claude Opus 4.6',    color: '#8b7355', icon: 'model-icons/anthropic.svg' },
+  sonnet46: { name: 'Claude Sonnet 4.6',  color: '#e07850', icon: 'model-icons/anthropic.svg' },
+  sonnet45: { name: 'Claude Sonnet 4.5',  color: '#c0954a', icon: 'model-icons/anthropic.svg' },
+  haiku:    { name: 'Claude Haiku 4.5',   color: '#e06090', icon: 'model-icons/anthropic.svg' },
+  codex:    { name: 'Codex CLI',          color: '#10a37f', icon: 'model-icons/openai.png'    },
+  gemini:   { name: 'Gemini CLI',         color: '#4285f4', icon: 'model-icons/gemini.webp'  },
+  glm:      { name: 'GLM-5',             color: '#aa44cc', icon: 'model-icons/zai.png'       },
 };
 
 // Pre-load model icons so they're ready when the chart draws
@@ -204,7 +204,7 @@ const skillTooltipPlugin = {
         .filter(([, d]) => d.level > 0)
         .sort((a, b) => b[1].level - a[1].level);
       for (const [skill, data] of entries) {
-        const icon = `../skill-icons/${skill.toLowerCase()}.png`;
+        const icon = `skill-icons/${skill.toLowerCase()}.png`;
         html += `<div class="tooltip-skill${data.level > 1 ? ' leveled' : ''}">
           <span class="skill-name"><img class="skill-icon" src="${icon}" onerror="this.style.display='none'">${skill}</span>
           <span class="skill-level">${data.level}</span>
@@ -278,7 +278,7 @@ const HORIZON_ORDER = ['5m', '8m', '10m', '30m', '1h', '3h'];
 
 const combined = window.COMBINED_DATA;
 if (!combined) {
-  document.body.innerHTML += '<p style="color:red;margin-top:20px">No data found. Run: <code>bun benchmark/extract-results.ts</code></p>';
+  document.body.innerHTML += '<p style="color:red;margin-top:20px">No data found. Run: <code>bun extractors/extract-results.ts</code></p>';
 } else {
   // Find all horizons present in the data
   const availableHorizons = HORIZON_ORDER.filter(h =>

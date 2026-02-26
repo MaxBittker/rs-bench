@@ -1,18 +1,19 @@
 #!/bin/bash
-# Run the benchmark suite across models on Daytona.
+# Run the benchmark suite across models on Modal.
 #
 # Usage:
-#   benchmark/run.sh                    # all models, woodcutting-xp-10m
-#   benchmark/run.sh -t woodcutting-xp-5m
-#   benchmark/run.sh -m sonnet45        # single model
-#   benchmark/run.sh -n 2               # 2 trials per model
-#   benchmark/run.sh -c 4               # 4 concurrent trials
+#   run.sh                    # all models, woodcutting-xp-10m
+#   run.sh -t woodcutting-xp-5m
+#   run.sh -m sonnet45        # single model
+#   run.sh -n 2               # 2 trials per model
+#   run.sh -c 4               # 4 concurrent trials
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+source "$SCRIPT_DIR/run-common.sh"
 
 # ── Model definitions (agent|model-id|label) ────────────────────
-# Same pipe-delimited format as run-comparison.sh for bash 3 compat
 ALL_MODELS="
 claude-code|anthropic/claude-opus-4-6|opus
 claude-code|anthropic/claude-sonnet-4-6|sonnet46
@@ -25,17 +26,6 @@ kimi-opencode|openrouter/moonshotai/kimi-k2.5|kimi
 qwen3-opencode|openrouter/qwen/qwen3-coder-next|qwen3
 
 "
-
-# ── Lookup helper (bash 3 compatible) ────────────────────────────
-lookup_model() {
-  local name="$1"
-  echo "$ALL_MODELS" | while IFS='|' read -r agent model label; do
-    if [ "$label" = "$name" ]; then
-      echo "$agent|$model|$label"
-      return 0
-    fi
-  done
-}
 
 # ── Defaults ──────────────────────────────────────────────────────
 TASK="woodcutting-xp-10m"
@@ -52,7 +42,7 @@ while [[ $# -gt 0 ]]; do
     -n|--trials)  N_TRIALS="$2"; shift 2 ;;
     -c|--concurrency) CONCURRENCY="$2"; shift 2 ;;
     -h|--help)
-      echo "Usage: benchmark/run.sh [-t task] [-m model] [-n trials] [-c concurrency]"
+      echo "Usage: run.sh [-t task] [-m model] [-n trials] [-c concurrency]"
       echo ""
       echo "Models: opus, sonnet46, sonnet45, haiku, codex, gemini, glm, kimi, qwen3 (default: all)"
       echo "Task:   any task dir name (default: woodcutting-xp-10m)"
@@ -68,27 +58,17 @@ if [ -z "$SELECTED_MODELS" ]; then
   SELECTED_MODELS="sonnet46 sonnet45 opus haiku codex gemini glm kimi qwen3"
 fi
 
-# Export API keys from .env so Harbor's agent classes can snapshot them.
-# Without this, keys are only loaded by Python dotenv at import time,
-# and import ordering can cause the snapshot to miss them.
-if [ -f "$SCRIPT_DIR/../.env" ]; then
-  set -a  # auto-export all variables
-  source "$SCRIPT_DIR/../.env"
-  set +a
-fi
+load_env "$REPO_ROOT/.env"
 GLM_KEY="${GLM_API_KEY:-}"
 
-# ── Regenerate tasks ──────────────────────────────────────────────
-echo "Regenerating benchmark tasks..."
-bun "$SCRIPT_DIR/generate-tasks.ts"
-echo ""
+regenerate_tasks "$REPO_ROOT/generate-tasks.ts"
 
 # ── Launch all models in parallel ─────────────────────────────────
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 PIDS=""
 
 for name in $SELECTED_MODELS; do
-  entry=$(lookup_model "$name")
+  entry=$(lookup_model "$name" "$ALL_MODELS")
   if [ -z "$entry" ]; then
     echo "Unknown model: $name (available: opus, sonnet46, sonnet45, haiku, codex, gemini, glm, kimi, qwen3)"
     exit 1
@@ -96,30 +76,10 @@ for name in $SELECTED_MODELS; do
 
   IFS='|' read -r agent model label <<< "$entry"
 
-  # GLM needs custom env: use GLM_API_KEY and route through Z.AI proxy.
-  # Override ANTHROPIC_API_KEY to prevent sending real Anthropic key.
   ENV_PREFIX=""
   AGENT_FLAG="-a '$agent'"
-  if [ "$name" = "glm" ]; then
-    if [ -z "$GLM_KEY" ]; then
-      echo "  WARNING: GLM_API_KEY not found in .env, skipping glm"
-      continue
-    fi
-    ENV_PREFIX="ANTHROPIC_API_KEY=$GLM_KEY ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic API_TIMEOUT_MS=3000000"
-  elif [ "$name" = "kimi" ]; then
-    if [ -z "$OPENROUTER_API_KEY" ]; then
-      echo "  WARNING: OPENROUTER_API_KEY not found in .env, skipping kimi"
-      continue
-    fi
-    ENV_PREFIX="PYTHONPATH=$SCRIPT_DIR:\${PYTHONPATH:-}"
-    AGENT_FLAG="--agent-import-path 'kimi_adapter:KimiOpenCode'"
-  elif [ "$name" = "qwen3" ]; then
-    if [ -z "$OPENROUTER_API_KEY" ]; then
-      echo "  WARNING: OPENROUTER_API_KEY not found in .env, skipping qwen3"
-      continue
-    fi
-    ENV_PREFIX="PYTHONPATH=$SCRIPT_DIR:\${PYTHONPATH:-}"
-    AGENT_FLAG="--agent-import-path 'qwen3_adapter:Qwen3OpenCode'"
+  if ! configure_model_env "$name" "$REPO_ROOT/agents" "$entry"; then
+    continue
   fi
 
   JOB_NAME="${TASK}-${label}-${TIMESTAMP}"
@@ -133,7 +93,7 @@ for name in $SELECTED_MODELS; do
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
   eval "$ENV_PREFIX harbor run \
-    -p '$SCRIPT_DIR/tasks/$TASK' \
+    -p '$REPO_ROOT/tasks/$TASK' \
     $AGENT_FLAG \
     -m '$model' \
     --job-name '$JOB_NAME' \
@@ -167,7 +127,7 @@ fi
 
 # Print summary from log files
 for name in $SELECTED_MODELS; do
-  entry=$(lookup_model "$name")
+  entry=$(lookup_model "$name" "$ALL_MODELS")
   IFS='|' read -r agent model label <<< "$entry"
   LOG_FILE="/tmp/harbor-${TASK}-${label}-${TIMESTAMP}.log"
   if [ -f "$LOG_FILE" ]; then

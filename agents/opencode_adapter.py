@@ -1,11 +1,11 @@
 """
-Custom Harbor adapter for Qwen3-Coder-Next via OpenCode + OpenRouter.
+Base adapter for OpenCode-based agents (Kimi, Qwen3, etc.) via OpenRouter.
 
-Usage with Harbor:
-    PYTHONPATH=benchmark harbor run \
-        --agent-import-path 'qwen3_adapter:Qwen3OpenCode' \
-        -m 'openrouter/qwen/qwen3-coder-next' \
-        -p benchmark/total-level-8m
+Subclasses only need to override:
+  - name()           — agent name
+  - _default_model   — fallback model ID
+  - _log_prefix      — prefix for log messages (e.g. 'kimi', 'qwen3')
+  - _log_file        — log file name (e.g. 'opencode-kimi.txt')
 """
 
 import json
@@ -17,25 +17,25 @@ from harbor.agents.installed.base import BaseInstalledAgent, ExecInput
 from harbor.models.agent.context import AgentContext
 
 
-class Qwen3OpenCode(BaseInstalledAgent):
+class OpenCodeAdapter(BaseInstalledAgent):
     """
-    Runs Qwen3-Coder-Next via OpenCode CLI with OpenRouter as the provider.
+    Base class for agents that run via OpenCode CLI with OpenRouter.
     """
 
-    @staticmethod
-    def name() -> str:
-        return "qwen3-opencode"
+    _default_model: str = ""
+    _log_prefix: str = "opencode"
+    _log_file: str = "opencode.txt"
 
     @property
     def _install_agent_template_path(self) -> Path:
-        return Path(__file__).parent / "install-kimi-opencode.sh.j2"
+        return Path(__file__).parent / "install-opencode.sh.j2"
 
     def populate_context_post_run(self, context: AgentContext) -> None:
         pass
 
     def _build_opencode_config(self) -> dict:
         """Build opencode.json config with OpenRouter provider and MCP servers."""
-        model_id = self.model_name or "openrouter/qwen/qwen3-coder-next"
+        model_id = self.model_name or self._default_model
         if "/" in model_id:
             parts = model_id.split("/", 1)
             provider_name = parts[0]
@@ -79,7 +79,7 @@ class Qwen3OpenCode(BaseInstalledAgent):
 
         return config
 
-    # Snapshot env vars at class-load time
+    # Snapshot env vars at class-load time (same pattern as Claude Code adapter)
     _original_env = {
         k: os.environ.get(k, "")
         for k in ["OPENROUTER_API_KEY"]
@@ -102,11 +102,14 @@ class Qwen3OpenCode(BaseInstalledAgent):
         config_json = json.dumps(opencode_config, indent=2)
         escaped_config = shlex.quote(config_json)
 
-        model_name = self.model_name or "openrouter/qwen/qwen3-coder-next"
+        model_name = self.model_name or self._default_model
+
+        prefix = self._log_prefix
+        log_file = self._log_file
 
         setup_command = (
             f"echo {escaped_config} > /app/opencode.json && "
-            "echo '[qwen3-setup] Wrote /app/opencode.json'"
+            f"echo '[{prefix}-setup] Wrote /app/opencode.json'"
         )
 
         escaped_model = shlex.quote(model_name)
@@ -117,34 +120,37 @@ class Qwen3OpenCode(BaseInstalledAgent):
             "keep grinding. " + instruction
         )
 
+        # Variable prefix for the restart loop (uppercase of log_prefix)
+        vp = prefix.upper()
+
         run_command = (
-            "echo '[qwen3-setup] Starting game services...'; "
+            f"echo '[{prefix}-setup] Starting game services...'; "
             "/ensure-services.sh; "
-            "echo '[qwen3-setup] Services ready, starting opencode'; "
+            f"echo '[{prefix}-setup] Services ready, starting opencode'; "
             "cd /app; "
-            "QWEN_START=$(date +%s); "
-            "QWEN_TIMEOUT=${QWEN_TIMEOUT:-1620}; "
-            "QWEN_MIN_RESTART=180; "
-            "QWEN_RUN=1; "
-            f"echo \"[qwen3-loop] Run $QWEN_RUN starting (budget=${{QWEN_TIMEOUT}}s)\" | tee -a /logs/agent/opencode-qwen3.txt; "
-            f"timeout ${{QWEN_TIMEOUT}}s opencode --model {escaped_model} run --format=json {escaped_instruction} "
-            "2>&1 </dev/null | tee -a /logs/agent/opencode-qwen3.txt; "
-            "echo '[qwen3-loop] opencode exited' | tee -a /logs/agent/opencode-qwen3.txt; "
+            f"{vp}_START=$(date +%s); "
+            f"{vp}_TIMEOUT=${{{vp}_TIMEOUT:-1620}}; "
+            f"{vp}_MIN_RESTART=180; "
+            f"{vp}_RUN=1; "
+            f"echo \"[{prefix}-loop] Run ${vp}_RUN starting (budget=${{{vp}_TIMEOUT}}s)\" | tee -a /logs/agent/{log_file}; "
+            f"timeout ${{{vp}_TIMEOUT}}s opencode --model {escaped_model} run --format=json {escaped_instruction} "
+            f"2>&1 </dev/null | tee -a /logs/agent/{log_file}; "
+            f"echo '[{prefix}-loop] opencode exited' | tee -a /logs/agent/{log_file}; "
             "while true; do "
-            "  QWEN_ELAPSED=$(( $(date +%s) - QWEN_START )); "
-            "  QWEN_REMAINING=$(( QWEN_TIMEOUT - QWEN_ELAPSED )); "
-            "  echo \"[qwen3-loop] Elapsed: ${QWEN_ELAPSED}s, Remaining: ${QWEN_REMAINING}s\" | tee -a /logs/agent/opencode-qwen3.txt; "
-            "  if [ $QWEN_REMAINING -lt $QWEN_MIN_RESTART ]; then "
-            "    echo \"[qwen3-loop] Less than ${QWEN_MIN_RESTART}s remaining, stopping restart loop\" | tee -a /logs/agent/opencode-qwen3.txt; "
+            f"  {vp}_ELAPSED=$(( $(date +%s) - {vp}_START )); "
+            f"  {vp}_REMAINING=$(( {vp}_TIMEOUT - {vp}_ELAPSED )); "
+            f"  echo \"[{prefix}-loop] Elapsed: ${{{vp}_ELAPSED}}s, Remaining: ${{{vp}_REMAINING}}s\" | tee -a /logs/agent/{log_file}; "
+            f"  if [ ${vp}_REMAINING -lt ${vp}_MIN_RESTART ]; then "
+            f"    echo \"[{prefix}-loop] Less than ${{{vp}_MIN_RESTART}}s remaining, stopping restart loop\" | tee -a /logs/agent/{log_file}; "
             "    break; "
             "  fi; "
-            "  QWEN_RUN=$((QWEN_RUN + 1)); "
-            f"  echo \"[qwen3-loop] Run $QWEN_RUN starting (${{QWEN_REMAINING}}s remaining)\" | tee -a /logs/agent/opencode-qwen3.txt; "
-            f"  timeout ${{QWEN_REMAINING}}s opencode --model {escaped_model} run --format=json {continue_instruction} "
-            "  2>&1 </dev/null | tee -a /logs/agent/opencode-qwen3.txt; "
-            "  echo '[qwen3-loop] opencode exited' | tee -a /logs/agent/opencode-qwen3.txt; "
+            f"  {vp}_RUN=$(({vp}_RUN + 1)); "
+            f"  echo \"[{prefix}-loop] Run ${vp}_RUN starting (${{{vp}_REMAINING}}s remaining)\" | tee -a /logs/agent/{log_file}; "
+            f"  timeout ${{{vp}_REMAINING}}s opencode --model {escaped_model} run --format=json {continue_instruction} "
+            f"  2>&1 </dev/null | tee -a /logs/agent/{log_file}; "
+            f"  echo '[{prefix}-loop] opencode exited' | tee -a /logs/agent/{log_file}; "
             "done; "
-            "echo \"[qwen3-loop] Finished after $QWEN_RUN runs\" | tee -a /logs/agent/opencode-qwen3.txt"
+            f"echo \"[{prefix}-loop] Finished after ${vp}_RUN runs\" | tee -a /logs/agent/{log_file}"
         )
 
         return [
