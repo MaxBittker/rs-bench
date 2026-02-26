@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill XP Benchmark (30 min)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="results/skills-30m/_data.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #fff;
+    color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 24px 32px;
+  }
+  .page-header { margin-bottom: 4px; }
+  .page-header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+  .page-subtitle {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 16px;
+  }
+  .view-toggle {
+    display: inline-flex;
+    gap: 0;
+    margin-left: 16px;
+    vertical-align: middle;
+  }
+  .view-toggle button {
+    padding: 4px 14px;
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #555;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .view-toggle button:first-child { border-radius: 6px 0 0 6px; }
+  .view-toggle button:last-child { border-radius: 0 6px 6px 0; border-left: none; }
+  .view-toggle button:nth-child(2) { border-left: none; }
+  .view-toggle button.active {
+    background: #1a1a1a;
+    border-color: #1a1a1a;
+    color: #fff;
+  }
+  .view-toggle button:hover:not(.active) { border-color: #999; color: #1a1a1a; }
+
+  /* Grid view */
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .grid-cell {
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    height: 220px;
+    overflow: visible;
+  }
+  .grid-cell-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .grid-cell-title img {
+    width: 18px;
+    height: 18px;
+  }
+  .grid-cell canvas {
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* Cumulative view */
+  .cumulative-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .cumulative-container canvas {
+    width: 100% !important;
+    max-width: 900px;
+    height: 450px !important;
+  }
+
+  /* Trajectory steps */
+  .traj-step { padding: 4px 0; border-bottom: 1px solid #f0f0f0; }
+  .traj-step:last-child { border-bottom: none; }
+  .traj-step.agent { color: #1a1a1a; }
+  .traj-step.tool { color: #999; font-family: monospace; font-size: 12px; padding: 2px 0; }
+
+  /* Legend */
+  .bottom-legend {
+    display: flex;
+    gap: 24px;
+    padding: 16px 0 12px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #555;
+    cursor: pointer;
+  }
+  .legend-item.hidden { opacity: 0.35; }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* Load section */
+  .no-data {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 15px;
+  }
+  .load-bar {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .load-bar button {
+    padding: 8px 18px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    color: #555;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .load-bar button:hover { background: #f5f5f5; border-color: #999; }
+  .drop-zone {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 24px;
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .drop-zone:hover, .drop-zone.dragover { border-color: #4285f4; background: #f0f6ff; }
+  .drop-zone input { display: none; }
+  .download-btn {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    font-size: 18px;
+    padding: 4px 8px;
+  }
+  .download-btn:hover { color: #333; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Skill XP Benchmark
+    <span class="view-toggle" id="viewToggle" style="display:none">
+      <button data-view="grid" class="active" onclick="setView('grid')">Grid</button>
+      <button data-view="cumulative" onclick="setView('cumulative')">Average</button>
+    </span>
+  </h1>
+</div>
+<div class="page-subtitle" id="pageSubtitle">30-minute skill XP across models</div>
+<button class="download-btn" onclick="downloadView()" title="Download as PNG">&#8681;</button>
+
+<div id="gridContainer" class="grid-container" style="display:none"></div>
+<div id="cumulativeContainer" class="cumulative-container" style="display:none"></div>
+<!-- Trajectory modal -->
+<div id="trajectoryModal" style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.5); overflow:auto" onclick="if(event.target===this)closeTrajectory()">
+  <div style="max-width:720px; margin:40px auto; background:#fff; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.2); max-height:calc(100vh - 80px); display:flex; flex-direction:column">
+    <div id="trajHeader" style="padding:16px 20px; border-bottom:1px solid #e8e8e8; flex-shrink:0">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <h3 id="trajTitle" style="font-size:16px; font-weight:600; margin:0"></h3>
+        <button onclick="closeTrajectory()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#999; padding:0 4px">&times;</button>
+      </div>
+      <div id="trajSubtitle" style="font-size:12px; color:#999; margin-top:2px"></div>
+    </div>
+    <div id="trajStrategy" style="padding:12px 20px; background:#f8f8f8; border-bottom:1px solid #e8e8e8; font-size:13px; line-height:1.5; color:#333; flex-shrink:0; max-height:200px; overflow:auto; display:none; white-space:pre-wrap"></div>
+    <div id="trajSteps" style="padding:16px 20px; overflow-y:auto; flex:1; font-size:13px; line-height:1.6"></div>
+  </div>
+</div>
+
+<div id="loadSection">
+  <div class="load-bar" id="loadBar">
+    <button onclick="loadResults()" id="loadBtn">Load Results</button>
+  </div>
+  <div class="drop-zone" id="dropZone">
+    <p>Drop _combined.json here or click to browse</p>
+    <input type="file" id="fileInput" accept=".json">
+  </div>
+</div>
+
+<div class="bottom-legend" id="bottomLegend"></div>
+
+<script>
+const MODEL_CONFIG = {
+  'opus':     { displayName: 'Claude Opus 4.6',   color: '#8b7355', order: 1, icon: 'model-icons/anthropic.svg' },
+  'opus45':   { displayName: 'Claude Opus 4.5',   color: '#a08060', order: 2, icon: 'model-icons/anthropic.svg' },
+  'sonnet46': { displayName: 'Claude Sonnet 4.6', color: '#d4442a', order: 3, icon: 'model-icons/anthropic.svg' },
+  'sonnet45': { displayName: 'Claude Sonnet 4.5', color: '#e07850', order: 4, icon: 'model-icons/anthropic.svg' },
+  'gemini':   { displayName: 'Gemini 3 Pro',      color: '#4285f4', order: 5, icon: 'model-icons/gemini.webp' },
+  'gemini31': { displayName: 'Gemini 3.1 Pro',    color: '#1a57c4', order: 6, icon: 'model-icons/gemini.webp' },
+  'haiku':    { displayName: 'Claude Haiku 3.5',   color: '#e06090', order: 7, icon: 'model-icons/anthropic.svg' },
+  'codex':    { displayName: 'Codex CLI 5.2',       color: '#10a37f', order: 8, icon: 'model-icons/openai.png' },
+  'codex53':  { displayName: 'Codex CLI 5.3',       color: '#0d8c6b', order: 9, icon: 'model-icons/openai.png' },
+  'glm':      { displayName: 'GLM 5',             color: '#6c5ce7', order: 10, icon: 'model-icons/zai.png' },
+  'kimi':     { displayName: 'Kimi K2.5',         color: '#00b4d8', order: 11, icon: 'model-icons/kimi.png' },
+  'qwen3':    { displayName: 'Qwen3 Coder Next', color: '#6366f1', order: 12, icon: 'model-icons/qwen.webp' },
+};
+
+const SKILL_ORDER = [
+  'attack', 'defence', 'strength', 'hitpoints',
+  'ranged', 'prayer', 'magic', 'woodcutting',
+  'fishing', 'mining', 'cooking', 'fletching',
+  'crafting', 'smithing', 'firemaking', 'thieving',
+];
+
+const SKILL_DISPLAY = {
+  attack: 'Attack', defence: 'Defence', strength: 'Strength', hitpoints: 'Hitpoints',
+  ranged: 'Ranged', prayer: 'Prayer', magic: 'Magic', woodcutting: 'Woodcutting',
+  fishing: 'Fishing', mining: 'Mining', cooking: 'Cooking', fletching: 'Fletching',
+  crafting: 'Crafting', smithing: 'Smithing', firemaking: 'Firemaking', thieving: 'Thieving',
+};
+
+let combinedData = {};
+let currentView = 'grid';
+let hiddenModels = new Set();
+let gridCharts = [];
+let cumulativeChart = null;
+
+// Preload model icons as Image objects for canvas drawing
+const modelIconImages = {};
+let iconsLoaded = 0;
+let iconTotal = 0;
+function preloadIcons() {
+  for (const [key, config] of Object.entries(MODEL_CONFIG)) {
+    if (config.icon) {
+      iconTotal++;
+      const img = new Image();
+      img.onload = () => {
+        iconsLoaded++;
+        // Once all icons are loaded, redraw all active charts
+        if (iconsLoaded >= iconTotal) {
+          for (const c of gridCharts) c.draw();
+          if (cumulativeChart) cumulativeChart.draw();
+        }
+      };
+      img.src = config.icon;
+      modelIconImages[key] = img;
+    }
+  }
+}
+preloadIcons();
+
+// ── Data loading ────────────────────────────────────────────────
+
+function loadResults() {
+  if (window.COMBINED_DATA) {
+    combinedData = window.COMBINED_DATA;
+    onDataLoaded();
+  }
+}
+
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  for (const file of e.dataTransfer.files) {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try { combinedData = JSON.parse(ev.target.result); onDataLoaded(); } catch {}
+    };
+    reader.readAsText(file);
+  }
+});
+fileInput.addEventListener('change', e => {
+  for (const file of e.target.files) {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try { combinedData = JSON.parse(ev.target.result); onDataLoaded(); } catch {}
+    };
+    reader.readAsText(file);
+  }
+});
+
+// ── UI ──────────────────────────────────────────────────────────
+
+function onDataLoaded() {
+  document.getElementById('loadSection').style.display = 'none';
+  document.getElementById('viewToggle').style.display = '';
+  renderLegend();
+  renderCurrentView();
+}
+
+function setView(view) {
+  currentView = view;
+  document.querySelectorAll('.view-toggle button').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.view === view);
+  });
+  renderCurrentView();
+}
+
+function toggleModel(name) {
+  if (hiddenModels.has(name)) hiddenModels.delete(name);
+  else hiddenModels.add(name);
+  renderLegend();
+  renderCurrentView();
+}
+
+function getModelAvgXp(model) {
+  const skills = combinedData[model];
+  if (!skills) return 0;
+  const xps = Object.values(skills).map(s => s.finalXp || 0);
+  return xps.length ? xps.reduce((a, b) => a + b, 0) / xps.length : 0;
+}
+
+function getModelsInData() {
+  return Object.keys(combinedData)
+    .sort((a, b) => ((MODEL_CONFIG[a] || {order:99}).order) - ((MODEL_CONFIG[b] || {order:99}).order));
+}
+
+function getModelsByPerformance() {
+  return Object.keys(combinedData)
+    .sort((a, b) => getModelAvgXp(b) - getModelAvgXp(a));
+}
+
+function renderLegend() {
+  const models = currentView === 'cumulative' ? getModelsByPerformance() : getModelsInData();
+  const el = document.getElementById('bottomLegend');
+  el.innerHTML = models.map(name => {
+    const config = MODEL_CONFIG[name] || { displayName: name, color: '#999' };
+    const isHidden = hiddenModels.has(name);
+    const avgXp = getModelAvgXp(name);
+    const avgStr = currentView === 'cumulative' && avgXp > 0 ? ` (${formatXp(avgXp)})` : '';
+    return `<div class="legend-item ${isHidden ? 'hidden' : ''}" onclick="toggleModel('${name}')">
+      <div class="legend-dot" style="background:${config.color}"></div>
+      <span>${config.displayName}${avgStr}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderCurrentView() {
+  document.getElementById('gridContainer').style.display = 'none';
+  document.getElementById('cumulativeContainer').style.display = 'none';
+
+  if (currentView === 'grid') {
+    document.getElementById('gridContainer').style.display = 'grid';
+    renderGrid();
+  } else if (currentView === 'cumulative') {
+    document.getElementById('cumulativeContainer').style.display = 'flex';
+    renderCumulative();
+  }
+}
+
+// ── Sanitize XP data (filter out spurious drops to 0) ──────────
+
+function sanitizePoints(points) {
+  if (points.length < 3) return points;
+  const result = [];
+  for (let i = 0; i < points.length; i++) {
+    const prev = i > 0 ? points[i - 1].y : 0;
+    const next = i < points.length - 1 ? points[i + 1].y : points[i].y;
+    // Skip if value drops to 0 but neighbors are non-zero (connection blip)
+    if (points[i].y === 0 && prev > 0 && next > 0) continue;
+    result.push(points[i]);
+  }
+  return result;
+}
+
+// ── Extract skill XP points from samples ────────────────────────
+
+function extractSkillPoints(skillData, skill) {
+  if (!skillData || !skillData.samples || skillData.samples.length === 0) return [];
+  const skillNameCaps = SKILL_DISPLAY[skill] || skill;
+
+  const points = [];
+  for (const s of skillData.samples) {
+    const x = s.elapsedMs / 60000;
+    if (x > 30) break;
+    let xp = 0;
+    if (s.skills) {
+      for (const [sName, sData] of Object.entries(s.skills)) {
+        if (sName.toLowerCase() === skillNameCaps.toLowerCase() ||
+            sName.toLowerCase() === skill.toLowerCase()) {
+          xp = sData.xp || 0;
+          break;
+        }
+      }
+    }
+    points.push({ x, y: xp });
+  }
+
+  return sanitizePoints(points);
+}
+
+// ── Chart.js plugin: draw model icon at end of each line ────────
+
+const endIconPlugin = {
+  id: 'endIcon',
+  afterDraw(chart) {
+    const ctx = chart.ctx;
+    for (const dataset of chart.data.datasets) {
+      if (!dataset._modelKey) continue;
+      const icon = modelIconImages[dataset._modelKey];
+      if (!icon || !icon.complete) continue;
+
+      const meta = chart.getDatasetMeta(chart.data.datasets.indexOf(dataset));
+      if (!meta.visible) continue;
+
+      const elements = meta.data;
+      if (elements.length === 0) continue;
+      const last = elements[elements.length - 1];
+      if (!last) continue;
+
+      const size = 14;
+      ctx.save();
+      ctx.globalAlpha = 0.9;
+      ctx.drawImage(icon, last.x - size / 2, last.y - size / 2, size, size);
+      ctx.restore();
+    }
+  }
+};
+
+Chart.register(endIconPlugin);
+
+// ── Grid View ───────────────────────────────────────────────────
+
+function renderGrid() {
+  for (const c of gridCharts) c.destroy();
+  gridCharts = [];
+
+  const container = document.getElementById('gridContainer');
+  container.innerHTML = '';
+
+  const models = getModelsInData().filter(m => !hiddenModels.has(m));
+
+  for (const skill of SKILL_ORDER) {
+    const cell = document.createElement('div');
+    cell.className = 'grid-cell';
+
+    const title = document.createElement('div');
+    title.className = 'grid-cell-title';
+    const iconSrc = 'skill-icons/' + skill + '.png';
+    title.innerHTML = `<img src="${iconSrc}" onerror="this.style.display='none'">${SKILL_DISPLAY[skill] || skill}`;
+    cell.appendChild(title);
+
+    const canvas = document.createElement('canvas');
+    cell.appendChild(canvas);
+    container.appendChild(cell);
+
+    const datasets = [];
+    for (const model of models) {
+      const points = extractSkillPoints(combinedData[model]?.[skill], skill);
+      if (points.length === 0) continue;
+
+      const config = MODEL_CONFIG[model] || { displayName: model, color: '#999' };
+
+      datasets.push({
+        label: config.displayName,
+        data: points,
+        borderColor: config.color,
+        backgroundColor: config.color,
+        fill: false,
+        pointRadius: 0,
+        pointHoverRadius: 3,
+        borderWidth: 1.5,
+        tension: 0.3,
+        _modelKey: model,
+      });
+    }
+
+    const chart = new Chart(canvas, {
+      type: 'line',
+      data: { datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        layout: { padding: { top: 8, right: 20, bottom: 2 } },
+        interaction: { mode: 'nearest', intersect: false },
+        onClick: (event, elements) => {
+          if (elements.length > 0) {
+            const ds = datasets[elements[0].datasetIndex];
+            if (ds._modelKey) openTrajectory(ds._modelKey, skill);
+          }
+        },
+        scales: {
+          x: {
+            type: 'linear',
+            min: 0,
+            max: 30,
+            ticks: { color: '#bbb', font: { size: 10 }, maxTicksLimit: 4 },
+            grid: { color: '#f0f0f0', drawTicks: false },
+            border: { color: '#e0e0e0' },
+            title: { display: false },
+          },
+          y: {
+            min: 0,
+            ticks: {
+              color: '#bbb',
+              font: { size: 10 },
+              maxTicksLimit: 5,
+              callback: v => v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v,
+            },
+            grid: { color: '#f0f0f0', drawTicks: false },
+            border: { color: '#e0e0e0' },
+          },
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              title: items => items[0] ? `${items[0].parsed.x.toFixed(1)} min` : '',
+              label: item => `${item.dataset.label}: ${item.parsed.y.toLocaleString()} XP`,
+            },
+          },
+        },
+      },
+    });
+    canvas.style.cursor = 'pointer';
+    gridCharts.push(chart);
+  }
+}
+
+// ── Cumulative Average View ─────────────────────────────────────
+
+// Store per-model skill datasets for hover reveal
+let cumulativeSkillDatasets = {}; // model -> [{label, data, color}, ...]
+let cumulativeSkillFinalXp = {}; // model -> [{skill, label, finalXp}, ...] sorted desc
+
+function renderCumulative() {
+  if (cumulativeChart) { cumulativeChart.destroy(); cumulativeChart = null; }
+  cumulativeSkillDatasets = {};
+  cumulativeSkillFinalXp = {};
+
+  const container = document.getElementById('cumulativeContainer');
+  container.innerHTML = '';
+
+  const canvas = document.createElement('canvas');
+  container.appendChild(canvas);
+
+  const models = getModelsInData().filter(m => !hiddenModels.has(m));
+  const datasets = [];
+
+  // For each model, average XP across all 16 skills at each time bucket (1 min intervals)
+  const BUCKET_COUNT = 31; // 0, 1, 2, ... 30 minutes
+
+  for (const model of models) {
+    const config = MODEL_CONFIG[model] || { displayName: model, color: '#999' };
+    const bucketSums = new Array(BUCKET_COUNT).fill(0);
+    const bucketCounts = new Array(BUCKET_COUNT).fill(0);
+
+    // Collect individual skill curves for hover reveal
+    const skillCurves = [];
+
+    for (const skill of SKILL_ORDER) {
+      const points = extractSkillPoints(combinedData[model]?.[skill], skill);
+      if (points.length === 0) continue;
+
+      // Bucket this skill's points
+      const skillBuckets = [];
+      for (let min = 0; min < BUCKET_COUNT; min++) {
+        let lastXp = 0;
+        for (const p of points) {
+          if (p.x <= min) lastXp = p.y;
+          else break;
+        }
+        bucketSums[min] += lastXp;
+        bucketCounts[min]++;
+        skillBuckets.push({ x: min, y: lastXp });
+      }
+
+      skillCurves.push({
+        label: SKILL_DISPLAY[skill] || skill,
+        data: skillBuckets,
+      });
+    }
+
+    cumulativeSkillDatasets[model] = skillCurves;
+
+    // Build sorted skill final XP list for tooltip
+    const skillFinals = [];
+    for (const skill of SKILL_ORDER) {
+      const sd = combinedData[model]?.[skill];
+      if (sd) skillFinals.push({ skill, label: SKILL_DISPLAY[skill] || skill, finalXp: sd.finalXp || 0 });
+    }
+    skillFinals.sort((a, b) => b.finalXp - a.finalXp);
+    cumulativeSkillFinalXp[model] = skillFinals;
+
+    const avgPoints = [];
+    for (let min = 0; min < BUCKET_COUNT; min++) {
+      if (bucketCounts[min] > 0) {
+        avgPoints.push({ x: min, y: Math.round(bucketSums[min] / bucketCounts[min]) });
+      }
+    }
+
+    datasets.push({
+      label: config.displayName,
+      data: avgPoints,
+      borderColor: config.color,
+      backgroundColor: config.color,
+      fill: false,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      borderWidth: 2.5,
+      tension: 0.3,
+      _modelKey: model,
+      _isAverage: true,
+    });
+  }
+
+  // Plugin: draw individual skill lines at 50% opacity when hovering a model
+  const skillOverlayPlugin = {
+    id: 'skillOverlay',
+    afterDatasetsDraw(chart) {
+      if (!chart._hoveredModel) return;
+      const model = chart._hoveredModel;
+      const curves = cumulativeSkillDatasets[model];
+      if (!curves) return;
+      const config = MODEL_CONFIG[model] || { color: '#999' };
+      const ctx = chart.ctx;
+      const xScale = chart.scales.x;
+      const yScale = chart.scales.y;
+
+      ctx.save();
+      ctx.globalAlpha = 0.25;
+      ctx.strokeStyle = config.color;
+      ctx.lineWidth = 1.2;
+
+      for (const curve of curves) {
+        ctx.beginPath();
+        let started = false;
+        for (const pt of curve.data) {
+          const px = xScale.getPixelForValue(pt.x);
+          const py = yScale.getPixelForValue(pt.y);
+          if (!started) { ctx.moveTo(px, py); started = true; }
+          else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+  };
+
+  cumulativeChart = new Chart(canvas, {
+    type: 'line',
+    data: { datasets },
+    plugins: [skillOverlayPlugin],
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      layout: { padding: { top: 10, right: 24, bottom: 2 } },
+      interaction: { mode: 'nearest', intersect: false },
+      onHover: (event, elements, chart) => {
+        const prev = chart._hoveredModel;
+        if (elements.length > 0) {
+          const ds = chart.data.datasets[elements[0].datasetIndex];
+          chart._hoveredModel = ds._modelKey || null;
+        } else {
+          chart._hoveredModel = null;
+        }
+        if (chart._hoveredModel !== prev) chart.draw();
+      },
+      scales: {
+        x: {
+          type: 'linear',
+          min: 0,
+          max: 30,
+          ticks: { color: '#999', font: { size: 11 }, stepSize: 5, callback: v => v + ' min' },
+          grid: { color: '#f0f0f0', drawTicks: false },
+          border: { color: '#e0e0e0' },
+          title: { display: true, text: 'Elapsed Time', color: '#999', font: { size: 12 } },
+        },
+        y: {
+          min: 0,
+          ticks: {
+            color: '#999',
+            font: { size: 11 },
+            maxTicksLimit: 8,
+            callback: v => v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v,
+          },
+          grid: { color: '#f0f0f0', drawTicks: false },
+          border: { color: '#e0e0e0' },
+          title: { display: true, text: 'Average XP per Skill', color: '#999', font: { size: 12 } },
+        },
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          enabled: true,
+          displayColors: false,
+          bodyFont: { size: 11 },
+          titleFont: { size: 12, weight: 'bold' },
+          padding: 10,
+          callbacks: {
+            title: items => {
+              if (!items[0]) return '';
+              const ds = items[0].dataset;
+              return `${ds.label} — ${items[0].parsed.x} min`;
+            },
+            label: item => {
+              const modelKey = item.dataset._modelKey;
+              const lines = [`Avg: ${item.parsed.y.toLocaleString()} XP`, ''];
+              const skills = cumulativeSkillFinalXp[modelKey] || [];
+              for (const s of skills) {
+                lines.push(`${s.label}: ${formatXp(s.finalXp)}`);
+              }
+              return lines;
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
+// ── Trajectory Viewer ────────────────────────────────────────────
+
+function openTrajectory(model, skill) {
+  const data = combinedData[model]?.[skill];
+  if (!data) return;
+
+  const config = MODEL_CONFIG[model] || { displayName: model, color: '#999' };
+  const skillName = SKILL_DISPLAY[skill] || skill;
+
+  document.getElementById('trajTitle').textContent = `${config.displayName} — ${skillName}`;
+  document.getElementById('trajSubtitle').textContent =
+    `${formatXp(data.finalXp)} XP (Lv ${data.finalLevel}) · ${data.jobName || ''}`;
+
+  // Strategy
+  const strategyEl = document.getElementById('trajStrategy');
+  if (data.strategy) {
+    strategyEl.textContent = data.strategy;
+    strategyEl.style.display = 'block';
+  } else {
+    strategyEl.style.display = 'none';
+  }
+
+  // Steps
+  const stepsEl = document.getElementById('trajSteps');
+  const steps = data.trajectory || [];
+  if (steps.length === 0) {
+    stepsEl.innerHTML = '<div style="color:#999; text-align:center; padding:32px">No trajectory data available for this run.</div>';
+  } else {
+    let html = '';
+    for (const step of steps) {
+      if (step.source === 'tool') {
+        html += `<div class="traj-step tool">${escapeHtml(step.text)}</div>`;
+      } else {
+        html += `<div class="traj-step agent">${escapeHtml(step.text)}</div>`;
+      }
+    }
+    stepsEl.innerHTML = html;
+  }
+
+  document.getElementById('trajectoryModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTrajectory() {
+  document.getElementById('trajectoryModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Close modal on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeTrajectory();
+});
+
+// ── Helpers ─────────────────────────────────────────────────────
+
+function formatXp(xp) {
+  if (xp >= 1_000_000) return (xp / 1_000_000).toFixed(1) + 'M';
+  if (xp >= 1_000) return (xp / 1_000).toFixed(1) + 'k';
+  return String(xp);
+}
+
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function downloadView() {
+  if (currentView === 'grid' && gridCharts.length > 0) {
+    const link = document.createElement('a');
+    link.download = 'skill-xp-benchmark-grid.png';
+    link.href = gridCharts[0].canvas.toDataURL('image/png', 1.0);
+    link.click();
+  } else if (currentView === 'cumulative' && cumulativeChart) {
+    const link = document.createElement('a');
+    link.download = 'skill-xp-benchmark-average.png';
+    link.href = cumulativeChart.canvas.toDataURL('image/png', 1.0);
+    link.click();
+  }
+}
+
+// Auto-load on page open
+loadResults();
+</script>
+</body>
+</html>

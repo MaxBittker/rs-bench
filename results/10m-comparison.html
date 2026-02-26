@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RS-Agent Benchmark Results</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="_data.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #fff;
+    color: #1a1a1a;
+    padding: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: #888; margin-bottom: 20px; }
+  .horizon-tabs { display: flex; gap: 8px; margin-bottom: 28px; }
+  .horizon-tabs button {
+    padding: 6px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background: #fff;
+    color: #555;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .horizon-tabs button.active {
+    background: #1a1a1a;
+    color: #fff;
+    border-color: #1a1a1a;
+  }
+  .chart-section { margin-bottom: 48px; }
+  .chart-section h2 { font-size: 16px; font-weight: 500; color: #555; margin-bottom: 12px; }
+  .chart-wrap { position: relative; height: 420px; overflow: visible; }
+  .stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    margin-bottom: 36px;
+    font-size: 14px;
+  }
+  .stats-table th {
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 2px solid #eee;
+    color: #888;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .stats-table th.right, .stats-table td.right { text-align: right; }
+  .stats-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  .stats-table tr:last-child td { border-bottom: none; }
+  .model-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .best { font-weight: 600; color: #1a8754; }
+  .section-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  /* Custom tooltip */
+  .custom-tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    z-index: 100;
+    min-width: 180px;
+    max-width: 260px;
+    transition: opacity 0.1s;
+  }
+  .custom-tooltip.hidden { opacity: 0; pointer-events: none; }
+  .tooltip-header { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+  .tooltip-total { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .tooltip-time { font-size: 11px; color: #999; margin-bottom: 8px; }
+  .tooltip-skills {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 12px;
+  }
+  .tooltip-skill { display: flex; justify-content: space-between; font-size: 11px; color: #666; }
+  .tooltip-skill .skill-name { text-transform: capitalize; display: flex; align-items: center; gap: 3px; }
+  .tooltip-skill .skill-icon { width: 14px; height: 14px; }
+  .tooltip-skill .skill-level { font-weight: 600; color: #1a1a1a; }
+  .tooltip-skill.leveled .skill-level { color: #2563eb; }
+  .chart-wrap { position: relative; }
+</style>
+</head>
+<body>
+
+<h1>RS-Agent Benchmark: Total Level</h1>
+<div class="subtitle">Modal cloud (8x game speed)</div>
+
+<div class="horizon-tabs" id="horizonTabs"></div>
+
+<div class="chart-section">
+  <h2 id="lineTitle">Total Level over Time</h2>
+  <div class="chart-wrap">
+    <canvas id="timeChart"></canvas>
+    <div class="custom-tooltip hidden" id="customTooltip"></div>
+  </div>
+</div>
+
+<div class="chart-section">
+  <h2 id="barTitle">Final Total Level</h2>
+  <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+</div>
+
+<div class="section-label">Results</div>
+<table class="stats-table" id="statsTable">
+  <thead>
+    <tr><th>Model</th><th class="right">Final Total Level</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+const MODELS = {
+  opus:     { name: 'Claude Opus 4.6',    color: '#8b7355', icon: '../model-icons/anthropic.svg' },
+  sonnet46: { name: 'Claude Sonnet 4.6',  color: '#e07850', icon: '../model-icons/anthropic.svg' },
+  sonnet45: { name: 'Claude Sonnet 4.5',  color: '#c0954a', icon: '../model-icons/anthropic.svg' },
+  haiku:    { name: 'Claude Haiku 4.5',   color: '#e06090', icon: '../model-icons/anthropic.svg' },
+  codex:    { name: 'Codex CLI',          color: '#10a37f', icon: '../model-icons/openai.png'    },
+  gemini:   { name: 'Gemini CLI',         color: '#4285f4', icon: '../model-icons/gemini.webp'  },
+  glm:      { name: 'GLM-5',             color: '#aa44cc', icon: '../model-icons/zai.png'       },
+};
+
+// Pre-load model icons so they're ready when the chart draws
+const modelIcons = {};
+(function() {
+  const seen = new Set();
+  for (const [, cfg] of Object.entries(MODELS)) {
+    if (cfg.icon && !seen.has(cfg.icon)) {
+      seen.add(cfg.icon);
+      const img = new Image();
+      img.src = cfg.icon;
+      modelIcons[cfg.icon] = img;
+    }
+  }
+})();
+
+function getModelAbbr(key) {
+  return { opus:'O', sonnet46:'S', sonnet45:'S', haiku:'H', codex:'C', gemini:'G', glm:'Z', kimi:'K' }[key] || '?';
+}
+
+// Chart.js plugin: custom hover tooltip with skill icons
+const skillTooltipPlugin = {
+  id: 'skillTooltip',
+  afterEvent(chart, args) {
+    const tooltipEl = document.getElementById('customTooltip');
+    const event = args.event;
+    if (event.type === 'mouseout') { tooltipEl.classList.add('hidden'); return; }
+    if (event.type !== 'mousemove') return;
+
+    // Find nearest point across all datasets (Euclidean in pixel space)
+    const mouseX = event.x, mouseY = event.y;
+    let bestDist = Infinity, bestDsIdx = -1, bestPtIdx = -1;
+    chart.data.datasets.forEach((ds, dsIdx) => {
+      const meta = chart.getDatasetMeta(dsIdx);
+      if (meta.hidden) return;
+      meta.data.forEach((pt, ptIdx) => {
+        const dx = pt.x - mouseX, dy = pt.y - mouseY;
+        const dist = dx * dx + dy * dy;
+        if (dist < bestDist) { bestDist = dist; bestDsIdx = dsIdx; bestPtIdx = ptIdx; }
+      });
+    });
+
+    if (bestDsIdx < 0 || Math.sqrt(bestDist) > 150) { tooltipEl.classList.add('hidden'); return; }
+
+    const ds = chart.data.datasets[bestDsIdx];
+    const raw = ds.data[bestPtIdx];
+    const cfg = MODELS[ds.modelKey] || { name: ds.label, color: '#999' };
+
+    let html = `<div class="tooltip-header" style="color:${cfg.color}">${cfg.name}</div>`;
+    html += `<div class="tooltip-total" style="color:${cfg.color}">${raw.y} total level</div>`;
+    html += `<div class="tooltip-time">${raw.x.toFixed(1)} min</div>`;
+
+    if (raw.skills) {
+      html += '<div class="tooltip-skills">';
+      const entries = Object.entries(raw.skills)
+        .filter(([, d]) => d.level > 0)
+        .sort((a, b) => b[1].level - a[1].level);
+      for (const [skill, data] of entries) {
+        const icon = `../skill-icons/${skill.toLowerCase()}.png`;
+        html += `<div class="tooltip-skill${data.level > 1 ? ' leveled' : ''}">
+          <span class="skill-name"><img class="skill-icon" src="${icon}" onerror="this.style.display='none'">${skill}</span>
+          <span class="skill-level">${data.level}</span>
+        </div>`;
+      }
+      html += '</div>';
+    }
+
+    tooltipEl.innerHTML = html;
+    tooltipEl.classList.remove('hidden');
+
+    const pt = chart.getDatasetMeta(bestDsIdx).data[bestPtIdx];
+    const chartW = chart.canvas.offsetWidth;
+    const ttW = tooltipEl.offsetWidth || 220;
+    const ttH = tooltipEl.offsetHeight || 200;
+    let left = pt.x + 20, top = pt.y - 16;
+    if (left + ttW > chartW - 10) left = pt.x - ttW - 20;
+    if (top + ttH > chart.canvas.offsetHeight - 10) top = chart.canvas.offsetHeight - ttH - 10;
+    if (top < 0) top = 0;
+    tooltipEl.style.left = left + 'px';
+    tooltipEl.style.top = top + 'px';
+  }
+};
+
+// Chart.js plugin: draws a model icon in a circle at the end of each line
+const endpointLabelsPlugin = {
+  id: 'endpointLabels',
+  afterDraw(chart) {
+    const ctx = chart.ctx;
+    chart.data.datasets.forEach((ds, i) => {
+      const meta = chart.getDatasetMeta(i);
+      if (meta.hidden || ds.data.length === 0) return;
+      const lastPoint = meta.data[meta.data.length - 1];
+      if (!lastPoint) return;
+      const x = lastPoint.x;
+      const y = lastPoint.y;
+      const color = ds.borderColor;
+      const iconImg = MODELS[ds.modelKey]?.icon ? modelIcons[MODELS[ds.modelKey].icon] : null;
+      const iconSize = 20;
+      ctx.save();
+      if (iconImg && iconImg.complete && iconImg.naturalWidth > 0) {
+        ctx.beginPath();
+        ctx.arc(x + 16, y, 14, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.drawImage(iconImg, x + 16 - iconSize / 2, y - iconSize / 2, iconSize, iconSize);
+      } else {
+        ctx.beginPath();
+        ctx.arc(x + 16, y, 12, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = color;
+        ctx.font = 'bold 10px -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(getModelAbbr(ds.modelKey), x + 16, y);
+      }
+      ctx.restore();
+    });
+  }
+};
+
+const HORIZON_LABELS = { '5m': '5 min', '8m': '8 min', '10m': '10 min', '30m': '30 min', '1h': '1 hour', '3h': '3 hours' };
+const HORIZON_ORDER = ['5m', '8m', '10m', '30m', '1h', '3h'];
+
+const combined = window.COMBINED_DATA;
+if (!combined) {
+  document.body.innerHTML += '<p style="color:red;margin-top:20px">No data found. Run: <code>bun benchmark/extract-results.ts</code></p>';
+} else {
+  // Find all horizons present in the data
+  const availableHorizons = HORIZON_ORDER.filter(h =>
+    Object.values(combined).some(m => m[h]?.samples?.length > 0)
+  );
+
+  // Default to longest available horizon
+  let activeHorizon = availableHorizons[availableHorizons.length - 1] || '10m';
+
+  // Chart instances (so we can destroy & recreate on horizon switch)
+  let timeChart = null;
+  let barChart = null;
+
+  // ── Horizon tabs ─────────────────────────────────────────────
+  const tabsEl = document.getElementById('horizonTabs');
+  availableHorizons.forEach(h => {
+    const btn = document.createElement('button');
+    btn.textContent = HORIZON_LABELS[h] || h;
+    btn.dataset.h = h;
+    btn.addEventListener('click', () => { activeHorizon = h; render(); });
+    tabsEl.appendChild(btn);
+  });
+
+  function render() {
+    // Update tab active state
+    tabsEl.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.h === activeHorizon));
+
+    const label = HORIZON_LABELS[activeHorizon] || activeHorizon;
+    document.getElementById('lineTitle').textContent = `Total Level over Time — ${label} Run`;
+    document.getElementById('barTitle').textContent = `Final Total Level — ${label} Run`;
+
+    const modelOrder = Object.keys(MODELS).filter(m => combined[m]?.[activeHorizon]?.samples?.length > 0);
+
+    // ── Time-series chart ───────────────────────────────────────
+    const timeDatasets = modelOrder.map(m => {
+      const samples = combined[m][activeHorizon].samples;
+      return {
+        label: MODELS[m].name,
+        modelKey: m,
+        data: samples.map(s => ({ x: s.elapsedMs / 60000, y: s.totalLevel, skills: s.skills })),
+        borderColor: MODELS[m].color,
+        backgroundColor: MODELS[m].color + '18',
+        pointBackgroundColor: MODELS[m].color,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        borderWidth: 2.5,
+        showLine: true,
+        fill: false,
+        tension: 0,
+        stepped: 'after',
+      };
+    });
+
+    if (timeChart) timeChart.destroy();
+    timeChart = new Chart(document.getElementById('timeChart'), {
+      type: 'scatter',
+      data: { datasets: timeDatasets },
+      plugins: [endpointLabelsPlugin, skillTooltipPlugin],
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { right: 40 } },
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false },
+        },
+        scales: {
+          x: {
+            type: 'linear',
+            title: { display: true, text: 'Elapsed Time (minutes)', color: '#999', font: { size: 13 } },
+            ticks: { color: '#aaa', font: { size: 11 }, callback: v => `${v}m` },
+            grid: { color: '#f5f5f5' },
+          },
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Total Level', color: '#999', font: { size: 13 } },
+            grid: { color: '#f0f0f0' },
+            ticks: { color: '#aaa', font: { size: 11 } },
+          },
+        },
+      },
+    });
+
+    // ── Bar chart ────────────────────────────────────────────────
+    const sorted = [...modelOrder].sort((a, b) =>
+      combined[b][activeHorizon].finalTotalLevel - combined[a][activeHorizon].finalTotalLevel
+    );
+
+    if (barChart) barChart.destroy();
+    barChart = new Chart(document.getElementById('barChart'), {
+      type: 'bar',
+      data: {
+        labels: sorted.map(m => MODELS[m].name),
+        datasets: [{
+          label: 'Final Total Level',
+          data: sorted.map(m => combined[m][activeHorizon].finalTotalLevel),
+          backgroundColor: sorted.map(m => MODELS[m].color + 'cc'),
+          borderColor: sorted.map(m => MODELS[m].color),
+          borderWidth: 1,
+          borderRadius: 4,
+          barPercentage: 0.6,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#fff',
+            titleColor: '#1a1a1a',
+            bodyColor: '#555',
+            borderColor: '#e0e0e0',
+            borderWidth: 1,
+            padding: 12,
+            cornerRadius: 8,
+            callbacks: { label: ctx => `Total level: ${ctx.raw}` },
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Total Level', color: '#999', font: { size: 13 } },
+            grid: { color: '#f0f0f0' },
+            ticks: { color: '#aaa', font: { size: 11 } },
+          },
+          x: {
+            grid: { display: false },
+            ticks: { color: '#555', font: { size: 12, weight: '500' } },
+          },
+        },
+      },
+    });
+
+    // ── Stats table ──────────────────────────────────────────────
+    const tbody = document.querySelector('#statsTable tbody');
+    tbody.innerHTML = '';
+    const best = Math.max(...sorted.map(m => combined[m][activeHorizon].finalTotalLevel));
+    sorted.forEach(m => {
+      const level = combined[m][activeHorizon].finalTotalLevel;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><span class="model-dot" style="background:${MODELS[m].color}"></span>${MODELS[m].name}</td>
+        <td class="right ${level === best ? 'best' : ''}">${level}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  render();
+}
+</script>
+</body>
+</html>

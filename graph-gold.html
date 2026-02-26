@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Benchmark</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="results/gold/_data.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #fff;
+    color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 24px 32px;
+  }
+  .page-header { margin-bottom: 4px; }
+  .page-header h1 { font-size: 22px; font-weight: 600; }
+  .page-subtitle { font-size: 14px; color: #999; margin-bottom: 20px; }
+
+  .horizon-tabs {
+    display: inline-flex;
+    gap: 0;
+    margin-left: 16px;
+    vertical-align: middle;
+  }
+  .horizon-tabs button {
+    padding: 4px 14px;
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #555;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .horizon-tabs button:first-child { border-radius: 6px 0 0 6px; }
+  .horizon-tabs button:last-child { border-radius: 0 6px 6px 0; border-left: none; }
+  .horizon-tabs button:not(:first-child):not(:last-child) { border-left: none; }
+  .horizon-tabs button.active { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
+  .horizon-tabs button:hover:not(.active) { border-color: #999; color: #1a1a1a; }
+
+  .charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .chart-card {
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .chart-card h2 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 12px;
+  }
+  .chart-card canvas {
+    width: 100% !important;
+    height: 340px !important;
+  }
+
+  /* Summary table */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+  }
+  .summary-table th, .summary-table td {
+    padding: 10px 16px;
+    text-align: left;
+    font-size: 13px;
+    border-bottom: 1px solid #eee;
+  }
+  .summary-table th {
+    color: #999;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .summary-table td.gold-cell {
+    font-weight: 700;
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+  }
+  .summary-table td.model-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+  }
+  .summary-table .model-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .summary-table tr.best td { background: #fffde7; }
+  .summary-table .rank { color: #bbb; font-weight: 500; min-width: 28px; display: inline-block; }
+  .summary-table .token-info { color: #bbb; font-size: 12px; }
+  .summary-table .breakdown { color: #999; font-size: 12px; font-weight: 400; }
+
+  .no-data {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 15px;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .load-bar {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .load-bar button {
+    padding: 8px 18px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    color: #555;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .load-bar button:hover { background: #f5f5f5; border-color: #999; }
+  .drop-zone {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 24px;
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .drop-zone:hover, .drop-zone.dragover { border-color: #4285f4; background: #f0f6ff; }
+  .drop-zone input { display: none; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Gold Benchmark
+    <span class="horizon-tabs" id="horizonTabs" style="display:none"></span>
+  </h1>
+</div>
+<div class="page-subtitle" id="pageSubtitle">Coins earned across AI models</div>
+
+<div id="mainContent" style="display:none">
+  <div class="charts-row">
+    <div class="chart-card">
+      <h2>Total Gold Earned</h2>
+      <canvas id="barChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <h2>Gold Over Time (Inventory)</h2>
+      <canvas id="lineChart"></canvas>
+    </div>
+  </div>
+  <div class="chart-card">
+    <h2>Results</h2>
+    <table class="summary-table" id="summaryTable">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Model</th>
+          <th>Gold</th>
+          <th>Inventory / Bank</th>
+          <th>Total Level</th>
+          <th>Tokens</th>
+        </tr>
+      </thead>
+      <tbody id="summaryBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="loadSection">
+  <div class="load-bar">
+    <button onclick="loadResults()" id="loadBtn">Load Results</button>
+  </div>
+  <div class="drop-zone" id="dropZone">
+    <p>Drop _combined.json here or click to browse</p>
+    <input type="file" id="fileInput" accept=".json">
+  </div>
+</div>
+
+<script>
+const MODEL_CONFIG = {
+  'opus':     { displayName: 'Claude Opus 4.6',   color: '#8b7355', order: 1 },
+  'sonnet46': { displayName: 'Claude Sonnet 4.6', color: '#d4442a', order: 2 },
+  'sonnet45': { displayName: 'Claude Sonnet 4.5', color: '#e07850', order: 3 },
+  'gemini':   { displayName: 'Gemini 3 Pro',      color: '#4285f4', order: 4 },
+  'haiku':    { displayName: 'Claude Haiku 3.5',   color: '#e06090', order: 5 },
+  'codex':    { displayName: 'Codex CLI',          color: '#10a37f', order: 6 },
+  'glm':      { displayName: 'GLM 5',             color: '#6c5ce7', order: 7 },
+  'kimi':     { displayName: 'Kimi K2.5',         color: '#00b4d8', order: 8 },
+};
+
+let goldData = {};
+let currentHorizon = null;
+let barChart = null;
+let lineChart = null;
+
+function loadResults() {
+  if (window.GOLD_DATA) {
+    goldData = window.GOLD_DATA;
+    onDataLoaded();
+  }
+}
+
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  for (const file of e.dataTransfer.files) {
+    const reader = new FileReader();
+    reader.onload = (ev) => { try { goldData = JSON.parse(ev.target.result); onDataLoaded(); } catch {} };
+    reader.readAsText(file);
+  }
+});
+fileInput.addEventListener('change', e => {
+  for (const file of e.target.files) {
+    const reader = new FileReader();
+    reader.onload = (ev) => { try { goldData = JSON.parse(ev.target.result); onDataLoaded(); } catch {} };
+    reader.readAsText(file);
+  }
+});
+
+function onDataLoaded() {
+  document.getElementById('loadSection').style.display = 'none';
+  document.getElementById('mainContent').style.display = '';
+
+  const horizons = Object.keys(goldData).sort();
+  if (horizons.length === 0) return;
+
+  // Build horizon tabs
+  const tabs = document.getElementById('horizonTabs');
+  if (horizons.length > 1) {
+    tabs.style.display = '';
+    tabs.innerHTML = horizons.map(h =>
+      `<button data-horizon="${h}" onclick="selectHorizon('${h}')">${h}</button>`
+    ).join('');
+  }
+
+  selectHorizon(horizons[horizons.length - 1]); // Default to longest
+}
+
+function selectHorizon(h) {
+  currentHorizon = h;
+  document.querySelectorAll('.horizon-tabs button').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.horizon === h);
+  });
+  document.getElementById('pageSubtitle').textContent = `Coins earned in ${h} across AI models`;
+  renderAll();
+}
+
+function getModels() {
+  const data = goldData[currentHorizon] || {};
+  return Object.keys(data)
+    .sort((a, b) => (data[b]?.gold || 0) - (data[a]?.gold || 0)); // Sort by gold descending
+}
+
+function renderAll() {
+  renderBarChart();
+  renderLineChart();
+  renderSummaryTable();
+}
+
+function renderBarChart() {
+  if (barChart) { barChart.destroy(); barChart = null; }
+  const models = getModels();
+  const data = goldData[currentHorizon] || {};
+
+  const labels = models.map(m => (MODEL_CONFIG[m] || { displayName: m }).displayName);
+  const values = models.map(m => data[m]?.gold || 0);
+  const colors = models.map(m => (MODEL_CONFIG[m] || { color: '#999' }).color);
+  const maxGold = Math.max(...values, 1);
+
+  barChart = new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        backgroundColor: colors.map(c => hexToRgba(c, 0.75)),
+        borderColor: colors,
+        borderWidth: 1.5,
+        borderRadius: 4,
+        barPercentage: 0.7,
+      }],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 600 },
+      layout: { padding: { right: 60 } },
+      scales: {
+        x: {
+          min: 0,
+          ticks: {
+            color: '#999',
+            font: { size: 11 },
+            callback: v => v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v,
+          },
+          grid: { color: '#f0f0f0', drawTicks: false },
+          border: { color: '#e0e0e0' },
+          title: { display: true, text: 'Coins', color: '#999', font: { size: 12 } },
+        },
+        y: {
+          ticks: { color: '#333', font: { size: 12, weight: '500' } },
+          grid: { display: false },
+          border: { display: false },
+        },
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: item => `${item.parsed.x.toLocaleString()} gold`,
+          },
+        },
+        // Draw value labels at end of bars
+        datalabels: false,
+      },
+    },
+    plugins: [{
+      id: 'barLabels',
+      afterDraw(chart) {
+        const ctx = chart.ctx;
+        chart.data.datasets[0].data.forEach((val, i) => {
+          const meta = chart.getDatasetMeta(0);
+          const bar = meta.data[i];
+          if (!bar) return;
+          ctx.save();
+          ctx.fillStyle = '#555';
+          ctx.font = '600 12px -apple-system, sans-serif';
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          const label = val >= 1000 ? (val / 1000).toFixed(1) + 'k' : String(val);
+          ctx.fillText(label, bar.x + 8, bar.y);
+          ctx.restore();
+        });
+      }
+    }],
+  });
+}
+
+function renderLineChart() {
+  if (lineChart) { lineChart.destroy(); lineChart = null; }
+  const models = getModels();
+  const data = goldData[currentHorizon] || {};
+
+  // Parse horizon for max time
+  const horizonMatch = currentHorizon.match(/(\d+)(m|h)/);
+  const maxMinutes = horizonMatch
+    ? (horizonMatch[2] === 'h' ? parseInt(horizonMatch[1]) * 60 : parseInt(horizonMatch[1]))
+    : 30;
+
+  const datasets = [];
+  for (const model of models) {
+    const result = data[model];
+    if (!result?.tracking?.samples?.length) continue;
+    // Skip if no gold samples (old tracking data without gold field)
+    const hasgold = result.tracking.samples.some(s => s.gold != null);
+    if (!hasgold) continue;
+    const config = MODEL_CONFIG[model] || { displayName: model, color: '#999' };
+
+    const points = [];
+    for (const s of result.tracking.samples) {
+      const x = s.elapsedMs / 60000;
+      if (x > maxMinutes + 2) break;
+      if (s.gold != null) points.push({ x, y: s.gold });
+    }
+
+    datasets.push({
+      label: config.displayName,
+      data: points,
+      borderColor: config.color,
+      backgroundColor: config.color,
+      fill: false,
+      stepped: 'after',
+      pointRadius: 0,
+      pointHoverRadius: 3,
+      borderWidth: 2,
+      tension: 0,
+    });
+  }
+
+  lineChart = new Chart(document.getElementById('lineChart'), {
+    type: 'line',
+    data: { datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 600 },
+      layout: { padding: { top: 8, right: 16, bottom: 2 } },
+      interaction: { mode: 'nearest', intersect: false },
+      scales: {
+        x: {
+          type: 'linear',
+          min: 0,
+          max: maxMinutes,
+          ticks: {
+            color: '#999',
+            font: { size: 11 },
+            stepSize: maxMinutes <= 30 ? 5 : (maxMinutes <= 60 ? 10 : 30),
+            callback: v => v + ' min',
+          },
+          grid: { color: '#f0f0f0', drawTicks: false },
+          border: { color: '#e0e0e0' },
+          title: { display: true, text: 'Elapsed Time', color: '#999', font: { size: 12 } },
+        },
+        y: {
+          min: 0,
+          ticks: {
+            color: '#999',
+            font: { size: 11 },
+            maxTicksLimit: 8,
+            callback: v => v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v,
+          },
+          grid: { color: '#f0f0f0', drawTicks: false },
+          border: { color: '#e0e0e0' },
+          title: { display: true, text: 'Coins (Inventory)', color: '#999', font: { size: 12 } },
+        },
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: items => items[0] ? `${items[0].parsed.x.toFixed(1)} min` : '',
+            label: item => `${item.dataset.label}: ${item.parsed.y.toLocaleString()} gp`,
+          },
+        },
+      },
+    },
+  });
+}
+
+function renderSummaryTable() {
+  const models = getModels();
+  const data = goldData[currentHorizon] || {};
+  const tbody = document.getElementById('summaryBody');
+
+  const maxGold = Math.max(...models.map(m => data[m]?.gold || 0), 1);
+
+  tbody.innerHTML = models.map((model, i) => {
+    const r = data[model];
+    if (!r) return '';
+    const config = MODEL_CONFIG[model] || { displayName: model, color: '#999' };
+    const isBest = r.gold === maxGold && r.gold > 0;
+    const tokens = r.tokenUsage;
+    const tokenStr = tokens
+      ? `${(tokens.inputTokens / 1000).toFixed(0)}k in / ${(tokens.outputTokens / 1000).toFixed(0)}k out`
+      : '-';
+    const medal = i === 0 && r.gold > 0 ? ' \u2B50' : '';
+
+    return `<tr class="${isBest ? 'best' : ''}">
+      <td><span class="rank">${i + 1}.</span></td>
+      <td class="model-cell">
+        <span class="model-dot" style="background:${config.color}"></span>
+        ${config.displayName}${medal}
+      </td>
+      <td class="gold-cell" style="color:${config.color}">${r.gold.toLocaleString()}</td>
+      <td class="breakdown">${r.inventoryGold.toLocaleString()} inv / ${r.bankGold.toLocaleString()} bank</td>
+      <td>${r.totalLevel}</td>
+      <td class="token-info">${tokenStr}</td>
+    </tr>`;
+  }).join('');
+}
+
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+// Auto-load
+loadResults();
+</script>
+</body>
+</html>
