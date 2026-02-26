@@ -2,6 +2,9 @@
 # Keep only source files: generate-tasks.ts, shared/, docker/
 tasks/
 
+# Secrets
+.env
+
 # OS / editor
 .DS_Store
 
