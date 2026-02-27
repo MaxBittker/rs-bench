@@ -61,9 +61,10 @@ RECORD_VIDEO="${RECORD_VIDEO:-1}"
 FFMPEG_PID=""
 mkdir -p /logs/verifier
 if [ "$RECORD_VIDEO" = "1" ]; then
-    echo "[entrypoint] Starting screen recording (2 fps, h264)..."
-    ffmpeg -f x11grab -framerate 2 -video_size 800x600 -i :99 \
-        -c:v libx264 -preset ultrafast -crf 32 \
+    echo "[entrypoint] Starting screen recording (1 fps, 400x300, h264)..."
+    ffmpeg -f x11grab -framerate 1 -video_size 800x600 -i :99 \
+        -vf scale=400:300 \
+        -c:v libx264 -preset ultrafast -crf 38 \
         -pix_fmt yuv420p \
         -movflags +frag_keyframe+empty_moov \
         /logs/verifier/recording.mp4 \

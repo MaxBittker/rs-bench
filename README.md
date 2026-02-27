@@ -2,6 +2,10 @@
 
 Benchmark suite for evaluating AI coding agents on RuneScape gameplay tasks via [rs-sdk](https://github.com/MaxBittker/rs-sdk).
 
+<div align="center">
+    <img src="views/hero.png" alt="Average XP per Skill over 30 minutes across models" width="800">
+</div>
+
 Agents are given access to an MCP server with tools for interacting with a RuneScape game environment, and are scored on how effectively they can write code to accomplish gameplay objectives like gaining XP or accumulating gold.
 
 Built for [Harbor](https://github.com/harbor-ai/harbor), an open-source framework for running agent benchmarks.

@@ -91,11 +91,9 @@ const GOLD_2H_INSTRUCTION = GOLD_INSTRUCTION(120);
 const GOLD_30M_INSTRUCTION = GOLD_INSTRUCTION(30);
 const GOLD_15M_INSTRUCTION = GOLD_INSTRUCTION(15);
 
-// Stop ffmpeg and remove recording before verifier runs — the recording.mp4 can be
-// 50+ MB and Harbor's download_dir times out trying to pull it from Modal.
+// Stop ffmpeg before verifier runs so the mp4 is finalized and downloadable.
 const VERIFIER_CLEANUP = `pkill -f ffmpeg 2>/dev/null || true
-sleep 1
-rm -f /logs/verifier/recording.mp4 /logs/verifier/ffmpeg.log`;
+sleep 1`;
 
 // Tracker, start-with-tracker.sh, and SERVER=localhost are also in the base image.
 // Tasks only need to set SAMPLE_INTERVAL_MS via ENV

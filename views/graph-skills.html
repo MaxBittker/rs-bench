@@ -227,18 +227,18 @@
 
 <script>
 const MODEL_CONFIG = {
-  'opus':     { displayName: 'Claude Opus 4.6',   color: '#8b7355', order: 1, icon: 'model-icons/anthropic.svg' },
-  'opus45':   { displayName: 'Claude Opus 4.5',   color: '#a08060', order: 2, icon: 'model-icons/anthropic.svg' },
-  'sonnet46': { displayName: 'Claude Sonnet 4.6', color: '#d4442a', order: 3, icon: 'model-icons/anthropic.svg' },
-  'sonnet45': { displayName: 'Claude Sonnet 4.5', color: '#e07850', order: 4, icon: 'model-icons/anthropic.svg' },
-  'gemini':   { displayName: 'Gemini 3 Pro',      color: '#4285f4', order: 5, icon: 'model-icons/gemini.webp' },
-  'gemini31': { displayName: 'Gemini 3.1 Pro',    color: '#1a57c4', order: 6, icon: 'model-icons/gemini.webp' },
-  'haiku':    { displayName: 'Claude Haiku 3.5',   color: '#e06090', order: 7, icon: 'model-icons/anthropic.svg' },
-  'codex':    { displayName: 'Codex CLI 5.2',       color: '#10a37f', order: 8, icon: 'model-icons/openai.png' },
-  'codex53':  { displayName: 'Codex CLI 5.3',       color: '#0d8c6b', order: 9, icon: 'model-icons/openai.png' },
-  'glm':      { displayName: 'GLM 5',             color: '#6c5ce7', order: 10, icon: 'model-icons/zai.png' },
-  'kimi':     { displayName: 'Kimi K2.5',         color: '#00b4d8', order: 11, icon: 'model-icons/kimi.png' },
-  'qwen3':    { displayName: 'Qwen3 Coder Next', color: '#6366f1', order: 12, icon: 'model-icons/qwen.webp' },
+  'opus':     { displayName: 'Claude Opus 4.6',   shortName: 'Opus 4.6',    color: '#8b7355', order: 1, icon: 'model-icons/anthropic.svg' },
+  'opus45':   { displayName: 'Claude Opus 4.5',   shortName: 'Opus 4.5',    color: '#a08060', order: 2, icon: 'model-icons/anthropic.svg' },
+  'sonnet46': { displayName: 'Claude Sonnet 4.6', shortName: 'Sonnet 4.6',  color: '#d4442a', order: 3, icon: 'model-icons/anthropic.svg' },
+  'sonnet45': { displayName: 'Claude Sonnet 4.5', shortName: 'Sonnet 4.5',  color: '#e07850', order: 4, icon: 'model-icons/anthropic.svg' },
+  'gemini':   { displayName: 'Gemini 3 Pro',      shortName: 'Gemini 3',    color: '#4285f4', order: 5, icon: 'model-icons/gemini.webp' },
+  'gemini31': { displayName: 'Gemini 3.1 Pro',    shortName: 'Gemini 3.1',  color: '#1a57c4', order: 6, icon: 'model-icons/gemini.webp' },
+  'haiku':    { displayName: 'Claude Haiku 3.5',   shortName: 'Haiku 3.5',  color: '#e06090', order: 7, icon: 'model-icons/anthropic.svg' },
+  'codex':    { displayName: 'Codex CLI 5.2',       shortName: 'Codex 5.2', color: '#10a37f', order: 8, icon: 'model-icons/openai.png' },
+  'codex53':  { displayName: 'Codex CLI 5.3',       shortName: 'Codex 5.3', color: '#0d8c6b', order: 9, icon: 'model-icons/openai.png' },
+  'glm':      { displayName: 'GLM 5',             shortName: 'GLM 5',       color: '#6c5ce7', order: 10, icon: 'model-icons/zai.png' },
+  'kimi':     { displayName: 'Kimi K2.5',         shortName: 'Kimi K2.5',   color: '#00b4d8', order: 11, icon: 'model-icons/kimi.png' },
+  'qwen3':    { displayName: 'Qwen3 Coder Next', shortName: 'Qwen3',       color: '#6366f1', order: 12, icon: 'model-icons/qwen.webp' },
 };
 
 const SKILL_ORDER = [
@@ -436,23 +436,53 @@ const endIconPlugin = {
   id: 'endIcon',
   afterDraw(chart) {
     const ctx = chart.ctx;
+    const size = 14;
+    const labelGap = 3;
+    const minSpacing = 12; // minimum vertical pixels between labels
+
+    // Collect all visible label positions
+    const labels = [];
     for (const dataset of chart.data.datasets) {
       if (!dataset._modelKey) continue;
-      const icon = modelIconImages[dataset._modelKey];
-      if (!icon || !icon.complete) continue;
-
       const meta = chart.getDatasetMeta(chart.data.datasets.indexOf(dataset));
       if (!meta.visible) continue;
-
       const elements = meta.data;
       if (elements.length === 0) continue;
       const last = elements[elements.length - 1];
       if (!last) continue;
 
-      const size = 14;
+      const config = MODEL_CONFIG[dataset._modelKey] || { shortName: dataset._modelKey, color: '#999' };
+      labels.push({
+        x: last.x,
+        y: last.y,
+        drawY: last.y, // will be adjusted for overlap
+        modelKey: dataset._modelKey,
+        name: config.shortName || config.displayName,
+        color: config.color,
+      });
+    }
+
+    // Sort by y position and push apart overlapping labels
+    labels.sort((a, b) => a.y - b.y);
+    for (let i = 1; i < labels.length; i++) {
+      const gap = labels[i].drawY - labels[i - 1].drawY;
+      if (gap < minSpacing) {
+        labels[i].drawY = labels[i - 1].drawY + minSpacing;
+      }
+    }
+
+    // Draw icons and labels
+    for (const label of labels) {
+      const icon = modelIconImages[label.modelKey];
       ctx.save();
       ctx.globalAlpha = 0.9;
-      ctx.drawImage(icon, last.x - size / 2, last.y - size / 2, size, size);
+      if (icon && icon.complete) {
+        ctx.drawImage(icon, label.x - size / 2, label.y - size / 2, size, size);
+      }
+      ctx.font = '10px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.fillStyle = label.color;
+      ctx.textBaseline = 'middle';
+      ctx.fillText(label.name, label.x + size / 2 + labelGap, label.drawY);
       ctx.restore();
     }
   }
@@ -513,7 +543,7 @@ function renderGrid() {
         responsive: true,
         maintainAspectRatio: false,
         animation: false,
-        layout: { padding: { top: 8, right: 20, bottom: 2 } },
+        layout: { padding: { top: 8, right: 110, bottom: 2 } },
         interaction: { mode: 'nearest', intersect: false },
         onClick: (event, elements) => {
           if (elements.length > 0) {
@@ -688,7 +718,7 @@ function renderCumulative() {
       responsive: true,
       maintainAspectRatio: false,
       animation: false,
-      layout: { padding: { top: 10, right: 24, bottom: 2 } },
+      layout: { padding: { top: 10, right: 120, bottom: 2 } },
       interaction: { mode: 'nearest', intersect: false },
       onHover: (event, elements, chart) => {
         const prev = chart._hoveredModel;

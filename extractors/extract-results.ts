@@ -27,7 +27,7 @@ import {
 const RESULTS_DIR = join(import.meta.dir, '..', 'results');
 const JOBS_DIR = join(import.meta.dir, '..', 'jobs');
 
-const KNOWN_MODELS = ['opus', 'sonnet46', 'sonnet45', 'haiku', 'codex', 'gemini', 'glm', 'kimi', 'qwen3'];
+const KNOWN_MODELS = ['opus', 'sonnet46', 'sonnet45', 'haiku', 'codex', 'gemini', 'glm', 'kimi', 'qwen35', 'qwen3'];
 
 /** Detect time horizon from task path in config.json or directory name */
 function detectTimeHorizon(dirName: string, jobDir: string): string {

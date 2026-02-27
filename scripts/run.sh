@@ -24,6 +24,7 @@ gemini-cli|google/gemini-3-pro-preview|gemini
 claude-code|glm-5|glm
 kimi-opencode|openrouter/moonshotai/kimi-k2.5|kimi
 qwen3-opencode|openrouter/qwen/qwen3-coder-next|qwen3
+qwen35-opencode|openrouter/qwen/qwen3.5-35b-a3b|qwen35
 
 "
 
@@ -44,7 +45,7 @@ while [[ $# -gt 0 ]]; do
     -h|--help)
       echo "Usage: run.sh [-t task] [-m model] [-n trials] [-c concurrency]"
       echo ""
-      echo "Models: opus, sonnet46, sonnet45, haiku, codex, gemini, glm, kimi, qwen3 (default: all)"
+      echo "Models: opus, sonnet46, sonnet45, haiku, codex, gemini, glm, kimi, qwen3, qwen35 (default: all)"
       echo "Task:   any task dir name (default: woodcutting-xp-10m)"
       exit 0
       ;;
@@ -55,7 +56,7 @@ done
 
 # Default to all models if none specified
 if [ -z "$SELECTED_MODELS" ]; then
-  SELECTED_MODELS="sonnet46 sonnet45 opus haiku codex gemini glm kimi qwen3"
+  SELECTED_MODELS="sonnet46 sonnet45 opus haiku codex gemini glm kimi qwen3 qwen35"
 fi
 
 load_env "$REPO_ROOT/.env"
@@ -70,7 +71,7 @@ PIDS=""
 for name in $SELECTED_MODELS; do
   entry=$(lookup_model "$name" "$ALL_MODELS")
   if [ -z "$entry" ]; then
-    echo "Unknown model: $name (available: opus, sonnet46, sonnet45, haiku, codex, gemini, glm, kimi, qwen3)"
+    echo "Unknown model: $name (available: opus, sonnet46, sonnet45, haiku, codex, gemini, glm, kimi, qwen3, qwen35)"
     exit 1
   fi
 
