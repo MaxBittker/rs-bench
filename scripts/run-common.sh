@@ -45,6 +45,10 @@ configure_model_env() {
       fi
       ENV_PREFIX="ANTHROPIC_API_KEY=$GLM_API_KEY ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic API_TIMEOUT_MS=3000000"
       ;;
+    codex|codex53)
+      ENV_PREFIX="PYTHONPATH=$agents_dir:\${PYTHONPATH:-}"
+      AGENT_FLAG="--agent-import-path 'codex_adapter:CodexWithTimeout'"
+      ;;
     kimi)
       if [ -z "${OPENROUTER_API_KEY:-}" ]; then
         echo "  WARNING: OPENROUTER_API_KEY not found in .env, skipping kimi"

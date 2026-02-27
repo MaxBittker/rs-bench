@@ -1,9 +1,8 @@
 /**
  * Shared utilities for extract-results scripts.
  *
- * Contains common functions duplicated across:
- *   - extract-results.ts (10m total-level)
- *   - extract-skill-results.ts (30m per-skill)
+ * Contains common functions used by:
+ *   - extract-skill-results.ts (per-skill, supports --horizon 10m/30m)
  *   - extract-gold-results.ts (gold benchmarks)
  */
 
@@ -187,20 +186,23 @@ export function findTokenUsage(jobDir: string, opts?: { geminiTrajectoryFallback
 
 // ── CLI argument parsing ─────────────────────────────────────────
 
-/** Parse common CLI args: --filter <pattern> and positional directories */
-export function parseCLIArgs(args: string[]): { filter: string; explicitDirs: string[] } {
+/** Parse common CLI args: --filter <pattern>, --horizon <horizon>, and positional directories */
+export function parseCLIArgs(args: string[]): { filter: string; horizon: string; explicitDirs: string[] } {
   let filter = '';
+  let horizon = '';
   const explicitDirs: string[] = [];
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--filter' && args[i + 1]) {
       filter = args[++i];
+    } else if (args[i] === '--horizon' && args[i + 1]) {
+      horizon = args[++i];
     } else {
       explicitDirs.push(args[i]);
     }
   }
 
-  return { filter, explicitDirs };
+  return { filter, horizon, explicitDirs };
 }
 
 // ── Job directory resolution ─────────────────────────────────────

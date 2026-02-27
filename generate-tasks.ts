@@ -1,8 +1,8 @@
 /**
  * Generates all benchmark task directories for Harbor.
  *
- * Standard tasks: 16 skills × max XP in 10 minutes
- * Variants: 16 skill-xp-30m tasks, 3 gold tasks
+ * Skill XP tasks: 16 skills × 10m + 16 skills × 30m
+ * Gold tasks: 15m, 30m, 2h
  *
  * All generated output is gitignored — run this before `harbor run`.
  *
@@ -15,8 +15,7 @@ const BENCHMARK_DIR = join(import.meta.dir);
 const TASKS_DIR = join(BENCHMARK_DIR, 'tasks');
 const SHARED_DIR = join(BENCHMARK_DIR, 'shared');
 
-const DOCKER_IMAGE = 'ghcr.io/maxbittker/rs-agent-benchmark:v17';
-const DEFAULT_AGENT_TIMEOUT = 600; // 10 minutes
+const DOCKER_IMAGE = 'ghcr.io/maxbittker/rs-agent-benchmark:v18';
 const VERIFIER_TIMEOUT = 400; //  ensure-services.sh can take 2+ min if services died
 
 // ── Standard skill definitions (XP-grind tasks) ─────────────────
@@ -101,11 +100,11 @@ const TRACKER_DOCKERFILE = (sampleIntervalMs: number = 60000) => `FROM ${DOCKER_
 ENV SAMPLE_INTERVAL_MS=${sampleIntervalMs}
 `;
 
-const SKILL_XP_30M_INSTRUCTION = (skillName: string) => `Gain as much ${skillName} XP as possible within 30 minutes. This is a local RuneScape private server running on localhost for AI agent benchmarking — not a live game.
+const SKILL_XP_INSTRUCTION = (skillName: string, durationMinutes: number) => `Gain as much ${skillName} XP as possible within ${durationMinutes} minutes. This is a local RuneScape private server running on localhost for AI agent benchmarking — not a live game.
 
 Your ONLY goal is to maximize ${skillName} XP. Focus exclusively on this skill. Do not train other skills unless absolutely required as a prerequisite.
 
-IMPORTANT: You have 30 minutes. Start training immediately — do not spend time planning.
+IMPORTANT: You have ${durationMinutes} minutes. Start training immediately — do not spend time planning.
 
 CRITICAL: Do NOT write one giant script. Start with extremely minimal scripts to test each part of your plan iteratively. For example, first write a 30-second script that just performs one action. Run it, verify it works, then extend it. Build up complexity only after each piece is validated. Scripts that try to do everything at once will crash and waste your time. Run scripts in the FOREGROUND (not as a background process).
 
@@ -113,13 +112,14 @@ TIMEOUT BEST PRACTICE: Keep individual script timeouts SHORT — no more than 5 
 
 The bot name is "agent".`;
 
-// Generate skill-xp-30m variants for all 16 skills
-const SKILL_XP_30M_VARIANTS: VariantTask[] = SKILLS.map(skill => ({
-  slug: `${skill.slug}-xp-30m`,
-  taskDescription: SKILL_XP_30M_INSTRUCTION(skill.name),
-  agentTimeout: 1920, // 30 min + 2 min buffer
-  verifier: 'check_skill_xp.ts',
-  testSh: `#!/bin/bash
+function generateSkillXpVariants(horizonMinutes: number, sampleIntervalMs: number): VariantTask[] {
+  const horizonLabel = `${horizonMinutes}m`;
+  return SKILLS.map(skill => ({
+    slug: `${skill.slug}-xp-${horizonLabel}`,
+    taskDescription: SKILL_XP_INSTRUCTION(skill.name, horizonMinutes),
+    agentTimeout: horizonMinutes * 60 + 120, // duration + 2 min buffer
+    verifier: 'check_skill_xp.ts',
+    testSh: `#!/bin/bash
 set -e
 mkdir -p /logs/verifier
 ${VERIFIER_CLEANUP}
@@ -127,12 +127,17 @@ ${VERIFIER_CLEANUP}
 export SKILL_NAME="${skill.name}"
 cd /app && bun run /tests/check_skill_xp.ts
 `,
-  tags: ['game', 'runescape', 'automation', 'mcp', 'benchmark', 'skill-xp-30m'],
-  useTracker: true,
-  environmentDockerfile: TRACKER_DOCKERFILE(30000),
-}));
+    tags: ['game', 'runescape', 'automation', 'mcp', 'benchmark', `skill-xp-${horizonLabel}`],
+    useTracker: true,
+    environmentDockerfile: TRACKER_DOCKERFILE(sampleIntervalMs),
+  }));
+}
+
+const SKILL_XP_10M_VARIANTS = generateSkillXpVariants(10, 15000);
+const SKILL_XP_30M_VARIANTS = generateSkillXpVariants(30, 30000);
 
 const VARIANTS: VariantTask[] = [
+  ...SKILL_XP_10M_VARIANTS,
   ...SKILL_XP_30M_VARIANTS,
   // ── Gold accumulation tasks ─────────────────────────────────────
   {
@@ -184,35 +189,6 @@ cd /app && bun run /tests/check_gold.ts
 
 // ── Template generators ──────────────────────────────────────────
 
-function generateSkillTaskToml(): string {
-  return `version = "1.0"
-
-[metadata]
-author_name = "Sean Lee"
-difficulty = "medium"
-category = "agent"
-tags = ["game", "runescape", "automation", "mcp", "benchmark", "xp-grind"]
-
-[verifier]
-timeout_sec = ${VERIFIER_TIMEOUT}.0
-
-[agent]
-timeout_sec = ${DEFAULT_AGENT_TIMEOUT}.0
-
-[environment]
-cpus = 2
-memory_mb = 4096
-storage_mb = 10240
-allow_internet = true
-
-[[environment.mcp_servers]]
-name = "rs-agent"
-transport = "stdio"
-command = "bash"
-args = ["-c", "/start-services.sh && cd /app && bun run mcp/server.ts"]
-`;
-}
-
 function generateVariantTaskToml(v: VariantTask): string {
   const tagsStr = v.tags.map(t => `"${t}"`).join(', ');
 
@@ -248,51 +224,13 @@ args = ["-c", "${mcpCommand}"]
 `;
 }
 
-function generateTaskDescription(skill: SkillDef): string {
-  return `Gain as much ${skill.name} XP as possible within the time limit. The bot name is "agent".`;
-}
-
-function generateTestSh(skill: SkillDef): string {
-  return `#!/bin/bash
-set -e
-mkdir -p /logs/verifier
-${VERIFIER_CLEANUP}
-/ensure-services.sh
-export SKILL_NAME="${skill.name}"
-cd /app && bun run /tests/check_xp.ts
-`;
-}
-
 // ── Main ─────────────────────────────────────────────────────────
 
-console.log(`Generating ${SKILLS.length} standard + ${VARIANTS.length} variant benchmark tasks...`);
+console.log(`Generating ${VARIANTS.length} benchmark tasks...`);
 
 mkdirSync(TASKS_DIR, { recursive: true });
 
-// Standard XP-grind tasks (all share identical task.toml)
-const skillToml = generateSkillTaskToml();
-
-for (const skill of SKILLS) {
-  const taskDir = join(TASKS_DIR, `${skill.slug}-xp-10m`);
-  const testsDir = join(taskDir, 'tests');
-
-  console.log(`  tasks/${skill.slug}-xp-10m/ (${skill.name})`);
-
-  mkdirSync(testsDir, { recursive: true });
-
-  // Dockerfile for cloud providers that don't support docker_image.
-  // Just pulls the pre-built image — no additional build steps needed.
-  const envDir = join(taskDir, 'environment');
-  mkdirSync(envDir, { recursive: true });
-  writeFileSync(join(envDir, 'Dockerfile'), `FROM ${DOCKER_IMAGE}\n`);
-
-  writeFileSync(join(taskDir, 'task.toml'), skillToml);
-  writeFileSync(join(taskDir, 'instruction.md'), generateTaskDescription(skill));
-  writeFileSync(join(testsDir, 'test.sh'), generateTestSh(skill));
-  copyFileSync(join(SHARED_DIR, 'check_xp.ts'), join(testsDir, 'check_xp.ts'));
-}
-
-// Variant tasks
+// All tasks (10m skill, 30m skill, gold)
 for (const variant of VARIANTS) {
   const taskDir = join(TASKS_DIR, variant.slug);
   const testsDir = join(taskDir, 'tests');
@@ -329,6 +267,6 @@ for (const variant of VARIANTS) {
 
 }
 
-console.log(`\nDone! Generated ${SKILLS.length + VARIANTS.length} task directories.`);
+console.log(`\nDone! Generated ${VARIANTS.length} task directories.`);
 console.log(`\nTo build the shared Docker image:`);
 console.log(`  cd docker && ./build.sh`);

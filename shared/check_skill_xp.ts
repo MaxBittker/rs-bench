@@ -1,7 +1,7 @@
 /**
  * Verification: report XP for a specific skill as reward, with tracking data.
  *
- * Hybrid of check_xp.ts (single-skill XP) and check_total_level.ts (tracking embed).
+ * Single-skill XP verifier with time-series tracking.
  * Reads SKILL_NAME env var, reports that skill's XP as reward.
  * Also reads skill_tracking.json and embeds time-series data in reward.json
  * so extract-skill-results.ts can find per-sample data.

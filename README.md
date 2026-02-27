@@ -12,9 +12,9 @@ Built for [Harbor](https://github.com/harbor-ai/harbor), an open-source framewor
 
 ## Tasks
 
-**16 Skill XP tasks (10 min)** — Gain as much XP as possible in a single skill (Attack, Woodcutting, Fishing, Mining, etc.)
+**16 Skill XP tasks (10 min)** — Gain as much XP as possible in a single skill, with time-series tracking
 
-**16 Skill XP tasks (30 min)** — Extended versions with skill-level tracking over time
+**16 Skill XP tasks (30 min)** — Extended versions with time-series tracking
 
 **3 Gold accumulation tasks** (15 min / 30 min / 2 hr) — Maximize total coins using any strategy
 
@@ -42,14 +42,14 @@ harbor run
 ## Extracting Results
 
 ```bash
-bun extractors/extract-results.ts
-bun extractors/extract-skill-results.ts
+bun extractors/extract-skill-results.ts              # 30m (default)
+bun extractors/extract-skill-results.ts --horizon 10m # 10m
 bun extractors/extract-gold-results.ts
 ```
 
 ## Architecture
 
-Each task runs inside a Docker container based on a pre-built image (`ghcr.io/maxbittker/rs-agent-benchmark:v17`) that bundles the rs-sdk game server at 8x speed. The agent connects via an MCP server that exposes game interaction tools (walking, clicking, inventory management, etc.). A verifier script checks the final game state to produce a score.
+Each task runs inside a Docker container based on a pre-built image (`ghcr.io/maxbittker/rs-agent-benchmark:v18`) that bundles the rs-sdk game server at 8x speed. The agent connects via an MCP server that exposes game interaction tools (walking, clicking, inventory management, etc.). A verifier script checks the final game state to produce a score.
 
 ```
 Agent (Claude, GPT, Gemini, etc.)

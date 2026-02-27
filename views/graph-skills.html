@@ -3,9 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Skill XP Benchmark (30 min)</title>
+<title>Skill XP Benchmark</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-<script src="data/skills-30m/_data.js"></script>
+<script>
+  // Parse horizon from URL (default: 30m)
+  const params = new URLSearchParams(window.location.search);
+  const HORIZON = params.get('horizon') || '30m';
+  const HORIZON_MINUTES = parseInt(HORIZON);  // e.g. 30 or 10
+</script>
+<script>
+  // Synchronously load the data file for the selected horizon (works with file://)
+  document.write('<script src="../results/skills-' + HORIZON + '/_data.js"></' + 'script>');
+</script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
@@ -29,13 +38,19 @@
     color: #999;
     margin-bottom: 16px;
   }
-  .view-toggle {
+  .page-description {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.6;
+    max-width: 720px;
+    margin-bottom: 20px;
+  }
+  .pill-toggle {
     display: inline-flex;
-    gap: 0;
     margin-left: 16px;
     vertical-align: middle;
   }
-  .view-toggle button {
+  .pill-toggle button {
     padding: 4px 14px;
     background: #fff;
     border: 1px solid #ddd;
@@ -44,16 +59,18 @@
     font-size: 12px;
     font-weight: 500;
     transition: all 0.15s;
+    margin-left: -1px;          /* overlap borders so they don't double up */
+    position: relative;
   }
-  .view-toggle button:first-child { border-radius: 6px 0 0 6px; }
-  .view-toggle button:last-child { border-radius: 0 6px 6px 0; border-left: none; }
-  .view-toggle button:nth-child(2) { border-left: none; }
-  .view-toggle button.active {
+  .pill-toggle button:first-child { border-radius: 6px 0 0 6px; margin-left: 0; }
+  .pill-toggle button:last-child  { border-radius: 0 6px 6px 0; }
+  .pill-toggle button.active {
     background: #1a1a1a;
     border-color: #1a1a1a;
     color: #fff;
+    z-index: 1;                 /* active border draws on top of neighbors */
   }
-  .view-toggle button:hover:not(.active) { border-color: #999; color: #1a1a1a; }
+  .pill-toggle button:hover:not(.active) { border-color: #999; color: #1a1a1a; z-index: 1; }
 
   /* Grid view */
   .grid-container {
@@ -101,10 +118,67 @@
   }
 
   /* Trajectory steps */
-  .traj-step { padding: 4px 0; border-bottom: 1px solid #f0f0f0; }
-  .traj-step:last-child { border-bottom: none; }
-  .traj-step.agent { color: #1a1a1a; }
-  .traj-step.tool { color: #999; font-family: monospace; font-size: 12px; padding: 2px 0; }
+  .traj-step.agent {
+    color: #1a1a1a;
+    font-size: 14px;
+    line-height: 1.65;
+    padding: 10px 0;
+    white-space: pre-wrap;
+  }
+  .traj-step.agent + .traj-step.agent {
+    border-top: 1px solid #f0f0f0;
+  }
+  .traj-tool-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 4px 0;
+  }
+  .traj-tool-chip {
+    display: inline-block;
+    font-family: monospace;
+    font-size: 10px;
+    color: #aaa;
+    background: #f5f5f5;
+    border-radius: 3px;
+    padding: 1px 6px;
+    line-height: 1.5;
+  }
+
+  /* Skill picker */
+  .skill-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    padding: 20px 24px;
+  }
+  .skill-picker-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .skill-picker-item:hover {
+    border-color: #999;
+    background: #fafafa;
+  }
+  .skill-picker-item img {
+    width: 16px;
+    height: 16px;
+  }
+  .skill-picker-xp {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 400;
+    color: #aaa;
+  }
 
   /* Legend */
   .bottom-legend {
@@ -187,29 +261,43 @@
 
 <div class="page-header">
   <h1>Skill XP Benchmark
-    <span class="view-toggle" id="viewToggle" style="display:none">
-      <button data-view="grid" class="active" onclick="setView('grid')">Grid</button>
-      <button data-view="cumulative" onclick="setView('cumulative')">Average</button>
+    <span class="pill-toggle" id="horizonToggle">
+      <button data-horizon="10m" onclick="setHorizon('10m')">10 min</button>
+      <button data-horizon="30m" onclick="setHorizon('30m')">30 min</button>
+    </span>
+    <span class="pill-toggle" id="viewToggle" style="display:none; margin-left:8px">
+      <button data-view="cumulative" class="active" onclick="setView('cumulative')">Average</button>
+      <button data-view="grid" onclick="setView('grid')">Grid</button>
     </span>
   </h1>
 </div>
-<div class="page-subtitle" id="pageSubtitle">30-minute skill XP across models</div>
+<p class="page-description" id="pageDescription"></p>
 <button class="download-btn" onclick="downloadView()" title="Download as PNG">&#8681;</button>
 
 <div id="gridContainer" class="grid-container" style="display:none"></div>
 <div id="cumulativeContainer" class="cumulative-container" style="display:none"></div>
 <!-- Trajectory modal -->
-<div id="trajectoryModal" style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.5); overflow:auto" onclick="if(event.target===this)closeTrajectory()">
-  <div style="max-width:720px; margin:40px auto; background:#fff; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.2); max-height:calc(100vh - 80px); display:flex; flex-direction:column">
-    <div id="trajHeader" style="padding:16px 20px; border-bottom:1px solid #e8e8e8; flex-shrink:0">
+<div id="trajectoryModal" style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.45); overflow:auto" onclick="if(event.target===this)closeTrajectory()">
+  <div style="max-width:640px; margin:40px auto; background:#fff; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.18); max-height:calc(100vh - 80px); display:flex; flex-direction:column">
+    <div id="trajHeader" style="padding:16px 24px; border-bottom:1px solid #e8e8e8; flex-shrink:0">
       <div style="display:flex; justify-content:space-between; align-items:center">
         <h3 id="trajTitle" style="font-size:16px; font-weight:600; margin:0"></h3>
         <button onclick="closeTrajectory()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#999; padding:0 4px">&times;</button>
       </div>
       <div id="trajSubtitle" style="font-size:12px; color:#999; margin-top:2px"></div>
     </div>
-    <div id="trajStrategy" style="padding:12px 20px; background:#f8f8f8; border-bottom:1px solid #e8e8e8; font-size:13px; line-height:1.5; color:#333; flex-shrink:0; max-height:200px; overflow:auto; display:none; white-space:pre-wrap"></div>
-    <div id="trajSteps" style="padding:16px 20px; overflow-y:auto; flex:1; font-size:13px; line-height:1.6"></div>
+    <div id="trajSteps" style="padding:16px 24px; overflow-y:auto; flex:1"></div>
+  </div>
+</div>
+
+<!-- Skill picker modal -->
+<div id="skillPickerModal" style="display:none; position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.45); overflow:auto" onclick="if(event.target===this)closeSkillPicker()">
+  <div style="max-width:520px; margin:80px auto; background:#fff; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.18)">
+    <div style="padding:16px 24px; border-bottom:1px solid #e8e8e8; display:flex; justify-content:space-between; align-items:center">
+      <h3 id="skillPickerTitle" style="font-size:16px; font-weight:600; margin:0"></h3>
+      <button onclick="closeSkillPicker()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#999; padding:0 4px">&times;</button>
+    </div>
+    <div id="skillPickerGrid" class="skill-picker-grid"></div>
   </div>
 </div>
 
@@ -256,7 +344,8 @@ const SKILL_DISPLAY = {
 };
 
 let combinedData = {};
-let currentView = 'grid';
+let currentView = 'cumulative';
+let useLogScale = false;
 let hiddenModels = new Set();
 let gridCharts = [];
 let cumulativeChart = null;
@@ -331,7 +420,7 @@ function onDataLoaded() {
 
 function setView(view) {
   currentView = view;
-  document.querySelectorAll('.view-toggle button').forEach(btn => {
+  document.querySelectorAll('#viewToggle button').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.view === view);
   });
   renderCurrentView();
@@ -413,7 +502,7 @@ function extractSkillPoints(skillData, skill) {
   const points = [];
   for (const s of skillData.samples) {
     const x = s.elapsedMs / 60000;
-    if (x > 30) break;
+    if (x > HORIZON_MINUTES) break;
     let xp = 0;
     if (s.skills) {
       for (const [sName, sData] of Object.entries(s.skills)) {
@@ -555,7 +644,7 @@ function renderGrid() {
           x: {
             type: 'linear',
             min: 0,
-            max: 30,
+            max: HORIZON_MINUTES,
             ticks: { color: '#bbb', font: { size: 10 }, maxTicksLimit: 4 },
             grid: { color: '#f0f0f0', drawTicks: false },
             border: { color: '#e0e0e0' },
@@ -611,7 +700,7 @@ function renderCumulative() {
   const datasets = [];
 
   // For each model, average XP across all 16 skills at each time bucket (1 min intervals)
-  const BUCKET_COUNT = 31; // 0, 1, 2, ... 30 minutes
+  const BUCKET_COUNT = HORIZON_MINUTES + 1;
 
   for (const model of models) {
     const config = MODEL_CONFIG[model] || { displayName: model, color: '#999' };
@@ -720,6 +809,12 @@ function renderCumulative() {
       animation: false,
       layout: { padding: { top: 10, right: 120, bottom: 2 } },
       interaction: { mode: 'nearest', intersect: false },
+      onClick: (event, elements) => {
+        if (elements.length > 0) {
+          const ds = datasets[elements[0].datasetIndex];
+          if (ds._modelKey) openSkillPicker(ds._modelKey);
+        }
+      },
       onHover: (event, elements, chart) => {
         const prev = chart._hoveredModel;
         if (elements.length > 0) {
@@ -734,8 +829,8 @@ function renderCumulative() {
         x: {
           type: 'linear',
           min: 0,
-          max: 30,
-          ticks: { color: '#999', font: { size: 11 }, stepSize: 5, callback: v => v + ' min' },
+          max: HORIZON_MINUTES,
+          ticks: { color: '#999', font: { size: 11 }, stepSize: HORIZON_MINUTES <= 10 ? 2 : 5, callback: v => v + ' min' },
           grid: { color: '#f0f0f0', drawTicks: false },
           border: { color: '#e0e0e0' },
           title: { display: true, text: 'Elapsed Time', color: '#999', font: { size: 12 } },
@@ -783,6 +878,35 @@ function renderCumulative() {
   });
 }
 
+// ── Skill Picker (from cumulative view) ─────────────────────────
+
+function openSkillPicker(model) {
+  const config = MODEL_CONFIG[model] || { displayName: model, color: '#999' };
+  document.getElementById('skillPickerTitle').textContent = config.displayName;
+
+  const grid = document.getElementById('skillPickerGrid');
+  let html = '';
+  for (const skill of SKILL_ORDER) {
+    const sd = combinedData[model]?.[skill];
+    const xp = sd?.finalXp || 0;
+    const hasTraj = sd?.trajectory?.length > 0;
+    const iconSrc = 'skill-icons/' + skill + '.png';
+    html += `<div class="skill-picker-item${hasTraj ? '' : ' no-traj'}" onclick="${hasTraj ? `closeSkillPicker();openTrajectory('${model}','${skill}')` : ''}" style="${hasTraj ? '' : 'opacity:0.4;cursor:default'}">
+      <img src="${iconSrc}" onerror="this.style.display='none'">
+      ${SKILL_DISPLAY[skill] || skill}
+      <span class="skill-picker-xp">${xp > 0 ? formatXp(xp) : '-'}</span>
+    </div>`;
+  }
+  grid.innerHTML = html;
+  document.getElementById('skillPickerModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSkillPicker() {
+  document.getElementById('skillPickerModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
 // ── Trajectory Viewer ────────────────────────────────────────────
 
 function openTrajectory(model, skill) {
@@ -796,29 +920,36 @@ function openTrajectory(model, skill) {
   document.getElementById('trajSubtitle').textContent =
     `${formatXp(data.finalXp)} XP (Lv ${data.finalLevel}) · ${data.jobName || ''}`;
 
-  // Strategy
-  const strategyEl = document.getElementById('trajStrategy');
-  if (data.strategy) {
-    strategyEl.textContent = data.strategy;
-    strategyEl.style.display = 'block';
-  } else {
-    strategyEl.style.display = 'none';
-  }
-
-  // Steps
+  // Steps — group consecutive tool calls into chip rows
   const stepsEl = document.getElementById('trajSteps');
   const steps = data.trajectory || [];
   if (steps.length === 0) {
     stepsEl.innerHTML = '<div style="color:#999; text-align:center; padding:32px">No trajectory data available for this run.</div>';
   } else {
     let html = '';
+    let toolBuffer = [];
+
+    function flushTools() {
+      if (toolBuffer.length === 0) return;
+      html += '<div class="traj-tool-group">';
+      for (const t of toolBuffer) {
+        // Shorten common tool prefixes for readability
+        const label = t.replace(/^mcp__rs-agent__/, '').replace(/^mcp__\w+__/, '');
+        html += `<span class="traj-tool-chip">${escapeHtml(label)}</span>`;
+      }
+      html += '</div>';
+      toolBuffer = [];
+    }
+
     for (const step of steps) {
       if (step.source === 'tool') {
-        html += `<div class="traj-step tool">${escapeHtml(step.text)}</div>`;
+        toolBuffer.push(step.text);
       } else {
+        flushTools();
         html += `<div class="traj-step agent">${escapeHtml(step.text)}</div>`;
       }
     }
+    flushTools();
     stepsEl.innerHTML = html;
   }
 
@@ -837,9 +968,12 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
-// Close modal on Escape
+// Close modals on Escape
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeTrajectory();
+  if (e.key === 'Escape') {
+    closeTrajectory();
+    closeSkillPicker();
+  }
 });
 
 // ── Helpers ─────────────────────────────────────────────────────
@@ -870,6 +1004,31 @@ function downloadView() {
     link.click();
   }
 }
+
+// ── Horizon switching ────────────────────────────────────────────
+
+function setHorizon(h) {
+  if (window.location.protocol === 'file:') {
+    // file:// URLs don't support searchParams; rebuild manually
+    const base = window.location.pathname;
+    window.location = base + '?horizon=' + h;
+  } else {
+    const url = new URL(window.location);
+    url.searchParams.set('horizon', h);
+    window.location = url;
+  }
+}
+
+// Mark the active horizon button
+document.querySelectorAll('#horizonToggle button').forEach(btn => {
+  btn.classList.toggle('active', btn.dataset.horizon === HORIZON);
+});
+
+// Set dynamic title/subtitle based on horizon
+document.title = `Skill XP Benchmark (${HORIZON_MINUTES} min)`;
+document.getElementById('pageDescription').textContent =
+  `Each agent is placed in a RuneScape private server (8x game speed) and given ${HORIZON_MINUTES} minutes to maximize XP in a single skill. ` +
+  `The agent controls a freshly-created character via writing and running TypeScript scripts against RS-SDK. `;
 
 // Auto-load on page open
 loadResults();

@@ -1,20 +1,21 @@
 #!/usr/bin/env bun
 /**
- * Extract skill XP tracking data from Harbor job results for the skills-30m graph viewer.
+ * Extract skill XP tracking data from Harbor job results for the graph viewer.
  *
- * Detects skill from job dir name: {skill}-xp-30m-{model}-...
- * Groups by model -> skill instead of model -> timeHorizon.
+ * Detects skill from job dir name: {skill}-xp-{horizon}-{model}-...
+ * Groups by model -> skill.
  *
  * Usage:
- *   bun extractors/extract-skill-results.ts                          # Auto-discover all jobs/
- *   bun extractors/extract-skill-results.ts jobs/woodcutting-xp-30m-* # Specific job dirs
- *   bun extractors/extract-skill-results.ts --filter 30m-opus        # Filter by pattern
+ *   bun extractors/extract-skill-results.ts                              # 30m (default)
+ *   bun extractors/extract-skill-results.ts --horizon 10m                # 10m
+ *   bun extractors/extract-skill-results.ts --horizon 30m --filter opus  # Filter by pattern
+ *   bun extractors/extract-skill-results.ts jobs/woodcutting-xp-10m-*    # Specific job dirs
  *
  * Output:
- *   results/skills-30m/_combined.json  — { model: { skill: { finalXp, finalLevel, samples[], tokenUsage } } }
+ *   results/skills-{horizon}/_combined.json  — { model: { skill: { finalXp, finalLevel, samples[], tokenUsage } } }
  */
 
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join, basename } from 'path';
 import {
   type Sample, type TrackingData, type TokenUsage,
@@ -23,7 +24,6 @@ import {
   parseCLIArgs, resolveJobDirs, writeResults,
 } from '../shared/extract-utils';
 
-const RESULTS_DIR = join(import.meta.dir, '..', 'results', 'skills-30m');
 const JOBS_DIR = join(import.meta.dir, '..', 'jobs');
 
 const KNOWN_MODELS = ['opus', 'opus45', 'sonnet46', 'sonnet45', 'haiku', 'codex53', 'codex', 'gemini31', 'gemini', 'glm', 'kimi', 'qwen35', 'qwen3'];
@@ -34,16 +34,16 @@ const KNOWN_SKILLS = [
   'smithing', 'firemaking', 'thieving',
 ];
 
-/** Detect skill from directory name: {skill}-xp-30m-{model}-... */
-function detectSkill(dirName: string): string | null {
+/** Detect skill from directory name: {skill}-xp-{horizon}-{model}-... */
+function detectSkill(dirName: string, horizon: string): string | null {
   const lower = dirName.toLowerCase();
   for (const skill of KNOWN_SKILLS) {
-    if (lower.startsWith(`${skill}-xp-30m`)) return skill;
+    if (lower.startsWith(`${skill}-xp-${horizon}`)) return skill;
   }
   return null;
 }
 
-function detectSkillFromConfig(jobDir: string): string | null {
+function detectSkillFromConfig(jobDir: string, horizon: string): string | null {
   const configPath = join(jobDir, 'config.json');
   if (!existsSync(configPath)) return null;
   try {
@@ -51,7 +51,7 @@ function detectSkillFromConfig(jobDir: string): string | null {
     const taskPath = config?.tasks?.[0]?.path || '';
     const lower = taskPath.toLowerCase();
     for (const skill of KNOWN_SKILLS) {
-      if (lower.includes(`${skill}-xp-30m`)) return skill;
+      if (lower.includes(`${skill}-xp-${horizon}`)) return skill;
     }
   } catch {}
   return null;
@@ -118,7 +118,7 @@ interface TrajectoryStep {
   text: string;
 }
 
-function extractTrajectory(jobDir: string): { strategy: string; steps: TrajectoryStep[] } | null {
+function extractTrajectory(jobDir: string): { steps: TrajectoryStep[] } | null {
   for (const trialDir of getTrialDirs(jobDir)) {
     const agentDir = join(trialDir, 'agent');
     if (!existsSync(agentDir)) continue;
@@ -144,14 +144,20 @@ function extractTrajectory(jobDir: string): { strategy: string; steps: Trajector
         return parseKimiLog(readFileSync(kimiPath, 'utf-8'));
       } catch {}
     }
+
+    const geminiPath = join(agentDir, 'gemini-cli.txt');
+    if (existsSync(geminiPath)) {
+      try {
+        return parseGeminiCliLog(readFileSync(geminiPath, 'utf-8'));
+      } catch {}
+    }
   }
   return null;
 }
 
-function parseClaudeTrajectory(traj: any): { strategy: string; steps: TrajectoryStep[] } {
+function parseClaudeTrajectory(traj: any): { steps: TrajectoryStep[] } {
   const rawSteps = traj.steps || [];
   const steps: TrajectoryStep[] = [];
-  const strategyParts: string[] = [];
 
   for (const step of rawSteps) {
     const src = step.source;
@@ -164,18 +170,15 @@ function parseClaudeTrajectory(traj: any): { strategy: string; steps: Trajectory
         steps.push({ source: 'tool', text: toolName });
       } else {
         steps.push({ source: 'agent', text: msg });
-        if (strategyParts.length < 8) strategyParts.push(msg);
       }
     }
   }
 
-  const strategy = strategyParts.join('\n\n').slice(0, 2000);
-  return { strategy, steps: steps.slice(0, 200) };
+  return { steps: steps.slice(0, 200) };
 }
 
-function parseCodexLog(content: string): { strategy: string; steps: TrajectoryStep[] } {
+function parseCodexLog(content: string): { steps: TrajectoryStep[] } {
   const steps: TrajectoryStep[] = [];
-  const strategyParts: string[] = [];
 
   for (const line of content.split('\n')) {
     if (!line.trim()) continue;
@@ -185,10 +188,8 @@ function parseCodexLog(content: string): { strategy: string; steps: TrajectorySt
         const item = entry.item;
         if (item.type === 'agent_message' && item.text) {
           steps.push({ source: 'agent', text: item.text });
-          if (strategyParts.length < 8) strategyParts.push(item.text);
         } else if (item.type === 'reasoning' && item.text) {
           steps.push({ source: 'agent', text: item.text });
-          if (strategyParts.length < 4) strategyParts.push(item.text);
         } else if (item.type === 'command_execution' && item.command) {
           steps.push({ source: 'tool', text: item.command });
         } else if (item.type === 'file_change') {
@@ -198,13 +199,11 @@ function parseCodexLog(content: string): { strategy: string; steps: TrajectorySt
     } catch {}
   }
 
-  const strategy = strategyParts.join('\n\n').slice(0, 2000);
-  return { strategy, steps: steps.slice(0, 200) };
+  return { steps: steps.slice(0, 200) };
 }
 
-function parseKimiLog(content: string): { strategy: string; steps: TrajectoryStep[] } {
+function parseKimiLog(content: string): { steps: TrajectoryStep[] } {
   const steps: TrajectoryStep[] = [];
-  const strategyParts: string[] = [];
 
   for (const line of content.split('\n')) {
     if (!line.trim()) continue;
@@ -218,7 +217,6 @@ function parseKimiLog(content: string): { strategy: string; steps: TrajectorySte
         const text = entry.part?.content || '';
         if (text) {
           steps.push({ source: 'agent', text });
-          if (strategyParts.length < 8) strategyParts.push(text);
         }
       } else if (entry.type === 'tool_use') {
         const tool = entry.part?.tool || '';
@@ -236,17 +234,59 @@ function parseKimiLog(content: string): { strategy: string; steps: TrajectorySte
     } catch {}
   }
 
-  const strategy = strategyParts.join('\n\n').slice(0, 2000);
-  return { strategy, steps: steps.slice(0, 200) };
+  return { steps: steps.slice(0, 200) };
+}
+
+function parseGeminiCliLog(content: string): { steps: TrajectoryStep[] } {
+  const steps: TrajectoryStep[] = [];
+  const lines = content.split('\n');
+
+  let inBashBlock = false;
+
+  for (const line of lines) {
+    const trimmed = line.trimEnd();
+    if (!trimmed) continue;
+
+    // Detect start of a bash command block (heredoc file content + syntax errors)
+    if (trimmed.startsWith('Bash command parsing error detected')) {
+      inBashBlock = true;
+      // Extract the filename from the command as a tool step
+      const fileMatch = trimmed.match(/> ([\w/./-]+\.\w+)$/);
+      const label = fileMatch ? `write: ${fileMatch[1]}` : 'bash';
+      steps.push({ source: 'tool', text: label });
+      continue;
+    }
+
+    // End of bash block: the closing bracket of "EOF Syntax Errors: [...]"
+    if (inBashBlock) {
+      if (trimmed === ']') inBashBlock = false;
+      continue;
+    }
+
+    // Skip noise lines
+    if (trimmed.startsWith('YOLO mode is enabled')) continue;
+    if (trimmed.startsWith('[agent-loop]')) continue;
+    if (trimmed.startsWith('missing pgrep output')) continue;
+
+    // Everything else is agent text
+    steps.push({ source: 'agent', text: trimmed });
+  }
+
+  return { steps: steps.slice(0, 200) };
 }
 
 // ── Main ─────────────────────────────────────────────────────────
 
-const { filter, explicitDirs } = parseCLIArgs(process.argv.slice(2));
+const { filter, horizon: horizonArg, explicitDirs } = parseCLIArgs(process.argv.slice(2));
+const HORIZON = horizonArg || '30m';
+const RESULTS_DIR = join(import.meta.dir, '..', 'results', `skills-${HORIZON}`);
+
+console.log(`Extracting skill-xp-${HORIZON} results...\n`);
+
 const jobDirs = resolveJobDirs(JOBS_DIR, explicitDirs, filter, (name, f) => {
   const lower = name.toLowerCase();
-  const isSkill30m = KNOWN_SKILLS.some(s => lower.startsWith(`${s}-xp-30m`));
-  if (!isSkill30m) return false;
+  const isMatch = KNOWN_SKILLS.some(s => lower.startsWith(`${s}-xp-${HORIZON}`));
+  if (!isMatch) return false;
   return !f || lower.includes(f);
 });
 
@@ -272,8 +312,8 @@ for (const dir of jobDirs) {
       return null;
     },
   });
-  let skill = detectSkill(jobName);
-  if (!skill) skill = detectSkillFromConfig(dir);
+  let skill = detectSkill(jobName, HORIZON);
+  if (!skill) skill = detectSkillFromConfig(dir, HORIZON);
 
   if (model === 'unknown') {
     console.log(`  skip: ${jobName} (can't detect model)`);
@@ -331,7 +371,7 @@ for (const dir of jobDirs) {
       sampleCount: samples.length,
       samples: slimSamples,
       ...(tokenUsage ? { tokenUsage } : {}),
-      ...(trajectory ? { strategy: trajectory.strategy, trajectory: trajectory.steps } : {}),
+      ...(trajectory ? { trajectory: trajectory.steps } : {}),
     };
   }
 
@@ -341,9 +381,16 @@ for (const dir of jobDirs) {
 }
 
 if (extracted === 0) {
-  console.log('\nNo skill-xp-30m data found in any job directories.');
+  console.log(`\nNo skill-xp-${HORIZON} data found in any job directories.`);
   process.exit(1);
 }
 
 writeResults(RESULTS_DIR, combined, 'COMBINED_DATA');
-console.log(`\n${extracted} result(s) extracted. View: open views/graph-skills.html`);
+
+// Write per-model JSON files
+for (const [model, skills] of Object.entries(combined)) {
+  const modelPath = join(RESULTS_DIR, `${model}.json`);
+  writeFileSync(modelPath, JSON.stringify({ model, skills }, null, 2));
+}
+
+console.log(`\n${extracted} result(s) extracted. View: open views/graph-skills.html?horizon=${HORIZON}`);

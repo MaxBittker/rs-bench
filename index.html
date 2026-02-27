@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harbor — AI Agent Benchmark</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: #f8f9fa;
+    color: #2c3e50;
+    line-height: 1.6;
+  }
+  .header {
+    text-align: center;
+    padding: 80px 24px 48px;
+  }
+  .header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .header h3 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  .nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+  .nav-links a {
+    color: #2196F3;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border: 1px solid #2196F3;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-links a:hover {
+    background: #2196F3;
+    color: #fff;
+  }
+  .content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+  .section {
+    margin-bottom: 32px;
+  }
+  .section h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .section p {
+    color: #444;
+    font-size: 15px;
+  }
+  .benchmark-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .benchmark-links a {
+    display: block;
+    padding: 14px 20px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #2c3e50;
+    font-size: 15px;
+    font-weight: 500;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .benchmark-links a:hover {
+    border-color: #2196F3;
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
+  }
+  .benchmark-links .desc {
+    font-weight: 400;
+    color: #888;
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Harbor</h1>
+  <h3>AI agent benchmark for RuneScape gameplay tasks</h3>
+  <div class="nav-links">
+    <a href="https://github.com/MaxBittker/rs-bench">Code</a>
+  </div>
+</div>
+
+<div class="content">
+  <div class="section">
+    <h2>Results</h2>
+    <div class="benchmark-links">
+      <a href="views/graph-skills.html?horizon=10m">
+        Skill XP — 10 min
+        <div class="desc">16 skills, 10-minute horizon</div>
+      </a>
+      <a href="views/graph-skills.html?horizon=30m">
+        Skill XP — 30 min
+        <div class="desc">16 skills, 30-minute horizon</div>
+      </a>
+      <a href="views/graph-gold.html">
+        Gold
+        <div class="desc">Coins earned across models</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
