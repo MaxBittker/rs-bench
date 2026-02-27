@@ -9,11 +9,14 @@ All task directories are **generated** — never edit them directly.
 
 | Path | Purpose |
 |------|---------|
-| `generate-tasks.ts` | Generates all task directories (16 standard XP + 19 variants) |
+| `generate-tasks.ts` | Generates all task directories (16 standard XP + 20 variants) |
 | `shared/check_xp.ts` | XP verifier for 10m single-skill tasks |
 | `shared/check_skill_xp.ts` | XP verifier for 30m single-skill tasks (includes tracking) |
 | `shared/extract-utils.ts` | Shared utilities for extract scripts |
 | `shared/skill_tracker.ts` | Standalone skill tracker (single source of truth — copied into Docker image at build time) |
+| `shared/check_gp.ts` | GP verifier for iterative gp-10k-ticks benchmark (connects to bots, reads gp_results.json) |
+| `shared/generate_gp_saves.ts` | Creates 25 bot saves (5 loops x 5 bots, level 50 all skills) for GP benchmark |
+| `shared/gp_loop_instruction.md` | Per-loop agent instructions for GP benchmark (injected into Docker image) |
 | `docker/` | Shared Docker image source (pre-built, pushed to GHCR) |
 
 ## Directory structure

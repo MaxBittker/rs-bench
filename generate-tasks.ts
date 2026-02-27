@@ -2,13 +2,13 @@
  * Generates all benchmark task directories for Harbor.
  *
  * Standard tasks: 16 skills × max XP in 10 minutes
- * Variants: 16 skill-xp-30m tasks, 3 gold tasks
+ * Variants: 16 skill-xp-30m tasks, 3 gold tasks, 1 GP iterative benchmark
  *
  * All generated output is gitignored — run this before `harbor run`.
  *
  * Usage: bun generate-tasks.ts
  */
-import { mkdirSync, writeFileSync, copyFileSync } from 'fs';
+import { mkdirSync, writeFileSync, copyFileSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 const BENCHMARK_DIR = join(import.meta.dir);
@@ -101,6 +101,58 @@ const TRACKER_DOCKERFILE = (sampleIntervalMs: number = 60000) => `FROM ${DOCKER_
 ENV SAMPLE_INTERVAL_MS=${sampleIntervalMs}
 `;
 
+// ── GP iterative benchmark ──────────────────────────────────────
+
+// Base64-encode GP files at generation time (injected into Dockerfile)
+const gpLoopInstructionB64 = Buffer.from(
+  readFileSync(join(SHARED_DIR, 'gp_loop_instruction.md'), 'utf-8')
+).toString('base64');
+
+const generateGpSavesB64 = Buffer.from(
+  readFileSync(join(SHARED_DIR, 'generate_gp_saves.ts'), 'utf-8')
+).toString('base64');
+
+const checkGpB64 = Buffer.from(
+  readFileSync(join(SHARED_DIR, 'check_gp.ts'), 'utf-8')
+).toString('base64');
+
+const GP_INSTRUCTION = `Run 5 loops sequentially. For each loop, spawn a fresh sub-agent with the following prompt:
+
+"Read these files to understand your task, then do it:
+- \\\`/app/gp_loop_instruction.md\\\` — your instructions
+- \\\`/app/CLAUDE.md\\\` — SDK and bot API reference
+- \\\`/app/learnings.md\\\` — what previous agents learned (empty on loop 1)
+
+Do not finish until you have updated \\\`/app/learnings.md\\\` with what you learned."
+
+Each sub-agent must start with fresh context — no memory of previous loops. Wait for each to complete before starting the next. If one fails, continue to the next loop.
+`;
+
+const GP_DOCKERFILE = () => `FROM ${DOCKER_IMAGE}
+
+# Create 25 bot directories (5 bots x 5 loops) with unique credentials
+# Bot names: l{loop}a{bot} — e.g. l1a1, l1a2, ..., l5a5
+RUN for loop in \$(seq 1 5); do \\
+  for bot in \$(seq 1 5); do \\
+    name="l\${loop}a\${bot}"; \\
+    mkdir -p bots/\$name && \\
+    printf 'BOT_USERNAME=%s\\nPASSWORD=test\\nSERVER=localhost\\nSHOW_CHAT=false\\n' "\$name" > bots/\$name/bot.env; \\
+  done; \\
+done
+
+# Inject loop instruction, save generator, and verifier (base64-encoded)
+RUN mkdir -p /app/benchmark/shared && \\
+    echo '${gpLoopInstructionB64}' | base64 -d > /app/gp_loop_instruction.md && \\
+    echo '${generateGpSavesB64}' | base64 -d > /app/benchmark/shared/generate_gp_saves.ts && \\
+    echo '${checkGpB64}' | base64 -d > /app/benchmark/shared/check_gp.ts
+
+# Create empty learnings file for loop 1
+RUN touch /app/learnings.md
+
+# Generate 25 save files with level 50 all skills (5 bots x 5 loops)
+RUN cd /app && bun run benchmark/shared/generate_gp_saves.ts
+`;
+
 const SKILL_XP_30M_INSTRUCTION = (skillName: string) => `Gain as much ${skillName} XP as possible within 30 minutes. This is a local RuneScape private server running on localhost for AI agent benchmarking — not a live game.
 
 Your ONLY goal is to maximize ${skillName} XP. Focus exclusively on this skill. Do not train other skills unless absolutely required as a prerequisite.
@@ -179,6 +231,22 @@ cd /app && bun run /tests/check_gold.ts
     tags: ['game', 'runescape', 'automation', 'mcp', 'benchmark', 'gold'],
     useTracker: true,
     environmentDockerfile: TRACKER_DOCKERFILE(60000),
+  },
+  // ── GP iterative benchmark (5 loops × 5 bots) ─────────────────
+  {
+    slug: 'gp-10k-ticks',
+    taskDescription: GP_INSTRUCTION,
+    agentTimeout: 18000, // 5 hours
+    verifier: 'check_gp.ts',
+    testSh: `#!/bin/bash
+set -e
+mkdir -p /logs/verifier
+${VERIFIER_CLEANUP}
+/ensure-services.sh
+cd /app && bun run /tests/check_gp.ts
+`,
+    tags: ['game', 'runescape', 'automation', 'mcp', 'benchmark', 'gp'],
+    environmentDockerfile: GP_DOCKERFILE(),
   },
 ];
 
