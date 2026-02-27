@@ -35,12 +35,78 @@
     color: #555;
     font-size: 0.95em;
   }
-  .benchmark-iframe {
-    width: 100%;
-    height: 520px;
+  .benchmark-chart-wrap {
+    background: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 10px;
-    background: #fff;
+    padding: 16px 12px 8px;
+  }
+  .benchmark-chart-wrap canvas {
+    width: 100% !important;
+    height: 450px !important;
+  }
+  .chart-tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: rgba(255,255,255,0.97);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    padding: 10px 14px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 12px;
+    color: #333;
+    z-index: 2000;
+    transition: opacity 0.12s;
+    max-width: 260px;
+  }
+  .chart-tooltip-title {
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .chart-tooltip-title img { width: 16px; height: 16px; flex-shrink: 0; }
+  .chart-tooltip-avg {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eee;
+  }
+  .chart-tooltip-skill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 1.5px 0;
+    font-size: 11px;
+    color: #555;
+  }
+  .chart-tooltip-skill img { width: 14px; height: 14px; flex-shrink: 0; }
+  .chart-tooltip-skill .xp { margin-left: auto; font-variant-numeric: tabular-nums; color: #888; }
+  .chart-tooltip-skill .xp.zero { color: #ccc; }
+  .bottom-legend {
+    display: flex;
+    gap: 24px;
+    padding: 12px 0 4px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #555;
+    cursor: pointer;
+  }
+  .legend-item.hidden { opacity: 0.35; }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
   }
   .result-card {
     display: block;
@@ -70,7 +136,7 @@
     margin: 0 4px 8px;
   }
   @media (max-width: 768px) {
-    .benchmark-iframe { height: 400px; }
+    .benchmark-chart-wrap canvas { height: 350px !important; }
     .features-grid { grid-template-columns: 1fr !important; }
   }
 </style>
@@ -124,11 +190,13 @@
   <div class="container is-max-widescreen">
     <h2 class="title is-3">Skill XP &mdash; 30 min</h2>
     <p class="subtitle is-6" style="color: #888; margin-bottom: 1rem;">
-      Total XP gained across 16 skills in a 30-minute horizon. Click through for the full interactive view.
+      Total XP gained across 16 skills in a 30-minute horizon.
+      <a href="views/graph-skills.html?horizon=30m">Full interactive view &rarr;</a>
     </p>
-    <a href="views/graph-skills.html?horizon=30m">
-      <iframe class="benchmark-iframe" src="views/graph-skills.html?horizon=30m" loading="lazy"></iframe>
-    </a>
+    <div class="benchmark-chart-wrap">
+      <div id="chartContainer"></div>
+    </div>
+    <div class="bottom-legend" id="chartLegend"></div>
   </div>
 </section>
 
@@ -178,5 +246,20 @@
   </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>window.VIEWS_BASE = 'views/';</script>
+<script src="views/shared-constants.js"></script>
+<script src="results/skills-30m/_data.js"></script>
+<script src="views/cumulative-chart.js"></script>
+<script>
+  if (window.COMBINED_DATA) {
+    renderCumulativeChart({
+      canvasContainer: document.getElementById('chartContainer'),
+      legendContainer: document.getElementById('chartLegend'),
+      data: window.COMBINED_DATA,
+      horizonMinutes: 30,
+    });
+  }
+</script>
 </body>
 </html>

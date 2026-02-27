@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Skill XP Benchmark</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="shared-constants.js"></script>
 <script>
   // Parse horizon from URL (default: 30m)
   const params = new URLSearchParams(window.location.search);
@@ -372,36 +373,6 @@
 <div class="bottom-legend" id="bottomLegend"></div>
 
 <script>
-const MODEL_CONFIG = {
-  'opus':     { displayName: 'Claude Opus 4.6',   shortName: 'Opus 4.6',    color: '#8b7355', order: 1, icon: 'model-icons/anthropic.svg' },
-  'opus45':   { displayName: 'Claude Opus 4.5',   shortName: 'Opus 4.5',    color: '#a08060', order: 2, icon: 'model-icons/anthropic.svg' },
-  'sonnet46': { displayName: 'Claude Sonnet 4.6', shortName: 'Sonnet 4.6',  color: '#d4442a', order: 3, icon: 'model-icons/anthropic.svg' },
-  'sonnet45': { displayName: 'Claude Sonnet 4.5', shortName: 'Sonnet 4.5',  color: '#e07850', order: 4, icon: 'model-icons/anthropic.svg' },
-  'gemini':   { displayName: 'Gemini 3 Pro',      shortName: 'Gemini 3',    color: '#4285f4', order: 5, icon: 'model-icons/gemini.webp' },
-  'gemini31': { displayName: 'Gemini 3.1 Pro',    shortName: 'Gemini 3.1',  color: '#1a57c4', order: 6, icon: 'model-icons/gemini.webp' },
-  'haiku':    { displayName: 'Claude Haiku 3.5',   shortName: 'Haiku 3.5',  color: '#e06090', order: 7, icon: 'model-icons/anthropic.svg' },
-  'codex':    { displayName: 'Codex CLI 5.2',       shortName: 'Codex 5.2', color: '#10a37f', order: 8, icon: 'model-icons/openai.png' },
-  'codex53':  { displayName: 'Codex CLI 5.3',       shortName: 'Codex 5.3', color: '#0d8c6b', order: 9, icon: 'model-icons/openai.png' },
-  'glm':      { displayName: 'GLM 5',             shortName: 'GLM 5',       color: '#6c5ce7', order: 10, icon: 'model-icons/zai.png' },
-  'kimi':     { displayName: 'Kimi K2.5',         shortName: 'Kimi K2.5',   color: '#00b4d8', order: 11, icon: 'model-icons/kimi.png' },
-  'qwen3':    { displayName: 'Qwen3 Coder Next', shortName: 'Qwen3 Coder',  color: '#6366f1', order: 12, icon: 'model-icons/qwen.webp' },
-  'qwen35':   { displayName: 'Qwen3.5 35B',     shortName: 'Qwen3.5 35B', color: '#818cf8', order: 13, icon: 'model-icons/qwen.webp' },
-};
-
-const SKILL_ORDER = [
-  'attack', 'defence', 'strength', 'hitpoints',
-  'ranged', 'prayer', 'magic', 'woodcutting',
-  'fishing', 'mining', 'cooking', 'fletching',
-  'crafting', 'smithing', 'firemaking', 'thieving',
-];
-
-const SKILL_DISPLAY = {
-  attack: 'Attack', defence: 'Defence', strength: 'Strength', hitpoints: 'Hitpoints',
-  ranged: 'Ranged', prayer: 'Prayer', magic: 'Magic', woodcutting: 'Woodcutting',
-  fishing: 'Fishing', mining: 'Mining', cooking: 'Cooking', fletching: 'Fletching',
-  crafting: 'Crafting', smithing: 'Smithing', firemaking: 'Firemaking', thieving: 'Thieving',
-};
-
 let combinedData = {};
 let currentView = 'cumulative';
 let useLogScale = false;
@@ -657,47 +628,6 @@ function renderCurrentView() {
   }
 }
 
-// ── Sanitize XP data (filter out spurious drops to 0) ──────────
-
-function sanitizePoints(points) {
-  if (points.length < 3) return points;
-  const result = [];
-  for (let i = 0; i < points.length; i++) {
-    const prev = i > 0 ? points[i - 1].y : 0;
-    const next = i < points.length - 1 ? points[i + 1].y : points[i].y;
-    // Skip if value drops to 0 but neighbors are non-zero (connection blip)
-    if (points[i].y === 0 && prev > 0 && next > 0) continue;
-    result.push(points[i]);
-  }
-  return result;
-}
-
-// ── Extract skill XP points from samples ────────────────────────
-
-function extractSkillPoints(skillData, skill) {
-  if (!skillData || !skillData.samples || skillData.samples.length === 0) return [];
-  const skillNameCaps = SKILL_DISPLAY[skill] || skill;
-
-  const points = [];
-  for (const s of skillData.samples) {
-    const x = s.elapsedMs / 60000;
-    if (x > HORIZON_MINUTES) break;
-    let xp = 0;
-    if (s.skills) {
-      for (const [sName, sData] of Object.entries(s.skills)) {
-        if (sName.toLowerCase() === skillNameCaps.toLowerCase() ||
-            sName.toLowerCase() === skill.toLowerCase()) {
-          xp = sData.xp || 0;
-          break;
-        }
-      }
-    }
-    points.push({ x, y: xp });
-  }
-
-  return sanitizePoints(points);
-}
-
 // ── Chart.js plugin: draw model icon at end of each line ────────
 
 const endIconPlugin = {
@@ -785,7 +715,7 @@ function renderGrid() {
 
     const datasets = [];
     for (const model of models) {
-      const points = extractSkillPoints(combinedData[model]?.[skill], skill);
+      const points = extractSkillPoints(combinedData[model]?.[skill], skill, HORIZON_MINUTES);
       if (points.length === 0) continue;
 
       const config = MODEL_CONFIG[model] || { displayName: model, color: '#999' };
@@ -887,7 +817,7 @@ function renderCumulative() {
     const skillCurves = [];
 
     for (const skill of SKILL_ORDER) {
-      const points = extractSkillPoints(combinedData[model]?.[skill], skill);
+      const points = extractSkillPoints(combinedData[model]?.[skill], skill, HORIZON_MINUTES);
       if (points.length === 0) continue;
 
       // Bucket this skill's points
@@ -1134,12 +1064,6 @@ document.addEventListener('keydown', e => {
 });
 
 // ── Helpers ─────────────────────────────────────────────────────
-
-function formatXp(xp) {
-  if (xp >= 1_000_000) return (xp / 1_000_000).toFixed(1) + 'M';
-  if (xp >= 1_000) return (xp / 1_000).toFixed(1) + 'k';
-  return String(xp);
-}
 
 function hexToRgba(hex, alpha) {
   const r = parseInt(hex.slice(1, 3), 16);
