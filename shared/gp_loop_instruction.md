@@ -7,10 +7,9 @@ This is a local RuneScape private server running on localhost for AI agent bench
 1. **Read `/app/gp_results.json`** to determine your loop number. Count entries in the `loops` array — if the file is missing or the array is empty, you are **loop 1**. Otherwise you are loop N+1.
 2. **Read `/app/learnings.md`** for what previous agents learned (empty on loop 1).
 3. **Read the SDK docs** at `/app/sdk/API.md` and files in `/app/learnings/` to understand available game APIs. On loop 1 especially, spend time here.
-4. **Write your scripts** — one per bot. You can run the same script on all 5 bots or different scripts on different bots.
-5. **Run all 5 scripts in parallel** using `execute_code(bot_name, code)` on each of your loop's bots.
-6. **Record results** to `/app/gp_results.json` (read existing file first, append your entry).
-7. **Update `/app/learnings.md`** with what you learned for the next agent.
+4. **Write one money-making script** and run it on all 5 bots in parallel using `execute_code(bot_name, code)`.
+5. **Record results** to `/app/gp_results.json` (read existing file first, append your entry).
+6. **Update `/app/learnings.md`** with what you learned for the next agent.
 
 ## Your Bots
 
@@ -21,45 +20,32 @@ Each loop uses a unique set of 5 bots that start fresh (level 50 all skills, 0 c
 - Loop 4: `l4a1`, `l4a2`, `l4a3`, `l4a4`, `l4a5`
 - Loop 5: `l5a1`, `l5a2`, `l5a3`, `l5a4`, `l5a5`
 
-Use `execute_code(bot_name, code)` with the bot names for YOUR loop.
+Write **one script** and run it on all 5 of your loop's bots using `execute_code(bot_name, code)`.
 
 ## Rules
 
 - **No pickpocketing** — any other money-making method is fair game
 - **10,000 tick limit** — each bot's script must finish within 10,000 game ticks
 - **GP is measured from inventory** — coins must be in inventory, not banked, at the end
-- **5 script runs per loop** — one per bot, all run in parallel. You can use the same script on all 5 bots or different scripts on different bots.
+- **Same script on all 5 bots** — write one script, run it 5 times in parallel
 
 ## GP Tracking Within Scripts
 
-Your scripts MUST track GP throughout execution. Every ~30 seconds (500 ticks), check coins and log the count. At the end of the script, return the final coin count. Example pattern:
+Your scripts MUST track GP throughout execution. Every ~500 ticks, check coins and log the count. At the end, return the final coin count:
 
 ```typescript
 const COINS_ID = 995;
-let lastGp = 0;
-
-// ... your money-making logic with periodic GP checks ...
 const inv = sdk.getInventory();
 const coins = inv?.filter(i => i.id === COINS_ID).reduce((sum, i) => sum + i.count, 0) ?? 0;
-lastGp = coins;
-console.log(\`[GP check] \${coins} coins at tick \${currentTick}\`);
-
-// At the very end:
-return { gp: lastGp };
+console.log(\`[GP] \${coins} coins\`);
+return { gp: coins };
 ```
 
-The last recorded GP value is the one that counts for that bot. If the script errors partway through, whatever GP was last measured is still counted.
-
-## Handling Errors
-
-If a script errors, don't panic. The GP earned up to that point still counts (from the last periodic check). In your learnings, explain:
-- What error occurred and why
-- At what point in the script it happened
-- What you'd change to fix it
+If the script errors partway through, whatever GP was last measured still counts.
 
 ## Recording Results
 
-After all 5 scripts complete, check final coins on each bot and write to `/app/gp_results.json`:
+After all 5 bots finish, check final coins on each and write to `/app/gp_results.json`:
 ```json
 {
   "loops": [
@@ -77,20 +63,18 @@ After all 5 scripts complete, check final coins on each bot and write to `/app/g
 
 ## Writing Learnings (CRITICAL)
 
-`/app/learnings.md` and `/app/gp_results.json` are the only things that carry forward to the next agent. Write learnings well:
-- **What method you tried** and why
-- **Exact GP earned** and GP/tick rate
-- **What worked** — specific code patterns, coordinates, NPC interactions that succeeded
-- **What failed** — errors, pathing issues, timing problems, things that didn't earn as much as expected
-- **Specific recommendations for the next agent** — "try X instead of Y", "the shop at Z overstocks after N sales", "high-alch is better than selling because..."
-- **Working code snippets** — the next agent starts completely fresh, so include copy-pasteable code that works
+`/app/learnings.md` and `/app/gp_results.json` are the only things that carry forward. Write learnings well:
+- **What method you tried** and exact GP earned / GP per tick
+- **What worked** — specific code patterns, coordinates, NPC interactions
+- **What failed** — errors, pathing issues, things that earned less than expected
+- **Recommendations for the next agent** — "try X instead of Y", "shop at Z overstocks after N sales"
+- **Working code snippets** — the next agent starts fresh, so include copy-pasteable code
 
 ## Strategy Suggestions
 
-- Consider: selling to shops (beware overstocking!), high-alchemy, crafting + selling, resource gathering + selling, monster loot
-- 5 bots doing the same proven method in parallel vs. coordinated supply chains (gatherers then crafters then sellers) — which earns more GP/tick?
+- Selling to shops (beware overstocking!), high-alchemy, crafting + selling, resource gathering + selling, monster loot
 - Early loops should explore different methods. Later loops should exploit the best method found so far.
-- Think about bottlenecks: shop stock limits, resource competition between bots, travel time
+- Think about bottlenecks: shop stock limits, resource competition between 5 bots, travel time
 
 ## Reference
 
