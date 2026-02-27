@@ -3,124 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Harbor — AI Agent Benchmark</title>
+<title>rs-bench — AI Agent Benchmark</title>
+<link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    font-family: 'Google Sans', 'Noto Sans', 'Segoe UI', Roboto, sans-serif;
     background: #f8f9fa;
-    color: #2c3e50;
-    line-height: 1.6;
   }
-  .header {
-    text-align: center;
-    padding: 80px 24px 48px;
+  .feature-box {
+    border-left: 3px solid #2196F3;
+    padding: 12px 16px;
+    margin: 12px 0;
+    background: #fff;
+    border-radius: 0 6px 6px 0;
   }
-  .header h1 {
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .header h3 {
-    font-size: 16px;
-    font-weight: 400;
-    color: #666;
-    margin-bottom: 20px;
-  }
-  .nav-links {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-  }
-  .nav-links a {
-    color: #2196F3;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 6px 16px;
-    border: 1px solid #2196F3;
-    border-radius: 6px;
-    transition: background 0.2s, color 0.2s;
-  }
-  .nav-links a:hover {
-    background: #2196F3;
-    color: #fff;
-  }
-  .content {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 0 24px 80px;
-  }
-  .section {
-    margin-bottom: 32px;
-  }
-  .section h2 {
-    font-size: 20px;
+  .feature-box h4 {
+    margin-bottom: 4px;
     font-weight: 600;
-    margin-bottom: 12px;
   }
-  .section p {
-    color: #444;
-    font-size: 15px;
+  .feature-box p {
+    color: #555;
+    font-size: 0.95em;
   }
-  .benchmark-links {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .benchmark-links a {
+  .result-card {
     display: block;
-    padding: 14px 20px;
+    padding: 20px 24px;
     background: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     text-decoration: none;
     color: #2c3e50;
-    font-size: 15px;
-    font-weight: 500;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .benchmark-links a:hover {
+  .result-card:hover {
     border-color: #2196F3;
-    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.12);
+    color: #2c3e50;
   }
-  .benchmark-links .desc {
-    font-weight: 400;
+  .result-card .card-title {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .result-card .card-desc {
+    font-size: 0.9em;
     color: #888;
-    font-size: 13px;
+  }
+  .publication-links .button {
+    margin: 0 4px 8px;
   }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>Harbor</h1>
-  <h3>AI agent benchmark for RuneScape gameplay tasks</h3>
-  <div class="nav-links">
-    <a href="https://github.com/MaxBittker/rs-bench">Code</a>
-  </div>
-</div>
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1">rs-bench</h1>
+          <h3 class="title is-3" style="font-weight: normal;">AI agent benchmark for RuneScape gameplay tasks</h3>
 
-<div class="content">
-  <div class="section">
-    <h2>Results</h2>
-    <div class="benchmark-links">
-      <a href="views/graph-skills.html?horizon=10m">
-        Skill XP — 10 min
-        <div class="desc">16 skills, 10-minute horizon</div>
+          <div class="publication-links" style="margin-top: 1.5rem;">
+            <a href="https://github.com/MaxBittker/rs-bench" target="_blank" class="button is-normal is-rounded is-dark">
+              <span class="icon"><i class="fab fa-github"></i></span>
+              <span>Code</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Overview -->
+<section class="section">
+  <div class="container is-max-widescreen">
+    <div class="content has-text-justified" style="max-width: 800px; margin: 0 auto;">
+      <p style="font-size: 110%;">
+        rs-bench evaluates AI coding agents on their ability to play Old School RuneScape.
+        Agents are given access to a game environment via
+        <a href="https://github.com/MaxBittker/rs-sdk">rs-sdk</a>
+        and must write code to train skills, earn gold, and navigate the game world
+        within fixed time horizons.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Benchmark Features -->
+<section class="section">
+  <div class="container is-max-widescreen">
+    <h2 class="title is-3">Benchmark Design</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 900px;">
+      <div class="feature-box">
+        <h4 class="title is-5">16 Skills</h4>
+        <p>Each RuneScape skill is a separate task, measuring XP gained within 10-minute and 30-minute horizons.</p>
+      </div>
+      <div class="feature-box">
+        <h4 class="title is-5">Gold Earning</h4>
+        <p>Agents must figure out how to earn coins, requiring multi-step planning and game knowledge.</p>
+      </div>
+      <div class="feature-box">
+        <h4 class="title is-5">Sandboxed Environment</h4>
+        <p>Each run uses a fresh Docker container with the game server at 8x speed, ensuring reproducibility.</p>
+      </div>
+      <div class="feature-box">
+        <h4 class="title is-5">Multi-Model Comparison</h4>
+        <p>Run the same tasks across multiple frontier models to compare agent capabilities.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Results -->
+<section class="section">
+  <div class="container is-max-widescreen">
+    <h2 class="title is-3">Results</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 900px;">
+      <a href="views/graph-skills.html?horizon=10m" class="result-card">
+        <div class="card-title">Skill XP &mdash; 10 min</div>
+        <div class="card-desc">16 skills, 10-minute horizon</div>
       </a>
-      <a href="views/graph-skills.html?horizon=30m">
-        Skill XP — 30 min
-        <div class="desc">16 skills, 30-minute horizon</div>
+      <a href="views/graph-skills.html?horizon=30m" class="result-card">
+        <div class="card-title">Skill XP &mdash; 30 min</div>
+        <div class="card-desc">16 skills, 30-minute horizon</div>
       </a>
-      <a href="views/graph-gold.html">
-        Gold
-        <div class="desc">Coins earned across models</div>
+      <a href="views/graph-gold.html" class="result-card">
+        <div class="card-title">Gold</div>
+        <div class="card-desc">Coins earned across models</div>
       </a>
     </div>
   </div>
-</div>
+</section>
 
 </body>
 </html>
