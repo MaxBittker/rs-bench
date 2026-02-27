@@ -302,6 +302,20 @@ for (const dir of jobDirs) {
   const finalXp = reward?.xp ?? 0;
   const finalLevel = reward?.level ?? 1;
 
+  // Slim down samples: only keep elapsedMs and the target skill's data
+  const slimSamples = samples.map(s => {
+    const slimSkills: Record<string, { level: number; xp: number }> = {};
+    if (s.skills) {
+      for (const [sName, sData] of Object.entries(s.skills)) {
+        if (sName.toLowerCase() === skill.toLowerCase()) {
+          slimSkills[sName] = sData as { level: number; xp: number };
+          break;
+        }
+      }
+    }
+    return { elapsedMs: s.elapsedMs, skills: slimSkills };
+  });
+
   if (!combined[model]) combined[model] = {};
 
   const existing = combined[model][skill];
@@ -315,7 +329,7 @@ for (const dir of jobDirs) {
       finalLevel,
       durationSeconds,
       sampleCount: samples.length,
-      samples,
+      samples: slimSamples,
       ...(tokenUsage ? { tokenUsage } : {}),
       ...(trajectory ? { strategy: trajectory.strategy, trajectory: trajectory.steps } : {}),
     };

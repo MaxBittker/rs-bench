@@ -1,0 +1,44 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'views/**'
+      - 'results/_data.js'
+      - 'results/skills-30m/_data.js'
+      - 'results/gold/_data.js'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble site
+        run: |
+          mkdir -p _site/data/skills-30m _site/data/gold
+          cp -r views/* _site/
+          cp results/_data.js _site/data/_data.js || true
+          cp results/skills-30m/_data.js _site/data/skills-30m/_data.js || true
+          cp results/gold/_data.js _site/data/gold/_data.js || true
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

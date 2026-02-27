@@ -15,9 +15,12 @@ __pycache__/
 
 # Generated result artifacts (not the HTML viewers)
 results/_combined.json
-results/_data.js
-results/skills-30m/
-results/gold/
+
+# Ignore results subdirs except _data.js (needed by GitHub Pages viewers)
+results/skills-30m/*
+!results/skills-30m/_data.js
+results/gold/*
+!results/gold/_data.js
 
 # Build artifact copied by docker/build.sh
 docker/skill_tracker.ts
