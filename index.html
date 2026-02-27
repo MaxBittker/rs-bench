@@ -12,6 +12,14 @@
     font-family: 'Google Sans', 'Noto Sans', 'Segoe UI', Roboto, sans-serif;
     background: #f8f9fa;
   }
+  .hero-gif {
+    display: block;
+    max-width: 720px;
+    width: 100%;
+    margin: 24px auto 0;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  }
   .feature-box {
     border-left: 3px solid #2196F3;
     padding: 12px 16px;
@@ -26,6 +34,13 @@
   .feature-box p {
     color: #555;
     font-size: 0.95em;
+  }
+  .benchmark-iframe {
+    width: 100%;
+    height: 520px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fff;
   }
   .result-card {
     display: block;
@@ -54,6 +69,10 @@
   .publication-links .button {
     margin: 0 4px 8px;
   }
+  @media (max-width: 768px) {
+    .benchmark-iframe { height: 400px; }
+    .features-grid { grid-template-columns: 1fr !important; }
+  }
 </style>
 </head>
 <body>
@@ -72,7 +91,13 @@
               <span class="icon"><i class="fab fa-github"></i></span>
               <span>Code</span>
             </a>
+            <a href="https://github.com/MaxBittker/rs-sdk" target="_blank" class="button is-normal is-rounded is-dark">
+              <span class="icon"><i class="fas fa-gamepad"></i></span>
+              <span>rs-sdk</span>
+            </a>
           </div>
+
+          <img class="hero-gif" src="https://raw.githubusercontent.com/MaxBittker/rs-sdk/main/server/content/title/promo.gif" alt="rs-sdk demo">
         </div>
       </div>
     </div>
@@ -94,11 +119,24 @@
   </div>
 </section>
 
+<!-- Embedded 30m benchmark -->
+<section class="section">
+  <div class="container is-max-widescreen">
+    <h2 class="title is-3">Skill XP &mdash; 30 min</h2>
+    <p class="subtitle is-6" style="color: #888; margin-bottom: 1rem;">
+      Total XP gained across 16 skills in a 30-minute horizon. Click through for the full interactive view.
+    </p>
+    <a href="views/graph-skills.html?horizon=30m">
+      <iframe class="benchmark-iframe" src="views/graph-skills.html?horizon=30m" loading="lazy"></iframe>
+    </a>
+  </div>
+</section>
+
 <!-- Benchmark Features -->
 <section class="section">
   <div class="container is-max-widescreen">
     <h2 class="title is-3">Benchmark Design</h2>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 900px;">
+    <div class="features-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 900px;">
       <div class="feature-box">
         <h4 class="title is-5">16 Skills</h4>
         <p>Each RuneScape skill is a separate task, measuring XP gained within 10-minute and 30-minute horizons.</p>
@@ -119,11 +157,11 @@
   </div>
 </section>
 
-<!-- Results -->
+<!-- All Results -->
 <section class="section">
   <div class="container is-max-widescreen">
-    <h2 class="title is-3">Results</h2>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 900px;">
+    <h2 class="title is-3">All Results</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; max-width: 900px;">
       <a href="views/graph-skills.html?horizon=10m" class="result-card">
         <div class="card-title">Skill XP &mdash; 10 min</div>
         <div class="card-desc">16 skills, 10-minute horizon</div>
