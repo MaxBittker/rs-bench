@@ -4,10 +4,9 @@ on:
   push:
     branches: [main]
     paths:
+      - 'index.html'
       - 'views/**'
-      - 'results/_data.js'
-      - 'results/skills-30m/_data.js'
-      - 'results/gold/_data.js'
+      - 'results/**/_data.js'
   workflow_dispatch:
 
 permissions:
@@ -30,11 +29,12 @@ jobs:
 
       - name: Assemble site
         run: |
-          mkdir -p _site/data/skills-30m _site/data/gold
-          cp -r views/* _site/
-          cp results/_data.js _site/data/_data.js || true
-          cp results/skills-30m/_data.js _site/data/skills-30m/_data.js || true
-          cp results/gold/_data.js _site/data/gold/_data.js || true
+          mkdir -p _site/views _site/results/skills-10m _site/results/skills-30m _site/results/gold
+          cp index.html _site/
+          cp -r views/* _site/views/
+          cp results/skills-10m/_data.js _site/results/skills-10m/_data.js || true
+          cp results/skills-30m/_data.js _site/results/skills-30m/_data.js || true
+          cp results/gold/_data.js _site/results/gold/_data.js || true
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
