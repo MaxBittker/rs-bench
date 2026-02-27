@@ -148,7 +148,7 @@
   /* Skill picker */
   .skill-picker-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 6px;
     padding: 20px 24px;
   }
@@ -255,6 +255,64 @@
     padding: 4px 8px;
   }
   .download-btn:hover { color: #333; }
+
+  /* Custom tooltip */
+  .chart-tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: rgba(255,255,255,0.97);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    padding: 10px 14px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 12px;
+    color: #333;
+    z-index: 2000;
+    transition: opacity 0.12s;
+    max-width: 260px;
+  }
+  .chart-tooltip-title {
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .chart-tooltip-title img {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  .chart-tooltip-avg {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eee;
+  }
+  .chart-tooltip-skill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 1.5px 0;
+    font-size: 11px;
+    color: #555;
+  }
+  .chart-tooltip-skill img {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+  .chart-tooltip-skill .xp {
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+    color: #888;
+  }
+  .chart-tooltip-skill .xp.zero {
+    color: #ccc;
+  }
 </style>
 </head>
 <body>
@@ -266,8 +324,8 @@
       <button data-horizon="30m" onclick="setHorizon('30m')">30 min</button>
     </span>
     <span class="pill-toggle" id="viewToggle" style="display:none; margin-left:8px">
-      <button data-view="cumulative" class="active" onclick="setView('cumulative')">Average</button>
-      <button data-view="grid" onclick="setView('grid')">Grid</button>
+      <button data-view="cumulative" class="active" onclick="setView('cumulative')">Total</button>
+      <button data-view="grid" onclick="setView('grid')">Per Skill</button>
     </span>
   </h1>
 </div>
@@ -292,12 +350,12 @@
 
 <!-- Skill picker modal -->
 <div id="skillPickerModal" style="display:none; position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.45); overflow:auto" onclick="if(event.target===this)closeSkillPicker()">
-  <div style="max-width:520px; margin:80px auto; background:#fff; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.18)">
-    <div style="padding:16px 24px; border-bottom:1px solid #e8e8e8; display:flex; justify-content:space-between; align-items:center">
+  <div style="max-width:360px; margin:40px auto; background:#fff; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.18); max-height:calc(100vh - 80px); display:flex; flex-direction:column">
+    <div style="padding:16px 24px; border-bottom:1px solid #e8e8e8; display:flex; justify-content:space-between; align-items:center; flex-shrink:0">
       <h3 id="skillPickerTitle" style="font-size:16px; font-weight:600; margin:0"></h3>
       <button onclick="closeSkillPicker()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#999; padding:0 4px">&times;</button>
     </div>
-    <div id="skillPickerGrid" class="skill-picker-grid"></div>
+    <div id="skillPickerGrid" class="skill-picker-grid" style="overflow-y:auto; flex:1"></div>
   </div>
 </div>
 
@@ -326,7 +384,8 @@ const MODEL_CONFIG = {
   'codex53':  { displayName: 'Codex CLI 5.3',       shortName: 'Codex 5.3', color: '#0d8c6b', order: 9, icon: 'model-icons/openai.png' },
   'glm':      { displayName: 'GLM 5',             shortName: 'GLM 5',       color: '#6c5ce7', order: 10, icon: 'model-icons/zai.png' },
   'kimi':     { displayName: 'Kimi K2.5',         shortName: 'Kimi K2.5',   color: '#00b4d8', order: 11, icon: 'model-icons/kimi.png' },
-  'qwen3':    { displayName: 'Qwen3 Coder Next', shortName: 'Qwen3',       color: '#6366f1', order: 12, icon: 'model-icons/qwen.webp' },
+  'qwen3':    { displayName: 'Qwen3 Coder Next', shortName: 'Qwen3 Coder',  color: '#6366f1', order: 12, icon: 'model-icons/qwen.webp' },
+  'qwen35':   { displayName: 'Qwen3.5 35B',     shortName: 'Qwen3.5 35B', color: '#818cf8', order: 13, icon: 'model-icons/qwen.webp' },
 };
 
 const SKILL_ORDER = [
@@ -373,6 +432,123 @@ function preloadIcons() {
   }
 }
 preloadIcons();
+
+// Preload skill icons as Image objects for tooltip rendering
+const skillIconImages = {};
+for (const skill of SKILL_ORDER) {
+  const img = new Image();
+  img.src = 'skill-icons/' + skill + '.png';
+  skillIconImages[skill] = img;
+}
+
+// ── Custom HTML Tooltip ──────────────────────────────────────────
+
+let tooltipEl = null;
+function getTooltipEl() {
+  if (!tooltipEl) {
+    tooltipEl = document.createElement('div');
+    tooltipEl.className = 'chart-tooltip';
+    document.body.appendChild(tooltipEl);
+  }
+  return tooltipEl;
+}
+
+function externalTooltipCumulative(context) {
+  const { chart, tooltip } = context;
+  const el = getTooltipEl();
+
+  if (tooltip.opacity === 0) {
+    el.style.opacity = '0';
+    return;
+  }
+
+  const item = tooltip.dataPoints?.[0];
+  if (!item) return;
+
+  const ds = item.dataset;
+  const modelKey = ds._modelKey;
+  const config = MODEL_CONFIG[modelKey] || { displayName: modelKey, color: '#999' };
+  const minute = item.parsed.x;
+  const avgXp = item.parsed.y;
+
+  let html = `<div class="chart-tooltip-title">`;
+  if (config.icon) html += `<img src="${config.icon}">`;
+  html += `${config.displayName} — ${minute} min</div>`;
+  html += `<div class="chart-tooltip-avg">Total: ${avgXp.toLocaleString()} XP</div>`;
+
+  const skills = cumulativeSkillFinalXp[modelKey] || [];
+  for (const s of skills) {
+    const iconSrc = 'skill-icons/' + s.skill + '.png';
+    const zeroClass = s.finalXp === 0 ? ' zero' : '';
+    html += `<div class="chart-tooltip-skill">`;
+    html += `<img src="${iconSrc}">`;
+    html += `<span>${s.label}</span>`;
+    html += `<span class="xp${zeroClass}">${formatXp(s.finalXp)}</span>`;
+    html += `</div>`;
+  }
+
+  el.innerHTML = html;
+  el.style.opacity = '1';
+
+  // Position relative to the canvas
+  const rect = chart.canvas.getBoundingClientRect();
+  const caretX = rect.left + window.scrollX + tooltip.caretX;
+  const caretY = rect.top + window.scrollY + tooltip.caretY;
+
+  // Flip to left side if too close to right edge
+  const tipWidth = el.offsetWidth || 240;
+  if (caretX + tipWidth + 16 > window.innerWidth + window.scrollX) {
+    el.style.left = (caretX - tipWidth - 12) + 'px';
+  } else {
+    el.style.left = (caretX + 12) + 'px';
+  }
+  el.style.top = (caretY - 20) + 'px';
+}
+
+function externalTooltipGrid(skill) {
+  return function(context) {
+    const { chart, tooltip } = context;
+    const el = getTooltipEl();
+
+    if (tooltip.opacity === 0) {
+      el.style.opacity = '0';
+      return;
+    }
+
+    const item = tooltip.dataPoints?.[0];
+    if (!item) return;
+
+    const ds = item.dataset;
+    const modelKey = ds._modelKey;
+    const config = MODEL_CONFIG[modelKey] || { displayName: modelKey, color: '#999' };
+    const skillName = SKILL_DISPLAY[skill] || skill;
+    const iconSrc = 'skill-icons/' + skill + '.png';
+
+    let html = `<div class="chart-tooltip-title">`;
+    html += `<img src="${iconSrc}">`;
+    html += `${skillName} — ${item.parsed.x.toFixed(1)} min</div>`;
+    html += `<div class="chart-tooltip-skill" style="padding:2px 0">`;
+    if (config.icon) html += `<img src="${config.icon}">`;
+    html += `<span>${config.displayName}</span>`;
+    html += `<span class="xp">${item.parsed.y.toLocaleString()} XP</span>`;
+    html += `</div>`;
+
+    el.innerHTML = html;
+    el.style.opacity = '1';
+
+    const rect = chart.canvas.getBoundingClientRect();
+    const caretX = rect.left + window.scrollX + tooltip.caretX;
+    const caretY = rect.top + window.scrollY + tooltip.caretY;
+
+    const tipWidth = el.offsetWidth || 200;
+    if (caretX + tipWidth + 16 > window.innerWidth + window.scrollX) {
+      el.style.left = (caretX - tipWidth - 12) + 'px';
+    } else {
+      el.style.left = (caretX + 12) + 'px';
+    }
+    el.style.top = (caretY - 20) + 'px';
+  };
+}
 
 // ── Data loading ────────────────────────────────────────────────
 
@@ -433,11 +609,11 @@ function toggleModel(name) {
   renderCurrentView();
 }
 
-function getModelAvgXp(model) {
+function getModelTotalXp(model) {
   const skills = combinedData[model];
   if (!skills) return 0;
   const xps = Object.values(skills).map(s => s.finalXp || 0);
-  return xps.length ? xps.reduce((a, b) => a + b, 0) / xps.length : 0;
+  return xps.reduce((a, b) => a + b, 0);
 }
 
 function getModelsInData() {
@@ -447,7 +623,7 @@ function getModelsInData() {
 
 function getModelsByPerformance() {
   return Object.keys(combinedData)
-    .sort((a, b) => getModelAvgXp(b) - getModelAvgXp(a));
+    .sort((a, b) => getModelTotalXp(b) - getModelTotalXp(a));
 }
 
 function renderLegend() {
@@ -456,16 +632,19 @@ function renderLegend() {
   el.innerHTML = models.map(name => {
     const config = MODEL_CONFIG[name] || { displayName: name, color: '#999' };
     const isHidden = hiddenModels.has(name);
-    const avgXp = getModelAvgXp(name);
-    const avgStr = currentView === 'cumulative' && avgXp > 0 ? ` (${formatXp(avgXp)})` : '';
+    const totalXp = getModelTotalXp(name);
+    const totalStr = currentView === 'cumulative' && totalXp > 0 ? ` (${formatXp(totalXp)})` : '';
     return `<div class="legend-item ${isHidden ? 'hidden' : ''}" onclick="toggleModel('${name}')">
       <div class="legend-dot" style="background:${config.color}"></div>
-      <span>${config.displayName}${avgStr}</span>
+      <span>${config.displayName}${totalStr}</span>
     </div>`;
   }).join('');
 }
 
 function renderCurrentView() {
+  // Hide any lingering tooltip
+  if (tooltipEl) tooltipEl.style.opacity = '0';
+
   document.getElementById('gridContainer').style.display = 'none';
   document.getElementById('cumulativeContainer').style.display = 'none';
 
@@ -665,11 +844,8 @@ function renderGrid() {
         plugins: {
           legend: { display: false },
           tooltip: {
-            enabled: true,
-            callbacks: {
-              title: items => items[0] ? `${items[0].parsed.x.toFixed(1)} min` : '',
-              label: item => `${item.dataset.label}: ${item.parsed.y.toLocaleString()} XP`,
-            },
+            enabled: false,
+            external: externalTooltipGrid(skill),
           },
         },
       },
@@ -747,7 +923,7 @@ function renderCumulative() {
     const avgPoints = [];
     for (let min = 0; min < BUCKET_COUNT; min++) {
       if (bucketCounts[min] > 0) {
-        avgPoints.push({ x: min, y: Math.round(bucketSums[min] / bucketCounts[min]) });
+        avgPoints.push({ x: min, y: Math.round(bucketSums[min]) });
       }
     }
 
@@ -845,33 +1021,14 @@ function renderCumulative() {
           },
           grid: { color: '#f0f0f0', drawTicks: false },
           border: { color: '#e0e0e0' },
-          title: { display: true, text: 'Average XP per Skill', color: '#999', font: { size: 12 } },
+          title: { display: true, text: 'Total XP', color: '#999', font: { size: 12 } },
         },
       },
       plugins: {
         legend: { display: false },
         tooltip: {
-          enabled: true,
-          displayColors: false,
-          bodyFont: { size: 11 },
-          titleFont: { size: 12, weight: 'bold' },
-          padding: 10,
-          callbacks: {
-            title: items => {
-              if (!items[0]) return '';
-              const ds = items[0].dataset;
-              return `${ds.label} — ${items[0].parsed.x} min`;
-            },
-            label: item => {
-              const modelKey = item.dataset._modelKey;
-              const lines = [`Avg: ${item.parsed.y.toLocaleString()} XP`, ''];
-              const skills = cumulativeSkillFinalXp[modelKey] || [];
-              for (const s of skills) {
-                lines.push(`${s.label}: ${formatXp(s.finalXp)}`);
-              }
-              return lines;
-            },
-          },
+          enabled: false,
+          external: externalTooltipCumulative,
         },
       },
     },
@@ -999,7 +1156,7 @@ function downloadView() {
     link.click();
   } else if (currentView === 'cumulative' && cumulativeChart) {
     const link = document.createElement('a');
-    link.download = 'skill-xp-benchmark-average.png';
+    link.download = 'skill-xp-benchmark-total.png';
     link.href = cumulativeChart.canvas.toDataURL('image/png', 1.0);
     link.click();
   }

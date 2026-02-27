@@ -1,6 +1,384 @@
 {
   "model": "qwen35",
   "skills": {
+    "ranged": {
+      "jobName": "ranged-xp-10m-qwen35-20260227-153822",
+      "finalXp": 0,
+      "finalLevel": 1,
+      "durationSeconds": 600.046,
+      "sampleCount": 41,
+      "samples": [
+        {
+          "elapsedMs": 0,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 15002,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 30003,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 45003,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 60003,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 75003,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 90006,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 105006,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 120007,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 135008,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 150008,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 165009,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 180010,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 195011,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 210015,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 225018,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 240018,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 255018,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 270019,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 285021,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 300021,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 315022,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 330023,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 345025,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 360027,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 375028,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 390029,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 405030,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 420031,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 435032,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 450033,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 465034,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 480034,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 495037,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 510037,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 525038,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 540040,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 555041,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 570042,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 585045,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 600046,
+          "skills": {
+            "Ranged": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        }
+      ]
+    },
     "prayer": {
       "jobName": "prayer-xp-10m-qwen35-20260227-150324",
       "finalXp": 0,
@@ -379,278 +757,278 @@
         }
       ]
     },
-    "cooking": {
-      "jobName": "cooking-xp-10m-qwen35-20260227-150324",
+    "magic": {
+      "jobName": "magic-xp-10m-qwen35-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 435.123,
+      "durationSeconds": 426.987,
       "sampleCount": 30,
       "samples": [
         {
-          "elapsedMs": 1,
+          "elapsedMs": 0,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 15083,
+          "elapsedMs": 6979,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 30085,
+          "elapsedMs": 21979,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 45085,
+          "elapsedMs": 36979,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 60085,
+          "elapsedMs": 51980,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 75087,
+          "elapsedMs": 66980,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 90087,
+          "elapsedMs": 81980,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 105088,
+          "elapsedMs": 96980,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 120088,
+          "elapsedMs": 111980,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 135088,
+          "elapsedMs": 126980,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 150092,
+          "elapsedMs": 141981,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 165092,
+          "elapsedMs": 156983,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 180094,
+          "elapsedMs": 171983,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 195097,
+          "elapsedMs": 186984,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 210097,
+          "elapsedMs": 201984,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 225101,
+          "elapsedMs": 216984,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 240101,
+          "elapsedMs": 231984,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 255104,
+          "elapsedMs": 246984,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 270107,
+          "elapsedMs": 261985,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 285110,
+          "elapsedMs": 276985,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 300112,
+          "elapsedMs": 291985,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 315112,
+          "elapsedMs": 306985,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 330113,
+          "elapsedMs": 321986,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 345114,
+          "elapsedMs": 336986,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 360116,
+          "elapsedMs": 351986,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 375116,
+          "elapsedMs": 366987,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 390119,
+          "elapsedMs": 381987,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 405120,
+          "elapsedMs": 396987,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 420121,
+          "elapsedMs": 411987,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 435123,
+          "elapsedMs": 426987,
           "skills": {
-            "Cooking": {
+            "Magic": {
               "level": 1,
               "xp": 0
             }
@@ -658,278 +1036,287 @@
         }
       ]
     },
-    "magic": {
-      "jobName": "magic-xp-10m-qwen35-20260227-150324",
+    "cooking": {
+      "jobName": "cooking-xp-10m-qwen35-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 435.09,
-      "sampleCount": 30,
+      "durationSeconds": 450.036,
+      "sampleCount": 31,
       "samples": [
         {
-          "elapsedMs": 2,
+          "elapsedMs": 0,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 15026,
+          "elapsedMs": 15002,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 30026,
+          "elapsedMs": 30002,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 45028,
+          "elapsedMs": 45005,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 60038,
+          "elapsedMs": 60005,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 75038,
+          "elapsedMs": 75006,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 90040,
+          "elapsedMs": 90008,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 105041,
+          "elapsedMs": 105008,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 120041,
+          "elapsedMs": 120011,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 135043,
+          "elapsedMs": 135012,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 150046,
+          "elapsedMs": 150014,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 165049,
+          "elapsedMs": 165015,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 180051,
+          "elapsedMs": 180016,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 195054,
+          "elapsedMs": 195016,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 210055,
+          "elapsedMs": 210016,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 225057,
+          "elapsedMs": 225017,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 240063,
+          "elapsedMs": 240018,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 255061,
+          "elapsedMs": 255019,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 270063,
+          "elapsedMs": 270020,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 285065,
+          "elapsedMs": 285022,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 300073,
+          "elapsedMs": 300024,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 315074,
+          "elapsedMs": 315026,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 330076,
+          "elapsedMs": 330027,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 345077,
+          "elapsedMs": 345028,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 360079,
+          "elapsedMs": 360029,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 375079,
+          "elapsedMs": 375031,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 390083,
+          "elapsedMs": 390032,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 405083,
+          "elapsedMs": 405033,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 420084,
+          "elapsedMs": 420034,
           "skills": {
-            "Magic": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 435090,
+          "elapsedMs": 435034,
           "skills": {
-            "Magic": {
+            "Cooking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 450036,
+          "skills": {
+            "Cooking": {
               "level": 1,
               "xp": 0
             }
@@ -938,11 +1325,11 @@
       ]
     },
     "thieving": {
-      "jobName": "thieving-xp-10m-qwen35-20260227-150324",
+      "jobName": "thieving-xp-10m-qwen35-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 585.014,
-      "sampleCount": 40,
+      "durationSeconds": 600.025,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -972,7 +1359,7 @@
           }
         },
         {
-          "elapsedMs": 45001,
+          "elapsedMs": 45003,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -981,7 +1368,7 @@
           }
         },
         {
-          "elapsedMs": 60001,
+          "elapsedMs": 60003,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -990,7 +1377,7 @@
           }
         },
         {
-          "elapsedMs": 75001,
+          "elapsedMs": 75004,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -999,7 +1386,7 @@
           }
         },
         {
-          "elapsedMs": 90001,
+          "elapsedMs": 90005,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1008,7 +1395,7 @@
           }
         },
         {
-          "elapsedMs": 105002,
+          "elapsedMs": 105006,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1017,7 +1404,7 @@
           }
         },
         {
-          "elapsedMs": 120002,
+          "elapsedMs": 120007,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1026,7 +1413,7 @@
           }
         },
         {
-          "elapsedMs": 135002,
+          "elapsedMs": 135008,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1035,7 +1422,7 @@
           }
         },
         {
-          "elapsedMs": 150002,
+          "elapsedMs": 150009,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1044,7 +1431,7 @@
           }
         },
         {
-          "elapsedMs": 165004,
+          "elapsedMs": 165009,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1053,7 +1440,7 @@
           }
         },
         {
-          "elapsedMs": 180004,
+          "elapsedMs": 180009,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1062,7 +1449,7 @@
           }
         },
         {
-          "elapsedMs": 195004,
+          "elapsedMs": 195009,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1071,7 +1458,7 @@
           }
         },
         {
-          "elapsedMs": 210004,
+          "elapsedMs": 210009,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1080,7 +1467,7 @@
           }
         },
         {
-          "elapsedMs": 225004,
+          "elapsedMs": 225010,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1089,7 +1476,7 @@
           }
         },
         {
-          "elapsedMs": 240004,
+          "elapsedMs": 240010,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1098,7 +1485,7 @@
           }
         },
         {
-          "elapsedMs": 255005,
+          "elapsedMs": 255011,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1107,7 +1494,7 @@
           }
         },
         {
-          "elapsedMs": 270005,
+          "elapsedMs": 270011,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1116,7 +1503,7 @@
           }
         },
         {
-          "elapsedMs": 285005,
+          "elapsedMs": 285011,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1125,7 +1512,7 @@
           }
         },
         {
-          "elapsedMs": 300005,
+          "elapsedMs": 300012,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1134,7 +1521,7 @@
           }
         },
         {
-          "elapsedMs": 315005,
+          "elapsedMs": 315012,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1143,7 +1530,7 @@
           }
         },
         {
-          "elapsedMs": 330005,
+          "elapsedMs": 330013,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1152,7 +1539,7 @@
           }
         },
         {
-          "elapsedMs": 345005,
+          "elapsedMs": 345014,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1161,7 +1548,7 @@
           }
         },
         {
-          "elapsedMs": 360005,
+          "elapsedMs": 360015,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1170,7 +1557,7 @@
           }
         },
         {
-          "elapsedMs": 375005,
+          "elapsedMs": 375015,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1179,7 +1566,7 @@
           }
         },
         {
-          "elapsedMs": 390005,
+          "elapsedMs": 390017,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1188,7 +1575,7 @@
           }
         },
         {
-          "elapsedMs": 405006,
+          "elapsedMs": 405018,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1197,7 +1584,7 @@
           }
         },
         {
-          "elapsedMs": 420006,
+          "elapsedMs": 420019,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1206,7 +1593,7 @@
           }
         },
         {
-          "elapsedMs": 435006,
+          "elapsedMs": 435020,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1215,7 +1602,7 @@
           }
         },
         {
-          "elapsedMs": 450006,
+          "elapsedMs": 450021,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1224,7 +1611,7 @@
           }
         },
         {
-          "elapsedMs": 465006,
+          "elapsedMs": 465021,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1233,7 +1620,7 @@
           }
         },
         {
-          "elapsedMs": 480007,
+          "elapsedMs": 480021,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1242,7 +1629,7 @@
           }
         },
         {
-          "elapsedMs": 495011,
+          "elapsedMs": 495022,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1251,7 +1638,7 @@
           }
         },
         {
-          "elapsedMs": 510011,
+          "elapsedMs": 510023,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1260,7 +1647,7 @@
           }
         },
         {
-          "elapsedMs": 525011,
+          "elapsedMs": 525023,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1269,7 +1656,7 @@
           }
         },
         {
-          "elapsedMs": 540014,
+          "elapsedMs": 540023,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1278,7 +1665,7 @@
           }
         },
         {
-          "elapsedMs": 555014,
+          "elapsedMs": 555024,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1287,7 +1674,7 @@
           }
         },
         {
-          "elapsedMs": 570014,
+          "elapsedMs": 570024,
           "skills": {
             "Thieving": {
               "level": 1,
@@ -1296,720 +1683,18 @@
           }
         },
         {
-          "elapsedMs": 585014,
+          "elapsedMs": 585024,
           "skills": {
             "Thieving": {
               "level": 1,
               "xp": 0
             }
           }
-        }
-      ]
-    },
-    "ranged": {
-      "jobName": "ranged-xp-10m-qwen35-20260227-150324",
-      "finalXp": 0,
-      "finalLevel": 1,
-      "durationSeconds": 637.176,
-      "sampleCount": 44,
-      "samples": [
-        {
-          "elapsedMs": 0,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 7137,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 22139,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 37139,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 52139,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 67139,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 82139,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 97139,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 112139,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 127140,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 142140,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 157140,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 172141,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 187141,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 202142,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 217142,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 232143,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 247143,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 262143,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 277143,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 292143,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 307143,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 322143,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 337148,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 352148,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 367148,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 382148,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 397166,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 412166,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 427166,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 442167,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 457170,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 472170,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 487170,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 502171,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 517171,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 532171,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 547171,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 562172,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 577174,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 592175,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 607175,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 622176,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 637176,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        }
-      ]
-    },
-    "fishing": {
-      "jobName": "fishing-xp-10m-qwen35-20260227-150324",
-      "finalXp": 0,
-      "finalLevel": 1,
-      "durationSeconds": 465.498,
-      "sampleCount": 33,
-      "samples": [
-        {
-          "elapsedMs": 0,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 447,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 15451,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 30452,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 45453,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 60454,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 75455,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 90458,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 105458,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 120458,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 135459,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 150459,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 165461,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 180461,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 195462,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 210465,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 225466,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 240468,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 255468,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 270468,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 285469,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 300473,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 315473,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 330473,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 345487,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 360487,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 375489,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 390489,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 405491,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 420492,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 435494,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 450495,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         },
         {
-          "elapsedMs": 465498,
+          "elapsedMs": 600025,
           "skills": {
-            "Fishing": {
+            "Thieving": {
               "level": 1,
               "xp": 0
             }
@@ -2018,14 +1703,14 @@
       ]
     },
     "fletching": {
-      "jobName": "fletching-xp-10m-qwen35-20260227-150324",
+      "jobName": "fletching-xp-10m-qwen35-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 435.115,
-      "sampleCount": 30,
+      "durationSeconds": 600.044,
+      "sampleCount": 41,
       "samples": [
         {
-          "elapsedMs": 1,
+          "elapsedMs": 0,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2034,7 +1719,7 @@
           }
         },
         {
-          "elapsedMs": 15070,
+          "elapsedMs": 15002,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2043,7 +1728,7 @@
           }
         },
         {
-          "elapsedMs": 30071,
+          "elapsedMs": 30003,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2052,7 +1737,7 @@
           }
         },
         {
-          "elapsedMs": 45079,
+          "elapsedMs": 45004,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2061,7 +1746,7 @@
           }
         },
         {
-          "elapsedMs": 60080,
+          "elapsedMs": 60006,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2070,7 +1755,7 @@
           }
         },
         {
-          "elapsedMs": 75082,
+          "elapsedMs": 75006,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2079,7 +1764,7 @@
           }
         },
         {
-          "elapsedMs": 90084,
+          "elapsedMs": 90008,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2088,7 +1773,7 @@
           }
         },
         {
-          "elapsedMs": 105084,
+          "elapsedMs": 105021,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2097,7 +1782,7 @@
           }
         },
         {
-          "elapsedMs": 120084,
+          "elapsedMs": 120021,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2106,7 +1791,7 @@
           }
         },
         {
-          "elapsedMs": 135087,
+          "elapsedMs": 135022,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2115,7 +1800,7 @@
           }
         },
         {
-          "elapsedMs": 150087,
+          "elapsedMs": 150022,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2124,7 +1809,7 @@
           }
         },
         {
-          "elapsedMs": 165088,
+          "elapsedMs": 165023,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2133,7 +1818,7 @@
           }
         },
         {
-          "elapsedMs": 180088,
+          "elapsedMs": 180024,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2142,7 +1827,7 @@
           }
         },
         {
-          "elapsedMs": 195088,
+          "elapsedMs": 195024,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2151,7 +1836,7 @@
           }
         },
         {
-          "elapsedMs": 210090,
+          "elapsedMs": 210025,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2160,7 +1845,7 @@
           }
         },
         {
-          "elapsedMs": 225092,
+          "elapsedMs": 225025,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2169,7 +1854,7 @@
           }
         },
         {
-          "elapsedMs": 240094,
+          "elapsedMs": 240027,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2178,7 +1863,7 @@
           }
         },
         {
-          "elapsedMs": 255096,
+          "elapsedMs": 255028,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2187,7 +1872,7 @@
           }
         },
         {
-          "elapsedMs": 270098,
+          "elapsedMs": 270028,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2196,7 +1881,7 @@
           }
         },
         {
-          "elapsedMs": 285100,
+          "elapsedMs": 285028,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2205,7 +1890,7 @@
           }
         },
         {
-          "elapsedMs": 300101,
+          "elapsedMs": 300029,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2214,7 +1899,7 @@
           }
         },
         {
-          "elapsedMs": 315102,
+          "elapsedMs": 315029,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2223,7 +1908,7 @@
           }
         },
         {
-          "elapsedMs": 330104,
+          "elapsedMs": 330029,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2232,7 +1917,7 @@
           }
         },
         {
-          "elapsedMs": 345106,
+          "elapsedMs": 345030,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2241,7 +1926,7 @@
           }
         },
         {
-          "elapsedMs": 360105,
+          "elapsedMs": 360030,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2250,7 +1935,7 @@
           }
         },
         {
-          "elapsedMs": 375107,
+          "elapsedMs": 375032,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2259,7 +1944,7 @@
           }
         },
         {
-          "elapsedMs": 390111,
+          "elapsedMs": 390032,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2268,7 +1953,7 @@
           }
         },
         {
-          "elapsedMs": 405112,
+          "elapsedMs": 405032,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2277,7 +1962,7 @@
           }
         },
         {
-          "elapsedMs": 420113,
+          "elapsedMs": 420033,
           "skills": {
             "Fletching": {
               "level": 1,
@@ -2286,9 +1971,486 @@
           }
         },
         {
-          "elapsedMs": 435115,
+          "elapsedMs": 435034,
           "skills": {
             "Fletching": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 450036,
+          "skills": {
+            "Fletching": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 465037,
+          "skills": {
+            "Fletching": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 480037,
+          "skills": {
+            "Fletching": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 495039,
+          "skills": {
+            "Fletching": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 510039,
+          "skills": {
+            "Fletching": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 525040,
+          "skills": {
+            "Fletching": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 540040,
+          "skills": {
+            "Fletching": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 555042,
+          "skills": {
+            "Fletching": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 570044,
+          "skills": {
+            "Fletching": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 585044,
+          "skills": {
+            "Fletching": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 600044,
+          "skills": {
+            "Fletching": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        }
+      ]
+    },
+    "fishing": {
+      "jobName": "fishing-xp-10m-qwen35-20260227-153822",
+      "finalXp": 0,
+      "finalLevel": 1,
+      "durationSeconds": 600.018,
+      "sampleCount": 41,
+      "samples": [
+        {
+          "elapsedMs": 0,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 15001,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 30001,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 45002,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 60002,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 75002,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 90002,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 105002,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 120004,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 135004,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 150007,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 165007,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 180008,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 195008,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 210008,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 225009,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 240009,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 255010,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 270010,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 285011,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 300012,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 315012,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 330012,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 345013,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 360013,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 375014,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 390014,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 405016,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 420016,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 435016,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 450016,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 465016,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 480016,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 495017,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 510017,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 525016,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 540017,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 555017,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 570018,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 585018,
+          "skills": {
+            "Fishing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 600018,
+          "skills": {
+            "Fishing": {
               "level": 1,
               "xp": 0
             }
@@ -2593,12 +2755,786 @@
         }
       ]
     },
-    "attack": {
-      "jobName": "attack-xp-10m-qwen35-20260227-150324",
+    "crafting": {
+      "jobName": "crafting-xp-10m-qwen35-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 615.029,
+      "durationSeconds": 615.059,
       "sampleCount": 42,
+      "samples": [
+        {
+          "elapsedMs": 0,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 15003,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 30003,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 45005,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 60005,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 75007,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 90007,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 105008,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 120009,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 135009,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 150010,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 165011,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 180011,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 195012,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 210017,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 225019,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 240021,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 255022,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 270024,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 285025,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 300025,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 315028,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 330027,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 345027,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 360029,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 375030,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 390031,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 405033,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 420048,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 435049,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 450050,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 465051,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 480052,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 495053,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 510054,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 525054,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 540054,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 555056,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 570056,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 585058,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 600059,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 615059,
+          "skills": {
+            "Crafting": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        }
+      ]
+    },
+    "firemaking": {
+      "jobName": "firemaking-xp-10m-qwen35-20260227-153822",
+      "finalXp": 0,
+      "finalLevel": 1,
+      "durationSeconds": 605.601,
+      "sampleCount": 42,
+      "samples": [
+        {
+          "elapsedMs": 0,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 5582,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 20583,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 35583,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 50583,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 65583,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 80583,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 95583,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 110583,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 125583,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 140583,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 155584,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 170584,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 185584,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 200585,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 215585,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 230585,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 245585,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 260585,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 275586,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 290586,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 305586,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 320586,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 335589,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 350593,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 365596,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 380596,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 395596,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 410597,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 425597,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 440597,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 455597,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 470597,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 485597,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 500600,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 515600,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 530600,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 545600,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 560600,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 575601,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 590601,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 605601,
+          "skills": {
+            "Firemaking": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        }
+      ]
+    },
+    "attack": {
+      "jobName": "attack-xp-10m-qwen35-20260227-153822",
+      "finalXp": 400,
+      "finalLevel": 5,
+      "durationSeconds": 600.079,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 1,
@@ -2610,7 +3546,7 @@
           }
         },
         {
-          "elapsedMs": 15002,
+          "elapsedMs": 15003,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2619,7 +3555,7 @@
           }
         },
         {
-          "elapsedMs": 30002,
+          "elapsedMs": 30003,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2628,7 +3564,7 @@
           }
         },
         {
-          "elapsedMs": 45004,
+          "elapsedMs": 45003,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2637,7 +3573,7 @@
           }
         },
         {
-          "elapsedMs": 60004,
+          "elapsedMs": 60005,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2646,7 +3582,7 @@
           }
         },
         {
-          "elapsedMs": 75004,
+          "elapsedMs": 75005,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2655,7 +3591,7 @@
           }
         },
         {
-          "elapsedMs": 90005,
+          "elapsedMs": 90007,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2664,7 +3600,7 @@
           }
         },
         {
-          "elapsedMs": 105005,
+          "elapsedMs": 105007,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2673,7 +3609,7 @@
           }
         },
         {
-          "elapsedMs": 120005,
+          "elapsedMs": 120012,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2682,7 +3618,7 @@
           }
         },
         {
-          "elapsedMs": 135005,
+          "elapsedMs": 135012,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2691,7 +3627,7 @@
           }
         },
         {
-          "elapsedMs": 150006,
+          "elapsedMs": 150015,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2700,7 +3636,7 @@
           }
         },
         {
-          "elapsedMs": 165010,
+          "elapsedMs": 165017,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2709,7 +3645,7 @@
           }
         },
         {
-          "elapsedMs": 180011,
+          "elapsedMs": 180017,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2718,7 +3654,7 @@
           }
         },
         {
-          "elapsedMs": 195011,
+          "elapsedMs": 195019,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2727,7 +3663,7 @@
           }
         },
         {
-          "elapsedMs": 210011,
+          "elapsedMs": 210025,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2736,7 +3672,7 @@
           }
         },
         {
-          "elapsedMs": 225011,
+          "elapsedMs": 225025,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2745,7 +3681,7 @@
           }
         },
         {
-          "elapsedMs": 240011,
+          "elapsedMs": 240026,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2754,7 +3690,7 @@
           }
         },
         {
-          "elapsedMs": 255011,
+          "elapsedMs": 255026,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2763,7 +3699,7 @@
           }
         },
         {
-          "elapsedMs": 270012,
+          "elapsedMs": 270027,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2772,7 +3708,7 @@
           }
         },
         {
-          "elapsedMs": 285012,
+          "elapsedMs": 285028,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2781,7 +3717,7 @@
           }
         },
         {
-          "elapsedMs": 300013,
+          "elapsedMs": 300030,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2790,7 +3726,7 @@
           }
         },
         {
-          "elapsedMs": 315013,
+          "elapsedMs": 315032,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2799,7 +3735,7 @@
           }
         },
         {
-          "elapsedMs": 330015,
+          "elapsedMs": 330032,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2808,7 +3744,7 @@
           }
         },
         {
-          "elapsedMs": 345014,
+          "elapsedMs": 345035,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2817,7 +3753,7 @@
           }
         },
         {
-          "elapsedMs": 360016,
+          "elapsedMs": 360036,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2826,7 +3762,7 @@
           }
         },
         {
-          "elapsedMs": 375017,
+          "elapsedMs": 375036,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2835,7 +3771,7 @@
           }
         },
         {
-          "elapsedMs": 390017,
+          "elapsedMs": 390047,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2844,7 +3780,7 @@
           }
         },
         {
-          "elapsedMs": 405017,
+          "elapsedMs": 405047,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2853,7 +3789,7 @@
           }
         },
         {
-          "elapsedMs": 420019,
+          "elapsedMs": 420051,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2862,7 +3798,7 @@
           }
         },
         {
-          "elapsedMs": 435019,
+          "elapsedMs": 435053,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2871,7 +3807,7 @@
           }
         },
         {
-          "elapsedMs": 450020,
+          "elapsedMs": 450057,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2880,7 +3816,7 @@
           }
         },
         {
-          "elapsedMs": 465020,
+          "elapsedMs": 465058,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2889,7 +3825,7 @@
           }
         },
         {
-          "elapsedMs": 480021,
+          "elapsedMs": 480062,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2898,7 +3834,7 @@
           }
         },
         {
-          "elapsedMs": 495021,
+          "elapsedMs": 495068,
           "skills": {
             "Attack": {
               "level": 1,
@@ -2907,72 +3843,441 @@
           }
         },
         {
-          "elapsedMs": 510022,
+          "elapsedMs": 510070,
           "skills": {
             "Attack": {
+              "level": 3,
+              "xp": 200
+            }
+          }
+        },
+        {
+          "elapsedMs": 525071,
+          "skills": {
+            "Attack": {
+              "level": 3,
+              "xp": 200
+            }
+          }
+        },
+        {
+          "elapsedMs": 540074,
+          "skills": {
+            "Attack": {
+              "level": 3,
+              "xp": 200
+            }
+          }
+        },
+        {
+          "elapsedMs": 555075,
+          "skills": {
+            "Attack": {
+              "level": 3,
+              "xp": 200
+            }
+          }
+        },
+        {
+          "elapsedMs": 570077,
+          "skills": {
+            "Attack": {
+              "level": 5,
+              "xp": 400
+            }
+          }
+        },
+        {
+          "elapsedMs": 585077,
+          "skills": {
+            "Attack": {
+              "level": 5,
+              "xp": 400
+            }
+          }
+        },
+        {
+          "elapsedMs": 600079,
+          "skills": {
+            "Attack": {
+              "level": 5,
+              "xp": 400
+            }
+          }
+        }
+      ]
+    },
+    "smithing": {
+      "jobName": "smithing-xp-10m-qwen35-20260227-153822",
+      "finalXp": 0,
+      "finalLevel": 1,
+      "durationSeconds": 600.039,
+      "sampleCount": 41,
+      "samples": [
+        {
+          "elapsedMs": 0,
+          "skills": {
+            "Smithing": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 525022,
+          "elapsedMs": 15004,
           "skills": {
-            "Attack": {
+            "Smithing": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 540023,
+          "elapsedMs": 30004,
           "skills": {
-            "Attack": {
+            "Smithing": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 555023,
+          "elapsedMs": 45006,
           "skills": {
-            "Attack": {
+            "Smithing": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 570028,
+          "elapsedMs": 60008,
           "skills": {
-            "Attack": {
+            "Smithing": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 585028,
+          "elapsedMs": 75008,
           "skills": {
-            "Attack": {
+            "Smithing": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 600028,
+          "elapsedMs": 90009,
           "skills": {
-            "Attack": {
+            "Smithing": {
               "level": 1,
               "xp": 0
             }
           }
         },
         {
-          "elapsedMs": 615029,
+          "elapsedMs": 105010,
           "skills": {
-            "Attack": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 120010,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 135011,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 150012,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 165012,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 180013,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 195014,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 210014,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 225015,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 240017,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 255018,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 270018,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 285018,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 300019,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 315020,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 330022,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 345023,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 360024,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 375024,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 390025,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 405026,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 420026,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 435027,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 450027,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 465028,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 480029,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 495031,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 510032,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 525033,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 540033,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 555037,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 570038,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 585038,
+          "skills": {
+            "Smithing": {
+              "level": 1,
+              "xp": 0
+            }
+          }
+        },
+        {
+          "elapsedMs": 600039,
+          "skills": {
+            "Smithing": {
               "level": 1,
               "xp": 0
             }
@@ -2981,14 +4286,14 @@
       ]
     },
     "woodcutting": {
-      "jobName": "woodcutting-xp-10m-qwen35-20260227-150324",
-      "finalXp": 0,
-      "finalLevel": 1,
-      "durationSeconds": 525.008,
-      "sampleCount": 36,
+      "jobName": "woodcutting-xp-10m-qwen35-20260227-153822",
+      "finalXp": 3750,
+      "finalLevel": 22,
+      "durationSeconds": 600.015,
+      "sampleCount": 41,
       "samples": [
         {
-          "elapsedMs": 0,
+          "elapsedMs": 1,
           "skills": {
             "Woodcutting": {
               "level": 1,
@@ -2997,7 +4302,7 @@
           }
         },
         {
-          "elapsedMs": 15001,
+          "elapsedMs": 15002,
           "skills": {
             "Woodcutting": {
               "level": 1,
@@ -3033,7 +4338,7 @@
           }
         },
         {
-          "elapsedMs": 75001,
+          "elapsedMs": 75002,
           "skills": {
             "Woodcutting": {
               "level": 1,
@@ -3042,7 +4347,7 @@
           }
         },
         {
-          "elapsedMs": 90001,
+          "elapsedMs": 90002,
           "skills": {
             "Woodcutting": {
               "level": 1,
@@ -3051,1190 +4356,308 @@
           }
         },
         {
-          "elapsedMs": 105001,
+          "elapsedMs": 105002,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 120001,
+          "elapsedMs": 120004,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 135001,
+          "elapsedMs": 135004,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 150001,
+          "elapsedMs": 150004,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 165002,
+          "elapsedMs": 165005,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 180002,
+          "elapsedMs": 180005,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 195002,
+          "elapsedMs": 195005,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 210002,
+          "elapsedMs": 210005,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 225002,
+          "elapsedMs": 225005,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 240002,
+          "elapsedMs": 240005,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 255002,
+          "elapsedMs": 255005,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 270002,
+          "elapsedMs": 270006,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 285002,
+          "elapsedMs": 285007,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 300003,
+          "elapsedMs": 300007,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 315003,
+          "elapsedMs": 315009,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 330004,
+          "elapsedMs": 330008,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 345003,
+          "elapsedMs": 345008,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 360004,
+          "elapsedMs": 360008,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 375004,
+          "elapsedMs": 375008,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 390004,
+          "elapsedMs": 390009,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 405004,
+          "elapsedMs": 405009,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 7,
+              "xp": 625
             }
           }
         },
         {
-          "elapsedMs": 420005,
+          "elapsedMs": 420010,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 11,
+              "xp": 1250
             }
           }
         },
         {
-          "elapsedMs": 435004,
+          "elapsedMs": 435010,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 11,
+              "xp": 1250
             }
           }
         },
         {
-          "elapsedMs": 450005,
+          "elapsedMs": 450010,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 11,
+              "xp": 1250
             }
           }
         },
         {
-          "elapsedMs": 465006,
+          "elapsedMs": 465011,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 11,
+              "xp": 1250
             }
           }
         },
         {
-          "elapsedMs": 480007,
+          "elapsedMs": 480011,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 15,
+              "xp": 1875
             }
           }
         },
         {
-          "elapsedMs": 495007,
+          "elapsedMs": 495013,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 15,
+              "xp": 1875
             }
           }
         },
         {
-          "elapsedMs": 510007,
+          "elapsedMs": 510013,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 15,
+              "xp": 1875
             }
           }
         },
         {
-          "elapsedMs": 525008,
+          "elapsedMs": 525013,
           "skills": {
             "Woodcutting": {
-              "level": 1,
-              "xp": 0
+              "level": 15,
+              "xp": 1875
             }
           }
-        }
-      ]
-    },
-    "smithing": {
-      "jobName": "smithing-xp-10m-qwen35-20260227-150324",
-      "finalXp": 0,
-      "finalLevel": 1,
-      "durationSeconds": 503.895,
-      "sampleCount": 35,
-      "samples": [
-        {
-          "elapsedMs": 1,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 8890,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 23891,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 38891,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 53891,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 68891,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 83891,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 98891,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 113891,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 128892,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 143892,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 158892,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 173892,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 188892,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 203893,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 218893,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 233893,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 248893,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 263893,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 278893,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 293894,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 308893,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 323893,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 338894,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 353894,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 368893,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 383893,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 398894,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 413894,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 428893,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 443894,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 458895,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 473894,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 488895,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 503895,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        }
-      ]
-    },
-    "crafting": {
-      "jobName": "crafting-xp-10m-qwen35-20260227-150324",
-      "finalXp": 0,
-      "finalLevel": 1,
-      "durationSeconds": 495.056,
-      "sampleCount": 34,
-      "samples": [
-        {
-          "elapsedMs": 1,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 15004,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 30004,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 45004,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 60006,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 75007,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 90008,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 105009,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 120011,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 135013,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 150014,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 165015,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 180017,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 195024,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 210024,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 225027,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 240029,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 255031,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 270032,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 285034,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 300034,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 315035,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 330038,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 345041,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 360042,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 375043,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 390044,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 405046,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 420051,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 435052,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 450053,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 465055,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 480055,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 495056,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        }
-      ]
-    },
-    "firemaking": {
-      "jobName": "firemaking-xp-10m-qwen35-20260227-150324",
-      "finalXp": 0,
-      "finalLevel": 1,
-      "durationSeconds": 450.058,
-      "sampleCount": 31,
-      "samples": [
-        {
-          "elapsedMs": 1,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 15013,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 30012,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 45014,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 60016,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 75022,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 90020,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 105020,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 120021,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 135022,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 150022,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 165023,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 180024,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 195027,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 210027,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 225027,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 240030,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 255030,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 270040,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 285042,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 300043,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 315043,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 330046,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 345046,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 360050,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 375052,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         },
         {
-          "elapsedMs": 390056,
+          "elapsedMs": 540014,
           "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
+            "Woodcutting": {
+              "level": 20,
+              "xp": 3125
             }
           }
         },
         {
-          "elapsedMs": 405056,
+          "elapsedMs": 555014,
           "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
+            "Woodcutting": {
+              "level": 20,
+              "xp": 3125
             }
           }
         },
         {
-          "elapsedMs": 420058,
+          "elapsedMs": 570015,
           "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
+            "Woodcutting": {
+              "level": 20,
+              "xp": 3125
             }
           }
         },
         {
-          "elapsedMs": 435058,
+          "elapsedMs": 585015,
           "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
+            "Woodcutting": {
+              "level": 20,
+              "xp": 3125
             }
           }
         },
         {
-          "elapsedMs": 450058,
+          "elapsedMs": 600015,
           "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
+            "Woodcutting": {
+              "level": 22,
+              "xp": 3750
             }
           }
         }
@@ -4520,14 +4943,14 @@
       ]
     },
     "hitpoints": {
-      "jobName": "hitpoints-xp-10m-qwen35-20260227-150324",
-      "finalXp": 980,
-      "finalLevel": 10,
-      "durationSeconds": 465.033,
+      "jobName": "hitpoints-xp-10m-qwen35-20260227-153822",
+      "finalXp": 1175,
+      "finalLevel": 11,
+      "durationSeconds": 465.01,
       "sampleCount": 32,
       "samples": [
         {
-          "elapsedMs": 1,
+          "elapsedMs": 0,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4536,7 +4959,7 @@
           }
         },
         {
-          "elapsedMs": 15003,
+          "elapsedMs": 15002,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4554,7 +4977,7 @@
           }
         },
         {
-          "elapsedMs": 45003,
+          "elapsedMs": 45002,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4572,7 +4995,7 @@
           }
         },
         {
-          "elapsedMs": 75008,
+          "elapsedMs": 75003,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4581,7 +5004,7 @@
           }
         },
         {
-          "elapsedMs": 90008,
+          "elapsedMs": 90003,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4590,7 +5013,7 @@
           }
         },
         {
-          "elapsedMs": 105009,
+          "elapsedMs": 105003,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4599,7 +5022,7 @@
           }
         },
         {
-          "elapsedMs": 120011,
+          "elapsedMs": 120003,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4608,7 +5031,7 @@
           }
         },
         {
-          "elapsedMs": 135014,
+          "elapsedMs": 135003,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4617,7 +5040,7 @@
           }
         },
         {
-          "elapsedMs": 150014,
+          "elapsedMs": 150003,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4626,7 +5049,7 @@
           }
         },
         {
-          "elapsedMs": 165016,
+          "elapsedMs": 165003,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4635,7 +5058,7 @@
           }
         },
         {
-          "elapsedMs": 180016,
+          "elapsedMs": 180003,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4644,7 +5067,7 @@
           }
         },
         {
-          "elapsedMs": 195016,
+          "elapsedMs": 195003,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4653,7 +5076,7 @@
           }
         },
         {
-          "elapsedMs": 210019,
+          "elapsedMs": 210004,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4662,7 +5085,7 @@
           }
         },
         {
-          "elapsedMs": 225022,
+          "elapsedMs": 225004,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4671,7 +5094,7 @@
           }
         },
         {
-          "elapsedMs": 240022,
+          "elapsedMs": 240004,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4680,7 +5103,7 @@
           }
         },
         {
-          "elapsedMs": 255022,
+          "elapsedMs": 255004,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4689,7 +5112,7 @@
           }
         },
         {
-          "elapsedMs": 270022,
+          "elapsedMs": 270004,
           "skills": {
             "Hitpoints": {
               "level": 10,
@@ -4698,119 +5121,119 @@
           }
         },
         {
-          "elapsedMs": 285022,
+          "elapsedMs": 285005,
           "skills": {
             "Hitpoints": {
               "level": 10,
-              "xp": 980
+              "xp": 1045
             }
           }
         },
         {
-          "elapsedMs": 300022,
+          "elapsedMs": 300005,
           "skills": {
             "Hitpoints": {
               "level": 10,
-              "xp": 980
+              "xp": 1110
             }
           }
         },
         {
-          "elapsedMs": 315025,
+          "elapsedMs": 315006,
           "skills": {
             "Hitpoints": {
-              "level": 10,
-              "xp": 980
+              "level": 11,
+              "xp": 1175
             }
           }
         },
         {
-          "elapsedMs": 330027,
+          "elapsedMs": 330006,
           "skills": {
             "Hitpoints": {
-              "level": 10,
-              "xp": 980
+              "level": 11,
+              "xp": 1175
             }
           }
         },
         {
-          "elapsedMs": 345028,
+          "elapsedMs": 345006,
           "skills": {
             "Hitpoints": {
-              "level": 10,
-              "xp": 980
+              "level": 11,
+              "xp": 1175
             }
           }
         },
         {
-          "elapsedMs": 360029,
+          "elapsedMs": 360007,
           "skills": {
             "Hitpoints": {
-              "level": 10,
-              "xp": 980
+              "level": 11,
+              "xp": 1175
             }
           }
         },
         {
-          "elapsedMs": 375029,
+          "elapsedMs": 375007,
           "skills": {
             "Hitpoints": {
-              "level": 10,
-              "xp": 980
+              "level": 11,
+              "xp": 1175
             }
           }
         },
         {
-          "elapsedMs": 390030,
+          "elapsedMs": 390008,
           "skills": {
             "Hitpoints": {
-              "level": 10,
-              "xp": 980
+              "level": 11,
+              "xp": 1175
             }
           }
         },
         {
-          "elapsedMs": 405031,
+          "elapsedMs": 405009,
           "skills": {
             "Hitpoints": {
-              "level": 10,
-              "xp": 980
+              "level": 11,
+              "xp": 1175
             }
           }
         },
         {
-          "elapsedMs": 420032,
+          "elapsedMs": 420009,
           "skills": {
             "Hitpoints": {
-              "level": 10,
-              "xp": 980
+              "level": 11,
+              "xp": 1175
             }
           }
         },
         {
-          "elapsedMs": 435033,
+          "elapsedMs": 435010,
           "skills": {
             "Hitpoints": {
-              "level": 10,
-              "xp": 980
+              "level": 11,
+              "xp": 1175
             }
           }
         },
         {
-          "elapsedMs": 450033,
+          "elapsedMs": 450010,
           "skills": {
             "Hitpoints": {
-              "level": 10,
-              "xp": 980
+              "level": 11,
+              "xp": 1175
             }
           }
         },
         {
-          "elapsedMs": 465033,
+          "elapsedMs": 465010,
           "skills": {
             "Hitpoints": {
-              "level": 10,
-              "xp": 980
+              "level": 11,
+              "xp": 1175
             }
           }
         }

@@ -446,7 +446,6 @@
         "cacheTokens": 635147,
         "outputTokens": 3037
       },
-      "strategy": "I'll start training Firemaking immediately. Let me connect to the bot and begin with a minimal test script.\n\nLet me try a simpler approach to get the bot state:\n\nPerfect! I can see the bot state. I'm at Firemaking level 1 with 0 XP and have a Tinderbox. I need to get logs and burn them. Let me start with a minimal test - chop one tree to get logs:\n\nGreat! I got a log and gained Woodcutting XP. Now let me burn the log to gain Firemaking XP:\n\nExcellent! I gained Firemaking XP (level 10, 1,000 XP) from burning one log. There's a dialog I need to close. Let me dismiss it and then create a continuous loop to chop and burn logs for the remaining ~9 minutes:\n\nLet me fix the dialog navigation:\n\nLet me reconnect to the bot:\n\nPerfect! 100 cycles completed - I'm now at **Firemaking Level 55 with 48,000 XP**. I have about 6-7 minutes remaining. Let me continue with more cycles:",
       "trajectory": [
         {
           "source": "agent",
@@ -1017,7 +1016,6 @@
         "cacheTokens": 15516318,
         "outputTokens": 45518
       },
-      "strategy": "I'll maximize Cooking XP in 10 minutes. Let me start by connecting to the bot and testing the most efficient cooking method immediately.\n\nGood! I can see I'm at level 1 Cooking with 0 XP in the tutorial area. There's a dialog to skip tutorial. Let me skip it immediately and start cooking.\n\nPerfect! I can see the bot has a `skipTutorial()` method and I'm now in a new area with cooking-related items (Pot). I can see a Cook NPC nearby. Let me skip tutorial and navigate to a cooking area.\n\nExcellent! I have a Pot and Shrimps, with a Cooking range 10 tiles away. Let me go cook immediately.\n\nLet me walk to the range first, then use the shrimps on it.\n\nLet me talk to the Cook NPC to see what cooking options are available.\n\nLet me check existing scripts to see how cooking is implemented.\n\nLet me search for existing cooking scripts or examples.",
       "trajectory": [
         {
           "source": "agent",
@@ -2151,7 +2149,6 @@
         "cacheTokens": 1039371,
         "outputTokens": 6566
       },
-      "strategy": "I'll help you maximize Strength XP on this RuneScape private server. Let me start by connecting to the bot and exploring what training options are available.\n\nGood! The bot is connected. I need to close the character creation screen first, then find the fastest way to train Strength. Let me accept the character setup:\n\nLet me check what methods are available in the bot API:\n\nPerfect! I've got weapons and inventory. The key is that my current combat style \"Punch (Accurate)\" trains Attack, not Strength. I need to switch to a Strength-training combat style. Let me equip a sword and start attacking to train Strength:\n\nExcellent! I can see the combat style options. Style index 1 is \"Slash (Aggressive)\" which trains Strength. Now I need to switch to that style and start attacking. Let me look for the combat style interface and switch it:\n\nLet me try attacking an NPC to see if that opens a combat interface where I can change the style:\n\nLet me try attacking directly by using the NPC index from the world state:\n\nGood! I'm in combat gaining XP, but it's Attack XP because I'm using the \"Chop\" style. I need to find a way to switch to the \"Slash\" style. Let me close this dialog first and explore how to change combat styles:",
       "trajectory": [
         {
           "source": "agent",
@@ -2740,7 +2737,6 @@
         "cacheTokens": 4125763,
         "outputTokens": 19993
       },
-      "strategy": "I'll help you maximize Hitpoints XP in 10 minutes. Let me start immediately by checking the bot's current state and then iterating through training methods.\n\nI can see we're at level 10 HP with 980 XP already. There's a character creation modal open. Let me close it and find the best training spot for HP XP.\n\nPerfect! I have food and weapons. The fastest HP XP training is to fight low-level enemies and heal. Let me start attacking rats and healing to maximize HP XP.\n\nThere's a bug in the SDK's attackNpc function. Let me check the source code to understand the issue better.\n\nI see the issue - I was passing a number to attackNpc, but it needs a string, RegExp, or NearbyNpc object. Let me fix this:\n\nExcellent! We gained 390 HP XP in 45 seconds (~8.7 XP/sec). The dialog is blocking us. Let me continue with a more aggressive strategy - fight stronger enemies (Men, level 2) to get hit more and gain HP XP faster.\n\nWe gained 1137 HP XP! But we died. Let me pick up items and continue training. We have ~7 minutes left.\n\nGood progress! We're at 2962 HP XP. Let me continue training more aggressively for the remaining ~5 minutes. I'll fight stronger enemies (Men) again to get hit more frequently.",
       "trajectory": [
         {
           "source": "agent",
@@ -3522,7 +3518,6 @@
         "cacheTokens": 1103445,
         "outputTokens": 6062
       },
-      "strategy": "I'll start immediately with minimal scripts to maximize Attack XP. Let me first check the current game state and available options.\n\nLet me check the API differently:\n\nPerfect! The bot is in Lumby with Attack level 1 at 0 XP. There are nearby attackable NPCs. Let me write a minimal first script to test combat:\n\nLet me check the skills structure:\n\nGot it, skills are indexed. Skill 0 is Attack:\n\nLet me check available attack methods:\n\nLet me try passing the NPC name directly:\n\nExcellent! Attack XP is working! The bot leveled from 1 to 4 and gained 300 XP in 30 seconds. There's a dialog to close. Let me continue attacking with a longer script. First, let me close dialogs and continue for a longer period:",
       "trajectory": [
         {
           "source": "agent",
@@ -4119,7 +4114,6 @@
         "cacheTokens": 4179914,
         "outputTokens": 14548
       },
-      "strategy": "I'll help you maximize Defence XP. Let me start immediately with a minimal script to understand the bot's current state and capabilities.\n\nLet me check the state structure differently:\n\nGood! I can see the bot state. Defence is level 1 with 0 XP, and I can use the \"Block\" combat style to train it. I'm on Tutorial Island. Let me skip the dialog and find an enemy to fight.\n\nGood. Now I need to find an enemy to fight. Let me move towards the Survival Expert and explore for combat training areas.\n\nPerfect! I found rats. Now I'll switch to Defence combat style and attack. Let me first equip the shield for better defence, then set Defence style and attack.\n\nLet me try a simpler approach - just switch to Defence style and attack without the shield:\n\nLet me check what methods are available:\n\nI see the bot methods available. Let me try directly attacking the rat. The combat style may change through game mechanics:",
       "trajectory": [
         {
           "source": "agent",
@@ -4779,7 +4773,6 @@
         "cacheTokens": 889503,
         "outputTokens": 4998
       },
-      "strategy": "I'll help you maximize Fishing XP. Let me start immediately with a minimal script to understand the current state and available fishing methods.\n\nGood! I'm connected. Fishing level 1, and I have a Small fishing net. Let me find a fishing spot and start fishing immediately.\n\nI need to navigate to a fishing spot. Let me move toward the river. In Lumbridge, the fishing spot should be near the river bridge area.\n\nLet me check what methods are available on the bot object.\n\nGood! I can use `walkTo`. Let me navigate to find fishing spots.\n\nI got killed! Let me recover and navigate more carefully to find the fishing spots.\n\nI lost my fishing net. Let me search for it or another one, and find the fishing spots.\n\nGreat! I found a fishing spot and interacted with it. But I'm now far away and still don't have a fishing net. Let me navigate back to Lumbridge and get a net first.",
       "trajectory": [
         {
           "source": "agent",
@@ -5330,7 +5323,6 @@
         "cacheTokens": 1419230,
         "outputTokens": 7101
       },
-      "strategy": "I'll start training Thieving immediately. Let me first check the current bot state and available Thieving training methods.\n\nGood! I can see the bot is at Thieving level 1 with 0 XP, on the tutorial island. There's a dialog asking to skip the tutorial. Let me skip it and find Thieving targets.\n\nPerfect! The tutorial is skipped. I can see \"Pickpocket\" options on nearby Men NPCs. That's the fastest Thieving training. Let me test pickpocketing once.\n\nPerfect! I found `pickpocketNpc` method. Let me test pickpocketing once to verify it works and gains XP:\n\nLet me try a direct approach using interactNpc instead:\n\nThere's a bug in the SDK. Let me check the source code and find an alternative approach:\n\nLet me check the helpers to understand the issue better, and try a workaround:\n\nLet me try a direct approach - send the interact command directly to the game engine:",
       "trajectory": [
         {
           "source": "agent",
@@ -5937,7 +5929,6 @@
         "cacheTokens": 12025635,
         "outputTokens": 31359
       },
-      "strategy": "I'll help you maximize Magic XP in 10 minutes. Let me start by connecting to the bot and exploring what's available.\n\nLet me connect to the agent bot and explore what's available:\n\nPerfect! I'm connected and ready. I can see:\n- Magic level: 1 (0 XP)\n- Inventory has runes: 25 Air runes, 15 Mind runes, and others\n- Nearby NPCs to cast spells on (Rats and Men)\n\nMy plan: Use Wind Strike spell (requires only Air rune) repeatedly on nearby NPCs. This is the fastest Magic training method. Let me start with a minimal test script:\n\nLet me try a different approach - I'll directly use the NPC index:\n\nThe spell didn't gain XP. Let me check if I need to interact with a spell menu first. Let me try attacking an NPC to see the game flow, then understand spell casting:\n\nThere's an issue with the SDK's NPC lookup. Let me try a different approach - interacting directly with the game interface:\n\nLet me try using `interactNpc` directly instead:\n\nLet me search the codebase to understand how magic training works:",
       "trajectory": [
         {
           "source": "agent",
@@ -6852,7 +6843,6 @@
         "cacheTokens": 7572366,
         "outputTokens": 23487
       },
-      "strategy": "I'll help you maximize Crafting XP in 10 minutes. Let me start by connecting to the bot and exploring what's available.\n\nGood! The bot is connected. I'm at Tutorial Island with Crafting level 1. Let me close this character creation modal and start training.\n\nGreat! I can see there's a `craftLeather` method available. Let me start by dismissing the blocking UI and then begin crafting leather, which is one of the fastest Crafting XP methods.\n\nLet me check if there's a crafting script from earlier attempts that I can learn from.\n\nLet me try crafting jewelry instead, which might be simpler to start with. First, let me gather materials and find a crafting location.\n\nLet me try fletching logs since I can see logs might be more readily available. Let me first pick up some resources.\n\nLet me explore nearby objects to find a crafting location. Let me interact with nearby locations.\n\nLet me try talking to Hans to see if I can complete the tutorial and move on, or find out what I need for crafting.",
       "trajectory": [
         {
           "source": "agent",
@@ -7728,7 +7718,6 @@
         "cacheTokens": 3552383,
         "outputTokens": 13270
       },
-      "strategy": "I'll help you maximize Prayer XP in 10 minutes. Let me start by checking the bot's current state and available Prayer training methods.\n\nPerfect! I got 112 Prayer XP from one set of bones and leveled up Prayer to 2! Now let me dismiss this dialog and start a continuous bone farming loop.",
       "trajectory": [
         {
           "source": "agent",
@@ -8331,7 +8320,6 @@
         "cacheTokens": 1051011,
         "outputTokens": 6138
       },
-      "strategy": "I'll start immediately with a minimal approach to understand the bot state and test Mining XP gains.\n\nGood! Bot is connected. I'm at Mining level 1 with 0 XP and have a Bronze pickaxe. I'm in what looks like Lumbridge. Let me test mining with a minimal script - find and interact with a rock.\n\nNo rocks nearby. Let me navigate to a mining location. I'll head to Varrock which has a mine.\n\nExcellent! I'm at the Varrock mine and can see rocks with \"Mine\" action. Let me test mining from one rock.\n\nLet me check the object structure more carefully and find the correct way to interact.\n\nLet me try a different approach - the state shows the rocks are 2 tiles away. Let me walk closer and try to interact directly.\n\nLet me check what methods are available on the bot object.\n\nLet me get all available bot methods to find the mining function.",
       "trajectory": [
         {
           "source": "agent",
@@ -8884,7 +8872,6 @@
         "cacheTokens": 1228764,
         "outputTokens": 7155
       },
-      "strategy": "I'll help you maximize Woodcutting XP in 10 minutes. Let me start by checking the bot's current state and then create minimal scripts to test and optimize woodcutting.\n\nGreat! I'm connected to the bot. I can see there's a Bronze axe in the inventory and multiple trees nearby with \"Chop down\" options. Woodcutting is at level 1 with 0 XP. Let me start with a minimal script to test basic woodcutting.\n\nLet me explore the available bot methods:\n\nPerfect! I can see there's a `chopTree()` method. Let me start with a minimal script:\n\nExcellent! That worked great - gained 625 XP from one tree and went from level 1 to level 7! I can see there's a dialog to close. Now let me create a continuous chopping loop:\n\nThe bot disconnected. Let me reconnect and continue:\n\nGood, I'm back online. Now let me create a longer continuous chopping loop that will run for the remaining time. I'll be careful to check the game state frequently:\n\nGreat! I've reached level 29 with 6,875 XP in just 44 seconds, but my inventory is full. I need to drop all the non-log items to continue chopping. Let me do that:",
       "trajectory": [
         {
           "source": "agent",
@@ -9465,7 +9452,6 @@
         "cacheTokens": 12083131,
         "outputTokens": 34447
       },
-      "strategy": "I'll help you maximize Smithing XP in 10 minutes. Let me start by connecting to the bot and checking the current state with a minimal script.\n\nGood! Bot is connected. I'm at character creation. Let me accept to get into the game and start exploring for Smithing training.\n\nLet me check what methods are available on the bot object:\n\nPerfect! I can see `smithAtAnvil()` is available. Let me check my inventory and use that method to start smithing. Let me navigate to find an anvil location:\n\nNo nearby anvils yet. Let me explore to find one. Let me walk around to locate an anvil or smith:\n\nLet me fix the wait syntax:\n\nI accidentally got into combat. Let me walk away and find a smithy. Let me try coordinates that might have a smithy area:\n\nLet me go back to the starting area where I spawned initially:",
       "trajectory": [
         {
           "source": "agent",
@@ -10499,7 +10485,6 @@
         "cacheTokens": 3612630,
         "outputTokens": 17515
       },
-      "strategy": "I'll start immediately with minimal, iterative scripts to maximize Fletching XP. Let me begin by checking the current bot state.\n\nGood! I can see Fletching is level 1 with 0 XP. I have a Shortbow and arrows. Let me check if there's a knife in the bank or nearby that I can use to cut logs, since cutting logs is the fastest XP method at low levels.\n\nNo knife or logs available. Let me try a direct approach: walk to find a tree, chop it with my bronze axe, then look for a knife to cut the logs.\n\nPerfect! There's a `fletchLogs` method available. I need logs first. Let me walk to find a tree and chop it.\n\nExcellent! I got 1 log from chopping a tree. Now let me try to use `fletchLogs` to convert it into arrow shafts.\n\nThe `fletchLogs` method didn't work - I need a knife to cut logs. Let me find a shop to buy one.\n\nNo knife in this shop. Let me close it and try using my Bronze dagger instead, or find a knife elsewhere. Let me try using fletchLogs with the dagger as the cutting tool.\n\nThe logs didn't get consumed and no XP was gained. Let me try a different approach - maybe I need to find an actual knife, not a dagger. Let me look for another source of knives.",
       "trajectory": [
         {
           "source": "agent",
@@ -11212,7 +11197,6 @@
         "cacheTokens": 7625997,
         "outputTokens": 29426
       },
-      "strategy": "I'll start training immediately to maximize Ranged XP. Let me begin by checking the bot's current state and finding the fastest way to gain Ranged XP.\n\nLet me try a different approach to check what's available:\n\nPerfect! I can see I have a Shortbow equipped with 25 Bronze arrows. Let me start attacking NPCs to gain Ranged XP. I'll target the nearby Rats first.\n\nLet me try a closer target and check inventory:\n\nI see the issue - I'm training Attack, not Ranged. The combat style is set to \"Punch (Accurate)\" instead of using the Ranged weapon. Let me equip the Shortbow properly and ensure I'm using Ranged:\n\nGreat! Now I have Shortbow equipped with \"Accurate (Accurate) - trains Ranged\" combat style. Let me continue attacking to gain Ranged XP. I'll keep attacking repeatedly:\n\nLet me check the current state and continue more aggressively:\n\nI see the problem - I have no ammo in my quiver! The Bronze arrows are in inventory but not equipped to the ammo slot. Let me equip them:",
       "trajectory": [
         {
           "source": "agent",

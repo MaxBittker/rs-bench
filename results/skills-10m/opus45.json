@@ -482,7 +482,6 @@
         "cacheTokens": 10144930,
         "outputTokens": 25458
       },
-      "strategy": "I'll start immediately by checking the bot's current state and location.\n\nI'm at Tutorial Island with a character creation screen open. Let me accept and start. I'll need to escape the tutorial to reach smithing locations.\n\nLet me check the available bot actions.\n\nI'm now in Lumbridge with starter items including a bronze pickaxe. Let me check the available bot methods and find smithing locations.\n\nLet me check the SDK methods available for actions.\n\nNow I know the SDK methods. I need to find ore rocks, a furnace, and an anvil. Let me scan the area and walk to the nearest mining location. The closest mine to Lumbridge is southeast in the swamp.\n\nLet me continue walking south toward the Lumbridge Swamp mine area.\n\nContinuing south toward the mine.",
       "trajectory": [
         {
           "source": "agent",
@@ -1306,7 +1305,6 @@
         "cacheTokens": 12396055,
         "outputTokens": 29840
       },
-      "strategy": "I'll start immediately by checking the bot's current state and what crafting options are available.\n\nI'm on Tutorial Island with a character creation screen. Let me accept and start exploring crafting options.\n\nLet me check available bot methods.\n\nI'm now in Lumbridge! Let me check what bot methods are available and look for crafting opportunities.\n\nI'm in Lumbridge. For Crafting, I need to find supplies. Let me search for crafting-related objects - spinning wheel, shops, etc.\n\nI need to find crafting supplies. Let me walk to find the general store or crafting area. First, let me walk south to find the general store.\n\nThe walk didn't seem to work properly. Let me try using findPath to navigate to the general store area south of here.\n\nThe player isn't moving. Let me check the proper way to walk using findPath.",
       "trajectory": [
         {
           "source": "agent",
@@ -2310,7 +2308,6 @@
         "cacheTokens": 2225956,
         "outputTokens": 7792
       },
-      "strategy": "I'll start immediately with a minimal script to check the bot's state and inventory.\n\nI have a Bronze axe and Tinderbox. Firemaking is level 1 with 0 XP. I need to cut logs and light them. Let me find trees nearby.\n\nLet me check the available bot methods.\n\nFound trees. Let me start chopping one. First, let me check what SDK methods are available for interacting with objects.\n\nI can use `sendInteractLoc` to chop trees. Let me try chopping a tree now.\n\nPlayer walked to tree but no logs yet - chopping takes time. Let me wait longer for logs.\n\nGot logs. Now I need to light them with the tinderbox. Let me use tinderbox on logs.\n\nStill have logs in inventory. Let me wait longer for the fire to light.",
       "trajectory": [
         {
           "source": "agent",
@@ -2920,7 +2917,6 @@
         "cacheTokens": 1028377,
         "outputTokens": 5582
       },
-      "strategy": "I'll start immediately by checking the bot's state and beginning Strength training through combat.\n\nI see the bot is on Tutorial Island with a character creation interface open. I need to accept it and then find combat targets. The combat style \"Kick\" trains Strength. Let me proceed:\n\nLet me check available bot methods:\n\nThe bot moved to Lumbridge! There are rats and men nearby to attack. I have a bronze sword and shield. Let me check what helper methods are available:\n\nI have the methods I need. Let me:\n1. Equip the bronze sword and wooden shield\n2. Set combat style to aggressive (Strength)\n3. Attack the nearby rat\n\nThe items didn't equip - I need to use the \"Wield\" option. Let me try again with the correct option:\n\nThe equipment still didn't work. Let me skip equipping for now and just start training Strength immediately. I'll set combat style to aggressive and attack:\n\nCombat style is now \"Kick (Aggressive) - trains Strength\". Now let me create a combat training loop to continuously attack enemies:",
       "trajectory": [
         {
           "source": "agent",
@@ -3480,7 +3476,6 @@
         "cacheTokens": 1383182,
         "outputTokens": 6363
       },
-      "strategy": "I'll start immediately by checking the bot's current state and finding something to attack.\n\nLet me check the state structure properly.\n\nI'm at Lumbridge with level 1 Attack. I have a bronze sword and shield in inventory. Let me equip them and start attacking men nearby.\n\nLet me check what methods are available.\n\nLet me check SDK docs in the codebase.\n\nNow I understand the API. Let me equip the sword and attack.\n\nThe field is `opIndex`, not `index`. Let me fix that.\n\nSword equipped and combat style is \"Chop (Accurate) - trains Attack\". Now let me equip shield and start attacking Men.",
       "trajectory": [
         {
           "source": "agent",
@@ -4058,7 +4053,6 @@
         "cacheTokens": 1202650,
         "outputTokens": 5638
       },
-      "strategy": "I'll start immediately with a minimal script to check the bot's state and begin combat training. Hitpoints XP is gained through combat damage.\n\nI can see the bot is in Lumbridge with 980 Hitpoints XP. There are Rats and Men nearby to attack. Let me immediately equip a weapon and start attacking.\n\nGood, the sword is equipped! Let me explore the helpers and SDK methods.\n\nI see the SDK methods. Let me start a combat training loop using `sendInteractNpc`.\n\nGained 2990 Hitpoints XP in 2 minutes. HP is low (4/22) and weapon got unequipped. Let me heal and continue training.\n\nExcellent! Total Hitpoints XP is now 8845. I see Giant rats nearby (level 3) which give more XP. Let me continue for the remaining time.\n\n**Training Complete!**\n\n**Final Results:**\n- **Starting Hitpoints XP:** 980\n- **Final Hitpoints XP:** 12,907\n- **Total XP Gained:** 11,927 XP\n- **Hitpoints Level:** 37 (started at 10)\n- **Combat Level:** 26 (started at 3)\n\nThe bot efficiently trained Hitpoints by attacking nearby NPCs (Men, Women, Rats, and Giant rats) in Lumbridge. The XP rate was approximately 1,200 XP per minute of active combat.\n\nI'll start immediately with a minimal script to check the bot's state and begin combat training.",
       "trajectory": [
         {
           "source": "agent",
@@ -4620,7 +4614,6 @@
         "cacheTokens": 5224162,
         "outputTokens": 7974
       },
-      "strategy": "I'll start immediately by checking the bot's current state and then begin Defence training through combat.\n\nLet me check the actual state structure:\n\nI'm on Tutorial Island with a dialog asking to skip the tutorial. I need to skip it to get to the main game, then set combat style to \"Block\" (Defensive) and fight monsters. Let me skip the tutorial first.\n\nLet me check the available bot methods:\n\nI found `sendClickDialog` and `sendSetCombatStyle`. Let me skip the tutorial first:\n\nThe dialog closed but I'm still on Tutorial Island. Let me talk to the RuneScape Guide to trigger the skip dialog again:\n\nNow let me click through the dialog to skip tutorial:\n\nLet me try clicking the component directly:",
       "trajectory": [
         {
           "source": "agent",
@@ -5274,7 +5267,6 @@
         "cacheTokens": 9665092,
         "outputTokens": 18381
       },
-      "strategy": "I'll start immediately by checking the bot's current state and then begin mining. Let me first see what's available.\n\nLet me check the state structure properly.\n\nLet me get just the essential player info.\n\nI have a Bronze pickaxe in inventory. Mining level 1, 0 XP. I'm at position (3222, 3222) - Lumbridge. Let me find rocks to mine nearby.\n\nLet me check the structure.\n\nNo rocks nearby. I need to walk to a mining spot. Let me go to the Lumbridge Swamp mine (south of here).\n\nLet me check available bot functions.\n\nI can use `sendWalk` and `findPath`. Let me walk to the Lumbridge Swamp mine.",
       "trajectory": [
         {
           "source": "agent",
@@ -6128,7 +6120,6 @@
         "cacheTokens": 2566962,
         "outputTokens": 9091
       },
-      "strategy": "I'll start immediately with a simple script to check the bot's state and find nearby trees.\n\nLet me check the state structure properly.\n\nI have a Bronze axe and Woodcutting level 1. I'm at Lumbridge (3222, 3222). Let me find trees nearby.\n\nLet me check what methods are available on the bot and sdk.\n\nLet me check the helpers and also access the state directly.\n\nLet me find trees in nearbyLocs and start chopping.\n\nFound 4 trees. Let me check how to interact with them - I'll look at SDK send methods.\n\nI can use `sendInteractLoc` to chop trees. Let me start woodcutting now!",
       "trajectory": [
         {
           "source": "agent",
@@ -6752,7 +6743,6 @@
         "cacheTokens": 4547903,
         "outputTokens": 13521
       },
-      "strategy": "I'll start immediately by checking the bot's current state and location.\n\nLet me check available methods.\n\nI have a small fishing net and tinderbox. I need to fish raw shrimp and cook them. Let me check available helpers and find fishing spots.\n\nLet me check the SDK methods and find a way to fish/cook.\n\nI see a Cook NPC 14 tiles away - that's likely the Lumbridge Castle kitchen with a range! Let me check SDK for actions.\n\nNow I understand the API. Let me find fishing spots near me or walk to one.\n\nThere's a Cooking range 10 tiles away! But I need raw fish first. Let me walk south to the river to find fishing spots.\n\nLet me search for fishing spots nearby.",
       "trajectory": [
         {
           "source": "agent",
@@ -7441,7 +7431,6 @@
         "cacheTokens": 8392944,
         "outputTokens": 18531
       },
-      "strategy": "I'll start immediately by checking the bot's current state and inventory to see what magic training options are available.\n\nI have runes for Wind Strike (Air + Mind runes). Level 1 Magic. I can attack nearby NPCs with magic. Let me cast Wind Strike on a rat to test.\n\nFound `sendSpellOnNpc`. Let me cast Wind Strike on a nearby rat to test magic training.\n\nSpell didn't work. Let me try using the interface component approach to cast the spell.\n\nI see - the test uses `bot.castSpellOnNpc` with `Spells.WIND_STRIKE`. Let me check the SDK for this function.\n\nLet me check for existing spell constant definitions in the codebase.\n\nFound it! Wind Strike component ID is 1152. Let me cast it on a rat now.\n\nThe spell cast but splashed (missed). At level 1 magic, splash rate is high. Let me create a loop to keep casting until we hit.",
       "trajectory": [
         {
           "source": "agent",
@@ -8221,7 +8210,6 @@
         "cacheTokens": 1596478,
         "outputTokens": 6507
       },
-      "strategy": "I'll start immediately with a simple script to check the bot's state and attempt basic thieving.\n\nLet me check the state structure first.\n\nLet me explore the SDK structure.\n\nI can see a Man nearby that I can pickpocket. Let me check the bot helpers and try to pickpocket.\n\nLet me look at the SDK to find how to perform actions.\n\nI found `sendInteractNpc`. Let me try to pickpocket a Man now.\n\nI see Pickpocket is opIndex 3, not 2. Let me run a quick loop to pickpocket continuously.\n\nNo XP gained. Let me check the game messages to see what's happening.",
       "trajectory": [
         {
           "source": "agent",
@@ -8824,7 +8812,6 @@
         "cacheTokens": 3793072,
         "outputTokens": 13773
       },
-      "strategy": "I'll start immediately with a minimal script to check the bot's state and begin Ranged training.\n\nI'm on Tutorial Island with the character creation modal open. Let me accept and start progressing through the tutorial quickly to get to the mainland where I can train Ranged.\n\nLet me check available bot methods.\n\nI'm already off Tutorial Island in Lumbridge with a Shortbow and Bronze arrows! Let me check the available methods and start training Ranged immediately.\n\nNow I can see the SDK methods. Let me wield the shortbow, arrows, and start attacking with Ranged.\n\nThe equipment didn't update yet. Let me try again and check the state.\n\nLet me try using the opIndex value directly.\n\nLet me read the SDK source to understand the proper method signature.",
       "trajectory": [
         {
           "source": "agent",
@@ -9484,7 +9471,6 @@
         "cacheTokens": 1732977,
         "outputTokens": 6179
       },
-      "strategy": "I'll start immediately by checking the bot's current state and then begin Prayer training.\n\nI see the bot is at Tutorial Island character creation. Let me accept and start progressing.\n\nLet me check available bot methods.\n\nThe bot is now in Lumbridge with starter items. Let me check what SDK methods are available for Prayer training.\n\nI see the methods. For Prayer XP, I need to kill monsters for bones and bury them. Let me equip weapon and start killing chickens (they're fast and drop bones). First, let me walk to the chicken area east of Lumbridge.\n\nLet me use `sdk.sleep` instead.\n\nI'm at the chicken farm. Now let me kill a chicken and see what drops.\n\nLet me attack a chicken directly and wait for it to die.",
       "trajectory": [
         {
           "source": "agent",
@@ -10070,7 +10056,6 @@
         "cacheTokens": 3015743,
         "outputTokens": 7705
       },
-      "strategy": "I'll start immediately by checking the bot's state and finding fishing spots nearby.\n\nI'm in Tutorial Island with a character creation screen. Let me accept it and then fish immediately - there are fishing spots 14 tiles away.\n\nLet me check available bot functions.\n\nI'm in Lumbridge now with a small fishing net! Let me check the helpers available and find fishing spots.\n\nLet me check more SDK methods for interactions.\n\nI have all the methods I need. Let me find and walk to a fishing spot, then start fishing. The Lumbridge fishing spots should be south near the river.\n\nWalking to the fishing spot. Let me continue and check for progress.\n\nWalking isn't moving. Let me use findPath for pathfinding to the fishing spot.",
       "trajectory": [
         {
           "source": "agent",
@@ -10742,7 +10727,6 @@
         "cacheTokens": 15137351,
         "outputTokens": 29670
       },
-      "strategy": "I'll start immediately by checking the bot's current state and inventory to see what we have available for fletching.\n\nI'm on Tutorial Island with a character creation modal open. Let me accept that and then find a way out to start fletching. I'll need to skip the tutorial first.\n\nLet me check what methods are available.\n\nI'm out of Tutorial Island at Lumbridge with a bronze axe. I need a knife for fletching. Let me check available helpers and find a knife.\n\nI have `sendUseItemOnItem` for fletching. I need a knife. Let me look for trees nearby and find a shop for a knife.\n\nLet me scan for trees nearby by name.\n\nLet me walk north to find trees outside the castle.\n\nI found a tree and there's a shop right here! Let me trade to get a knife.",
       "trajectory": [
         {
           "source": "agent",

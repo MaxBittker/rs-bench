@@ -20,7 +20,7 @@ import { join, basename } from 'path';
 import {
   type Sample, type TrackingData, type TokenUsage,
   detectModel, detectModelFromConfig, getTrialDirs,
-  parseRewardFromStdout, findTokenUsage,
+  findTrackingInTrial, findRewardInTrial, findTokenUsageInTrial,
   parseCLIArgs, resolveJobDirs, writeResults,
 } from '../shared/extract-utils';
 
@@ -43,6 +43,13 @@ function detectSkill(dirName: string, horizon: string): string | null {
   return null;
 }
 
+/** Detect skill from trial dir name: {skill}-xp-{horizon}__{random} */
+function detectSkillFromTrialName(trialDirName: string, horizon: string): string | null {
+  const taskPart = trialDirName.split('__')[0];
+  if (!taskPart) return null;
+  return detectSkill(taskPart, horizon);
+}
+
 function detectSkillFromConfig(jobDir: string, horizon: string): string | null {
   const configPath = join(jobDir, 'config.json');
   if (!existsSync(configPath)) return null;
@@ -57,60 +64,6 @@ function detectSkillFromConfig(jobDir: string, horizon: string): string | null {
   return null;
 }
 
-/** Walk a job directory and find tracking data from reward.json, skill_tracking.json, or test-stdout.txt */
-function findTracking(jobDir: string): TrackingData | null {
-  for (const trialDir of getTrialDirs(jobDir)) {
-    const rewardPath = join(trialDir, 'verifier', 'reward.json');
-    if (existsSync(rewardPath)) {
-      try {
-        const reward = JSON.parse(readFileSync(rewardPath, 'utf-8'));
-        if (reward.tracking?.samples?.length > 0) return reward.tracking;
-      } catch {}
-    }
-
-    const trackingPath = join(trialDir, 'verifier', 'skill_tracking.json');
-    if (existsSync(trackingPath)) {
-      try {
-        const tracking = JSON.parse(readFileSync(trackingPath, 'utf-8'));
-        if (tracking.samples?.length > 0) return tracking;
-      } catch {}
-    }
-
-    const stdoutPath = join(trialDir, 'verifier', 'test-stdout.txt');
-    if (existsSync(stdoutPath)) {
-      try {
-        const content = readFileSync(stdoutPath, 'utf-8');
-        const reward = parseRewardFromStdout(content);
-        if (reward?.tracking?.samples?.length > 0) return reward.tracking;
-      } catch {}
-    }
-  }
-  return null;
-}
-
-/** Extract final skill XP/level from reward.json or test-stdout.txt fallback */
-function findRewardData(jobDir: string): { xp: number; level: number } | null {
-  for (const trialDir of getTrialDirs(jobDir)) {
-    const rewardPath = join(trialDir, 'verifier', 'reward.json');
-    if (existsSync(rewardPath)) {
-      try {
-        const reward = JSON.parse(readFileSync(rewardPath, 'utf-8'));
-        if (reward.xp !== undefined) return { xp: reward.xp, level: reward.level ?? 1 };
-      } catch {}
-    }
-
-    const stdoutPath = join(trialDir, 'verifier', 'test-stdout.txt');
-    if (existsSync(stdoutPath)) {
-      try {
-        const content = readFileSync(stdoutPath, 'utf-8');
-        const stdoutReward = parseRewardFromStdout(content);
-        if (stdoutReward?.xp !== undefined) return { xp: stdoutReward.xp, level: stdoutReward.level ?? 1 };
-      } catch {}
-    }
-  }
-  return null;
-}
-
 // ── Trajectory extraction ────────────────────────────────────────
 
 interface TrajectoryStep {
@@ -118,40 +71,39 @@ interface TrajectoryStep {
   text: string;
 }
 
-function extractTrajectory(jobDir: string): { steps: TrajectoryStep[] } | null {
-  for (const trialDir of getTrialDirs(jobDir)) {
-    const agentDir = join(trialDir, 'agent');
-    if (!existsSync(agentDir)) continue;
+function extractTrajectoryFromTrial(trialDir: string): { steps: TrajectoryStep[] } | null {
+  const agentDir = join(trialDir, 'agent');
+  if (!existsSync(agentDir)) return null;
 
-    const trajectoryPath = join(agentDir, 'trajectory.json');
-    if (existsSync(trajectoryPath)) {
-      try {
-        const traj = JSON.parse(readFileSync(trajectoryPath, 'utf-8'));
-        return parseClaudeTrajectory(traj);
-      } catch {}
-    }
-
-    const codexPath = join(agentDir, 'codex.txt');
-    if (existsSync(codexPath)) {
-      try {
-        return parseCodexLog(readFileSync(codexPath, 'utf-8'));
-      } catch {}
-    }
-
-    const kimiPath = join(agentDir, 'opencode-kimi.txt');
-    if (existsSync(kimiPath)) {
-      try {
-        return parseKimiLog(readFileSync(kimiPath, 'utf-8'));
-      } catch {}
-    }
-
-    const geminiPath = join(agentDir, 'gemini-cli.txt');
-    if (existsSync(geminiPath)) {
-      try {
-        return parseGeminiCliLog(readFileSync(geminiPath, 'utf-8'));
-      } catch {}
-    }
+  const trajectoryPath = join(agentDir, 'trajectory.json');
+  if (existsSync(trajectoryPath)) {
+    try {
+      const traj = JSON.parse(readFileSync(trajectoryPath, 'utf-8'));
+      return parseClaudeTrajectory(traj);
+    } catch {}
   }
+
+  const codexPath = join(agentDir, 'codex.txt');
+  if (existsSync(codexPath)) {
+    try {
+      return parseCodexLog(readFileSync(codexPath, 'utf-8'));
+    } catch {}
+  }
+
+  const kimiPath = join(agentDir, 'opencode-kimi.txt');
+  if (existsSync(kimiPath)) {
+    try {
+      return parseKimiLog(readFileSync(kimiPath, 'utf-8'));
+    } catch {}
+  }
+
+  const geminiPath = join(agentDir, 'gemini-cli.txt');
+  if (existsSync(geminiPath)) {
+    try {
+      return parseGeminiCliLog(readFileSync(geminiPath, 'utf-8'));
+    } catch {}
+  }
+
   return null;
 }
 
@@ -285,8 +237,10 @@ console.log(`Extracting skill-xp-${HORIZON} results...\n`);
 
 const jobDirs = resolveJobDirs(JOBS_DIR, explicitDirs, filter, (name, f) => {
   const lower = name.toLowerCase();
-  const isMatch = KNOWN_SKILLS.some(s => lower.startsWith(`${s}-xp-${HORIZON}`));
-  if (!isMatch) return false;
+  // Match single-task dirs ({skill}-xp-{horizon}-...) or dataset dirs (skills-{horizon}-...)
+  const isSkillMatch = KNOWN_SKILLS.some(s => lower.startsWith(`${s}-xp-${HORIZON}`));
+  const isDatasetMatch = lower.startsWith(`skills-${HORIZON}-`);
+  if (!isSkillMatch && !isDatasetMatch) return false;
   return !f || lower.includes(f);
 });
 
@@ -312,72 +266,86 @@ for (const dir of jobDirs) {
       return null;
     },
   });
-  let skill = detectSkill(jobName, HORIZON);
-  if (!skill) skill = detectSkillFromConfig(dir, HORIZON);
 
   if (model === 'unknown') {
     console.log(`  skip: ${jobName} (can't detect model)`);
     continue;
   }
-  if (!skill) {
-    console.log(`  skip: ${jobName} (can't detect skill)`);
+
+  // Detect skill at job level (old single-task format: {skill}-xp-{horizon}-{model}-...)
+  const jobSkill = detectSkill(jobName, HORIZON) || detectSkillFromConfig(dir, HORIZON);
+
+  // Iterate over trial dirs to handle both single-task and multi-task (dataset) jobs
+  const trialDirs = getTrialDirs(dir);
+  if (trialDirs.length === 0) {
+    console.log(`  skip: ${jobName} (no trial dirs)`);
     continue;
   }
 
-  const tracking = findTracking(dir);
-  const reward = findRewardData(dir);
-  const tokenUsage = findTokenUsage(dir);
-  const trajectory = extractTrajectory(dir);
+  for (const trialDir of trialDirs) {
+    const trialName = basename(trialDir);
+    // Detect skill: try trial dir name first (works for dataset jobs), then fall back to job name
+    const skill = detectSkillFromTrialName(trialName, HORIZON) || jobSkill;
 
-  if (!tracking && !reward) {
-    console.log(`  skip: ${jobName} (no tracking or reward data)`);
-    continue;
-  }
+    if (!skill) {
+      console.log(`  skip: ${jobName}/${trialName} (can't detect skill)`);
+      continue;
+    }
 
-  const samples = tracking?.samples || [];
-  const durationSeconds = samples.length > 0
-    ? samples[samples.length - 1].elapsedMs / 1000
-    : 0;
+    const tracking = findTrackingInTrial(trialDir);
+    const reward = findRewardInTrial(trialDir);
+    const tokenUsage = findTokenUsageInTrial(trialDir);
+    const trajectory = extractTrajectoryFromTrial(trialDir);
 
-  const finalXp = reward?.xp ?? 0;
-  const finalLevel = reward?.level ?? 1;
+    if (!tracking && !reward) {
+      continue;
+    }
 
-  // Slim down samples: only keep elapsedMs and the target skill's data
-  const slimSamples = samples.map(s => {
-    const slimSkills: Record<string, { level: number; xp: number }> = {};
-    if (s.skills) {
-      for (const [sName, sData] of Object.entries(s.skills)) {
-        if (sName.toLowerCase() === skill.toLowerCase()) {
-          slimSkills[sName] = sData as { level: number; xp: number };
-          break;
+    const samples = tracking?.samples || [];
+    const durationSeconds = samples.length > 0
+      ? samples[samples.length - 1].elapsedMs / 1000
+      : 0;
+
+    const finalXp = reward?.xp ?? 0;
+    const finalLevel = reward?.level ?? 1;
+
+    // Slim down samples: only keep elapsedMs and the target skill's data
+    const slimSamples = samples.map(s => {
+      const slimSkills: Record<string, { level: number; xp: number }> = {};
+      if (s.skills) {
+        for (const [sName, sData] of Object.entries(s.skills)) {
+          if (sName.toLowerCase() === skill.toLowerCase()) {
+            slimSkills[sName] = sData as { level: number; xp: number };
+            break;
+          }
         }
       }
+      return { elapsedMs: s.elapsedMs, skills: slimSkills };
+    });
+
+    if (!combined[model]) combined[model] = {};
+
+    const existing = combined[model][skill];
+    const shouldReplace = !existing
+      || (samples.length > existing.sampleCount * 2)
+      || (existing.sampleCount <= samples.length * 2 && finalXp > existing.finalXp);
+    if (shouldReplace) {
+      combined[model][skill] = {
+        jobName,
+        finalXp,
+        finalLevel,
+        durationSeconds,
+        sampleCount: samples.length,
+        samples: slimSamples,
+        ...(tokenUsage ? { tokenUsage } : {}),
+        ...(trajectory ? { trajectory: trajectory.steps } : {}),
+      };
     }
-    return { elapsedMs: s.elapsedMs, skills: slimSkills };
-  });
 
-  if (!combined[model]) combined[model] = {};
-
-  const existing = combined[model][skill];
-  const shouldReplace = !existing
-    || (samples.length > existing.sampleCount * 2)
-    || (existing.sampleCount <= samples.length * 2 && finalXp > existing.finalXp);
-  if (shouldReplace) {
-    combined[model][skill] = {
-      jobName,
-      finalXp,
-      finalLevel,
-      durationSeconds,
-      sampleCount: samples.length,
-      samples: slimSamples,
-      ...(tokenUsage ? { tokenUsage } : {}),
-      ...(trajectory ? { trajectory: trajectory.steps } : {}),
-    };
+    const tokenStr = tokenUsage ? `, tokens: ${(tokenUsage.inputTokens / 1000).toFixed(0)}k in / ${(tokenUsage.outputTokens / 1000).toFixed(0)}k out` : '';
+    console.log(`  ${model}/${skill}: ${jobName} — xp=${finalXp}, level=${finalLevel}, ${samples.length} samples${tokenStr}`);
+    extracted++;
   }
-
-  const tokenStr = tokenUsage ? `, tokens: ${(tokenUsage.inputTokens / 1000).toFixed(0)}k in / ${(tokenUsage.outputTokens / 1000).toFixed(0)}k out` : '';
-  console.log(`  ${model}/${skill}: ${jobName} — xp=${finalXp}, level=${finalLevel}, ${samples.length} samples${tokenStr}`);
-  extracted++;
 }
 
 if (extracted === 0) {

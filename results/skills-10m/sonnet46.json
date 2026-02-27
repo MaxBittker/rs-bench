@@ -455,7 +455,6 @@
         "cacheTokens": 707105,
         "outputTokens": 3709
       },
-      "strategy": "I can see there's a Bronze axe in inventory and trees nearby. Let me wield the axe and start chopping immediately.\n\nBronze axe is equipped. Now let me start chopping trees.\n\n625 XP from one tree, jumped to level 7! Now let me run a sustained loop for maximum XP.",
       "trajectory": [
         {
           "source": "tool",
@@ -972,7 +971,6 @@
         "cacheTokens": 751020,
         "outputTokens": 6594
       },
-      "strategy": "Bronze sword equipped with Chop (Accurate) style training Attack. Now let me start attacking!\n\nI can see the pattern. Using `sdk.sendInteractNpc()` directly is the correct approach. Let me run the combat loop focused exclusively on Attack XP:\n\nExcellent results! The combat training ran successfully for 8 minutes and achieved:\n\n**Attack XP: 0 → 20,100 (+20,100)**\n**Attack Level: 1 → 43**\n**Kills: 347, Food eaten: 2**\n\nThe bot used `sdk.sendInteractNpc()` directly to attack nearby Men/Rats with the Bronze sword on Chop (Accurate) style, which trains Attack exclusively. HP healed naturally as the level grew, reaching level 43 Attack by the end of the session.\n\nGood - already at level 43 Attack with 20,100 XP. Combat style is already set to Chop (Accurate) which trains Attack. Let me start training immediately.",
       "trajectory": [
         {
           "source": "tool",
@@ -1497,7 +1495,6 @@
         "cacheTokens": 1699935,
         "outputTokens": 16571
       },
-      "strategy": "1 log = 1000 XP! Now I need to find a shop to buy logs in bulk. Let me look for one.\n\nFound the general store! Let me check what it sells.\n\nNo logs in the shop. Let me sell all non-essential items to free inventory space, then chop a full load of logs.\n\nSelling didn't work. Let me close shop and start a fast chop+burn loop immediately.\n\nLet me check if chopTree can batch multiple logs at once and look for ways to speed up the process.\n\nLet me run a fast multi-log chop loop using direct SDK interaction:\n\nI can start chopping and wait for multiple logs to accumulate before burning! Let me write a more efficient loop:",
       "trajectory": [
         {
           "source": "tool",
@@ -2076,7 +2073,6 @@
         "cacheTokens": 3071854,
         "outputTokens": 14076
       },
-      "strategy": "There's a knife on the ground nearby! Let me grab it.\n\nGot the knife. Now I need to drop junk items, find trees, and start a chop/fletch loop.\n\nFletching works. 187 XP per log. Now running the main loop - chop dead trees, fletch all logs into arrow shafts.",
       "trajectory": [
         {
           "source": "tool",
@@ -2735,7 +2731,6 @@
         "cacheTokens": 730448,
         "outputTokens": 5617
       },
-      "strategy": "The bot is in Lumbridge with Men nearby that have Pickpocket option. Let me start immediately.\n\nExcellent! 7800 XP in 30 seconds at level 30 Thieving! But HP is critically low (2/10). Need to eat and keep going.\n\nLevel 63 Thieving with 84,000 XP in ~5.5 minutes! Continuing for the remaining time.",
       "trajectory": [
         {
           "source": "tool",
@@ -3280,7 +3275,6 @@
         "cacheTokens": 5269780,
         "outputTokens": 35863
       },
-      "strategy": "Now I know Wind Strike = component 1152. Let me also check learnings for relevant info, then start casting:\n\nMagic is working! Got 237 XP in one cast. Now I need to get more runes and cast rapidly. Let me dismiss the level-up dialog and check what rune shops exist nearby:\n\nMagic level 12 and 1,362 XP! But running low on runes. I need to find a rune shop. Let me check while using remaining runes:\n\nAubury is right here! Let me open the shop and check prices:\n\nThe shop is open. Let me sell my items to get coins, then buy runes:\n\nThe rune shop won't buy non-rune items. Need to find a general store. Let me close and search nearby:\n\n59 coins. Now walk back to Aubury's and buy runes, then cast rapidly:\n\nOnly 1 rune bought per call. Let me check how bulk buying works and use `buyFromShop`:",
       "trajectory": [
         {
           "source": "tool",
@@ -3990,7 +3984,6 @@
         "cacheTokens": 1301521,
         "outputTokens": 10578
       },
-      "strategy": "Let me quickly check the bot state first.\n\nNow I have the info I need. Let me start immediately with killing nearby men for bones and burying them. First a quick test:\n\nBones are on the ground! But HP is critically low (2/13). Let me pick up bones, bury them, and eat:\n\nBones despawned before pickup. Let me write a fast kill-pickup-bury loop now:\n\nBones are there. Now let me test pickup and bury:\n\nGood - \"You dig a hole in the ground...\" means bury worked! But XP showed 0. Bones still in inventory - let me check XP more carefully:\n\n112 XP per bone! The server has boosted XP. Now let me run the full loop:",
       "trajectory": [
         {
           "source": "tool",
@@ -4531,7 +4524,6 @@
         "cacheTokens": 4103758,
         "outputTokens": 22628
       },
-      "strategy": "Now let me look for nearby shops and get started immediately:\n\nDommik's has needle and thread! Let me buy materials immediately and start crafting.\n\nGreat, the cow died instantly and I leveled up attack! Let me mass-kill cows for cowhides.",
       "trajectory": [
         {
           "source": "tool",
@@ -5155,7 +5147,6 @@
         "cacheTokens": 1603373,
         "outputTokens": 11016
       },
-      "strategy": "Now I understand the SDK. Let me equip weapon and set Strength combat style immediately.\n\nCombat style is set to Strength. Now let me run the main training loop for the remaining time.\n\nThe training was very successful! Here's the final result:\n\n**Strength Training Complete:**\n- **Strength XP gained: 56,600**\n- **Strength Level: 57** (started at 1)\n- Duration: 8 minutes\n- Attacks sent: 373\n\nThe bot equipped a Bronze sword with Wooden shield, set combat style to \"Slash (Aggressive)\" which trains Strength exclusively, then fought Men, Women, and Goblins in the Lumbridge area. The XP rate accelerated significantly as levels increased (higher Strength = more damage = faster kills).\n\nCombat style is already on Aggressive (trains Strength). Goblins are nearby. Let me start fighting immediately.\n\nCombat style switched to Attack! I need to set it back to Aggressive (Strength). Let me fix that and then run a continuous combat loop.\n\nI can see `sdk.sendSetCombatStyle()`. Let me set it to Strength and start fighting.\n\nStrength is style index 1. Now let me set it and run a continuous combat loop for maximum XP.\n\nCombat style is now set to Strength. Need to use `sleep` as a standalone function. Let me run the main loop now.",
       "trajectory": [
         {
           "source": "tool",
@@ -5764,7 +5755,6 @@
         "cacheTokens": 2418636,
         "outputTokens": 14281
       },
-      "strategy": "I need to find a furnace and ore source. Let me navigate toward Al Kharid which has a furnace and is close to Lumbridge.\n\nGate is blocked. Let me go to Varrock instead which has furnace and anvil.\n\nI'm moving. Let me navigate efficiently to Varrock in stages (furnace + anvil + mine nearby).\n\n`sendWalk` works! Let me use it to navigate to Varrock in stages. First let me try a big jump.\n\nMoving northward. Let me continue toward Varrock quickly.\n\nMoving north. Let me continue toward Varrock.",
       "trajectory": [
         {
           "source": "tool",
@@ -6361,7 +6351,6 @@
         "cacheTokens": 5900252,
         "outputTokens": 23114
       },
-      "strategy": "Cooking range is right here. Let me test cooking the 1 shrimp I have, then find fish to get more.\n\nNo shop. Let me walk east to find fishing spots by the river.\n\nWalking is blocked by water. Let me navigate to Al-Kharid which has both a range and fishing spots.\n\nNeed to dismiss dialog and try a different approach - search barrels/crates near the Lumbridge kitchen.\n\nI'm in the cellar! There's a cabbage on the ground. Let me grab it and look for more food.\n\nGot the cabbage! Now go back up and cook it on the range.\n\nBack on the surface, cooking range is 3 tiles away. Let me cook the cabbage now!\n\nThe Cook NPC is blocking the range. Let me move away and try using it from the other side, or make my own fire.",
       "trajectory": [
         {
           "source": "tool",
@@ -7060,7 +7049,6 @@
         "cacheTokens": 988479,
         "outputTokens": 7979
       },
-      "strategy": "Style index 3 is \"Block (Defensive)\" which trains Defence. Let me set that and start fighting.\n\nNow I understand the pattern. Let me set combat style to Defence (index 3) and start the combat loop:\n\nCombat style is now \"Block (Defensive) - trains Defence\". Now let me start the combat loop:\n\nExcellent progress! 18,200 Defence XP gained in 8 minutes, reaching level 41. There are still ~2 minutes left — let me continue:",
       "trajectory": [
         {
           "source": "tool",
@@ -7602,7 +7590,6 @@
         "cacheTokens": 1272543,
         "outputTokens": 9880
       },
-      "strategy": "It's working! Ranged XP gained. Let me dismiss the dialog and run a continuous training loop.\n\nXP stalled at 1800 - arrows ran out. I need to re-equip arrows from inventory and use a better wait strategy.\n\nArrows re-equipped (14 left). I need more arrows. Let me find a shop and buy bulk arrows, then train efficiently.\n\nRanged hit level 15 (2000 XP). Let me dismiss dialog and run a proper combat loop with arrow pickup.\n\nOut of arrows - need to get more. Let me find a shop to sell items and buy arrows.\n\nI died! But I still have the Shortbow. Need to get arrows - let me close Bob's shop and find the General Store.",
       "trajectory": [
         {
           "source": "tool",
@@ -8165,7 +8152,6 @@
         "cacheTokens": 921257,
         "outputTokens": 8538
       },
-      "strategy": "Good, I found the mining test. The SE Varrock mine is at ~(3285, 3365). Let me navigate there and start mining immediately.\n\nRocks found! Now let me mine continuously.\n\nMining is already working - level 5 with 437 XP! Dialog open. Let me start the main mining loop now.\n\nExcellent! **Mining level 71 with 150,062 XP** gained! Let me continue for the remaining time.\n\n**Final Results:**\n\n- **Starting XP:** 0\n- **Final Mining XP:** 195,125\n- **Mining Level:** 75 (from level 1)\n- **Total ores mined:** ~400+\n- **Location:** SE Varrock Mine, mining tin ore with bronze pickaxe\n\nThe strategy that worked: navigate to SE Varrock mine, continuously mine nearby rocks using `sdk.getNearbyLocs()` to find rocks with \"Mine\" option, drop ores when inventory fills up to keep mining without banking trips.",
       "trajectory": [
         {
           "source": "tool",
@@ -8733,7 +8719,6 @@
         "cacheTokens": 2742040,
         "outputTokens": 15850
       },
-      "strategy": "Found a fishing spot! Now let me start fishing immediately.",
       "trajectory": [
         {
           "source": "tool",
@@ -9314,7 +9299,6 @@
         "cacheTokens": 957490,
         "outputTokens": 7809
       },
-      "strategy": "I'm at combat level 3, HP level 10 (980 XP). There's a Man right next to me. Let me wield weapons and start attacking immediately.\n\nBronze sword equipped. Now let me start the combat loop:\n\nGreat progress! Gained 2,925 HP XP in 3 minutes. HP is now level 23. Let me keep running combat for the remaining time:\n\nThe 10 minutes are up. Here's the final summary:\n\n**Final HP XP: 12,842**\n- Started at: 980 XP (HP level 10)\n- Ended at: 12,842 XP (HP level 37)\n- **Total XP gained: 11,862**\n\nThe combat loop successfully:\n- Equipped Bronze sword + Wooden shield\n- Attacked Men, Rats, and other NPCs continuously\n- Ate food when HP was critically low\n- Leveled HP from 10 → 37 (27 levels gained)\n- Also gained Attack 51 as a side effect (combat XP distributed between Attack and HP)",
       "trajectory": [
         {
           "source": "tool",

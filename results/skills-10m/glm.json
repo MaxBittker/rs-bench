@@ -455,7 +455,6 @@
         "cacheTokens": 529472,
         "outputTokens": 2883
       },
-      "strategy": "I'll start training Ranged immediately. Let me first check the bot's current state and equipment.\n\nI'm in Tutorial Island with no equipment. Let me skip the tutorial and get to a proper area to train Ranged. First, I'll continue the dialog.\n\nLet me check what bot actions are available and click the dialog option.\n\nI'm now in Lumbridge with a shortbow and 25 bronze arrows. Let me check what helpers are available and equip the ranged gear.\n\nLet me look at the SDK config to understand how to send actions, and then equip the bow and attack rats.\n\nLet me quickly look at how the SDK sends actions by checking the codebase.\n\nLet me read the MCP server code to understand how to access BotActions.\n\nLet me check what methods are available on the bot object by looking at the API.",
       "trajectory": [
         {
           "source": "agent",
@@ -1034,7 +1033,6 @@
         "cacheTokens": 444800,
         "outputTokens": 2384
       },
-      "strategy": "I'll start training Magic XP immediately. Let me first check the bot's current state and available magic-related functions.\n\nGood - Magic is level 1 with 0 XP. Let me check inventory for runes and available bot actions.\n\nI have runes:\n- Air rune x25\n- Mind rune x15\n- Water rune x6\n- Earth rune x4\n- Body rune x2\n\nI can cast Wind Strike (Air + Mind runes) on NPCs for Magic XP. Let me check how to cast spells.\n\nWind Strike component ID is 1152. Let me start casting on NPCs immediately.\n\nExcellent! Wind Strike is working! Gained 237 XP, now level 3 Magic. Let me run a continuous casting loop.",
       "trajectory": [
         {
           "source": "agent",
@@ -1606,7 +1604,6 @@
         "cacheTokens": 747264,
         "outputTokens": 5372
       },
-      "strategy": "I'll start immediately by checking the bot's current state and then begin cooking. Let me first see what we have to work with.\n\nI can see I'm in Lumbridge (3222, 3222) with Cooking level 1 and 0 XP. I have a Small fishing net. I need to fish shrimp and cook them. Let me find nearby fishing spots and cooking range.\n\nLet me check what actions are available to the bot.\n\nNow I understand. I can:\n1. Fish shrimp using `bot.interactLoc(/fishing/i, 'Net')`\n2. Cook them using `bot.useItemOnLoc(/raw/i, /range|stove/i)`\n\nLet me start fishing first.\n\nI walked to the wrong area. Let me go to the actual fishing spot.\n\nI'm stuck inside a house. Let me get out and go to a better location.\n\nI found fishing spots at Draynor Village. Let me fish shrimp now.\n\nFishing spots are NPCs, not locations. Let me use the correct method.",
       "trajectory": [
         {
           "source": "agent",
@@ -2208,7 +2205,6 @@
         "cacheTokens": 1312896,
         "outputTokens": 10714
       },
-      "strategy": "I'll start immediately. Let me first check what smithing-related code exists and then run a minimal test script.\n\nLet me check the existing smithing scripts and learnings to understand how to smith, then start immediately.\n\nNow let me check the current bot state to see what we have available (inventory, location, skills).\n\nI'm at Lumbridge (3222, 3222) with Smithing level 1, 0 XP. I have a bronze pickaxe but no hammer or ore. \n\nFastest path to Smithing XP:\n1. Mine copper/tin ore\n2. Smelt at Lumbridge furnace (3225, 3256) \n3. Buy hammer and smith at anvil\n\nLet me start immediately - walk to the furnace area and look for ore rocks along the way.\n\nI see a Shop keeper nearby! Let me buy a hammer first, then find ore rocks.\n\nShop didn't open. Let me walk to Lumbridge General Store (3210, 3244) to buy a hammer, and also look for ore rocks.\n\nLet me check what methods are available on bot and use the correct API.\n\nLet me check the SDK source for available methods.",
       "trajectory": [
         {
           "source": "agent",
@@ -2899,7 +2895,6 @@
         "cacheTokens": 2368320,
         "outputTokens": 8408
       },
-      "strategy": "I'll start immediately. Let me check the bot status and find the best way to gain Hitpoints XP.\n\nLet me connect the bot and check its current state.\n\nLet me check what methods are available on the bot.\n\nI can see there are monsters nearby. Let me equip weapons and start fighting to gain Hitpoints XP. I'll wield the bronze sword and wooden shield, then attack monsters.\n\nLet me start fighting immediately. I'll attack the Imp nearby to take damage and gain HP XP.\n\nNow I understand the structure. Let me attack the Imp (opIndex 2 for Attack) and start fighting.\n\nNow let me attack the Imp immediately.\n\nLet me write a complete combat script that runs continuously.",
       "trajectory": [
         {
           "source": "agent",
@@ -3628,7 +3623,6 @@
         "cacheTokens": 186112,
         "outputTokens": 2054
       },
-      "strategy": "I'll start training Fishing immediately. Let me first check what's available in the codebase and then write a minimal script to start fishing.\n\nLet me start with a minimal test to check the bot state and start fishing.\n\nGood - I have a Small fishing net. I need to walk to a fishing spot. Lumbridge swamp has fishing spots nearby. Let me walk there and start fishing.\n\nNo fishing spots visible. Let me try walking along the coast to find them.\n\nI'm at the Al Kharid gate. Let me open it and go to the Al Kharid fishing area.\n\nFound fishing spots. Let me start fishing now and run for several minutes to maximize XP.",
       "trajectory": [
         {
           "source": "agent",
@@ -4163,7 +4157,6 @@
         "cacheTokens": 154432,
         "outputTokens": 2140
       },
-      "strategy": "I'll start thieving immediately. Let me first check what's available and run a quick test script.\n\nLet me check the SDK and bot actions available.\n\nLet me read the SDK API and start running a thieving script immediately.\n\nI have the API. Let me start training immediately - running a pickpocket script for 10 minutes.\n\nExcellent! **142,600 XP gained - Level 1 to 70!** Let me run another quick session to maximize XP in the remaining time.",
       "trajectory": [
         {
           "source": "agent",
@@ -4676,7 +4669,6 @@
         "cacheTokens": 397056,
         "outputTokens": 2543
       },
-      "strategy": "I'll start training Firemaking immediately. Let me first check the bot's current state and available actions.\n\nLet me read the full output to see inventory and skills.\n\nI have a Tinderbox and Bronze axe but no logs. I need to cut trees first, then burn them. Let me look for trees.\n\nLet me find how to interact with game objects.\n\nI found a woodcutting-firemaking test file. Let me read it.\n\nNow I understand the API. Let me check the BotActions class for available methods.\n\nLet me see the burnLogs and chopTree methods.\n\nNow I understand. Let me check what I can use in the MCP environment.",
       "trajectory": [
         {
           "source": "agent",
@@ -5264,7 +5256,6 @@
         "cacheTokens": 538112,
         "outputTokens": 4038
       },
-      "strategy": "I'll start training Strength immediately. Let me first check the current bot state and available actions.\n\nI'm at Lumbridge with Strength level 1 (0 XP). I have combat gear and there are NPCs nearby. Let me:\n1. Wield a weapon\n2. Set combat style to train Strength\n3. Attack NPCs\n\nLet me check available bot methods.\n\nI have the API. Let me start training Strength immediately. I'll equip a weapon, set combat style to train Strength, and attack NPCs.\n\nThe sword is equipped. Now I need to set combat style to train Strength (style 1 = Aggressive) and attack NPCs.\n\nCombat style is now set to train Strength. Let me run a longer training script to maximize XP.\n\nLet me check the state structure first.\n\nExcellent! I'm already Strength level 3 with 200 XP! There's a dialog open. Let me close it and continue training with the correct state access.",
       "trajectory": [
         {
           "source": "agent",
@@ -5843,7 +5834,6 @@
         "cacheTokens": 450560,
         "outputTokens": 3846
       },
-      "strategy": "I'll start immediately training Attack XP. Let me first check what's available and then write a minimal script.\n\nI see the bot is in the tutorial area with a character creation modal open. I need to:\n1. Close the modal first\n2. Find enemies to attack\n\nThe combat style is already set to \"Punch (Accurate)\" which trains Attack - perfect!\n\nLet me close the modal and then look for enemies.\n\nLet me check the available bot methods first.\n\nI see there's a `skipTutorial` method. Let me use that to get out of the tutorial quickly.\n\nThe bot is now in Lumbridge and there are enemies nearby - Man (Lvl 2) and Rats (Lvl 1). Let me equip a weapon and start attacking immediately.\n\nLet me check what methods are available.\n\nLet me start attacking NPCs directly.\n\nThe attack worked. Now let me write a script that continuously attacks enemies to maximize Attack XP. I'll run it for 5-6 minutes.",
       "trajectory": [
         {
           "source": "agent",
@@ -6415,7 +6405,6 @@
         "cacheTokens": 1274624,
         "outputTokens": 9619
       },
-      "strategy": "I'll start mining XP training immediately. Let me first check the bot's current state and then begin mining.\n\nGood - I have a Bronze pickaxe and Mining level 1. I'm at Lumbridge (3222, 3222). I need to find rocks. Let me walk toward the Lumbridge mining area (south-east toward the swamp mining site) and look for rocks.\n\nNow I understand the SDK. Let me walk toward a mining area. The Lumbridge Swamp mining site should be to the southeast. I'll walk toward coordinates around (3226, 3148).\n\nThe walk didn't seem to execute. Let me try a different approach - using path finding or waiting longer.\n\nThe pathfinding works. Let me now actually walk the path. I'll walk step by step toward the mining area.\n\nWalking isn't working. Let me check what sendWalk returns and try a different approach.\n\nWalking works. I moved to (3225, 3220). Let me continue walking toward the mining area - I'll head southeast toward the Lumbridge Swamp mining site.\n\nI'm at (3229, 3201). Let me continue walking further south to reach the mining area.",
       "trajectory": [
         {
           "source": "agent",
@@ -7077,7 +7066,6 @@
         "cacheTokens": 656000,
         "outputTokens": 4868
       },
-      "strategy": "I'll start immediately by checking the bot's current state and finding available crafting methods.\n\nI'm in Lumbridge at (3222, 3222) with starter gear. Crafting is level 1. Let me check what crafting actions are available.\n\nLet me check how to perform actions in this SDK.\n\nI can now use BotActions. I have 0 Crafting XP. Let me find the fastest crafting method. First, let me check for nearby shops or resources.\n\nThe position hasn't changed. Let me try using pathfinding to move.",
       "trajectory": [
         {
           "source": "agent",
@@ -7665,7 +7653,6 @@
         "cacheTokens": 658304,
         "outputTokens": 3760
       },
-      "strategy": "I'll start immediately by checking the bot status and running a minimal test script to chop trees.\n\nI can see the bot is at Lumbridge Castle with a Bronze axe. There are trees to the north. Let me start chopping immediately.\n\nLet me fix the script and try again without sleep.\n\nLet me check what methods are available on bot.\n\nI can see there's a tree 1 tile away at (3217, 3231). Let me check the helpers.\n\nLet me check the SDK documentation or find examples in the codebase.\n\nNow I understand the API. Let me look at the BotActions class more closely.\n\nLet me check how the MCP server sets up the bot object.",
       "trajectory": [
         {
           "source": "agent",
@@ -8273,7 +8260,6 @@
         "cacheTokens": 1464000,
         "outputTokens": 10538
       },
-      "strategy": "I'll start training Prayer XP immediately. Let me first check what tools and scripts are available in the codebase.\n\nLet me check the prayer test file and connect to the bot.\n\nLet me check the bot's credentials and see how to connect.\n\nLet me check the bot credentials and look for bury bones functionality.\n\nLet me connect to the bot and check the current state - inventory, location, and prayer level.\n\nGood, the bot is connected. Prayer level is 1 with 0 XP. No bones in inventory - I need to get bones by killing NPCs. Let me start by equipping a weapon and attacking a Man (they drop bones).\n\nBot disconnected. Let me reconnect and start fresh.\n\nGood, connected. Now let me equip a weapon and attack a Man to get bones.",
       "trajectory": [
         {
           "source": "agent",
@@ -8509,7 +8495,6 @@
         "cacheTokens": 1816512,
         "outputTokens": 9743
       },
-      "strategy": "I'll start maximizing Fletching XP immediately. Let me first check the bot's current state and inventory.\n\nI'm at Lumbridge with starter items. I have a bronze axe for woodcutting but I need a knife for fletching. Let me check what helper methods are available and find a shop.\n\nLet me check the fletching test scripts and SDK actions.\n\nI need a knife and logs. Let me check for shops and see what methods are available for buying items.\n\nLet me start by walking to a shop and checking what they sell. I'll find a general store that might sell knives.\n\nFound the general store. Let me open the shop and check what they sell.\n\nThe general store doesn't sell knives! I need to find another shop. Let me close this shop and check for other options.\n\nLet me check if there are any commands to get items, or find a faster way to get a knife.",
       "trajectory": [
         {
           "source": "agent",
@@ -9233,7 +9218,6 @@
         "cacheTokens": 2193280,
         "outputTokens": 6780
       },
-      "strategy": "I'll start training Defence XP immediately. Let me first check the bot's current state and then begin combat training.\n\nI see the bot is at Tutorial Island with a character creation interface open. I need to close this first, then proceed through the tutorial to reach combat. Let me accept the character design and move forward.\n\nLet me check the existing scripts in the repository to understand the correct API.",
       "trajectory": [
         {
           "source": "agent",

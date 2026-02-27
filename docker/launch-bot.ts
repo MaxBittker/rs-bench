@@ -35,11 +35,12 @@ async function main() {
             '--disable-extensions',
             '--disable-background-timer-throttling',
             '--window-size=800,600',
+            '--kiosk',
         ],
     });
 
     const page = await browser.newPage();
-    await page.setViewport({ width: 765, height: 600 });
+    await page.setViewport({ width: 800, height: 600 });
 
     const url = `${BOT_URL}?bot=${BOT_NAME}&password=test&fps=15`;
     console.log(`[launch-bot] Navigating to ${url}`);

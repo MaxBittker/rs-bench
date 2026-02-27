@@ -477,7 +477,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -958,7 +957,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -1445,7 +1443,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": []
     },
     "mining": {
@@ -1915,7 +1912,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -2397,7 +2393,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -2888,7 +2883,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -3353,7 +3347,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": []
     },
     "firemaking": {
@@ -3814,7 +3807,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": []
     },
     "attack": {
@@ -4275,7 +4267,6 @@
           }
         }
       ],
-      "strategy": "I will start the game services first by running `/ensure-services.sh`.\n\nI will now check the bot state using `bun sdk/cli.ts agent` to see our inventory, skills, and nearby NPCs.\n\nI will read the API documentation and combat learnings to understand how to equip the sword and shield and ensure the combat style trains Attack.\n\nI will check `learnings/combat.md` to see how combat and combat styles work so we can train Attack specifically.\n\nI will start by writing a short, 15-second script to equip the Bronze sword and Wooden shield from our inventory, and set the combat style to Attack (style 0). This is our first iterative step to ensure we are geared up and ready to gain Attack XP.\n\nI will run the script to equip our weapon and shield and set the correct combat style.\n\nI will write a short script to walk to the chicken pen at `(3237, 3295)` and attack a chicken. This will verify our movement and combat logic before running a longer script.\n\nI will now run the script to walk to the chickens and attack one. This will test our pathfinding and basic combat initiation.",
       "trajectory": [
         {
           "source": "agent",
@@ -4794,7 +4785,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -5271,7 +5261,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": []
     },
     "crafting": {
@@ -5732,7 +5721,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -6225,7 +6213,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -6698,7 +6685,6 @@
           }
         }
       ],
-      "strategy": "I will start the game services first, as required by the `GEMINI.md` guide.\n\nI'm checking the bot's current state to understand its location, inventory, and skills.\n\nI will write a short script to open the Lumbridge bank and check if we have any money or extra runes stored there.\n\nI am testing if we can repeatedly claim runes from the Magic Tutor in Lumbridge by dropping our current runes.\n\nI need to understand how to cast spells or train Magic using the current SDK. I will search the SDK files for Magic-related functions.\n\nI will look up the correct component ID for the Wind Strike spell by searching the SDK source code.\n\nI will read the `sdk/test/magic.ts` file to see the exact implementation for casting Wind Strike.\n\nI will check what the numerical value of `Spells.WIND_STRIKE` is so we can use it directly in our script.",
       "trajectory": [
         {
           "source": "agent",
@@ -7263,7 +7249,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -7758,7 +7743,6 @@
           }
         }
       ],
-      "strategy": "Error when talking to Gemini API Full report available at: /tmp/gemini-client-error-Turn.run-sendMessageStream-2026-02-27T16-15-59-728Z.json TerminalQuotaError: You have exhausted your daily quota on this model.\n\n    at classifyGoogleError (file:///root/.nvm/versions/node/v22.22.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/utils/googleQuotaErrors.js:190:24)\n\n    at retryWithBackoff (file:///root/.nvm/versions/node/v22.22.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/utils/retry.js:151:37)\n\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n\n    at async GeminiChat.makeApiCallAndProcessStream (file:///root/.nvm/versions/node/v22.22.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/core/geminiChat.js:445:32)\n\n    at async GeminiChat.streamWithRetries (file:///root/.nvm/versions/node/v22.22.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/core/geminiChat.js:265:40)\n\n    at async Turn.run (file:///root/.nvm/versions/node/v22.22.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/core/turn.js:68:30)\n\n    at async GeminiClient.processTurn (file:///root/.nvm/versions/node/v22.22.0/lib/node_modules/@google/gemini-cli/node_modules/@google/gemini-cli-core/dist/src/core/client.js:478:26)",
       "trajectory": [
         {
           "source": "agent",

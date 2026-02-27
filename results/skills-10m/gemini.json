@@ -459,7 +459,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -958,7 +957,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -1439,7 +1437,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -1916,7 +1913,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": []
     },
     "cooking": {
@@ -2377,7 +2373,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -2872,7 +2867,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -3358,7 +3352,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -4075,7 +4068,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -4554,7 +4546,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": []
     },
     "defence": {
@@ -5015,7 +5006,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -5502,7 +5492,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -5971,7 +5960,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -6458,7 +6446,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -6936,7 +6923,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -7422,7 +7408,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
@@ -7888,7 +7873,6 @@
           }
         }
       ],
-      "strategy": "",
       "trajectory": [
         {
           "source": "tool",
