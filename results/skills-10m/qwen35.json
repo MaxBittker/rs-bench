@@ -5,8 +5,8 @@
       "jobName": "ranged-xp-10m-qwen35-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 600.046,
-      "sampleCount": 41,
+      "durationSeconds": 585.045,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -367,17 +367,235 @@
               "xp": 0
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
         },
         {
-          "elapsedMs": 600046,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the bot API:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I have a shortbow and bronze arrows. Let me test attacking a rat with ranged:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo \"sdk.getState()\" | node -e \"const { createBot } = require('/app/node_modules/@opencode/sdk'); createBot('agent').then(b => console.log(JSON.stringify(b.sdk.getState())));\""
+        },
+        {
+          "source": "agent",
+          "text": "Let me use the proper tool to check the game state:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good - I can see:\n- Ranged level: 1 (0 xp)\n- Inventory has: Shortbow (id 881) + Bronze arrow (id 882, count 25)\n- Nearby NPCs: Rats (combat level 1) at various distances\n\nBest immediate option: Use bow and arrows on nearest rat for ranged XP."
+        },
+        {
+          "source": "tool",
+          "text": "bash: cd /app && node -e \"\nconst { execSync } = require('child_process');\ntry {\n  const result = execSync('curl -s http://localhost:7780/action/bot/agent -X POST -H \\\"Content-Type: application/json\\\" "
+        },
+        {
+          "source": "agent",
+          "text": "Let me check available actions and the correct API endpoint:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cd /app && node -e \"\nconst http = require('http');\n\n// First check status end points\nconst options = {\n  hostname: 'localhost',\n  port: 7780,\n  path: '/status/agent',\n  method: 'GET'\n};\n\nconst r"
+        },
+        {
+          "source": "agent",
+          "text": "Let me explore the codebase to understand the action system:"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "agent",
+          "text": "Found `ranged.ts` test. Let me look at it:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/ranged.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Now let me check the SDK actions:"
+        },
+        {
+          "source": "agent",
+          "text": "Now let me create a minimal test script that uses the SDK properly to attack with ranged:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/ranged-xp-start.js"
+        },
+        {
+          "source": "tool",
+          "text": "bash: node ranged-xp-start.js"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/ranged-start.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me use the rs-agent tool directly instead:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: rm /app/ranged-start.ts && echo \"removing existing file\""
+        },
+        {
+          "source": "tool",
+          "text": "bash: cd /app && node -e \"\nconst ws = new WebSocket('ws://localhost:7780');\nws.onopen = () => {\n  console.log('Connected');\n  ws.send(JSON.stringify({ type: 'request', name: 'agent', action: 'getState"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/combat-events.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me look at existing test files to understand the exact API:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "agent",
+          "text": "I see - they use `bot.attackNpc()`. Let me check what's available on the bot object:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Training Ranged on Rats immediately:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo 'const state = sdk.getState(); console.log(JSON.stringify(state, null, 2));' | rs-agent_execute_bot --bot-name agent"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Perfect. I have a shortbow and 25 bronze arrows. Ranged is at level 1. I'll start shooting rats - they're perfect low-level targets. Let me write a minimal script to test shooting a rat.\n\n**Strategy:** Use shortbow + bronze arrows on nearby rats."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Need to check SDK methods. Let me try a different approach."
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo 'const sdk = require(\"@rs-agent/sdk\"); console.log(Object.keys(sdk)); ' | node"
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo 'const sdk = require(\"./node_modules/@rs-agent/sdk\"); console.log(Object.keys(sdk)); ' | node"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/sdk.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Found it! I need to use `sendInteractNpc` for attacking, and `sendUseItemOnNpc` for using bow/arrow on NPC. Let me test."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo 'const { sleep } = require(\\'./mcp/server\\'); console.log(typeof sleep);' | node"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check if sleep is in sdk - it's not in the docs. It's likely a global function. Let me try without it first."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -r \"function sleep\\|const sleep\\|sleep =\" /app/mcp/*.ts | head -20"
+        },
+        {
+          "source": "agent",
+          "text": "\"I can't reach that!\" - distance is 3 tiles. Need to walk closer first. Let me check sleep - it might be a global, not sdk method."
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "No sleep function. Let me try a different approach - I'll just do multiple interactions directly since the API is async and should work. Let me move closer to the rat first."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "prayer": {
       "jobName": "prayer-xp-10m-qwen35-20260227-150324",
@@ -755,7 +973,8 @@
             }
           }
         }
-      ]
+      ],
+      "trajectory": []
     },
     "magic": {
       "jobName": "magic-xp-10m-qwen35-20260227-153822",
@@ -1033,6 +1252,240 @@
               "xp": 0
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "agent",
+          "text": "Let me start the agent bot and then begin training."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good! The bot is connected and I have runes. Current Magic: 1 (0 xp). I have Air, Mind, Water, Earth, and Body runes. Let me start with test casting Fire Strike:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Fire Strike didn't work. Let me check what spells are available:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I need to check available spells. Let me try talking to Hans (NPC at the Lumbridge start area) about magic:"
+        },
+        {
+          "source": "agent",
+          "text": "There's a bug - passing a numeric ID isn't working. Let me pass the NPC name instead:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Dialog is open. Let me continue and ask about magic:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "tool",
+          "text": "bash: pgrep -f \"runescape\" || echo \"No process\""
+        },
+        {
+          "source": "agent",
+          "text": "I see the issue - the tool is no longer available. Let me check what's happening and find the correct tool:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/package.json"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/package.json"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Level 1 Magic, no spellbook set. Need to use Air Runes for the weakest spell. I have 25 Air runes and 3 Mind runes. Let me try a basic spellcasting script."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Magic shows as \"0 xp\" not undefined. Let me check available actions. Need to use spellbook. First, let me see what spells I can cast - Air Strike is usually the beginner spell requiring only Air runes."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me find the correct SDK methods for clicking NPCs and casting spells:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The state is showing 0 xp on Magic. Let me check if there's a way to interact directly. Let me check nearby NPCs to click on and try to understand the action methods:"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "agent",
+          "text": "Let me look at existing bot code to see available methods:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/agent/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat /app/mcp/server.ts | head -200"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/server.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/bot.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Good! The doc says `attackNpc` is available in the bot API. Let me check the api files:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/sdk.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/formatter.ts"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Now I understand! I can use `sdk.sendCastSpellOnNpc(spellName, npcIndex)` to cast magic on NPCs. Let me try casting Air Strike on the spider for magic XP:"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "agent",
+          "text": "The SDK might not have these functions exported. Let me check the actual SDK implementation:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "I see! The SDK has `sendSpellOnNpc` method that takes `npcIndex` and `spellComponent` (not spell name). Let me check the actions.ts to see the spell component IDs:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -n \"ENCHANT\\|STRIKE\\|SPELL\" /app/sdk/actions.ts | head -80"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -n \"441\\|442\\|443\" /app/sdk/actions.ts | head -40"
+        },
+        {
+          "source": "agent",
+          "text": "Let me search for where spell components are defined for regular spells like Air Strike:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -n \"spellComponent\\|spell.*[0-9]\" /app/sdk/actions.ts | head -60"
         }
       ]
     },
@@ -1322,14 +1775,196 @@
             }
           }
         }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "bash: ls -la"
+        },
+        {
+          "source": "tool",
+          "text": "task"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/agents.md"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/API.md"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/agent/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: node sdk/cli.ts agent"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/agent/bot.env"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/sdk/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun sdk/cli.ts agent"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/learnings/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/learnings/cooking.md"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/cook_shrimp.js"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat > /app/bots/agent/cook_shrimp.ts << 'EOF'\nconst sdk = require(\"./sdk/cli.ts\").sdk;\nconst bot = require(\"./sdk/cli.ts\").bot;\n\nasync function main() {\n  const range = sdk.findNearbyLoc(/^range"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cd /app && timeout 60 bun bots/agent/cook_shrimp.ts 2>&1"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/agent/"
+        },
+        {
+          "source": "tool",
+          "text": "task"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "bash: find /app/bots -type f | head -20"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/cook_shrimp.ts"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -r \"sdk\\.\" /app/mcp/server.ts | head -30"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -A 2 \"// \" /app/mcp/server.ts | grep -E \"(bot\\.|sdk\\.)\" | head -50"
+        },
+        {
+          "source": "tool",
+          "text": "bash: find /app -name \"*.ts\" -type f -exec grep -l \"BotActions\\|BotSDK\" {} \\; 2>/dev/null | head -10"
+        },
+        {
+          "source": "tool",
+          "text": "task"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/index.ts"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "task"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/cooking.ts"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Perfect! Now I'll start cooking immediately. Let me write a minimal script to test cooking with shrimps first."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/cooking-test.ts"
+        },
+        {
+          "source": "agent",
+          "text": "The cooking range is at 3212, 3215 but the player is at 3222, 3221 - too far! Need to walk there first. Let me create an automated cooking script."
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/*.ts 2>/dev/null || echo \"No ts files in /app\""
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/cooking-test.ts"
+        }
       ]
     },
     "thieving": {
       "jobName": "thieving-xp-10m-qwen35-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 600.025,
-      "sampleCount": 41,
+      "durationSeconds": 585.024,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -1690,24 +2325,30 @@
               "xp": 0
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "agent",
+          "text": "I'll help you maximize Thieving XP in this RuneScape private server bot system. Let me first understand what actions are available and test the connection."
         },
         {
-          "elapsedMs": 600025,
-          "skills": {
-            "Thieving": {
-              "level": 1,
-              "xp": 0
-            }
-          }
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "agent",
+          "text": "Let me query the available actions for the bot. I'll start by checking what's available and then create a minimal test script."
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "fletching": {
       "jobName": "fletching-xp-10m-qwen35-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 600.044,
-      "sampleCount": 41,
+      "durationSeconds": 585.044,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -2068,24 +2709,326 @@
               "xp": 0
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
         },
         {
-          "elapsedMs": 600044,
-          "skills": {
-            "Fletching": {
-              "level": 1,
-              "xp": 0
-            }
-          }
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/agent/"
+        },
+        {
+          "source": "agent",
+          "text": "I'll help you maximize Fletching XP. Let me first explore the bot capabilities and current game state."
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/learnings/fletching.md"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/agent/bot.env"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/API.md"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/mcp/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/lab_log.md"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/script.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Now I understand the structure. Let me create a minimal test script first."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/_template/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "edit"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/_template/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/_template/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: python -c \"import json; from opencord import sdk; print(json.dumps(sdk.getState(), indent=2))\""
+        },
+        {
+          "source": "tool",
+          "text": "bash: python3 -c \"import json; from opencord import sdk; print(json.dumps(sdk.getState(), indent=2))\""
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Starting Fletching training immediately. I need to find feathers (for arrow fletching) and a knife. Let me first check my inventory and nearby objects, then start fletching."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I have trees nearby and bronze arrows + shortbow. Let me start fletching - I'll try to add tips to the bronze arrows first since we have bronze arrows which might accept bronze arrowtips."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me try a different approach - walk to the tree coordinates and interact:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good, tree is at 2 tiles. Now try to chop it down:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo \"sdk.getState()\" | nc -q 1 localhost 3001"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the available tools and continue training:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Fletching is level 1 with 0 XP. I have bronze arrows but no feathers or fletching supplies nearby. Need to test what actions are available. Let me start by quickly testing chipping a bronze arrow:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 45 bash -c 'echo \"sdk.clickLocal(3217, 3231, 1); await sdk.sleep(2000); sdk.getState()\" | nc -q 1 localhost 3001 2>&1' || echo \"nc not available, trying SDK method\""
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me try a minimal fletching script - cut bronze arrows off shafts. First test with a 30-second script to see what I can do:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I have Bronze arrows but no feathers or fletching bench. In RS, fletching typically requires feathers + shafts or fletching knife. Let me check nearby NPCs for trades and look for a fletching bench or shop:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat > /tmp/test_fletching.py << 'EOF'\nimport asyncio\nimport aiohttp\nimport json\n\nasync def get_state():\n    async with aiohttp.ClientSession() as session:\n        async with session.get('http://"
+        },
+        {
+          "source": "agent",
+          "text": "Let me try clicking on the shop assistant to see if they sell fletching supplies or check what Hans says:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -r \"click\" --include=\"*.ts\" /app/mcp/server.ts | head -50"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/server.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/api/bot.ts"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/bot.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/sdk.ts"
+        },
+        {
+          "source": "agent",
+          "text": "I see! There's a `bot.fletchLogs()` function but I don't have logs yet. Let me look for more fletching-related methods and understand the SDK API:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I found the API! `bot.fletchLogs()` exists. I need to chop wood first. Let me start a simple test script to chop the nearby tree:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me write a cleaner script without duplicate variable names:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "It looks like the SDK globals are already available in the runtime. Let me use them directly without importing:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Starting Fletching training. Need logs and knife. I have 1 log, need to get knife and more logs. Let me first check what fletching options are available."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/learnings/fletching.md"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/API.md"
+        },
+        {
+          "source": "agent",
+          "text": "I have `fletchLogs` and `chopTree` available. Let me check for a knife in the shop first. Need to walk to knife spawn at (3224, 3202) and pick it up."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Got the knife! Now I need more logs. I'm at (3224, 3202) near Lumbridge. Let me walk to tree at (3217, 3231) and chop wood."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "fishing": {
       "jobName": "fishing-xp-10m-qwen35-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 600.018,
-      "sampleCount": 41,
+      "durationSeconds": 585.018,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -2446,17 +3389,75 @@
               "xp": 0
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
         },
         {
-          "elapsedMs": 600018,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
+          "source": "agent",
+          "text": "No bots connected. Starting the \"agent\" bot."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what functions are available in the bot API."
+        },
+        {
+          "source": "tool",
+          "text": "bash: find /app -name \"*.d.ts\" -o -name \"api*.ts\" | head -20"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/create-bot.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo \"Checking current bot state...\""
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Starting Fishing XP grind. Location appears to be Lumbridge area. Need to get to fishing spot. Let me walk to water and fish shrimps first with the net provided."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Need to use regular JavaScript, no comments starting with #."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what bot methods are available."
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "strength": {
       "jobName": "strength-xp-10m-qwen35-20260227-150324",
@@ -2753,14 +3754,15 @@
             }
           }
         }
-      ]
+      ],
+      "trajectory": []
     },
     "crafting": {
       "jobName": "crafting-xp-10m-qwen35-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 615.059,
-      "sampleCount": 42,
+      "durationSeconds": 585.058,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -3121,33 +4123,446 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 600059,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 615059,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         }
-      ]
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I have Crafting 1 (0 xp). I need to find the fastest crafting method. I have:\n- Pot x1\n- Bush nearby (likely wool/bushes for crafting)\n- Bushes may have wool\n\nLet me first check what the bush contains and test a simple crafting action."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see! I have a **pot** and there are **bushes** nearby. The fastest crafting method is likely to use wool from bushes to make pots into pottery, or use the pot with something. Let me check the bush actions by using the sdk to interact with objects."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Crafting level 1, 0 XP. Need crafting materials - I see a pot and can use a cooking range for leather items or clay. Let me start making pots at the clay deposit or get clay for pottery. First, a quick test to interact with the cooking range."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Crafting is level 1 with 0 XP. I have a pot in inventory. Best early Crafting methods:\n\n1. **Pottery** - Use pot on clay (need to find clay)\n2. **Leather** - Use on bullseye lamp (need bowstring, knife, wool/bulls hide)\n\nLooking at inventory, I have a pot but need to find clay nearby or interact with a pottery wheel. Let me check for clay or a clock/workbench nearby. First, let me try a simple test action - use the pot on something or find a crafting location.\n\nLet me explore nearby and check if there's a crafting bench or can use the pot with clay. I'll try talking to the Cook to see if I can get clay or direction to a crafting spot."
+        },
+        {
+          "source": "agent",
+          "text": "Need to check the correct SDK interface. Let me explore what methods are available."
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la bots/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la bots/agent/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat bots/_template/bot.ts 2>/dev/null || ls bots/_template/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la sdk/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: find sdk -type f | head -20"
+        },
+        {
+          "source": "tool",
+          "text": "bash: find sdk -type f -name \"*.ts\" | head -30"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -r \"export\" sdk/runner.ts sdk/*.ts 2>/dev/null | head -40"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the crafting-related methods in BotActions:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "Good! I see there's `craftLeather` for crafting leather armor. Let me check what's needed for that and also look for pottery crafting. Let me check the existing crafting test:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/crafting-dragonhide.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Now let me check what leather crafting requires. Let me also check if there are items nearby I can use for leather crafting:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -n \"potter\\|clay\\|pot\" /app/sdk/actions.ts | head -30"
+        },
+        {
+          "source": "agent",
+          "text": "Now I understand leather crafting. I need: needle, thread, and leather. I don't have these yet. Let me check if there's a better early-game crafting method. Let me look for pottery crafting:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -n \"useItem\\|UseItem\\|sendUseItem\\|USE_ITEM\" /app/sdk/actions.ts | head -40"
+        },
+        {
+          "source": "tool",
+          "text": "bash: node -e \"const { sdk } = require('./sdk'); (async () => { console.log(JSON.stringify(await sdk.getState(), null, 2)); process.exit(0); })();\""
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/agent/bot.env"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/crafting.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/learnings/jewelry-crafting.md"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cd /app/bots/agent && timeout 60 bun run ../../../sdk/runner.ts craft-test 2>&1 | head -100"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cd /app/sdk && timeout 60 bun run test/crafting-hard-leather.ts 2>&1 | head -150"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/crafting-hard-leather.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/utils/test-runner.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cd /app/sdk && timeout 90 bun run test/crafting-hard-leather.ts 2>&1"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/sdk/test/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/sdk/test/utils/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: find /app/sdk/test -name \"*.ts\" -o -name \"*.js\""
+        },
+        {
+          "source": "agent",
+          "text": "I need to find the save-generator file."
+        },
+        {
+          "source": "tool",
+          "text": "bash: find /app/sdk -name \"save-generator*\" 2>/dev/null"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/sdk/"
+        },
+        {
+          "source": "agent",
+          "text": "The save-generator file is missing. Let me check a simpler test that might work and also look at the SDK structure."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Crafting is level 1 with 0 XP. I need to find Crafting activities. Common methods:\n- Pottery (use clay + potter's wheel) \n- Making jewelry (uncut gems + bar)\n- Making bows (logs + bowstring)\n- Tanning leather\n\nI have clay? Let me check for clay or pottery wheel nearby. I see a pot in inventory but need to craft it. Let me try making pottery at a potter's wheel or clay nearby."
+        },
+        {
+          "source": "tool",
+          "text": "bash: sleep 3; echo \"checking...\""
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cd /app && cat bots/agent/bot.ts 2>/dev/null || cat bots/agent/index.ts 2>/dev/null || ls bots/agent/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/agent/"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo \"sdk.getState()\""
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Crafting is level 1 with 0 XP. I have a Pot, Tinderbox, and need clay/uncut gems or similar. The best low-level crafting is pottery (clay + water nearby) or crafting bowls. Let me find clay and a furnace or use water fountain for pottery."
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo \"\n// Quick test: move to fountain and check environment\nconst state = await sdk.getState();\nconsole.log(state.worldState?.nearbyObjects?.slice(0, 20));\n\""
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo \"\nconst state = await sdk.getState();\nconst objects = state.worldState?.nearbyObjects || [];\nfor (const obj of objects.slice(0, 50)) {\n  if (obj.name?.toLowerCase().includes('clay') || obj."
+        },
+        {
+          "source": "agent",
+          "text": "I have a Pot in inventory and there's a fountain nearby. I need to find Clay deposits for pottery crafting (fastest XP). Let me search for clay and start making bowls."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo \"\nconst state = await sdk.getState();\nconst allObjs = state.worldState?.nearbyObjects || [];\n// Looking for clay or mining rocks\nconst candidates = allObjs.filter(o => {\n  const n = o.name?"
+        },
+        {
+          "source": "agent",
+          "text": "I have a Pot and there's a Fountain at (3221, 3226). I need to find Clay to make Clay bowls (fastest Crafting XP). Let me search for clay deposits:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me just try to walk to the fountain first and see what crafting options are available:"
+        },
+        {
+          "source": "agent",
+          "text": "I need to check what SDK functions are available. Let me explore:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo \"const sdk = bot.sdk;\nconsole.log(Object.keys(sdk).filter(k => !k.startsWith('_')));\""
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I'm at Crafting level 1 with 0 XP. I have a pot and tinderbox already in inventory which are needed for pottery crafting. Let me check if there's a clay deposit nearby, then start making pots for XP."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls /app/bots/agent/"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 5 node -e \"const {WebSocket} = require('ws'); const ws = new WebSocket('ws://localhost:7780/api/actions'); ws.on('open', () => ws.send(JSON.stringify({action: 'get_state'}))); ws.on('mes"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/agent/ && cat /app/bots/agent/bot.env"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/crafting.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/sdk.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls /app/bots/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me search for pottery/clay crafting methods:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "I need to find the pottery crafting (using pot + clay). Let me check if there's a pottery or clay-bank option:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -n \"pottery\\|clay\\|useItemOnLoc\" /app/sdk/actions.ts | head -50"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I have a pot already and a tinderbox. Looking at the inventory, I have Clay/Earth crafting options. Let me just try using the pot on something. First let me check what's nearby more carefully and check if I can create unstrung potions for crafting XP:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        }
+      ],
+      "trimmedSamples": 2
     },
     "firemaking": {
       "jobName": "firemaking-xp-10m-qwen35-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 605.601,
-      "sampleCount": 42,
+      "durationSeconds": 590.601,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -3517,24 +4932,106 @@
               "xp": 0
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
         },
         {
-          "elapsedMs": 605601,
-          "skills": {
-            "Firemaking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
+          "source": "tool",
+          "text": "todowrite"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me discover the available bot methods:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good! Bot is connected. I can see Firemaking is level 1 with 0 xp. Let me check the sdk methods:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I need to find the helper methods. Let me check what actions are available in the bot:"
+        },
+        {
+          "source": "tool",
+          "text": "todowrite"
+        },
+        {
+          "source": "agent",
+          "text": "I have a tinderbox but need logs for firemaking. Let me first try woodcutting since I have an axe:"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "agent",
+          "text": "Let me search for the available bot functions to understand the API:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -l /app/bots/agent/"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/sdk.ts"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Perfect! Now I understand the API. I need to:\n1. Find nearby tree and chop it for logs\n2. Then use tinderbox on logs to burn them for XP\n\nLet me check for nearby trees:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I can see the game state. Firemaking is level 1 with 0 XP. Inventory has tinderbox but no logs. I need to find logs or a firemaking spot. Let me check game API to see what actions are available."
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "attack": {
       "jobName": "attack-xp-10m-qwen35-20260227-153822",
       "finalXp": 400,
       "finalLevel": 5,
-      "durationSeconds": 600.079,
-      "sampleCount": 41,
+      "durationSeconds": 585.077,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -3895,24 +5392,230 @@
               "xp": 400
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
         },
         {
-          "elapsedMs": 600079,
-          "skills": {
-            "Attack": {
-              "level": 5,
-              "xp": 400
-            }
-          }
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Attack 1 - Rats nearby. Start punching them for XP."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me try a different approach using available APIs:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: curl -s http://localhost:7780/status/agent | head -100"
+        },
+        {
+          "source": "tool",
+          "text": "bash: curl -s http://localhost:7780/api/actions/attack/2964 | head -50"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Starting immediate Attack training. Rats are closest and safest early targets."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cd /app && sdk.getState()"
+        },
+        {
+          "source": "tool",
+          "text": "bash: python3 -c \"import json; print(json.dumps(__import__('builtins').__import__('sdk').getState(), indent=2))\""
+        },
+        {
+          "source": "tool",
+          "text": "bash: rs-agent_list_bots"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I have Attack level 1 and nearby rats to fight. Starting now - equip bronze dagger and attack rats."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The SDK state is already up to date. I can see bronze dagger is equipped and there are rats nearby. I'll use the state.npc functions directly."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ps aux | grep -E \"(node|bot)\" | grep -v grep"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Level 1 attack, unarmed with Punch. Closest NPC is Man (Lvl 2) at 3 tiles. Start attacking."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "No xp gained yet. Check attack log:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "There's a bug in the SDK where `regex` is undefined before calling `test()`. Let me check the SDK and try a workaround using `attackOption` directly:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Bug confirmed - line 625-628: when pattern is a `RegExp`, the `regex` variable should be set but there's a problem with the logic. Let me try passing a string instead:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "smithing": {
       "jobName": "smithing-xp-10m-qwen35-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 600.039,
-      "sampleCount": 41,
+      "durationSeconds": 585.038,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -4273,24 +5976,262 @@
               "xp": 0
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "bash: ls -la"
         },
         {
-          "elapsedMs": 600039,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
+          "source": "tool",
+          "text": "bash: find . -name \"*.py\" -o -name \"*.js\" -o -name \"*.ts\" -o -name \"*.sh\" 2>/dev/null | head -30"
+        },
+        {
+          "source": "tool",
+          "text": "bash: rs-agent_list_bots"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la bots/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/README.md"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la bots/agent/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/README.md"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/benchmark/bot-client.ts"
+        },
+        {
+          "source": "tool",
+          "text": "task"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la benchmarks/"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/sdk/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/runner.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/API.md"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat bots/agent/bot.env"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat bots/agent/bot.env 2>/dev/null || echo \"File empty or missing\""
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -l \"smith\" /app/sdk/*.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep \"smith\" /app/sdk/API.md -i -A 2 -B 2"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -i \"furnace\\|melt\\|bar\" /app/sdk/API.md | head -30"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep \"interact\" /app/sdk/API.md | head -20"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what Smithing methods are available and look for furnace-related actions:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -A 10 \"smithAtAnvil\" /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -i \"furnace\\|MELT\" /app/server/content/*.ts 2>/dev/null | head -30"
+        },
+        {
+          "source": "agent",
+          "text": "Now let me search for what furnaces, rocks, and anvils available, and how to melt bars at a furnace:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls /app/server/content/"
+        },
+        {
+          "source": "agent",
+          "text": "Let me look at the server content directory for furnace definitions:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -r \"furnace\" /app/server/content/scripts/ 2>/dev/null | head -20"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -r \"MELT\\|smelt\" /app/server/content/scripts/ 2>/dev/null | head -30"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Smithing is level 1 with 0 XP. I need to get to a bank and forge to smith. Currently unarmed at the starting area. Let me first check what smithing options are available - I'll need bronze bars and a furnace."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the bot API structure:"
+        },
+        {
+          "source": "agent",
+          "text": "I need to find out the bot actions API. Let me try talking to Hans for help finding the bank/furnace:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Need to go back to Hans - he's key for tutorial. Let me navigate there and talk to him:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo \"Moving to Hans location (3226, 3223)\""
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me find all bot functions:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good - at Hans location. Now let me talk to Hans to get directions to the forge:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what NPCs are available nearby and try to find the furnace area directly. Looking at the nearby objects, I see a ladder - let me check if that leads to a smithing area:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Ladder didn't activate. Need to go to a furnace. Let me check for \"furnace\" in nearby objects and look around Lumbridge. The furnace should be near the bank. Let me walk toward (3220, 3212) where the bank typically is:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good - at Lumbridge area. I see a \"Large door\" which might lead to castlet/forge area. Let me also check the Cook - he might know where the furnace is. Let me try to walk to the Large Door first:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see large doors marked \"Close\" - they must be openable. Let me open them:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The doors weren't opened. Let me try interacting with the door directly:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good - doors now show \"Open\". Let me walk through them:"
+        },
+        {
+          "source": "agent",
+          "text": "Still same position - door isn't opening. Let me search for furnace directly by looking at my inventory and also find it via coordinates. The furnace is typically at (3224, 3212) near the bank in Lumbridge:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I'm at the bank area but don't see a furnace in nearby objects yet. Let me search more specifically - the furnace should be at (3222, 3207) typically. Let me walk there:"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "woodcutting": {
       "jobName": "woodcutting-xp-10m-qwen35-20260227-153822",
-      "finalXp": 3750,
-      "finalLevel": 22,
-      "durationSeconds": 600.015,
-      "sampleCount": 41,
+      "finalXp": 3125,
+      "finalLevel": 20,
+      "durationSeconds": 585.015,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -4651,17 +6592,299 @@
               "xp": 3125
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "bash: curl -s http://localhost:8080/api/status"
         },
         {
-          "elapsedMs": 600015,
-          "skills": {
-            "Woodcutting": {
-              "level": 22,
-              "xp": 3750
-            }
-          }
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "tool",
+          "text": "bash: curl -s http://localhost:8080/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/agents.md"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/README.md"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/agent/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/benchmark/workflows/woodcutting.md"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/agent/bot.env"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun sdk/cli.ts agent"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/learnings/woodcutting.md"
+        },
+        {
+          "source": "agent",
+          "text": "Bot is at Lumbridge (3222, 3222) with a bronze axe, already has tinderbox. Trees are at (3200, 3220). Let me start with a quick test script to verify tree-chopping works."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/test_chop.ts"
+        },
+        {
+          "source": "tool",
+          "text": "edit"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/agent/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat /app/sdk/cli.ts | head -50"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/cli.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/test_chop.ts"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/test_chop.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/agent/test_chop.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cd /app && bun bots/agent/test_chop.ts 2>&1"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Woodcutting 7 / Tree at (3217, 3231) ready. Bronze axe wielded."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "agent",
+          "text": "Timeout. Let me try a simpler approach:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: curl -X POST http://localhost:7780/fillandsubmit -H \"Content-Type: application/json\" -d '{\"bot\":\"agent\",\"code\":\"const tree = sdk.state.nearbyLocs.find(l => l.name === \\u0027Tree\\u0027);\\nconsole"
+        },
+        {
+          "source": "tool",
+          "text": "bash: curl -X GET \"http://localhost:7780/status/agent\" 2>&1"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat > /tmp/wc_test.js << 'EOF'\nconst tree = sdk.state.nearbyLocs.find(l => l.name === 'Tree');\nconsole.log('Tree:', tree);\nawait sdk.moveTo(tree.x, tree.y, 2);\nawait sdk.clickObject(tree.x, tree"
+        },
+        {
+          "source": "tool",
+          "text": "bash: curl -X GET http://localhost:7780/status/agent 2>&1 | jq '.stateAge'"
+        },
+        {
+          "source": "tool",
+          "text": "bash: curl -s http://localhost:7780/status/agent | head -5"
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo \"sdk.getState()\" | nc -q 1 localhost 3001"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Woodcutting level 7 (625 xp). I have a bronze axe and a tree is 1 tile away with \"Chop down\" option. Let me start chopping immediately."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -r \"interactWith\\|sdk\\.\" /app/mcp --include=\"*.ts\" | head -50"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -r \"sendInteract\\|findNearby\\|^    [a-zA-Z]\" /app/mcp/api/sdk.ts | head -100"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: pwd"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_disconnect_bot"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Woodcutting level 7, 625 XP. Tree 1 tile away at (3217, 3231) with \"Chop down\" option. Bronze axe in inventory. Let me start chopping!"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/mcp/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/README.md"
+        },
+        {
+          "source": "agent",
+          "text": "SDK uses `bot.chopTree()`! Let me check the API docs."
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/bot.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Perfect! Now let me start chopping trees with `bot.chopTree()`."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Woodcutting 11 (1,250 XP) - up from 7! Got 2 logs now. Keep chopping!"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Woodcutting 15 (1,875 XP) - up from 11! Got 3 logs. Keep going fast!"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Woodcutting 17 (2,500 XP) - up from 15! Got 4 logs. Keep chopping!"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "defence": {
       "jobName": "defence-xp-10m-qwen35-20260227-150324",
@@ -4940,7 +7163,8 @@
             }
           }
         }
-      ]
+      ],
+      "trajectory": []
     },
     "hitpoints": {
       "jobName": "hitpoints-xp-10m-qwen35-20260227-153822",
@@ -5237,6 +7461,260 @@
             }
           }
         }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "task"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/API.md"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/README.md"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/combat-state.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/combat-training.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/combat-events.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: mkdir -p /app/bots/agent"
+        },
+        {
+          "source": "agent",
+          "text": "Now I understand the setup. Training combat (fighting NPCs) grants Hitpoints XP along with Attack, Strength, and Defence XP. I need to create a simple bot that fights NPCs continuously for 10 minutes."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/bot.env"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/agent/bot.env"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Rats are available. Let me attack one for Hitpoints XP. Starting with a short test script."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/server.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/api/bot.ts"
+        },
+        {
+          "source": "agent",
+          "text": "The SDK provides `bot` and `sdk` objects. Let me read the API documentation."
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/bot.ts"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the attackNpc function - it might be converting the index incorrectly."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Hitpoints level 10 with 980 XP. Rats nearby - best early HP training via combat. Attacking rats gives HP XP. Let me start fighting the nearest rat."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The bot framework uses JavaScript, not Python. Let me fix the syntax."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see the SDK is limited. Let me check bot (botActions) instead which likely has the action methods."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "agent",
+          "text": "Let me search for available action commands in the codebase."
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me read the actions.ts to see available commands."
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "I see the SDK has many action methods. I need to check what SDK methods are available for combat. Let me search for Attack-related methods."
+        },
+        {
+          "source": "agent",
+          "text": "Found `attackNpc` method. Let me try it:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Combat started. Let me now attack continuously to grind HP XP. I'll check if still in combat and attack another rat:"
+        },
+        {
+          "source": "agent",
+          "text": "HP went up to 1,045 xp! Combat is still active against the Rat. There's a dialog waiting. Need to close it and keep attacking. Let me continue combat:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "HP now 1,077 xp (+32 XP). Combat active - another rat at 1 HP. I'll keep grinding! Let me make a loop to continuously attack rats."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "agent",
+          "text": "HP went to 1,142 (level 11, +65 XP gained). Combat is ongoing. I need to handle the \"already in combat\" case - I should wait for current combat to end before attacking a new target. Let me refine the loop:"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "tool",
+          "text": "bash: echo \"Testing tool availability check\""
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "agent",
+          "text": "I need to use the rs-agent_execute_code tool again. Looking at my previous calls, it seems to work. Let me try attacking the rat in combat to kill it, then attack a new rat:"
+        },
+        {
+          "source": "agent",
+          "text": "I see, the tool is no longer available. I've already gathered the game state and the player is at Hitpoints level 11 with 1,142 XP. The combat is active against a rat. Based on the pattern I observed:\n\n- HP went from 980 → 1,045 → 1,077 → 1,142\n- Combat with rats is effective for HP training\n- Player currently in combat with a rat\n\nLet me create a minimal script to continue the HP grinding loop and execute it directly in the game client:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/continue-training.js"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/bot.ts"
+        },
+        {
+          "source": "agent",
+          "text": "The script is written. Now I need to execute it in the game. Let me check the MCP server to understand how to run this script:"
+        }
       ]
     },
     "mining": {
@@ -5516,7 +7994,8 @@
             }
           }
         }
-      ]
+      ],
+      "trajectory": []
     }
   }
 }

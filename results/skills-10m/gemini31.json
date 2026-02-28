@@ -5,8 +5,8 @@
       "jobName": "cooking-xp-10m-gemini31-20260227-110547",
       "finalXp": 1500,
       "finalLevel": 13,
-      "durationSeconds": 765.204,
-      "sampleCount": 52,
+      "durationSeconds": 585.191,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -367,114 +367,6 @@
               "xp": 1500
             }
           }
-        },
-        {
-          "elapsedMs": 600191,
-          "skills": {
-            "Cooking": {
-              "level": 13,
-              "xp": 1500
-            }
-          }
-        },
-        {
-          "elapsedMs": 615192,
-          "skills": {
-            "Cooking": {
-              "level": 13,
-              "xp": 1500
-            }
-          }
-        },
-        {
-          "elapsedMs": 630192,
-          "skills": {
-            "Cooking": {
-              "level": 13,
-              "xp": 1500
-            }
-          }
-        },
-        {
-          "elapsedMs": 645195,
-          "skills": {
-            "Cooking": {
-              "level": 13,
-              "xp": 1500
-            }
-          }
-        },
-        {
-          "elapsedMs": 660198,
-          "skills": {
-            "Cooking": {
-              "level": 13,
-              "xp": 1500
-            }
-          }
-        },
-        {
-          "elapsedMs": 675198,
-          "skills": {
-            "Cooking": {
-              "level": 13,
-              "xp": 1500
-            }
-          }
-        },
-        {
-          "elapsedMs": 690201,
-          "skills": {
-            "Cooking": {
-              "level": 13,
-              "xp": 1500
-            }
-          }
-        },
-        {
-          "elapsedMs": 705203,
-          "skills": {
-            "Cooking": {
-              "level": 13,
-              "xp": 1500
-            }
-          }
-        },
-        {
-          "elapsedMs": 720202,
-          "skills": {
-            "Cooking": {
-              "level": 13,
-              "xp": 1500
-            }
-          }
-        },
-        {
-          "elapsedMs": 735202,
-          "skills": {
-            "Cooking": {
-              "level": 13,
-              "xp": 1500
-            }
-          }
-        },
-        {
-          "elapsedMs": 750204,
-          "skills": {
-            "Cooking": {
-              "level": 13,
-              "xp": 1500
-            }
-          }
-        },
-        {
-          "elapsedMs": 765204,
-          "skills": {
-            "Cooking": {
-              "level": 13,
-              "xp": 1500
-            }
-          }
         }
       ],
       "trajectory": [
@@ -506,14 +398,15 @@
           "source": "tool",
           "text": "write: bots/agent/cook_loop.ts"
         }
-      ]
+      ],
+      "trimmedSamples": 12
     },
     "defence": {
       "jobName": "defence-xp-10m-gemini31-20260227-110547",
-      "finalXp": 10300,
-      "finalLevel": 34,
-      "durationSeconds": 720.013,
-      "sampleCount": 49,
+      "finalXp": 8400,
+      "finalLevel": 31,
+      "durationSeconds": 585.011,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -874,87 +767,6 @@
               "xp": 8400
             }
           }
-        },
-        {
-          "elapsedMs": 600011,
-          "skills": {
-            "Defence": {
-              "level": 31,
-              "xp": 8400
-            }
-          }
-        },
-        {
-          "elapsedMs": 615011,
-          "skills": {
-            "Defence": {
-              "level": 31,
-              "xp": 8400
-            }
-          }
-        },
-        {
-          "elapsedMs": 630011,
-          "skills": {
-            "Defence": {
-              "level": 31,
-              "xp": 8400
-            }
-          }
-        },
-        {
-          "elapsedMs": 645012,
-          "skills": {
-            "Defence": {
-              "level": 31,
-              "xp": 8400
-            }
-          }
-        },
-        {
-          "elapsedMs": 660012,
-          "skills": {
-            "Defence": {
-              "level": 31,
-              "xp": 8400
-            }
-          }
-        },
-        {
-          "elapsedMs": 675012,
-          "skills": {
-            "Defence": {
-              "level": 31,
-              "xp": 8400
-            }
-          }
-        },
-        {
-          "elapsedMs": 690012,
-          "skills": {
-            "Defence": {
-              "level": 31,
-              "xp": 8400
-            }
-          }
-        },
-        {
-          "elapsedMs": 705012,
-          "skills": {
-            "Defence": {
-              "level": 31,
-              "xp": 8400
-            }
-          }
-        },
-        {
-          "elapsedMs": 720013,
-          "skills": {
-            "Defence": {
-              "level": 32,
-              "xp": 9200
-            }
-          }
         }
       ],
       "trajectory": [
@@ -974,14 +786,15 @@
           "source": "tool",
           "text": "write: bots/agent/cow_grinder_final.ts"
         }
-      ]
+      ],
+      "trimmedSamples": 9
     },
     "ranged": {
       "jobName": "ranged-xp-10m-gemini31-20260227-110547",
-      "finalXp": 1900,
-      "finalLevel": 15,
-      "durationSeconds": 750.102,
-      "sampleCount": 51,
+      "finalXp": 700,
+      "finalLevel": 7,
+      "durationSeconds": 585.08,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -1342,115 +1155,17 @@
               "xp": 700
             }
           }
-        },
-        {
-          "elapsedMs": 600080,
-          "skills": {
-            "Ranged": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 615082,
-          "skills": {
-            "Ranged": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 630082,
-          "skills": {
-            "Ranged": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 645086,
-          "skills": {
-            "Ranged": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 660089,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 1900
-            }
-          }
-        },
-        {
-          "elapsedMs": 675090,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 1900
-            }
-          }
-        },
-        {
-          "elapsedMs": 690091,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 1900
-            }
-          }
-        },
-        {
-          "elapsedMs": 705095,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 1900
-            }
-          }
-        },
-        {
-          "elapsedMs": 720099,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 1900
-            }
-          }
-        },
-        {
-          "elapsedMs": 735102,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 1900
-            }
-          }
-        },
-        {
-          "elapsedMs": 750102,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 1900
-            }
-          }
         }
       ],
-      "trajectory": []
+      "trajectory": [],
+      "trimmedSamples": 11
     },
     "mining": {
       "jobName": "mining-xp-10m-gemini31-20260227-110547",
-      "finalXp": 165375,
-      "finalLevel": 73,
-      "durationSeconds": 750.053,
-      "sampleCount": 51,
+      "finalXp": 101500,
+      "finalLevel": 66,
+      "durationSeconds": 585.041,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -1811,105 +1526,6 @@
               "xp": 101500
             }
           }
-        },
-        {
-          "elapsedMs": 600043,
-          "skills": {
-            "Mining": {
-              "level": 66,
-              "xp": 106750
-            }
-          }
-        },
-        {
-          "elapsedMs": 615043,
-          "skills": {
-            "Mining": {
-              "level": 67,
-              "xp": 112000
-            }
-          }
-        },
-        {
-          "elapsedMs": 630043,
-          "skills": {
-            "Mining": {
-              "level": 68,
-              "xp": 118125
-            }
-          }
-        },
-        {
-          "elapsedMs": 645044,
-          "skills": {
-            "Mining": {
-              "level": 68,
-              "xp": 123375
-            }
-          }
-        },
-        {
-          "elapsedMs": 660044,
-          "skills": {
-            "Mining": {
-              "level": 69,
-              "xp": 128625
-            }
-          }
-        },
-        {
-          "elapsedMs": 675046,
-          "skills": {
-            "Mining": {
-              "level": 70,
-              "xp": 134750
-            }
-          }
-        },
-        {
-          "elapsedMs": 690048,
-          "skills": {
-            "Mining": {
-              "level": 70,
-              "xp": 140000
-            }
-          }
-        },
-        {
-          "elapsedMs": 705050,
-          "skills": {
-            "Mining": {
-              "level": 71,
-              "xp": 146125
-            }
-          }
-        },
-        {
-          "elapsedMs": 720050,
-          "skills": {
-            "Mining": {
-              "level": 71,
-              "xp": 151375
-            }
-          }
-        },
-        {
-          "elapsedMs": 735051,
-          "skills": {
-            "Mining": {
-              "level": 72,
-              "xp": 157500
-            }
-          }
-        },
-        {
-          "elapsedMs": 750053,
-          "skills": {
-            "Mining": {
-              "level": 72,
-              "xp": 162750
-            }
-          }
         }
       ],
       "trajectory": [
@@ -1933,14 +1549,15 @@
           "source": "tool",
           "text": "write: bots/agent/grind_mining_final.ts"
         }
-      ]
+      ],
+      "trimmedSamples": 11
     },
     "fishing": {
       "jobName": "fishing-xp-10m-gemini31-20260227-110547",
-      "finalXp": 393250,
-      "finalLevel": 85,
-      "durationSeconds": 735.03,
-      "sampleCount": 50,
+      "finalXp": 251750,
+      "finalLevel": 79,
+      "durationSeconds": 585.023,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -2301,96 +1918,6 @@
               "xp": 251750
             }
           }
-        },
-        {
-          "elapsedMs": 600025,
-          "skills": {
-            "Fishing": {
-              "level": 79,
-              "xp": 263500
-            }
-          }
-        },
-        {
-          "elapsedMs": 615025,
-          "skills": {
-            "Fishing": {
-              "level": 80,
-              "xp": 278750
-            }
-          }
-        },
-        {
-          "elapsedMs": 630025,
-          "skills": {
-            "Fishing": {
-              "level": 81,
-              "xp": 295250
-            }
-          }
-        },
-        {
-          "elapsedMs": 645025,
-          "skills": {
-            "Fishing": {
-              "level": 81,
-              "xp": 305000
-            }
-          }
-        },
-        {
-          "elapsedMs": 660026,
-          "skills": {
-            "Fishing": {
-              "level": 82,
-              "xp": 319500
-            }
-          }
-        },
-        {
-          "elapsedMs": 675026,
-          "skills": {
-            "Fishing": {
-              "level": 83,
-              "xp": 335500
-            }
-          }
-        },
-        {
-          "elapsedMs": 690026,
-          "skills": {
-            "Fishing": {
-              "level": 83,
-              "xp": 345750
-            }
-          }
-        },
-        {
-          "elapsedMs": 705029,
-          "skills": {
-            "Fishing": {
-              "level": 84,
-              "xp": 360250
-            }
-          }
-        },
-        {
-          "elapsedMs": 720030,
-          "skills": {
-            "Fishing": {
-              "level": 84,
-              "xp": 371750
-            }
-          }
-        },
-        {
-          "elapsedMs": 735030,
-          "skills": {
-            "Fishing": {
-              "level": 85,
-              "xp": 385000
-            }
-          }
         }
       ],
       "trajectory": [
@@ -2414,14 +1941,15 @@
           "source": "tool",
           "text": "write: bots/agent/fish_safe.ts"
         }
-      ]
+      ],
+      "trimmedSamples": 10
     },
     "hitpoints": {
       "jobName": "hitpoints-xp-10m-gemini31-20260227-110547",
-      "finalXp": 14402,
-      "finalLevel": 20,
-      "durationSeconds": 750.076,
-      "sampleCount": 51,
+      "finalXp": 10177,
+      "finalLevel": 34,
+      "durationSeconds": 585.055,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 2,
@@ -2782,105 +2310,6 @@
               "xp": 10177
             }
           }
-        },
-        {
-          "elapsedMs": 600055,
-          "skills": {
-            "Hitpoints": {
-              "level": 34,
-              "xp": 10210
-            }
-          }
-        },
-        {
-          "elapsedMs": 615059,
-          "skills": {
-            "Hitpoints": {
-              "level": 34,
-              "xp": 10437
-            }
-          }
-        },
-        {
-          "elapsedMs": 630062,
-          "skills": {
-            "Hitpoints": {
-              "level": 34,
-              "xp": 10535
-            }
-          }
-        },
-        {
-          "elapsedMs": 645063,
-          "skills": {
-            "Hitpoints": {
-              "level": 34,
-              "xp": 10535
-            }
-          }
-        },
-        {
-          "elapsedMs": 660065,
-          "skills": {
-            "Hitpoints": {
-              "level": 34,
-              "xp": 10535
-            }
-          }
-        },
-        {
-          "elapsedMs": 675065,
-          "skills": {
-            "Hitpoints": {
-              "level": 34,
-              "xp": 10795
-            }
-          }
-        },
-        {
-          "elapsedMs": 690068,
-          "skills": {
-            "Hitpoints": {
-              "level": 35,
-              "xp": 11542
-            }
-          }
-        },
-        {
-          "elapsedMs": 705071,
-          "skills": {
-            "Hitpoints": {
-              "level": 36,
-              "xp": 12095
-            }
-          }
-        },
-        {
-          "elapsedMs": 720073,
-          "skills": {
-            "Hitpoints": {
-              "level": 37,
-              "xp": 12842
-            }
-          }
-        },
-        {
-          "elapsedMs": 735073,
-          "skills": {
-            "Hitpoints": {
-              "level": 37,
-              "xp": 13395
-            }
-          }
-        },
-        {
-          "elapsedMs": 750076,
-          "skills": {
-            "Hitpoints": {
-              "level": 38,
-              "xp": 14110
-            }
-          }
         }
       ],
       "trajectory": [
@@ -2896,14 +2325,15 @@
           "source": "tool",
           "text": "write: bots/agent/hp_trainer_final.ts"
         }
-      ]
+      ],
+      "trimmedSamples": 11
     },
     "woodcutting": {
       "jobName": "woodcutting-xp-10m-gemini31-20260227-110547",
       "finalXp": 38562,
       "finalLevel": 52,
-      "durationSeconds": 720.018,
-      "sampleCount": 49,
+      "durationSeconds": 585.014,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -3264,97 +2694,17 @@
               "xp": 38562
             }
           }
-        },
-        {
-          "elapsedMs": 600015,
-          "skills": {
-            "Woodcutting": {
-              "level": 52,
-              "xp": 38562
-            }
-          }
-        },
-        {
-          "elapsedMs": 615015,
-          "skills": {
-            "Woodcutting": {
-              "level": 52,
-              "xp": 38562
-            }
-          }
-        },
-        {
-          "elapsedMs": 630016,
-          "skills": {
-            "Woodcutting": {
-              "level": 52,
-              "xp": 38562
-            }
-          }
-        },
-        {
-          "elapsedMs": 645016,
-          "skills": {
-            "Woodcutting": {
-              "level": 52,
-              "xp": 38562
-            }
-          }
-        },
-        {
-          "elapsedMs": 660017,
-          "skills": {
-            "Woodcutting": {
-              "level": 52,
-              "xp": 38562
-            }
-          }
-        },
-        {
-          "elapsedMs": 675017,
-          "skills": {
-            "Woodcutting": {
-              "level": 52,
-              "xp": 38562
-            }
-          }
-        },
-        {
-          "elapsedMs": 690017,
-          "skills": {
-            "Woodcutting": {
-              "level": 52,
-              "xp": 38562
-            }
-          }
-        },
-        {
-          "elapsedMs": 705018,
-          "skills": {
-            "Woodcutting": {
-              "level": 52,
-              "xp": 38562
-            }
-          }
-        },
-        {
-          "elapsedMs": 720018,
-          "skills": {
-            "Woodcutting": {
-              "level": 52,
-              "xp": 38562
-            }
-          }
         }
       ],
-      "trajectory": []
+      "trajectory": [],
+      "trimmedSamples": 9
     },
     "firemaking": {
       "jobName": "firemaking-xp-10m-gemini31-20260227-110547",
-      "finalXp": 214000,
-      "finalLevel": 76,
-      "durationSeconds": 735.061,
-      "sampleCount": 50,
+      "finalXp": 167000,
+      "finalLevel": 73,
+      "durationSeconds": 585.054,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -3715,106 +3065,17 @@
               "xp": 167000
             }
           }
-        },
-        {
-          "elapsedMs": 600054,
-          "skills": {
-            "Firemaking": {
-              "level": 73,
-              "xp": 172000
-            }
-          }
-        },
-        {
-          "elapsedMs": 615055,
-          "skills": {
-            "Firemaking": {
-              "level": 73,
-              "xp": 175000
-            }
-          }
-        },
-        {
-          "elapsedMs": 630056,
-          "skills": {
-            "Firemaking": {
-              "level": 73,
-              "xp": 175000
-            }
-          }
-        },
-        {
-          "elapsedMs": 645058,
-          "skills": {
-            "Firemaking": {
-              "level": 74,
-              "xp": 183000
-            }
-          }
-        },
-        {
-          "elapsedMs": 660058,
-          "skills": {
-            "Firemaking": {
-              "level": 75,
-              "xp": 189000
-            }
-          }
-        },
-        {
-          "elapsedMs": 675059,
-          "skills": {
-            "Firemaking": {
-              "level": 75,
-              "xp": 196000
-            }
-          }
-        },
-        {
-          "elapsedMs": 690060,
-          "skills": {
-            "Firemaking": {
-              "level": 76,
-              "xp": 205000
-            }
-          }
-        },
-        {
-          "elapsedMs": 705060,
-          "skills": {
-            "Firemaking": {
-              "level": 76,
-              "xp": 214000
-            }
-          }
-        },
-        {
-          "elapsedMs": 720061,
-          "skills": {
-            "Firemaking": {
-              "level": 76,
-              "xp": 214000
-            }
-          }
-        },
-        {
-          "elapsedMs": 735061,
-          "skills": {
-            "Firemaking": {
-              "level": 76,
-              "xp": 214000
-            }
-          }
         }
       ],
-      "trajectory": []
+      "trajectory": [],
+      "trimmedSamples": 10
     },
     "attack": {
       "jobName": "attack-xp-10m-gemini31-20260227-110547",
-      "finalXp": 32000,
-      "finalLevel": 49,
-      "durationSeconds": 735.036,
-      "sampleCount": 50,
+      "finalXp": 25500,
+      "finalLevel": 46,
+      "durationSeconds": 585.031,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -4175,96 +3436,6 @@
               "xp": 25500
             }
           }
-        },
-        {
-          "elapsedMs": 600032,
-          "skills": {
-            "Attack": {
-              "level": 46,
-              "xp": 25700
-            }
-          }
-        },
-        {
-          "elapsedMs": 615032,
-          "skills": {
-            "Attack": {
-              "level": 47,
-              "xp": 26500
-            }
-          }
-        },
-        {
-          "elapsedMs": 630032,
-          "skills": {
-            "Attack": {
-              "level": 47,
-              "xp": 26500
-            }
-          }
-        },
-        {
-          "elapsedMs": 645032,
-          "skills": {
-            "Attack": {
-              "level": 47,
-              "xp": 28100
-            }
-          }
-        },
-        {
-          "elapsedMs": 660033,
-          "skills": {
-            "Attack": {
-              "level": 48,
-              "xp": 28900
-            }
-          }
-        },
-        {
-          "elapsedMs": 675033,
-          "skills": {
-            "Attack": {
-              "level": 49,
-              "xp": 31200
-            }
-          }
-        },
-        {
-          "elapsedMs": 690034,
-          "skills": {
-            "Attack": {
-              "level": 49,
-              "xp": 31500
-            }
-          }
-        },
-        {
-          "elapsedMs": 705035,
-          "skills": {
-            "Attack": {
-              "level": 49,
-              "xp": 31700
-            }
-          }
-        },
-        {
-          "elapsedMs": 720035,
-          "skills": {
-            "Attack": {
-              "level": 49,
-              "xp": 31700
-            }
-          }
-        },
-        {
-          "elapsedMs": 735036,
-          "skills": {
-            "Attack": {
-              "level": 49,
-              "xp": 32000
-            }
-          }
         }
       ],
       "trajectory": [
@@ -4316,14 +3487,15 @@
           "source": "agent",
           "text": "I will run the training script one last time for 1 minute to ensure we maximize our XP within the 10-minute time limit."
         }
-      ]
+      ],
+      "trimmedSamples": 10
     },
     "fletching": {
       "jobName": "fletching-xp-10m-gemini31-20260227-110547",
       "finalXp": 2062,
       "finalLevel": 15,
-      "durationSeconds": 750.084,
-      "sampleCount": 51,
+      "durationSeconds": 585.063,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -4684,105 +3856,6 @@
               "xp": 2062
             }
           }
-        },
-        {
-          "elapsedMs": 600063,
-          "skills": {
-            "Fletching": {
-              "level": 15,
-              "xp": 2062
-            }
-          }
-        },
-        {
-          "elapsedMs": 615065,
-          "skills": {
-            "Fletching": {
-              "level": 15,
-              "xp": 2062
-            }
-          }
-        },
-        {
-          "elapsedMs": 630068,
-          "skills": {
-            "Fletching": {
-              "level": 15,
-              "xp": 2062
-            }
-          }
-        },
-        {
-          "elapsedMs": 645069,
-          "skills": {
-            "Fletching": {
-              "level": 15,
-              "xp": 2062
-            }
-          }
-        },
-        {
-          "elapsedMs": 660072,
-          "skills": {
-            "Fletching": {
-              "level": 15,
-              "xp": 2062
-            }
-          }
-        },
-        {
-          "elapsedMs": 675075,
-          "skills": {
-            "Fletching": {
-              "level": 15,
-              "xp": 2062
-            }
-          }
-        },
-        {
-          "elapsedMs": 690076,
-          "skills": {
-            "Fletching": {
-              "level": 15,
-              "xp": 2062
-            }
-          }
-        },
-        {
-          "elapsedMs": 705079,
-          "skills": {
-            "Fletching": {
-              "level": 15,
-              "xp": 2062
-            }
-          }
-        },
-        {
-          "elapsedMs": 720081,
-          "skills": {
-            "Fletching": {
-              "level": 15,
-              "xp": 2062
-            }
-          }
-        },
-        {
-          "elapsedMs": 735086,
-          "skills": {
-            "Fletching": {
-              "level": 15,
-              "xp": 2062
-            }
-          }
-        },
-        {
-          "elapsedMs": 750084,
-          "skills": {
-            "Fletching": {
-              "level": 15,
-              "xp": 2062
-            }
-          }
         }
       ],
       "trajectory": [
@@ -4810,14 +3883,15 @@
           "source": "tool",
           "text": "write: bots/agent/fletch_grind.ts"
         }
-      ]
+      ],
+      "trimmedSamples": 11
     },
     "thieving": {
       "jobName": "thieving-xp-10m-gemini31-20260227-110547",
-      "finalXp": 111400,
-      "finalLevel": 67,
-      "durationSeconds": 720.023,
-      "sampleCount": 49,
+      "finalXp": 38200,
+      "finalLevel": 52,
+      "durationSeconds": 585.018,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -5178,97 +4252,17 @@
               "xp": 38200
             }
           }
-        },
-        {
-          "elapsedMs": 600019,
-          "skills": {
-            "Thieving": {
-              "level": 54,
-              "xp": 43800
-            }
-          }
-        },
-        {
-          "elapsedMs": 615020,
-          "skills": {
-            "Thieving": {
-              "level": 55,
-              "xp": 49400
-            }
-          }
-        },
-        {
-          "elapsedMs": 630020,
-          "skills": {
-            "Thieving": {
-              "level": 57,
-              "xp": 55000
-            }
-          }
-        },
-        {
-          "elapsedMs": 645021,
-          "skills": {
-            "Thieving": {
-              "level": 59,
-              "xp": 65000
-            }
-          }
-        },
-        {
-          "elapsedMs": 660021,
-          "skills": {
-            "Thieving": {
-              "level": 61,
-              "xp": 71400
-            }
-          }
-        },
-        {
-          "elapsedMs": 675021,
-          "skills": {
-            "Thieving": {
-              "level": 62,
-              "xp": 80800
-            }
-          }
-        },
-        {
-          "elapsedMs": 690022,
-          "skills": {
-            "Thieving": {
-              "level": 64,
-              "xp": 88400
-            }
-          }
-        },
-        {
-          "elapsedMs": 705023,
-          "skills": {
-            "Thieving": {
-              "level": 65,
-              "xp": 97400
-            }
-          }
-        },
-        {
-          "elapsedMs": 720023,
-          "skills": {
-            "Thieving": {
-              "level": 66,
-              "xp": 106200
-            }
-          }
         }
       ],
-      "trajectory": []
+      "trajectory": [],
+      "trimmedSamples": 9
     },
     "crafting": {
       "jobName": "crafting-xp-10m-gemini31-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 735.025,
-      "sampleCount": 50,
+      "durationSeconds": 585.021,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -5629,96 +4623,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 600021,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 615021,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 630021,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 645022,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 660023,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 675024,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 690024,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 705024,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 720025,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 735025,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         }
       ],
       "trajectory": [
@@ -5762,14 +4666,15 @@
           "source": "tool",
           "text": "write: bots/agent/run_wool.ts"
         }
-      ]
+      ],
+      "trimmedSamples": 10
     },
     "prayer": {
       "jobName": "prayer-xp-10m-gemini31-20260227-110547",
       "finalXp": 562,
       "finalLevel": 6,
-      "durationSeconds": 720.042,
-      "sampleCount": 49,
+      "durationSeconds": 585.039,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -6130,87 +5035,6 @@
               "xp": 562
             }
           }
-        },
-        {
-          "elapsedMs": 600039,
-          "skills": {
-            "Prayer": {
-              "level": 6,
-              "xp": 562
-            }
-          }
-        },
-        {
-          "elapsedMs": 615039,
-          "skills": {
-            "Prayer": {
-              "level": 6,
-              "xp": 562
-            }
-          }
-        },
-        {
-          "elapsedMs": 630040,
-          "skills": {
-            "Prayer": {
-              "level": 6,
-              "xp": 562
-            }
-          }
-        },
-        {
-          "elapsedMs": 645041,
-          "skills": {
-            "Prayer": {
-              "level": 6,
-              "xp": 562
-            }
-          }
-        },
-        {
-          "elapsedMs": 660041,
-          "skills": {
-            "Prayer": {
-              "level": 6,
-              "xp": 562
-            }
-          }
-        },
-        {
-          "elapsedMs": 675041,
-          "skills": {
-            "Prayer": {
-              "level": 6,
-              "xp": 562
-            }
-          }
-        },
-        {
-          "elapsedMs": 690041,
-          "skills": {
-            "Prayer": {
-              "level": 6,
-              "xp": 562
-            }
-          }
-        },
-        {
-          "elapsedMs": 705041,
-          "skills": {
-            "Prayer": {
-              "level": 6,
-              "xp": 562
-            }
-          }
-        },
-        {
-          "elapsedMs": 720042,
-          "skills": {
-            "Prayer": {
-              "level": 6,
-              "xp": 562
-            }
-          }
         }
       ],
       "trajectory": [
@@ -6234,14 +5058,15 @@
           "source": "tool",
           "text": "bash"
         }
-      ]
+      ],
+      "trimmedSamples": 9
     },
     "magic": {
       "jobName": "magic-xp-10m-gemini31-20260227-110547",
       "finalXp": 2312,
       "finalLevel": 17,
-      "durationSeconds": 720.013,
-      "sampleCount": 49,
+      "durationSeconds": 585.01,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -6602,87 +5427,6 @@
               "xp": 2312
             }
           }
-        },
-        {
-          "elapsedMs": 600010,
-          "skills": {
-            "Magic": {
-              "level": 17,
-              "xp": 2312
-            }
-          }
-        },
-        {
-          "elapsedMs": 615011,
-          "skills": {
-            "Magic": {
-              "level": 17,
-              "xp": 2312
-            }
-          }
-        },
-        {
-          "elapsedMs": 630011,
-          "skills": {
-            "Magic": {
-              "level": 17,
-              "xp": 2312
-            }
-          }
-        },
-        {
-          "elapsedMs": 645011,
-          "skills": {
-            "Magic": {
-              "level": 17,
-              "xp": 2312
-            }
-          }
-        },
-        {
-          "elapsedMs": 660012,
-          "skills": {
-            "Magic": {
-              "level": 17,
-              "xp": 2312
-            }
-          }
-        },
-        {
-          "elapsedMs": 675012,
-          "skills": {
-            "Magic": {
-              "level": 17,
-              "xp": 2312
-            }
-          }
-        },
-        {
-          "elapsedMs": 690012,
-          "skills": {
-            "Magic": {
-              "level": 17,
-              "xp": 2312
-            }
-          }
-        },
-        {
-          "elapsedMs": 705012,
-          "skills": {
-            "Magic": {
-              "level": 17,
-              "xp": 2312
-            }
-          }
-        },
-        {
-          "elapsedMs": 720013,
-          "skills": {
-            "Magic": {
-              "level": 17,
-              "xp": 2312
-            }
-          }
         }
       ],
       "trajectory": [
@@ -6798,14 +5542,15 @@
           "source": "tool",
           "text": "write: bots/agent/rush-sarim.ts"
         }
-      ]
+      ],
+      "trimmedSamples": 9
     },
     "smithing": {
       "jobName": "smithing-xp-10m-gemini31-20260227-110547",
-      "finalXp": 6380,
-      "finalLevel": 28,
-      "durationSeconds": 720.028,
-      "sampleCount": 49,
+      "finalXp": 4985,
+      "finalLevel": 25,
+      "durationSeconds": 585.024,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -7166,87 +5911,6 @@
               "xp": 4985
             }
           }
-        },
-        {
-          "elapsedMs": 600024,
-          "skills": {
-            "Smithing": {
-              "level": 25,
-              "xp": 4985
-            }
-          }
-        },
-        {
-          "elapsedMs": 615025,
-          "skills": {
-            "Smithing": {
-              "level": 26,
-              "xp": 5295
-            }
-          }
-        },
-        {
-          "elapsedMs": 630026,
-          "skills": {
-            "Smithing": {
-              "level": 28,
-              "xp": 6380
-            }
-          }
-        },
-        {
-          "elapsedMs": 645026,
-          "skills": {
-            "Smithing": {
-              "level": 28,
-              "xp": 6380
-            }
-          }
-        },
-        {
-          "elapsedMs": 660026,
-          "skills": {
-            "Smithing": {
-              "level": 28,
-              "xp": 6380
-            }
-          }
-        },
-        {
-          "elapsedMs": 675026,
-          "skills": {
-            "Smithing": {
-              "level": 28,
-              "xp": 6380
-            }
-          }
-        },
-        {
-          "elapsedMs": 690027,
-          "skills": {
-            "Smithing": {
-              "level": 28,
-              "xp": 6380
-            }
-          }
-        },
-        {
-          "elapsedMs": 705028,
-          "skills": {
-            "Smithing": {
-              "level": 28,
-              "xp": 6380
-            }
-          }
-        },
-        {
-          "elapsedMs": 720028,
-          "skills": {
-            "Smithing": {
-              "level": 28,
-              "xp": 6380
-            }
-          }
         }
       ],
       "trajectory": [
@@ -7274,14 +5938,15 @@
           "source": "tool",
           "text": "write: bots/agent/smith-loop2.ts"
         }
-      ]
+      ],
+      "trimmedSamples": 9
     },
     "strength": {
       "jobName": "strength-xp-10m-gemini31-20260227-110547",
       "finalXp": 700,
       "finalLevel": 7,
-      "durationSeconds": 750.068,
-      "sampleCount": 51,
+      "durationSeconds": 585.05,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -7642,105 +6307,6 @@
               "xp": 700
             }
           }
-        },
-        {
-          "elapsedMs": 600052,
-          "skills": {
-            "Strength": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 615053,
-          "skills": {
-            "Strength": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 630055,
-          "skills": {
-            "Strength": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 645057,
-          "skills": {
-            "Strength": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 660058,
-          "skills": {
-            "Strength": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 675059,
-          "skills": {
-            "Strength": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 690060,
-          "skills": {
-            "Strength": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 705060,
-          "skills": {
-            "Strength": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 720064,
-          "skills": {
-            "Strength": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 735066,
-          "skills": {
-            "Strength": {
-              "level": 7,
-              "xp": 700
-            }
-          }
-        },
-        {
-          "elapsedMs": 750068,
-          "skills": {
-            "Strength": {
-              "level": 7,
-              "xp": 700
-            }
-          }
         }
       ],
       "trajectory": [
@@ -7840,7 +6406,8 @@
           "source": "agent",
           "text": "An unexpected critical error occurred:[object Object]"
         }
-      ]
+      ],
+      "trimmedSamples": 11
     }
   }
 }

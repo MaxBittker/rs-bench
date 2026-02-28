@@ -5,8 +5,8 @@
       "jobName": "firemaking-xp-10m-haiku-20260227-110547",
       "finalXp": 115000,
       "finalLevel": 67,
-      "durationSeconds": 705.062,
-      "sampleCount": 48,
+      "durationSeconds": 585.056,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -367,78 +367,6 @@
               "xp": 115000
             }
           }
-        },
-        {
-          "elapsedMs": 600058,
-          "skills": {
-            "Firemaking": {
-              "level": 67,
-              "xp": 115000
-            }
-          }
-        },
-        {
-          "elapsedMs": 615058,
-          "skills": {
-            "Firemaking": {
-              "level": 67,
-              "xp": 115000
-            }
-          }
-        },
-        {
-          "elapsedMs": 630059,
-          "skills": {
-            "Firemaking": {
-              "level": 67,
-              "xp": 115000
-            }
-          }
-        },
-        {
-          "elapsedMs": 645060,
-          "skills": {
-            "Firemaking": {
-              "level": 67,
-              "xp": 115000
-            }
-          }
-        },
-        {
-          "elapsedMs": 660060,
-          "skills": {
-            "Firemaking": {
-              "level": 67,
-              "xp": 115000
-            }
-          }
-        },
-        {
-          "elapsedMs": 675061,
-          "skills": {
-            "Firemaking": {
-              "level": 67,
-              "xp": 115000
-            }
-          }
-        },
-        {
-          "elapsedMs": 690062,
-          "skills": {
-            "Firemaking": {
-              "level": 67,
-              "xp": 115000
-            }
-          }
-        },
-        {
-          "elapsedMs": 705062,
-          "skills": {
-            "Firemaking": {
-              "level": 67,
-              "xp": 115000
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -515,14 +443,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 8
     },
     "cooking": {
       "jobName": "cooking-xp-10m-haiku-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 781.129,
-      "sampleCount": 54,
+      "durationSeconds": 586.112,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -886,123 +815,6 @@
         },
         {
           "elapsedMs": 586112,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 601113,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 616114,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 631116,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 646118,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 661118,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 676118,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 691120,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 706125,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 721124,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 736126,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 751126,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 766127,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 781129,
           "skills": {
             "Cooking": {
               "level": 1,
@@ -1693,14 +1505,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 13
     },
     "strength": {
       "jobName": "strength-xp-10m-haiku-20260227-110547",
-      "finalXp": 18000,
-      "finalLevel": 41,
-      "durationSeconds": 720.026,
-      "sampleCount": 49,
+      "finalXp": 0,
+      "finalLevel": 1,
+      "durationSeconds": 585.021,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -2061,87 +1874,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 600023,
-          "skills": {
-            "Strength": {
-              "level": 11,
-              "xp": 1200
-            }
-          }
-        },
-        {
-          "elapsedMs": 615023,
-          "skills": {
-            "Strength": {
-              "level": 18,
-              "xp": 2600
-            }
-          }
-        },
-        {
-          "elapsedMs": 630024,
-          "skills": {
-            "Strength": {
-              "level": 24,
-              "xp": 4800
-            }
-          }
-        },
-        {
-          "elapsedMs": 645024,
-          "skills": {
-            "Strength": {
-              "level": 30,
-              "xp": 7800
-            }
-          }
-        },
-        {
-          "elapsedMs": 660025,
-          "skills": {
-            "Strength": {
-              "level": 33,
-              "xp": 9400
-            }
-          }
-        },
-        {
-          "elapsedMs": 675025,
-          "skills": {
-            "Strength": {
-              "level": 35,
-              "xp": 11400
-            }
-          }
-        },
-        {
-          "elapsedMs": 690025,
-          "skills": {
-            "Strength": {
-              "level": 36,
-              "xp": 12400
-            }
-          }
-        },
-        {
-          "elapsedMs": 705026,
-          "skills": {
-            "Strength": {
-              "level": 39,
-              "xp": 15600
-            }
-          }
-        },
-        {
-          "elapsedMs": 720026,
-          "skills": {
-            "Strength": {
-              "level": 40,
-              "xp": 16800
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -2254,14 +1986,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 9
     },
     "hitpoints": {
       "jobName": "hitpoints-xp-10m-haiku-20260227-110547",
-      "finalXp": 10372,
-      "finalLevel": 34,
-      "durationSeconds": 754.075,
-      "sampleCount": 52,
+      "finalXp": 9690,
+      "finalLevel": 33,
+      "durationSeconds": 589.059,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -2631,105 +2364,6 @@
               "xp": 9690
             }
           }
-        },
-        {
-          "elapsedMs": 604061,
-          "skills": {
-            "Hitpoints": {
-              "level": 33,
-              "xp": 9755
-            }
-          }
-        },
-        {
-          "elapsedMs": 619061,
-          "skills": {
-            "Hitpoints": {
-              "level": 33,
-              "xp": 9820
-            }
-          }
-        },
-        {
-          "elapsedMs": 634060,
-          "skills": {
-            "Hitpoints": {
-              "level": 33,
-              "xp": 9820
-            }
-          }
-        },
-        {
-          "elapsedMs": 649063,
-          "skills": {
-            "Hitpoints": {
-              "level": 33,
-              "xp": 9820
-            }
-          }
-        },
-        {
-          "elapsedMs": 664065,
-          "skills": {
-            "Hitpoints": {
-              "level": 33,
-              "xp": 9820
-            }
-          }
-        },
-        {
-          "elapsedMs": 679068,
-          "skills": {
-            "Hitpoints": {
-              "level": 33,
-              "xp": 9820
-            }
-          }
-        },
-        {
-          "elapsedMs": 694071,
-          "skills": {
-            "Hitpoints": {
-              "level": 33,
-              "xp": 9820
-            }
-          }
-        },
-        {
-          "elapsedMs": 709071,
-          "skills": {
-            "Hitpoints": {
-              "level": 33,
-              "xp": 9820
-            }
-          }
-        },
-        {
-          "elapsedMs": 724071,
-          "skills": {
-            "Hitpoints": {
-              "level": 33,
-              "xp": 9885
-            }
-          }
-        },
-        {
-          "elapsedMs": 739075,
-          "skills": {
-            "Hitpoints": {
-              "level": 33,
-              "xp": 9885
-            }
-          }
-        },
-        {
-          "elapsedMs": 754075,
-          "skills": {
-            "Hitpoints": {
-              "level": 34,
-              "xp": 10275
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -3062,14 +2696,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 11
     },
     "attack": {
       "jobName": "attack-xp-10m-haiku-20260227-110547",
-      "finalXp": 900,
-      "finalLevel": 9,
-      "durationSeconds": 706.788,
-      "sampleCount": 49,
+      "finalXp": 500,
+      "finalLevel": 6,
+      "durationSeconds": 586.782,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -3439,78 +3074,6 @@
               "xp": 500
             }
           }
-        },
-        {
-          "elapsedMs": 601782,
-          "skills": {
-            "Attack": {
-              "level": 6,
-              "xp": 500
-            }
-          }
-        },
-        {
-          "elapsedMs": 616785,
-          "skills": {
-            "Attack": {
-              "level": 6,
-              "xp": 500
-            }
-          }
-        },
-        {
-          "elapsedMs": 631785,
-          "skills": {
-            "Attack": {
-              "level": 6,
-              "xp": 500
-            }
-          }
-        },
-        {
-          "elapsedMs": 646785,
-          "skills": {
-            "Attack": {
-              "level": 9,
-              "xp": 900
-            }
-          }
-        },
-        {
-          "elapsedMs": 661787,
-          "skills": {
-            "Attack": {
-              "level": 9,
-              "xp": 900
-            }
-          }
-        },
-        {
-          "elapsedMs": 676787,
-          "skills": {
-            "Attack": {
-              "level": 9,
-              "xp": 900
-            }
-          }
-        },
-        {
-          "elapsedMs": 691788,
-          "skills": {
-            "Attack": {
-              "level": 9,
-              "xp": 900
-            }
-          }
-        },
-        {
-          "elapsedMs": 706788,
-          "skills": {
-            "Attack": {
-              "level": 9,
-              "xp": 900
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -3631,14 +3194,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 8
     },
     "defence": {
       "jobName": "defence-xp-10m-haiku-20260227-110547",
-      "finalXp": 52100,
-      "finalLevel": 56,
-      "durationSeconds": 751.058,
-      "sampleCount": 52,
+      "finalXp": 44100,
+      "finalLevel": 54,
+      "durationSeconds": 586.047,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 1,
@@ -4008,105 +3572,6 @@
               "xp": 44100
             }
           }
-        },
-        {
-          "elapsedMs": 601048,
-          "skills": {
-            "Defence": {
-              "level": 54,
-              "xp": 46000
-            }
-          }
-        },
-        {
-          "elapsedMs": 616048,
-          "skills": {
-            "Defence": {
-              "level": 55,
-              "xp": 47200
-            }
-          }
-        },
-        {
-          "elapsedMs": 631049,
-          "skills": {
-            "Defence": {
-              "level": 55,
-              "xp": 48700
-            }
-          }
-        },
-        {
-          "elapsedMs": 646049,
-          "skills": {
-            "Defence": {
-              "level": 55,
-              "xp": 49800
-            }
-          }
-        },
-        {
-          "elapsedMs": 661049,
-          "skills": {
-            "Defence": {
-              "level": 56,
-              "xp": 50700
-            }
-          }
-        },
-        {
-          "elapsedMs": 676049,
-          "skills": {
-            "Defence": {
-              "level": 56,
-              "xp": 51900
-            }
-          }
-        },
-        {
-          "elapsedMs": 691050,
-          "skills": {
-            "Defence": {
-              "level": 56,
-              "xp": 52100
-            }
-          }
-        },
-        {
-          "elapsedMs": 706055,
-          "skills": {
-            "Defence": {
-              "level": 56,
-              "xp": 52100
-            }
-          }
-        },
-        {
-          "elapsedMs": 721056,
-          "skills": {
-            "Defence": {
-              "level": 56,
-              "xp": 52100
-            }
-          }
-        },
-        {
-          "elapsedMs": 736056,
-          "skills": {
-            "Defence": {
-              "level": 56,
-              "xp": 52100
-            }
-          }
-        },
-        {
-          "elapsedMs": 751058,
-          "skills": {
-            "Defence": {
-              "level": 56,
-              "xp": 52100
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -4335,14 +3800,15 @@
           "source": "agent",
           "text": "**Excellent results!** The Defence training was highly successful! \n\n## Final Stats:\n- **Defence Level: 56** (started at 1)\n- **Defence XP: 52,100** (started at 0)\n- **Combat Level: 25** (started at 3)\n- **Hitpoints Level: 41** (side effect of combat training)\n\nThe bot spent approximately 10 minutes continuously attacking enemies in the Training Grounds area while using the Block (Defensive) combat style. This maximized Defence XP gains to reach level 56 with 52,100 experience points.\n\nThe key steps were:\n1. Found the `sendSetCombatStyle()` SDK method to switch to Block (Defence) style\n2. Set up a continuous combat loop attacking nearby NPCs\n3. Maintained the Defence combat style throughout the session\n4. Gained massive Defence XP efficiently\n\nThe bot achieved the goal of maximizing Defence XP within the 10-minute window!"
         }
-      ]
+      ],
+      "trimmedSamples": 11
     },
     "fishing": {
       "jobName": "fishing-xp-10m-haiku-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 690.049,
-      "sampleCount": 47,
+      "durationSeconds": 585.043,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -4703,69 +4169,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 600043,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 615045,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 630045,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 645046,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 660046,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 675048,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 690049,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -4858,14 +4261,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 7
     },
     "thieving": {
       "jobName": "thieving-xp-10m-haiku-20260227-110547",
       "finalXp": 1800,
       "finalLevel": 14,
-      "durationSeconds": 723.291,
-      "sampleCount": 50,
+      "durationSeconds": 588.283,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -5235,87 +4639,6 @@
               "xp": 1800
             }
           }
-        },
-        {
-          "elapsedMs": 603283,
-          "skills": {
-            "Thieving": {
-              "level": 14,
-              "xp": 1800
-            }
-          }
-        },
-        {
-          "elapsedMs": 618285,
-          "skills": {
-            "Thieving": {
-              "level": 14,
-              "xp": 1800
-            }
-          }
-        },
-        {
-          "elapsedMs": 633286,
-          "skills": {
-            "Thieving": {
-              "level": 14,
-              "xp": 1800
-            }
-          }
-        },
-        {
-          "elapsedMs": 648287,
-          "skills": {
-            "Thieving": {
-              "level": 14,
-              "xp": 1800
-            }
-          }
-        },
-        {
-          "elapsedMs": 663287,
-          "skills": {
-            "Thieving": {
-              "level": 14,
-              "xp": 1800
-            }
-          }
-        },
-        {
-          "elapsedMs": 678288,
-          "skills": {
-            "Thieving": {
-              "level": 14,
-              "xp": 1800
-            }
-          }
-        },
-        {
-          "elapsedMs": 693290,
-          "skills": {
-            "Thieving": {
-              "level": 14,
-              "xp": 1800
-            }
-          }
-        },
-        {
-          "elapsedMs": 708291,
-          "skills": {
-            "Thieving": {
-              "level": 14,
-              "xp": 1800
-            }
-          }
-        },
-        {
-          "elapsedMs": 723291,
-          "skills": {
-            "Thieving": {
-              "level": 14,
-              "xp": 1800
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -5428,14 +4751,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 9
     },
     "magic": {
       "jobName": "magic-xp-10m-haiku-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 795.038,
-      "sampleCount": 54,
+      "durationSeconds": 585.021,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -5790,132 +5114,6 @@
         },
         {
           "elapsedMs": 585021,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 600021,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 615021,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 630021,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 645022,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 660024,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 675024,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 690025,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 705025,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 720026,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 735032,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 750032,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 765032,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 780033,
-          "skills": {
-            "Magic": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 795038,
           "skills": {
             "Magic": {
               "level": 1,
@@ -6378,14 +5576,15 @@
           "source": "agent",
           "text": "## Summary\n\nI attempted to maximize Magic XP within 10 minutes but discovered a critical issue: **the Magic XP system is non-functional in this test environment**.\n\n### What I Tried:\n1. **Multiple spell casting methods**:\n   - Wind Strike (ID 51)\n   - Water Strike (ID 1)\n   - Earth Strike (ID 2)\n   - Fire Strike (ID 3)\n   - Enchant Level 1 (ID 22)\n   - Low Level Alchemy (ID 24)\n\n2. **Different casting contexts**:\n   - Out of combat\n   - In active combat\n   - With magic tab activated (tab 6)\n\n3. **Various targets**:\n   - Different rat NPCs\n   - Ground items\n\n4. **SDK methods**:\n   - High-level `bot.castSpellOnNpc()`\n   - Low-level `sdk.sendSpellOnNpc()`\n\n### Results:\n**Magic XP: 0** (no XP awarded despite successful spell casts)\n\nThe spells cast successfully (confirmed by server messages like \"Splashed on Rat\"), but the XP reward mechanism is broken. No error messages appeared, and no magic-related game messages were generated.\n\n### What Did Work:\nSince Magic training was impossible, I pivoted to Combat training:\n- **Attack: Level 38 with 14,500 XP** ✓\n- **Hitpoints: Level 26 with 5,692 XP** ✓\n- Gained 13,200 Attack XP and 4,700 Hitpoints XP through continuous combat over 2 minutes\n\n### Conclusion:\nThe Magic skill training system in this private server environment appears to be either completely disabled or misconfigured. The task cannot be completed as stated because the Magic XP system is non-functional. All spell-related mechanics work correctly (casting occurs, animations play, runes are consumed), but XP is never granted."
         }
-      ]
+      ],
+      "trimmedSamples": 14
     },
     "crafting": {
       "jobName": "crafting-xp-10m-haiku-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 721.036,
-      "sampleCount": 50,
+      "durationSeconds": 586.026,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -6749,87 +5948,6 @@
         },
         {
           "elapsedMs": 586026,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 601026,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 616026,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 631027,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 646029,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 661031,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 676032,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 691032,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 706034,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 721036,
           "skills": {
             "Crafting": {
               "level": 1,
@@ -7244,14 +6362,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 9
     },
     "prayer": {
       "jobName": "prayer-xp-10m-haiku-20260227-110547",
-      "finalXp": 4275,
-      "finalLevel": 22,
-      "durationSeconds": 750.038,
-      "sampleCount": 51,
+      "finalXp": 1800,
+      "finalLevel": 14,
+      "durationSeconds": 585.034,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -7612,105 +6731,6 @@
               "xp": 1800
             }
           }
-        },
-        {
-          "elapsedMs": 600034,
-          "skills": {
-            "Prayer": {
-              "level": 15,
-              "xp": 2025
-            }
-          }
-        },
-        {
-          "elapsedMs": 615034,
-          "skills": {
-            "Prayer": {
-              "level": 16,
-              "xp": 2250
-            }
-          }
-        },
-        {
-          "elapsedMs": 630035,
-          "skills": {
-            "Prayer": {
-              "level": 17,
-              "xp": 2475
-            }
-          }
-        },
-        {
-          "elapsedMs": 645035,
-          "skills": {
-            "Prayer": {
-              "level": 18,
-              "xp": 2587
-            }
-          }
-        },
-        {
-          "elapsedMs": 660035,
-          "skills": {
-            "Prayer": {
-              "level": 18,
-              "xp": 2812
-            }
-          }
-        },
-        {
-          "elapsedMs": 675035,
-          "skills": {
-            "Prayer": {
-              "level": 19,
-              "xp": 3037
-            }
-          }
-        },
-        {
-          "elapsedMs": 690036,
-          "skills": {
-            "Prayer": {
-              "level": 20,
-              "xp": 3375
-            }
-          }
-        },
-        {
-          "elapsedMs": 705036,
-          "skills": {
-            "Prayer": {
-              "level": 21,
-              "xp": 3487
-            }
-          }
-        },
-        {
-          "elapsedMs": 720036,
-          "skills": {
-            "Prayer": {
-              "level": 21,
-              "xp": 3712
-            }
-          }
-        },
-        {
-          "elapsedMs": 735037,
-          "skills": {
-            "Prayer": {
-              "level": 22,
-              "xp": 3937
-            }
-          }
-        },
-        {
-          "elapsedMs": 750038,
-          "skills": {
-            "Prayer": {
-              "level": 23,
-              "xp": 4162
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -7891,14 +6911,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 11
     },
     "mining": {
       "jobName": "mining-xp-10m-haiku-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 675.144,
-      "sampleCount": 46,
+      "durationSeconds": 585.136,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -8259,60 +7280,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 600137,
-          "skills": {
-            "Mining": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 615139,
-          "skills": {
-            "Mining": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 630142,
-          "skills": {
-            "Mining": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 645142,
-          "skills": {
-            "Mining": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 660143,
-          "skills": {
-            "Mining": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 675144,
-          "skills": {
-            "Mining": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -8425,14 +7392,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 6
     },
     "woodcutting": {
       "jobName": "woodcutting-xp-10m-haiku-20260227-110547",
-      "finalXp": 8125,
-      "finalLevel": 31,
-      "durationSeconds": 705.085,
-      "sampleCount": 48,
+      "finalXp": 6875,
+      "finalLevel": 29,
+      "durationSeconds": 585.071,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -8793,78 +7761,6 @@
               "xp": 6875
             }
           }
-        },
-        {
-          "elapsedMs": 600072,
-          "skills": {
-            "Woodcutting": {
-              "level": 29,
-              "xp": 6875
-            }
-          }
-        },
-        {
-          "elapsedMs": 615075,
-          "skills": {
-            "Woodcutting": {
-              "level": 29,
-              "xp": 6875
-            }
-          }
-        },
-        {
-          "elapsedMs": 630075,
-          "skills": {
-            "Woodcutting": {
-              "level": 29,
-              "xp": 6875
-            }
-          }
-        },
-        {
-          "elapsedMs": 645075,
-          "skills": {
-            "Woodcutting": {
-              "level": 31,
-              "xp": 8125
-            }
-          }
-        },
-        {
-          "elapsedMs": 660077,
-          "skills": {
-            "Woodcutting": {
-              "level": 31,
-              "xp": 8125
-            }
-          }
-        },
-        {
-          "elapsedMs": 675079,
-          "skills": {
-            "Woodcutting": {
-              "level": 31,
-              "xp": 8125
-            }
-          }
-        },
-        {
-          "elapsedMs": 690081,
-          "skills": {
-            "Woodcutting": {
-              "level": 31,
-              "xp": 8125
-            }
-          }
-        },
-        {
-          "elapsedMs": 705085,
-          "skills": {
-            "Woodcutting": {
-              "level": 31,
-              "xp": 8125
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -8969,14 +7865,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 8
     },
     "smithing": {
       "jobName": "smithing-xp-10m-haiku-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 765.016,
-      "sampleCount": 52,
+      "durationSeconds": 585.012,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -9331,114 +8228,6 @@
         },
         {
           "elapsedMs": 585012,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 600012,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 615012,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 630012,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 645013,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 660013,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 675014,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 690014,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 705015,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 720015,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 735015,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 750016,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 765016,
           "skills": {
             "Smithing": {
               "level": 1,
@@ -10029,14 +8818,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 12
     },
     "fletching": {
       "jobName": "fletching-xp-10m-haiku-20260227-110547",
-      "finalXp": 2625,
-      "finalLevel": 18,
-      "durationSeconds": 705.084,
-      "sampleCount": 49,
+      "finalXp": 1312,
+      "finalLevel": 12,
+      "durationSeconds": 585.063,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 1,
@@ -10406,78 +9196,6 @@
               "xp": 1312
             }
           }
-        },
-        {
-          "elapsedMs": 600065,
-          "skills": {
-            "Fletching": {
-              "level": 12,
-              "xp": 1312
-            }
-          }
-        },
-        {
-          "elapsedMs": 615069,
-          "skills": {
-            "Fletching": {
-              "level": 12,
-              "xp": 1312
-            }
-          }
-        },
-        {
-          "elapsedMs": 630074,
-          "skills": {
-            "Fletching": {
-              "level": 12,
-              "xp": 1312
-            }
-          }
-        },
-        {
-          "elapsedMs": 645076,
-          "skills": {
-            "Fletching": {
-              "level": 12,
-              "xp": 1312
-            }
-          }
-        },
-        {
-          "elapsedMs": 660078,
-          "skills": {
-            "Fletching": {
-              "level": 12,
-              "xp": 1312
-            }
-          }
-        },
-        {
-          "elapsedMs": 675079,
-          "skills": {
-            "Fletching": {
-              "level": 14,
-              "xp": 1687
-            }
-          }
-        },
-        {
-          "elapsedMs": 690082,
-          "skills": {
-            "Fletching": {
-              "level": 15,
-              "xp": 2062
-            }
-          }
-        },
-        {
-          "elapsedMs": 705084,
-          "skills": {
-            "Fletching": {
-              "level": 17,
-              "xp": 2437
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -10714,14 +9432,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 8
     },
     "ranged": {
       "jobName": "ranged-xp-10m-haiku-20260227-110547",
       "finalXp": 2000,
       "finalLevel": 15,
-      "durationSeconds": 751.093,
-      "sampleCount": 52,
+      "durationSeconds": 586.071,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 1,
@@ -11085,105 +9804,6 @@
         },
         {
           "elapsedMs": 586071,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 2000
-            }
-          }
-        },
-        {
-          "elapsedMs": 601073,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 2000
-            }
-          }
-        },
-        {
-          "elapsedMs": 616074,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 2000
-            }
-          }
-        },
-        {
-          "elapsedMs": 631076,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 2000
-            }
-          }
-        },
-        {
-          "elapsedMs": 646078,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 2000
-            }
-          }
-        },
-        {
-          "elapsedMs": 661079,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 2000
-            }
-          }
-        },
-        {
-          "elapsedMs": 676084,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 2000
-            }
-          }
-        },
-        {
-          "elapsedMs": 691085,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 2000
-            }
-          }
-        },
-        {
-          "elapsedMs": 706097,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 2000
-            }
-          }
-        },
-        {
-          "elapsedMs": 721092,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 2000
-            }
-          }
-        },
-        {
-          "elapsedMs": 736092,
-          "skills": {
-            "Ranged": {
-              "level": 15,
-              "xp": 2000
-            }
-          }
-        },
-        {
-          "elapsedMs": 751093,
           "skills": {
             "Ranged": {
               "level": 15,
@@ -11658,7 +10278,8 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 11
     }
   }
 }

@@ -1104,8 +1104,8 @@
       "jobName": "strength-xp-10m-kimi-20260227-153822",
       "finalXp": 5200,
       "finalLevel": 25,
-      "durationSeconds": 600.045,
-      "sampleCount": 41,
+      "durationSeconds": 585.044,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -1466,15 +1466,6 @@
               "xp": 5200
             }
           }
-        },
-        {
-          "elapsedMs": 600045,
-          "skills": {
-            "Strength": {
-              "level": 25,
-              "xp": 5200
-            }
-          }
         }
       ],
       "trajectory": [
@@ -1485,6 +1476,14 @@
         {
           "source": "tool",
           "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": " Let me start by connecting to the bot and checking its current state, then immediately begin Strength training."
+        },
+        {
+          "source": "agent",
+          "text": "  I can see the bot is connected. Strength is at level 1 with 0 XP. I have a Bronze sword in inventory. Let me start training immediately by equipping it and attacking a nearby monster with Aggressive style."
         },
         {
           "source": "tool",
@@ -1515,36 +1514,8 @@
           "text": "bash: .ls -la bots/agent/ 2>/dev/null || echo \"No agent folder\""
         },
         {
-          "source": "tool",
-          "text": "todowrite"
-        },
-        {
-          "source": "tool",
-          "text": "glob"
-        },
-        {
-          "source": "tool",
-          "text": "glob"
-        },
-        {
-          "source": "tool",
-          "text": "read: /app/package.json"
-        },
-        {
-          "source": "tool",
-          "text": "read: /app/sdk/API.md"
-        },
-        {
-          "source": "tool",
-          "text": "read: /app/learnings/combat.md"
-        },
-        {
-          "source": "tool",
-          "text": "read: /app/sdk/README.md"
-        },
-        {
-          "source": "tool",
-          "text": "rs-agent_execute_code"
+          "source": "agent",
+          "text": "Let me check the SDK documentation or examples:"
         },
         {
           "source": "tool",
@@ -1579,6 +1550,46 @@
           "text": "rs-agent_execute_code"
         },
         {
+          "source": "agent",
+          "text": "Now I understand the SDK! Let me start training Strength immediately with a minimal script:"
+        },
+        {
+          "source": "tool",
+          "text": "todowrite"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/package.json"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/API.md"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/learnings/combat.md"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/README.md"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": " Now I understand the SDK! Let me start training Strength immediately with a minimal script:"
+        },
+        {
           "source": "tool",
           "text": "rs-agent_execute_code"
         },
@@ -1595,8 +1606,16 @@
           "text": "rs-agent_execute_code"
         },
         {
+          "source": "agent",
+          "text": " Sword is equipped but combat style is still 0 (Accurate). Let me attack a target and try to fix the combat style:"
+        },
+        {
           "source": "tool",
           "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": " Excellent! I'm now in combat and already gained **100 Strength XP** and reached **Strength level 2**! Combat style is now \"Slash (Aggressive) - trains Strength\" which is perfect."
         },
         {
           "source": "tool",
@@ -1618,7 +1637,8 @@
           "source": "agent",
           "text": "[kimi-loop] Finished after 1 runs"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "magic": {
       "jobName": "magic-xp-10m-kimi-20260227-134050",
@@ -3831,8 +3851,8 @@
       "jobName": "prayer-xp-10m-kimi-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 605.541,
-      "sampleCount": 42,
+      "durationSeconds": 590.541,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -4202,15 +4222,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 605541,
-          "skills": {
-            "Prayer": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         }
       ],
       "trajectory": [
@@ -4223,8 +4234,8 @@
           "text": "rs-agent_execute_code"
         },
         {
-          "source": "tool",
-          "text": "rs-agent_execute_code"
+          "source": "agent",
+          "text": " I'll start by connecting to the bot and assessing the current state, then begin training Prayer XP immediately with iterative scripts."
         },
         {
           "source": "tool",
@@ -4237,6 +4248,14 @@
         {
           "source": "tool",
           "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Perfect! I can see `attackNpc` method. Let me start by killing rats to get bones, then bury them for Prayer XP. Starting with a 30-second test:"
         },
         {
           "source": "tool",
@@ -4283,8 +4302,8 @@
           "text": "rs-agent_execute_code"
         },
         {
-          "source": "tool",
-          "text": "rs-agent_execute_code"
+          "source": "agent",
+          "text": "Prayer XP at 0. Killing monsters and burying bones is the fastest way. Starting with nearby rats."
         },
         {
           "source": "tool",
@@ -4377,6 +4396,14 @@
         {
           "source": "tool",
           "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Found a church with an altar! Praying at altars gives Prayer XP."
         },
         {
           "source": "tool",
@@ -4410,7 +4437,8 @@
           "source": "agent",
           "text": "[kimi-loop] Finished after 2 runs"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "fletching": {
       "jobName": "fletching-xp-10m-kimi-20260227-150323",
@@ -7774,10 +7802,10 @@
     },
     "thieving": {
       "jobName": "thieving-xp-10m-kimi-20260227-153822",
-      "finalXp": 27600,
+      "finalXp": 27000,
       "finalLevel": 47,
-      "durationSeconds": 603.425,
-      "sampleCount": 42,
+      "durationSeconds": 588.425,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -8147,15 +8175,6 @@
               "xp": 27000
             }
           }
-        },
-        {
-          "elapsedMs": 603425,
-          "skills": {
-            "Thieving": {
-              "level": 47,
-              "xp": 27600
-            }
-          }
         }
       ],
       "trajectory": [
@@ -8168,8 +8187,16 @@
           "text": "rs-agent_execute_code"
         },
         {
+          "source": "agent",
+          "text": "I'll help you maximize Thieving XP on this RuneScape private server. Let me start by connecting to the bot and assessing the current state."
+        },
+        {
           "source": "tool",
           "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": " Good! I can see the bot is ready and there are Men NPCs nearby that can be pickpocketed. Let me start training immediately with a simple pickpocket script."
         },
         {
           "source": "tool",
@@ -8204,8 +8231,8 @@
           "text": "rs-agent_execute_code"
         },
         {
-          "source": "tool",
-          "text": "rs-agent_execute_code"
+          "source": "agent",
+          "text": "Perfect! I can see the SDK methods. Let me try pickpocketing using `sendInteractNpc`:"
         },
         {
           "source": "tool",
@@ -8216,12 +8243,28 @@
           "text": "rs-agent_execute_code"
         },
         {
+          "source": "agent",
+          "text": "Let me try again and make sure the player stays in range:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good! The pickpocket attempt happened but failed. Let me create a continuous pickpocketing loop to maximize XP gain:"
+        },
+        {
           "source": "tool",
           "text": "rs-agent_execute_code"
         },
         {
           "source": "tool",
           "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent results! The bot successfully trained Thieving for 10 minutes:\n\n**Results:**\n- **Thieving XP:** 22,200 XP gained\n- **Thieving Level:** Reached level 44 (from level 1)\n- **Coins earned:** 204 gp from pickpocketing\n\nThe bot continuously pickpocketed Men NPCs in the starting area, successfully gaining experience despite occasional failed attempts. The training was completed within the 10-minute timeframe."
         },
         {
           "source": "agent",
@@ -8242,6 +8285,10 @@
         {
           "source": "tool",
           "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": " I'm at Thieving level 44 with 22,200 XP in Lumbridge. Starting pickpocket training immediately."
         },
         {
           "source": "tool",
@@ -8300,6 +8347,10 @@
           "text": "rs-agent_execute_code"
         },
         {
+          "source": "agent",
+          "text": " **SUCCESS!** Pickpocketing works! Gained 200 XP. Now starting continuous training loop."
+        },
+        {
           "source": "tool",
           "text": "rs-agent_execute_code"
         },
@@ -8319,7 +8370,8 @@
           "source": "agent",
           "text": "[kimi-loop] Finished after 2 runs"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "attack": {
       "jobName": "attack-xp-10m-kimi-20260227-134050",
@@ -11647,10 +11699,10 @@
     },
     "defence": {
       "jobName": "defence-xp-10m-kimi-20260227-153822",
-      "finalXp": 2500,
-      "finalLevel": 17,
-      "durationSeconds": 600.015,
-      "sampleCount": 41,
+      "finalXp": 2300,
+      "finalLevel": 16,
+      "durationSeconds": 585.015,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -12011,15 +12063,6 @@
               "xp": 2300
             }
           }
-        },
-        {
-          "elapsedMs": 600015,
-          "skills": {
-            "Defence": {
-              "level": 17,
-              "xp": 2500
-            }
-          }
         }
       ],
       "trajectory": [
@@ -12028,8 +12071,8 @@
           "text": "[kimi-loop] Run 1 starting (budget=600s)"
         },
         {
-          "source": "tool",
-          "text": "rs-agent_execute_code"
+          "source": "agent",
+          "text": "I'll help you maximize Defence XP in RuneScape. Let me start by checking the bot's current state and then develop an efficient training strategy."
         },
         {
           "source": "tool",
@@ -12038,6 +12081,14 @@
         {
           "source": "tool",
           "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Perfect! I can see the bot state. You're at level 1 Defence with 0 XP. There are Rats and Men nearby to attack. Let me start training immediately by equipping a weapon and setting combat style to Defence, then attacking monsters."
         },
         {
           "source": "tool",
@@ -12108,8 +12159,8 @@
           "text": "rs-agent_execute_code"
         },
         {
-          "source": "tool",
-          "text": "rs-agent_execute_code"
+          "source": "agent",
+          "text": "State shows Defence at 0 XP with Bronze sword equipped. Currently on \"Chop\" (Attack style). Need to switch to \"Block\" (Defensive style) to train Defence. Starting training now."
         },
         {
           "source": "tool",
@@ -12132,8 +12183,8 @@
           "text": "rs-agent_execute_code"
         },
         {
-          "source": "tool",
-          "text": "rs-agent_execute_code"
+          "source": "agent",
+          "text": "Perfect! Found `sendSetCombatStyle` and `sendInteractNpc`. Setting combat style to Block and attacking a rat now."
         },
         {
           "source": "tool",
@@ -12148,8 +12199,32 @@
           "text": "rs-agent_execute_code"
         },
         {
+          "source": "agent",
+          "text": "Combat style set to Block (Defensive)! Now attacking the closest rat."
+        },
+        {
+          "source": "agent",
+          "text": "Attack initiated. Now running a training loop to continuously attack rats for Defence XP."
+        },
+        {
           "source": "tool",
           "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Script timed out. Running shorter training intervals."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Gained 500 XP! Defence is now level 16 (2,300 XP). Combat level 8. Continuing training."
         },
         {
           "source": "agent",
@@ -12167,7 +12242,8 @@
           "source": "agent",
           "text": "[kimi-loop] Finished after 2 runs"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "cooking": {
       "jobName": "cooking-xp-10m-kimi-20260227-150323",
@@ -13569,6 +13645,10 @@
           "text": "rs-agent_execute_code"
         },
         {
+          "source": "agent",
+          "text": "Connected! Bot is at Lumbridge with Bronze axe. I can see trees nearby. Starting woodcutting immediately."
+        },
+        {
           "source": "tool",
           "text": "rs-agent_execute_code"
         },
@@ -13625,8 +13705,16 @@
           "text": "rs-agent_execute_code"
         },
         {
+          "source": "agent",
+          "text": "Excellent! **It worked!** Bot gained 625 XP and reached level 7 Woodcutting. Now running continuous woodcutting script:"
+        },
+        {
           "source": "tool",
           "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Great progress! **Level 20 Woodcutting (3,125 XP)**. Continuing to chop more trees:"
         },
         {
           "source": "tool",
@@ -13635,6 +13723,10 @@
         {
           "source": "tool",
           "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! **Level 26 Woodcutting (5,625 XP)**. Inventory is full. Dropping logs to continue:"
         },
         {
           "source": "tool",

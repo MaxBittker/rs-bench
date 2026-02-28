@@ -5,8 +5,8 @@
       "jobName": "cooking-xp-10m-sonnet45-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 735.037,
-      "sampleCount": 50,
+      "durationSeconds": 585.032,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -367,96 +367,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 600033,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 615033,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 630034,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 645034,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 660034,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 675034,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 690034,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 705037,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 720037,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 735037,
-          "skills": {
-            "Cooking": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -601,14 +511,15 @@
           "source": "agent",
           "text": "Time is running out! Let me try one last desperate attempt - go straight to the range and try cooking anything:"
         }
-      ]
+      ],
+      "trimmedSamples": 10
     },
     "mining": {
       "jobName": "mining-xp-10m-sonnet45-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 675.158,
-      "sampleCount": 46,
+      "durationSeconds": 585.152,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -969,60 +880,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 600154,
-          "skills": {
-            "Mining": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 615154,
-          "skills": {
-            "Mining": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 630156,
-          "skills": {
-            "Mining": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 645157,
-          "skills": {
-            "Mining": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 660160,
-          "skills": {
-            "Mining": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 675158,
-          "skills": {
-            "Mining": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -1135,14 +992,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 6
     },
     "hitpoints": {
       "jobName": "hitpoints-xp-10m-sonnet45-20260227-110547",
-      "finalXp": 1695,
-      "finalLevel": 8,
-      "durationSeconds": 705.992,
-      "sampleCount": 49,
+      "finalXp": 1207,
+      "finalLevel": 11,
+      "durationSeconds": 585.987,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 1,
@@ -1512,78 +1370,6 @@
               "xp": 1207
             }
           }
-        },
-        {
-          "elapsedMs": 600987,
-          "skills": {
-            "Hitpoints": {
-              "level": 11,
-              "xp": 1207
-            }
-          }
-        },
-        {
-          "elapsedMs": 615988,
-          "skills": {
-            "Hitpoints": {
-              "level": 11,
-              "xp": 1207
-            }
-          }
-        },
-        {
-          "elapsedMs": 630988,
-          "skills": {
-            "Hitpoints": {
-              "level": 11,
-              "xp": 1207
-            }
-          }
-        },
-        {
-          "elapsedMs": 645992,
-          "skills": {
-            "Hitpoints": {
-              "level": 11,
-              "xp": 1207
-            }
-          }
-        },
-        {
-          "elapsedMs": 660992,
-          "skills": {
-            "Hitpoints": {
-              "level": 11,
-              "xp": 1207
-            }
-          }
-        },
-        {
-          "elapsedMs": 675992,
-          "skills": {
-            "Hitpoints": {
-              "level": 11,
-              "xp": 1207
-            }
-          }
-        },
-        {
-          "elapsedMs": 690992,
-          "skills": {
-            "Hitpoints": {
-              "level": 11,
-              "xp": 1207
-            }
-          }
-        },
-        {
-          "elapsedMs": 705992,
-          "skills": {
-            "Hitpoints": {
-              "level": 12,
-              "xp": 1467
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -1808,14 +1594,15 @@
           "source": "tool",
           "text": "Bash"
         }
-      ]
+      ],
+      "trimmedSamples": 8
     },
     "fishing": {
       "jobName": "fishing-xp-10m-sonnet45-20260227-110547",
-      "finalXp": 7750,
-      "finalLevel": 30,
-      "durationSeconds": 720.042,
-      "sampleCount": 49,
+      "finalXp": 0,
+      "finalLevel": 1,
+      "durationSeconds": 585.035,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -2176,87 +1963,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 600035,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 615035,
-          "skills": {
-            "Fishing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 630039,
-          "skills": {
-            "Fishing": {
-              "level": 24,
-              "xp": 4750
-            }
-          }
-        },
-        {
-          "elapsedMs": 645040,
-          "skills": {
-            "Fishing": {
-              "level": 30,
-              "xp": 7750
-            }
-          }
-        },
-        {
-          "elapsedMs": 660040,
-          "skills": {
-            "Fishing": {
-              "level": 30,
-              "xp": 7750
-            }
-          }
-        },
-        {
-          "elapsedMs": 675040,
-          "skills": {
-            "Fishing": {
-              "level": 30,
-              "xp": 7750
-            }
-          }
-        },
-        {
-          "elapsedMs": 690040,
-          "skills": {
-            "Fishing": {
-              "level": 30,
-              "xp": 7750
-            }
-          }
-        },
-        {
-          "elapsedMs": 705042,
-          "skills": {
-            "Fishing": {
-              "level": 30,
-              "xp": 7750
-            }
-          }
-        },
-        {
-          "elapsedMs": 720042,
-          "skills": {
-            "Fishing": {
-              "level": 30,
-              "xp": 7750
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -2473,14 +2179,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 9
     },
     "defence": {
       "jobName": "defence-xp-10m-sonnet45-20260227-110547",
-      "finalXp": 14800,
-      "finalLevel": 39,
-      "durationSeconds": 708.808,
-      "sampleCount": 49,
+      "finalXp": 10400,
+      "finalLevel": 34,
+      "durationSeconds": 588.805,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -2850,78 +2557,6 @@
               "xp": 10400
             }
           }
-        },
-        {
-          "elapsedMs": 603805,
-          "skills": {
-            "Defence": {
-              "level": 34,
-              "xp": 10800
-            }
-          }
-        },
-        {
-          "elapsedMs": 618805,
-          "skills": {
-            "Defence": {
-              "level": 35,
-              "xp": 11600
-            }
-          }
-        },
-        {
-          "elapsedMs": 633806,
-          "skills": {
-            "Defence": {
-              "level": 36,
-              "xp": 12400
-            }
-          }
-        },
-        {
-          "elapsedMs": 648806,
-          "skills": {
-            "Defence": {
-              "level": 36,
-              "xp": 12400
-            }
-          }
-        },
-        {
-          "elapsedMs": 663807,
-          "skills": {
-            "Defence": {
-              "level": 36,
-              "xp": 12400
-            }
-          }
-        },
-        {
-          "elapsedMs": 678807,
-          "skills": {
-            "Defence": {
-              "level": 36,
-              "xp": 12600
-            }
-          }
-        },
-        {
-          "elapsedMs": 693808,
-          "skills": {
-            "Defence": {
-              "level": 37,
-              "xp": 13400
-            }
-          }
-        },
-        {
-          "elapsedMs": 708808,
-          "skills": {
-            "Defence": {
-              "level": 38,
-              "xp": 13800
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -3054,14 +2689,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 8
     },
     "ranged": {
       "jobName": "ranged-xp-10m-sonnet45-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 705.076,
-      "sampleCount": 48,
+      "durationSeconds": 585.063,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 2,
@@ -3422,78 +3058,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 600065,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 615067,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 630067,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 645070,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 660069,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 675071,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 690073,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 705076,
-          "skills": {
-            "Ranged": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -3622,14 +3186,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 8
     },
     "attack": {
       "jobName": "attack-xp-10m-sonnet45-20260227-110547",
-      "finalXp": 3300,
-      "finalLevel": 20,
-      "durationSeconds": 727.671,
-      "sampleCount": 50,
+      "finalXp": 0,
+      "finalLevel": 1,
+      "durationSeconds": 592.669,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 1,
@@ -3999,87 +3564,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 607669,
-          "skills": {
-            "Attack": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 622670,
-          "skills": {
-            "Attack": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 637670,
-          "skills": {
-            "Attack": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 652670,
-          "skills": {
-            "Attack": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 667670,
-          "skills": {
-            "Attack": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 682671,
-          "skills": {
-            "Attack": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 697671,
-          "skills": {
-            "Attack": {
-              "level": 6,
-              "xp": 500
-            }
-          }
-        },
-        {
-          "elapsedMs": 712671,
-          "skills": {
-            "Attack": {
-              "level": 14,
-              "xp": 1700
-            }
-          }
-        },
-        {
-          "elapsedMs": 727671,
-          "skills": {
-            "Attack": {
-              "level": 19,
-              "xp": 3100
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -4236,14 +3720,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 9
     },
     "firemaking": {
       "jobName": "firemaking-xp-10m-sonnet45-20260227-110547",
-      "finalXp": 130000,
-      "finalLevel": 69,
-      "durationSeconds": 690.151,
-      "sampleCount": 47,
+      "finalXp": 77000,
+      "finalLevel": 62,
+      "durationSeconds": 585.144,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -4604,69 +4089,6 @@
               "xp": 77000
             }
           }
-        },
-        {
-          "elapsedMs": 600146,
-          "skills": {
-            "Firemaking": {
-              "level": 63,
-              "xp": 86000
-            }
-          }
-        },
-        {
-          "elapsedMs": 615147,
-          "skills": {
-            "Firemaking": {
-              "level": 64,
-              "xp": 90000
-            }
-          }
-        },
-        {
-          "elapsedMs": 630147,
-          "skills": {
-            "Firemaking": {
-              "level": 64,
-              "xp": 90000
-            }
-          }
-        },
-        {
-          "elapsedMs": 645149,
-          "skills": {
-            "Firemaking": {
-              "level": 64,
-              "xp": 90000
-            }
-          }
-        },
-        {
-          "elapsedMs": 660149,
-          "skills": {
-            "Firemaking": {
-              "level": 64,
-              "xp": 92000
-            }
-          }
-        },
-        {
-          "elapsedMs": 675149,
-          "skills": {
-            "Firemaking": {
-              "level": 66,
-              "xp": 105000
-            }
-          }
-        },
-        {
-          "elapsedMs": 690151,
-          "skills": {
-            "Firemaking": {
-              "level": 68,
-              "xp": 117000
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -4927,14 +4349,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 7
     },
     "woodcutting": {
       "jobName": "woodcutting-xp-10m-sonnet45-20260227-110547",
       "finalXp": 6875,
       "finalLevel": 29,
-      "durationSeconds": 705.869,
-      "sampleCount": 49,
+      "durationSeconds": 585.865,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 1,
@@ -5304,78 +4727,6 @@
               "xp": 6875
             }
           }
-        },
-        {
-          "elapsedMs": 600865,
-          "skills": {
-            "Woodcutting": {
-              "level": 29,
-              "xp": 6875
-            }
-          }
-        },
-        {
-          "elapsedMs": 615865,
-          "skills": {
-            "Woodcutting": {
-              "level": 29,
-              "xp": 6875
-            }
-          }
-        },
-        {
-          "elapsedMs": 630868,
-          "skills": {
-            "Woodcutting": {
-              "level": 29,
-              "xp": 6875
-            }
-          }
-        },
-        {
-          "elapsedMs": 645868,
-          "skills": {
-            "Woodcutting": {
-              "level": 29,
-              "xp": 6875
-            }
-          }
-        },
-        {
-          "elapsedMs": 660869,
-          "skills": {
-            "Woodcutting": {
-              "level": 29,
-              "xp": 6875
-            }
-          }
-        },
-        {
-          "elapsedMs": 675869,
-          "skills": {
-            "Woodcutting": {
-              "level": 29,
-              "xp": 6875
-            }
-          }
-        },
-        {
-          "elapsedMs": 690869,
-          "skills": {
-            "Woodcutting": {
-              "level": 29,
-              "xp": 6875
-            }
-          }
-        },
-        {
-          "elapsedMs": 705869,
-          "skills": {
-            "Woodcutting": {
-              "level": 29,
-              "xp": 6875
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -5504,14 +4855,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 8
     },
     "smithing": {
       "jobName": "smithing-xp-10m-sonnet45-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 765.016,
-      "sampleCount": 52,
+      "durationSeconds": 585.01,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -5872,114 +5224,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 600011,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 615012,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 630012,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 645012,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 660013,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 675013,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 690014,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 705014,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 720015,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 735015,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 750015,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 765016,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -6280,14 +5524,15 @@
           "source": "agent",
           "text": "I have 7 tin ore but need copper ore too! Let me drop unnecessary items and get copper ore, then smelt and smith:"
         }
-      ]
+      ],
+      "trimmedSamples": 12
     },
     "strength": {
       "jobName": "strength-xp-10m-sonnet45-20260227-110547",
-      "finalXp": 13700,
-      "finalLevel": 38,
-      "durationSeconds": 735.019,
-      "sampleCount": 50,
+      "finalXp": 5700,
+      "finalLevel": 26,
+      "durationSeconds": 585.015,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -6648,96 +5893,6 @@
               "xp": 5700
             }
           }
-        },
-        {
-          "elapsedMs": 600017,
-          "skills": {
-            "Strength": {
-              "level": 28,
-              "xp": 6400
-            }
-          }
-        },
-        {
-          "elapsedMs": 615018,
-          "skills": {
-            "Strength": {
-              "level": 29,
-              "xp": 7200
-            }
-          }
-        },
-        {
-          "elapsedMs": 630018,
-          "skills": {
-            "Strength": {
-              "level": 29,
-              "xp": 7200
-            }
-          }
-        },
-        {
-          "elapsedMs": 645018,
-          "skills": {
-            "Strength": {
-              "level": 31,
-              "xp": 8600
-            }
-          }
-        },
-        {
-          "elapsedMs": 660019,
-          "skills": {
-            "Strength": {
-              "level": 33,
-              "xp": 9300
-            }
-          }
-        },
-        {
-          "elapsedMs": 675019,
-          "skills": {
-            "Strength": {
-              "level": 34,
-              "xp": 10100
-            }
-          }
-        },
-        {
-          "elapsedMs": 690019,
-          "skills": {
-            "Strength": {
-              "level": 35,
-              "xp": 11500
-            }
-          }
-        },
-        {
-          "elapsedMs": 705019,
-          "skills": {
-            "Strength": {
-              "level": 38,
-              "xp": 13700
-            }
-          }
-        },
-        {
-          "elapsedMs": 720019,
-          "skills": {
-            "Strength": {
-              "level": 38,
-              "xp": 13700
-            }
-          }
-        },
-        {
-          "elapsedMs": 735019,
-          "skills": {
-            "Strength": {
-              "level": 38,
-              "xp": 13700
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -6826,14 +5981,15 @@
           "source": "agent",
           "text": "## Excellent Results! 🎯\n\nI successfully maximized Strength XP in 10 minutes:\n\n**Final Results:**\n- **Strength Level**: 1 → 38 (gained 37 levels!)\n- **Total Strength XP**: 13,700 XP\n- **Combat Level**: 3 → 19\n- **Bonus Hitpoints**: Level 10 → 24 (5,455 XP)\n- **Total Kills**: ~1,011 enemies\n\n**Strategy:**\n1. ✅ Equipped Bronze sword\n2. ✅ Set combat style to \"Slash (Aggressive)\" - trains Strength\n3. ✅ Continuously attacked Men, Women, and Rats in Lumbridge\n4. ✅ Ate food (Shrimps/Bread) when HP dropped below 5\n\nThe bot efficiently trained Strength exclusively, gaining **13,700 XP in 10 minutes** by maintaining constant combat with the Aggressive stance!"
         }
-      ]
+      ],
+      "trimmedSamples": 10
     },
     "crafting": {
       "jobName": "crafting-xp-10m-sonnet45-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 735.924,
-      "sampleCount": 51,
+      "durationSeconds": 585.909,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -7203,96 +6359,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 600910,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 615911,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 630913,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 645913,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 660915,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 675915,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 690916,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 705918,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 720919,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 735924,
-          "skills": {
-            "Crafting": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -7553,14 +6619,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 10
     },
     "prayer": {
       "jobName": "prayer-xp-10m-sonnet45-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 743.508,
-      "sampleCount": 51,
+      "durationSeconds": 593.503,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -7930,96 +6997,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 608504,
-          "skills": {
-            "Prayer": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 623504,
-          "skills": {
-            "Prayer": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 638504,
-          "skills": {
-            "Prayer": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 653504,
-          "skills": {
-            "Prayer": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 668504,
-          "skills": {
-            "Prayer": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 683506,
-          "skills": {
-            "Prayer": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 698507,
-          "skills": {
-            "Prayer": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 713507,
-          "skills": {
-            "Prayer": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 728508,
-          "skills": {
-            "Prayer": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 743508,
-          "skills": {
-            "Prayer": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -8196,14 +7173,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 10
     },
     "magic": {
       "jobName": "magic-xp-10m-sonnet45-20260227-110547",
-      "finalXp": 3362,
-      "finalLevel": 20,
-      "durationSeconds": 736.17,
-      "sampleCount": 51,
+      "finalXp": 2800,
+      "finalLevel": 18,
+      "durationSeconds": 586.164,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 1,
@@ -8573,96 +7551,6 @@
               "xp": 2800
             }
           }
-        },
-        {
-          "elapsedMs": 601165,
-          "skills": {
-            "Magic": {
-              "level": 18,
-              "xp": 2800
-            }
-          }
-        },
-        {
-          "elapsedMs": 616165,
-          "skills": {
-            "Magic": {
-              "level": 18,
-              "xp": 2800
-            }
-          }
-        },
-        {
-          "elapsedMs": 631166,
-          "skills": {
-            "Magic": {
-              "level": 19,
-              "xp": 3037
-            }
-          }
-        },
-        {
-          "elapsedMs": 646166,
-          "skills": {
-            "Magic": {
-              "level": 19,
-              "xp": 3037
-            }
-          }
-        },
-        {
-          "elapsedMs": 661166,
-          "skills": {
-            "Magic": {
-              "level": 20,
-              "xp": 3175
-            }
-          }
-        },
-        {
-          "elapsedMs": 676166,
-          "skills": {
-            "Magic": {
-              "level": 20,
-              "xp": 3175
-            }
-          }
-        },
-        {
-          "elapsedMs": 691166,
-          "skills": {
-            "Magic": {
-              "level": 20,
-              "xp": 3362
-            }
-          }
-        },
-        {
-          "elapsedMs": 706169,
-          "skills": {
-            "Magic": {
-              "level": 20,
-              "xp": 3362
-            }
-          }
-        },
-        {
-          "elapsedMs": 721169,
-          "skills": {
-            "Magic": {
-              "level": 20,
-              "xp": 3362
-            }
-          }
-        },
-        {
-          "elapsedMs": 736170,
-          "skills": {
-            "Magic": {
-              "level": 20,
-              "xp": 3362
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -8879,14 +7767,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 10
     },
     "thieving": {
       "jobName": "thieving-xp-10m-sonnet45-20260227-110547",
-      "finalXp": 136600,
-      "finalLevel": 70,
-      "durationSeconds": 721.38,
-      "sampleCount": 50,
+      "finalXp": 115800,
+      "finalLevel": 67,
+      "durationSeconds": 586.37,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -9256,87 +8145,6 @@
               "xp": 115800
             }
           }
-        },
-        {
-          "elapsedMs": 601371,
-          "skills": {
-            "Thieving": {
-              "level": 68,
-              "xp": 119800
-            }
-          }
-        },
-        {
-          "elapsedMs": 616371,
-          "skills": {
-            "Thieving": {
-              "level": 68,
-              "xp": 122600
-            }
-          }
-        },
-        {
-          "elapsedMs": 631372,
-          "skills": {
-            "Thieving": {
-              "level": 69,
-              "xp": 125200
-            }
-          }
-        },
-        {
-          "elapsedMs": 646373,
-          "skills": {
-            "Thieving": {
-              "level": 69,
-              "xp": 128800
-            }
-          }
-        },
-        {
-          "elapsedMs": 661376,
-          "skills": {
-            "Thieving": {
-              "level": 69,
-              "xp": 131800
-            }
-          }
-        },
-        {
-          "elapsedMs": 676378,
-          "skills": {
-            "Thieving": {
-              "level": 70,
-              "xp": 135200
-            }
-          }
-        },
-        {
-          "elapsedMs": 691379,
-          "skills": {
-            "Thieving": {
-              "level": 70,
-              "xp": 136600
-            }
-          }
-        },
-        {
-          "elapsedMs": 706380,
-          "skills": {
-            "Thieving": {
-              "level": 70,
-              "xp": 136600
-            }
-          }
-        },
-        {
-          "elapsedMs": 721380,
-          "skills": {
-            "Thieving": {
-              "level": 70,
-              "xp": 136600
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -9421,14 +8229,15 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 9
     },
     "fletching": {
       "jobName": "fletching-xp-10m-sonnet45-20260227-110547",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 736.75,
-      "sampleCount": 51,
+      "durationSeconds": 586.735,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 1,
@@ -9798,96 +8607,6 @@
               "xp": 0
             }
           }
-        },
-        {
-          "elapsedMs": 601737,
-          "skills": {
-            "Fletching": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 616737,
-          "skills": {
-            "Fletching": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 631737,
-          "skills": {
-            "Fletching": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 646741,
-          "skills": {
-            "Fletching": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 661742,
-          "skills": {
-            "Fletching": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 676743,
-          "skills": {
-            "Fletching": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 691745,
-          "skills": {
-            "Fletching": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 706746,
-          "skills": {
-            "Fletching": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 721748,
-          "skills": {
-            "Fletching": {
-              "level": 1,
-              "xp": 0
-            }
-          }
-        },
-        {
-          "elapsedMs": 736750,
-          "skills": {
-            "Fletching": {
-              "level": 1,
-              "xp": 0
-            }
-          }
         }
       ],
       "tokenUsage": {
@@ -10228,7 +8947,8 @@
           "source": "tool",
           "text": "mcp__rs-agent__execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 10
     }
   }
 }

@@ -5,8 +5,8 @@
       "jobName": "woodcutting-xp-10m-qwen3-20260227-153822",
       "finalXp": 33125,
       "finalLevel": 50,
-      "durationSeconds": 615.132,
-      "sampleCount": 42,
+      "durationSeconds": 585.13,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -367,33 +367,510 @@
               "xp": 33125
             }
           }
-        },
-        {
-          "elapsedMs": 600132,
-          "skills": {
-            "Woodcutting": {
-              "level": 50,
-              "xp": 33125
-            }
-          }
-        },
-        {
-          "elapsedMs": 615132,
-          "skills": {
-            "Woodcutting": {
-              "level": 50,
-              "xp": 33125
-            }
-          }
         }
-      ]
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "agent",
+          "text": "I'll help you maximize Woodcutting XP on this RuneScape private server. Let me start by connecting to the bot and testing basic functionality with minimal scripts.\n\nFirst, let me check what's available and test the bot connection:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what methods are available on the bot object:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good! I can see I'm in game with Woodcutting level 1 and a Bronze axe equipped. Let me test basic woodcutting functionality:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what helper methods are available:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the server TypeScript file to understand the available methods:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/server.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/bot.ts"
+        },
+        {
+          "source": "agent",
+          "text": "I can see the bot API is available. Let me read the actual bot API file:"
+        },
+        {
+          "source": "agent",
+          "text": "Perfect! Now let me test the `chopTree` method immediately:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! Woodcutting works. Now let me create a script that repeatedly chops trees for 10 minutes. I'll use a simple loop with checks:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me fix the code - I need to check what's available in sdk:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see the skills are stored as numeric indices. Let me check the skill names and write a proper script. I'll also need to drop logs when inventory is full:"
+        },
+        {
+          "source": "agent",
+          "text": "Good! Skill 8 is Woodcutting. Now let me write a script that runs for 10 minutes, dropping logs when inventory is full:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/script.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me use the inline execution approach instead:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The bot is stuck waiting for a tree. I see the inventory is full (10 logs) and there are no new trees nearby. Let me check if there are more trees and drop the_logs:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the SDK for available methods:"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what SDK functions are available for inventory management:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/sdk.ts"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see `sendUseItem(slot, option)` can be used to drop items. Let me check the inventory slots and use that:"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "agent",
+          "text": "I can see the inventory is completely full with 10 logs (slots 18-27). I need to drop them using `sendUseItem` with option 0. But first, let me check if there's a helper method. Let me look at what other code exists:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/woodcutting-firemaking.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the woodcutting test to see how they handle dropping items:"
+        },
+        {
+          "source": "agent",
+          "text": "I see! The `bot` object has `burnLogs()` and `pickupItem()` methods that I can use. Let me also check the BotActions implementation to see how items are dropped:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me search for how items are dropped:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "agent",
+          "text": "The issue is I'm using `sendUseItem` with option 0 (which doesn't exist for logs). Let me check how to drop items properly by looking at the SDK:"
+        },
+        {
+          "source": "agent",
+          "text": "Perfect! There's `sendDropItem(slot)` method. Let me test it:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "It dropped one log but inventory still shows 10. The state hasn't updated yet. Let me wait for state update and check again:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Great! It worked - now I have 1 empty slot. Let me now write a proper 10-minute woodcutting script:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The script timed out after 10 minutes. Let me run it with a shorter timeout to see progress:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The bot died! I can see \"Oh dear you are dead!\" in the recent messages. The bot was attacked. I need to make sure the bot has a shield equipped. Let me check what's in the inventory:\n\nI see the bot has a Wooden shield in inventory. Let me equip it:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The shield is equipped now. But the inventory was cleared, which means the logs were dropped or burned. Let me check if there are trees nearby and try woodcutting again. However, I notice the bot died because it's in an area with aggressive NPCs. Let me find a safer woodcutting location.\n\nLet me find a proper tree location that's safe:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see there's a tree 1 tile away. The issue is I don't have an axe anymore. The inventory was cleared (all logs dropped). Let me check if the bronze axe is still equipped:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see the inventory shows the items are still equipped (Shortbow and Bronze sword have [Wield] option). But there's no bronze axe equipped. I need to equip the axe. Let me check if there are any axes in the inventory and equip them:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The inventory shows only 2 items but earlier it had 27 slots. The logs were dropped and the inventory state is showing equipped items. The issue is the bronze axe must have been dropped or lost. Let me check if there's ground items (dropped logs) and pick them up, or find a new axe location:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: find . -name \"*.ts\" -path \"*/sdk/test/*\" | xargs grep -l \"chopTree\\|woodcutting\" 2>/dev/null | head -5"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/woodcutting-firemaking.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me look at the test again more carefully:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see the bot started from scratch. The issue is I need to get a bronze axe. Let me check the bot folder for initial setup or see if there's a bank I can use:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I notice the inventory shows only 2 items but it says \"26 empty slots\". The inventory state is confusing. The bot has no axe - it was lost. Since this appears to be a fresh run (the bot started with combat level 3 and the initial items I saw earlier), the axe must have been dropped. \n\nI need to get a bronze axe. Let me walk to a bank or shop to get one. Let me check if there's a shop nearby:"
+        },
+        {
+          "source": "agent",
+          "text": "I can see Hans nearby. He might have an axe. Let me talk to him and see what he offers. But first, let me check if there's a bank nearby that I can use:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see there's a door nearby. Let me check what building that is and see if there's a bank inside. Actually, let me find a bank first. I'll look for a bank icon or banker NPC:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "No bank NPCs nearby. Let me walk around to find a bank. I'll go to Lumbridge where there should be a bank. But first, let me check if the initial bot state had the bronze axe - maybe the initial state should have the axe:\n\nActually, looking back at the first state I saw, the bot DID have a bronze axe equipped initially. The problem is the inventory got wiped when the bot died. Let me walk to a safer location or find where I can get an axe.\n\nLet me check if there's an item shop or general store:"
+        },
+        {
+          "source": "agent",
+          "text": "Let me walk to a more populated area to find a shopkeeper:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Still no shopkeepers. The area has goblins which are aggressive. Let me walk to the Lumbridge castle which should have a bank:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see Cook and Hans nearby. Let me talk to them to see if they have an axe to sell or if there's a shop nearby:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The cook didn't respond. Let me try a different approach - I'll walk around to find a bank or shop that sells items, or find a ground item (like the bronze arrow I saw). Actually, let me look for a shop by walking to the Varrock area or finding shopkeepers in general:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see there's a tree at (3197, 3209) - 9 tiles away. Let me go chop that tree. But first I need to find a way to get an axe. Let me try to pick up ground items to see if there's an axe:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see there are no axes on the ground. The initial bot setup must have the axe, but it was lost when the inventory was cleared. Let me check if there's a bank near Lumbridge castle that I can use to withdraw an axe. Let me find the Lumbridge bank:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see \"Bob\" at 15 tiles! Let me check if Bob is a shopkeeper:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Bob is nearby at 1 tile now! Let me try to talk to him again:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see Bob moved and is now at 12 tiles. The interact failed. Let me walk to Bob first and try to interact with option 1 (Talk-to) instead of option 0:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Bob is now talking to me. The dialog has a \"Click here to continue\" button. Let me click it:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Bob now gives options:\n1. Give me a quest!\n2. Have you anything to sell?\n3. Can you repair my items for me?\n\nLet me choose option 2 to see if he sells items:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "It just shows \"Click here to continue\" again. Let me click it and see if the shop opens:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The shop isn't opening. Let me try the \"Trade\" option instead of \"Talk-to\":"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! Bob's shop is now open and sells bronze axes for 16 gp. I have a bronze sword (sell price 15 gp) and shortbow (sell price 30 gp) that I can sell. Let me sell the shortbow first and buy an axe:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The shop sell didn't work - it says \"You can't sell this item to this shop\". Let me check if the shop is still open and try to buy an axe directly:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I don't have enough coins! I need to get coins first. Let me close the shop and look for a way to get coins. Let me check if there's a bank I can use or find dropped coins:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me go to Lumbridge castle where there's a bank. I'll walk there and see if there are any banks:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat /app/bots/agent/*.env 2>/dev/null || echo \"No env files found\""
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/create-bot.ts"
+        },
+        {
+          "source": "agent",
+          "text": "I see the bot starts fresh each session. The problem is that when the bot died and the inventory was cleared, it lost all items including the bronze axe that should have been there initially. Looking back at the first state I saw, the bot did have a bronze axe.\n\nLet me check what the bot initial state is supposed to be by looking at how bots are created:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/script.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the template to see what initial inventory the bot should have:"
+        },
+        {
+          "source": "agent",
+          "text": "I see the issue now. The template script doesn't include a bronze axe - it just starts with basic items. The initial state I saw earlier (with bronze axe equipped) was from a previous run where the bot started with those items.\n\nLooking back at my very first state output, the bot had:\n- Bronze axe x1 [Wield]\n- Bronze pickaxe x1 [Wield]\n- Bronze dagger x1 [Wield]\n- Bronze sword x1 [Wield]\n- Wooden shield x1 [Wield]\n\nBut now the inventory is empty except for Shortbow and Bronze sword. This means the bot is in a completely fresh state and the initial items list was from my first login/initial state capture.\n\nThe key insight is that for Woodcutting XP, I need an axe. The simplest solution is to either:\n1. Find an axe somewhere in the world\n2. Buy an axe (but I need coins first)\n3. Use woodcutting from the game's start state\n\nLet me check if I can find an axe on the ground or in a chest:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me search the crate at (3205, 3212):"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "No axe in the crate. Let me think about this differently. The problem is I don't have an axe to chop trees. Let me check if there's a bank anywhere that gives starter items. Actually, let me walk around more to find a bank or a bank manager who might give me starter items:"
+        }
+      ],
+      "trimmedSamples": 2
     },
     "ranged": {
       "jobName": "ranged-xp-10m-qwen3-20260227-153822",
       "finalXp": 1300,
       "finalLevel": 12,
-      "durationSeconds": 600.05,
-      "sampleCount": 41,
+      "durationSeconds": 585.05,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -754,17 +1231,195 @@
               "xp": 1300
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "agent",
+          "text": "I'll start by testing the bot connection and then create minimal scripts to maximize Ranged XP."
         },
         {
-          "elapsedMs": 600050,
-          "skills": {
-            "Ranged": {
-              "level": 12,
-              "xp": 1300
-            }
-          }
+          "source": "tool",
+          "text": "bash: cat bots/agent/bot.env 2>/dev/null || echo \"No bot.env found\""
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me test basic bot actions:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "write: "
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/ranged.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/types.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "write: "
+        },
+        {
+          "source": "agent",
+          "text": "Now I have a clear understanding. Let me write the bot script using the proper SDK:"
+        },
+        {
+          "source": "tool",
+          "text": "write: "
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat > /app/bots/agent/script.ts << 'EOF'\nimport { runScript } from '../../sdk/runner';\n\nawait runScript(async (ctx) => {\n    const { bot, sdk, log } = ctx;\n\n    // Wait for game state\n    await "
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/runner.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun --env-file=bots/agent/bot.env bots/agent/script.ts 2>&1"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "Good, the shortbow is equipped. The sleep function name is different. Let me check:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/ranged.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/utils/test-runner.ts"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "Now I understand - `sdk.sleep` doesn't exist. I need to use the standard `sleep` function. Let me update the script:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat > /app/bots/agent/script.ts << 'EOF'\nimport { runScript } from '../../sdk/runner';\nimport { sleep } from '../../sdk/test/utils/test-runner';\n\nawait runScript(async (ctx) => {\n    const { bot"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 300 bun --env-file=bots/agent/bot.env bots/agent/script.ts 2>&1"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat > /app/bots/agent/script.ts << 'EOF'\nimport { runScript } from '../../sdk/runner';\n\nfunction sleep(ms: number) {\n    return new Promise(r => setTimeout(r, ms));\n}\n\nawait runScript(async (ctx"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "crafting": {
       "jobName": "crafting-xp-10m-qwen3-20260227-134050",
@@ -1133,14 +1788,15 @@
             }
           }
         }
-      ]
+      ],
+      "trajectory": []
     },
     "prayer": {
       "jobName": "prayer-xp-10m-qwen3-20260227-153822",
       "finalXp": 112,
       "finalLevel": 2,
-      "durationSeconds": 705.061,
-      "sampleCount": 48,
+      "durationSeconds": 585.049,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -1501,87 +2157,498 @@
               "xp": 112
             }
           }
-        },
-        {
-          "elapsedMs": 600052,
-          "skills": {
-            "Prayer": {
-              "level": 2,
-              "xp": 112
-            }
-          }
-        },
-        {
-          "elapsedMs": 615054,
-          "skills": {
-            "Prayer": {
-              "level": 2,
-              "xp": 112
-            }
-          }
-        },
-        {
-          "elapsedMs": 630055,
-          "skills": {
-            "Prayer": {
-              "level": 2,
-              "xp": 112
-            }
-          }
-        },
-        {
-          "elapsedMs": 645056,
-          "skills": {
-            "Prayer": {
-              "level": 2,
-              "xp": 112
-            }
-          }
-        },
-        {
-          "elapsedMs": 660057,
-          "skills": {
-            "Prayer": {
-              "level": 2,
-              "xp": 112
-            }
-          }
-        },
-        {
-          "elapsedMs": 675059,
-          "skills": {
-            "Prayer": {
-              "level": 2,
-              "xp": 112
-            }
-          }
-        },
-        {
-          "elapsedMs": 690061,
-          "skills": {
-            "Prayer": {
-              "level": 2,
-              "xp": 112
-            }
-          }
-        },
-        {
-          "elapsedMs": 705061,
-          "skills": {
-            "Prayer": {
-              "level": 2,
-              "xp": 112
-            }
-          }
         }
-      ]
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "agent",
+          "text": "I'll help you maximize Prayer XP on this local RuneScape server. Let me start by testing the connection and understanding what's available."
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "agent",
+          "text": "The bot isn't connected yet. Let me check the bots directory for the agent configuration:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls /app/bots/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/agent/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/agent/bot.env"
+        },
+        {
+          "source": "agent",
+          "text": "Good, the bot is configured. Let me test the connection by executing a simple script that checks the bot's current state:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what methods are available on the bot:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I can see Prayer is at level 1 with 0 XP. The bot has available functions through methods like `bot.attack()`, `bot.walkTo()`, etc. Let me check what methods are callable:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The Prayer is at level 1. Let me check if there's an altar nearby to chant prayers. I'll explore the area first to find prayer-related objects:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what SDK methods are available:"
+        },
+        {
+          "source": "agent",
+          "text": "Let me try walking to find an altar. First let me explore near the fountain which might be a prayer altar:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check if there's an altar. Let me look at nearby objects more carefully - I need to find a chalice or prayer altar:"
+        },
+        {
+          "source": "agent",
+          "text": "Let me search for available methods and look for a temple or altar:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me search for a temple or altar by walking around more systematically:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Hitpoints dropped to 9/10, meaning I took damage. Let me try walking to the temple in Edgeville which is typically near a prayer altar. Let me check (3200, 3200) area:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see Attack increased to 6! But I need Prayer XP. Let me look for an altar. I noticed \"Candles\" - let me check that. First let me try to attack more rats to level up Attack to access better methods:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what bot methods are available by trying different ones:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/server.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me look at the server code to understand the available methods:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/bot.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me read the bot API file to see what methods are available:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Great! I found that there's `bot.buryBones(bones)` for Prayer. Let me check the full file and then look for a bones source. First, let me get bones:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/bot.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me read the rest of the bot.ts file and the index to see what's actually exported:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/api/index.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Now let me check the actions file to see what's actually available:"
+        },
+        {
+          "source": "agent",
+          "text": "Let me search for the buryBones method:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "The buryBones method doesn't exist yet. Let me search for Prayer-related methods:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "Great! There are prayer-related methods and a test file. Let me check if there's a buryBones implementation:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/prayer.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me read the full prayer test to understand howburying works:"
+        },
+        {
+          "source": "agent",
+          "text": "Good! So burying bones uses `sdk.sendUseItem(currentBones.slot, buryOpt.opIndex)`. I need to first check if bones are available, and if not, kill rats to get them. Let me test this approach with a short script:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "No bones yet. I need to kill rats to get bones. Let me first check what options are available on the rats. Let me try to talk to a rat to see what happens:"
+        },
+        {
+          "source": "agent",
+          "text": "The options show \"2:Attack\". Let me try using sendInteractNpc to attack the rat:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The rat is still there, which means the attack didn't register or it's still alive. Let me wait a bit and check again:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! There are bones on the ground at (3201, 3199)! Now I can pick them up and bury them. Let me pick up the bones:"
+        },
+        {
+          "source": "agent",
+          "text": "Let me search for ground item methods:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me use `sdk.findGroundItem` and then sendInteractGroundItem:"
+        },
+        {
+          "source": "agent",
+          "text": "The bones are gone. Let me try to click \"Click here to continue\" on the dialog first:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The dialog keeps appearing. Let me try to kill a rat and pick up bones. Let me first kill a fresh rat:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see the dialog keeps appearing due to level-ups. Let me keep clicking to dismiss them:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good, dialog is dismissed. I still don't see bones. Let me check the bones more directly. Let me try an attack and immediately check for ground items:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see bones at (3194, 3208). The y value shows as undefined in the ground item list but let me try to use the pickupItem method:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I have bones in inventory slot 18 with Bury option. Now let me bury them using `sendUseItem`:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! Prayer level increased from 1 to 2 and gained 112 XP! The dialog is now blocking, let me dismiss it and then create a loop to continuously kill rats and bury bones:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The dialog keeps appearing because of level-ups. Let me wait a bit for the level-up message to clear:"
+        },
+        {
+          "source": "agent",
+          "text": "Good! Now let me write a comprehensive script to maximize Prayer XP by continuously killing rats and burying bones:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The script timed out. Let me try a shorter loop with just 50 turns:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I can see that bones are not being picked up or attacked properly. The inventory shows bones are being consumed. Let me check the Inventory more carefully and fix the script. I notice inventory shows only 3 items, but previously I saw bones being picked up. Let me check:"
+        },
+        {
+          "source": "agent",
+          "text": "The problem is that the inventory is being cleared (equip item removing it). Also, bones aren't showing. The issue is that I'm not finding bones because they're not in the inventory. Let me look at ground items and pick them up:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see I'm attacking a rat but it's still alive. The combat isn't finishing. The problem is I need to pick up bones before they disappear and bury them. Let me try a different approach - let me check if bones are being dropped on the ground near the rats:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "No ground items. The issue is I'm not actually getting bones. Let me kill more rats and monitor the ground:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see \"I can't reach that!\" which suggests the rats are out of range. Let me walk closer to a rat first and then attack. Let me check what the `walkTo` method does:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The walk took too long. Let me try to find bones another way. Let me go back to where I found bones earlier and check again:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "It seems the bot died and respawned elsewhere! This is in a completely different area. Let me go back to Edgeville where I know there are rats:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Still not at (3200, 3200). Let me try a direct walk approach with timeout. Let me use walkTo and see if it works:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Now I'm at (3200, 3200) with rats nearby. Let me kill a rat and immediately check for bones:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Still no bones. The rats are being killed but bones aren't dropping. Let me try to check what's available in inventory:"
+        },
+        {
+          "source": "agent",
+          "text": "I see knives on the ground now. Let me check if bones are appearing anywhere. Let me try a different approach - find where bones typically spawn:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Rats are not dropping bones. Let me check if there's a bones drop type issue. Let me try eating food to heal and test what's available. Let me check the inventory for food I can eat:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cd /app/sdk && grep -r \"bones\" test/prayer.ts | head -20"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the save generator to understand what items are available:"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/sdk/test/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/sdk/test/utils/"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what Items are available for bones:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "I see bones are from `Items.BONES`. The issue is that rats in this game instance don't drop bones, or the drop rate is zero. Let me check what's in the sdk/types to understand items:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/types.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me search for the Items definition:"
+        }
+      ],
+      "trimmedSamples": 8
     },
     "fletching": {
       "jobName": "fletching-xp-10m-qwen3-20260227-153822",
-      "finalXp": 7500,
-      "finalLevel": 30,
-      "durationSeconds": 600.078,
-      "sampleCount": 41,
+      "finalXp": 7125,
+      "finalLevel": 29,
+      "durationSeconds": 585.076,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -1942,24 +3009,162 @@
               "xp": 7125
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
         },
         {
-          "elapsedMs": 600078,
-          "skills": {
-            "Fletching": {
-              "level": 30,
-              "xp": 7500
-            }
-          }
+          "source": "agent",
+          "text": "I'll help you maximize Fletching XP in 10 minutes. Let me start by testing the bot connection and then build up a fletching script iteratively."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me try with a simpler test to verify the bot can connect:"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "agent",
+          "text": "Let me first check the bot configuration and then connect:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la bots/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/agents.md"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/agent/bot.env"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/agent/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/learnings/fletching.md"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The bot is fletching but seems to be waiting a long time. Let me try a shorter test with just a few cycles to understand the timing:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! The bot is working well. Now let me run a 10-minute fletching script to maximize XP:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me try with a 5-minute script instead:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me try with a shorter 2-minute script:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me try a 30-second test to see if the timeout is the issue:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "smithing": {
       "jobName": "smithing-xp-10m-qwen3-20260227-153822",
       "finalXp": 0,
       "finalLevel": 1,
-      "durationSeconds": 600.021,
-      "sampleCount": 41,
+      "durationSeconds": 585.018,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -2320,24 +3525,294 @@
               "xp": 0
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
         },
         {
-          "elapsedMs": 600021,
-          "skills": {
-            "Smithing": {
-              "level": 1,
-              "xp": 0
-            }
-          }
+          "source": "agent",
+          "text": "I'll help you maximize Smithing XP on this local RuneScape server. Let me start by connecting to the bot and testing basic actions."
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/ 2>/dev/null || echo \"No bots directory\""
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "agent",
+          "text": "No bots connected yet. Let me check if there's a bot configuration and then start testing with a minimal script."
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/agent/bot.env"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good - bot is configured. Let me start with a very short script to test basic functionality and check what actions are available."
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the SDK to see what functions are available."
+        },
+        {
+          "source": "agent",
+          "text": "I can see the SDK. Now let me check what actions the bot has and start testing with a simple script to get state and connect."
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/mcp/server.ts"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/agent/"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the bot API to see what high-level actions are available."
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/template.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/example-bot.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/_template/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/api/index.ts"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "bash: find /app -name \"*.ts\" -type f | head -30"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/runner.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Now let me check the BotActions to see what actions are available for Smithing."
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Great! Now I understand the API. Let me first test connecting to the bot and checking the current state, then start smithing."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/test-state.ts"
+        },
+        {
+          "source": "tool",
+          "text": "edit"
+        },
+        {
+          "source": "agent",
+          "text": "Now let me run this test script to check the current state:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun /app/bots/agent/test-state.ts 2>&1 || true"
+        },
+        {
+          "source": "agent",
+          "text": "The bot is in the Tutorial Island area with no hammer or bars. I need to get to a real city to get Smithing supplies. Let me check if there's a way to teleport or if I need to walk. First, let me see if I can find a guide or NPC that can help me get started."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/skip-tutorial.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 90 bun /app/bots/agent/skip-tutorial.ts 2>&1 || true"
+        },
+        {
+          "source": "agent",
+          "text": "I'm still in Tutorial Island. I need to find a way to get to Mistag or another city. Let me check if I can find a door or teleport. I notice there's a \"Hans\" NPC - let me try talking to him or other NPCs to see if I can get help."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/talk-npcs.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 90 bun /app/bots/agent/talk-npcs.ts 2>&1 || true"
+        },
+        {
+          "source": "agent",
+          "text": "I moved closer to the Cook. I'm in the Cook's house in Tutorial Island. The issue is that both NPCs have moved positions. Let me try to find a way out of Tutorial Island by checking if there's a teleport or a way to get to Mistag."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/check-teleport.ts"
+        },
+        {
+          "source": "tool",
+          "text": "edit"
+        },
+        {
+          "source": "tool",
+          "text": "edit"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun /app/bots/agent/check-teleport.ts 2>&1 || true"
+        },
+        {
+          "source": "agent",
+          "text": "I see doors but I can't reach them. Let me try to walk toward the exit or find a way to teleport to Mistag. Since I can't use magic (0 XP), I'll try to walk to a door and go through it."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/walk-door.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 90 bun /app/bots/agent/walk-door.ts 2>&1 || true"
+        },
+        {
+          "source": "agent",
+          "text": "I'm still in Tutorial Island. Let me check if there's a teleport spell or special NPC that can take me to Mistag. In RuneScape, there's usually a \"Teleport to House\" spell or a way to get to Mistag from Tutorial Island."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/check-quests.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun /app/bots/agent/check-quests.ts 2>&1 || true"
+        },
+        {
+          "source": "agent",
+          "text": "Looking at this server, I'm in Tutorial Island and need to find a way to Mistag. Let me try a different approach - perhaps I need to complete some tutorial steps first, or there's a special teleport. Let me check if there's a bank or a way to access the world map."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/walk-test.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 90 bun /app/bots/agent/walk-test.ts 2>&1 || true"
+        },
+        {
+          "source": "agent",
+          "text": "I see a staircase! Let me try climbing it to see if there's a way out."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/climb-stairs.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun /app/bots/agent/climb-stairs.ts 2>&1 || true"
+        },
+        {
+          "source": "agent",
+          "text": "I walked to (3249, 3249) and now I'm in a different area with Goblins! I see iron daggers on the ground. I need to find the path to Mistag. Let me try walking more and checking for anvil or smith NPC."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/walk-mistag.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 90 bun /app/bots/agent/walk-mistag.ts 2>&1 || true"
+        },
+        {
+          "source": "agent",
+          "text": "I'm stuck in this area. Let me try a different approach - check if there's a door or teleporter that can take me to Mistag. Since I can't walk freely, perhaps I need to find a portal or teleport spell."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/scan-area.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun /app/bots/agent/scan-area.ts 2>&1 || true"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check if there's a way to teleport using magic or find a teleport location. I'll also check the nearby NPCs more carefully to see if any have a \"Quest\" or \"Travel\" option."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/find-mistag.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 90 bun /app/bots/agent/find-mistag.ts 2>&1 || true"
+        },
+        {
+          "source": "agent",
+          "text": "I'm stuck in a Goblin cave area without an anvil. Let me try using the Magic skill with runes. Since I have air runes, let me try casting a basic spell to see if there's a teleport option."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/test-magic.ts"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "magic": {
       "jobName": "magic-xp-10m-qwen3-20260227-153822",
-      "finalXp": 2950,
-      "finalLevel": 19,
-      "durationSeconds": 615.008,
-      "sampleCount": 42,
+      "finalXp": 2812,
+      "finalLevel": 18,
+      "durationSeconds": 585.008,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -2698,33 +4173,586 @@
               "xp": 2812
             }
           }
-        },
-        {
-          "elapsedMs": 600008,
-          "skills": {
-            "Magic": {
-              "level": 19,
-              "xp": 2950
-            }
-          }
-        },
-        {
-          "elapsedMs": 615008,
-          "skills": {
-            "Magic": {
-              "level": 19,
-              "xp": 2950
-            }
-          }
         }
-      ]
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "agent",
+          "text": "I'll start by exploring the environment and then create minimal scripts to maximize Magic XP efficiently."
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat /app/bots/_template/*.ts 2>/dev/null | head -50"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots/agent/"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good! I can see the player is at position (3222, 3222). I have a Magic level 1 with 0 XP. I have some basic runes (Air, Mind, Water, Earth, Body). Let me check for a magic trainer or altar nearby and find available actions."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good! I walked successfully. I can see a Fountain at (3221, 3226) which is nearby. Let me check if there are magic trainers or altars nearby. First, let me look for objects or NPCs that have magic-related options."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I can see I'm near the Fountain. Let me check what options the fountain has and try magic training options. I'll also search for a spellbook or magic trainer."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good, I can see I now have a nearby Pot and Jug (ground items). The fountain has no options. Let me talk to NPCs to find a magic trainer. I'll try talking to the cook first."
+        },
+        {
+          "source": "agent",
+          "text": "No magic trainers nearby. I have 2 Air runes, 1 Mind rune, 6 Water runes, 4 Earth runes, and 2 Body runes. Let me try to find a way to train magic. First, let me check if there's a spellbook in the inventory or on the ground."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see there are crates I can search. Let me try searching them to find magic-related items like a spellbook or more runes. Also let me pick up the Mind rune on the ground."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "agent",
+          "text": "I see there's a Staircase nearby. Let me try to access it and search for magic-related areas. Also let me try using the basic magic spells I can with my current runes."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me search for available bot actions to understand how to use magic."
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/magic.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/types.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Great! I found `castSpellOnNpc` and there's a `Spells.WIND_STRIKE` option. Let me look at the test file and types to understand how to use magic."
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/types.ts"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "I see there's a `spellOnNpc` action type. Let me search for the actual implementation in the bot interface."
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "The bot has `sdk` and `helpers` methods. The `castSpellOnNpc` method requires a `spellComponent` number. Let me look for what spell component numbers are available. I need to search for spell constants."
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "bash: find /app/sdk -type f -name \"*.ts\" | head -30"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/sdk/test/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/sdk/test/utils/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/utils/test-runner.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/utils/save-generator.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/sdk/test/utils/"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "The save-generator is not there. Let me search for spell constants in the codebase."
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/teleport.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/runner.ts"
+        },
+        {
+          "source": "agent",
+          "text": "I see that `Spells` is imported from `./utils/save-generator`. Let me check the runner to understand where this is loaded from."
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "I see the runner imports from `./utils/save-generator`. Let me check if this module exists in the SDK root."
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "bash: find /app/sdk -name \"save-generator*\" -o -name \"*generator*\""
+        },
+        {
+          "source": "agent",
+          "text": "The save-generator is imported from `./utils/save-generator` in the test folder. Let me check if there's one in the sdk folder."
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat /app/sdk/test/utils/browser.ts | head -200"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -n \"save-generator\\|Spells\\|Items\" /app/sdk/test/utils/browser.ts | head -20"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -r \"export.*const Spells\" /app/sdk --include=\"*.ts\" 2>/dev/null | head -5"
+        },
+        {
+          "source": "agent",
+          "text": "Let me look at the actual save-generator by searching the entire project for it."
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -r \"WIND_STRIKE\\|FIRE_HIT\" /app --include=\"*.ts\" 2>/dev/null | head -10"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the entire project for the save-generator module."
+        },
+        {
+          "source": "tool",
+          "text": "bash: find /app -name \"*.ts\" -exec grep -l \"save-generator\\|generateSave\" {} \\;"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -n \"import.*from\" /app/sdk/test/utils/test-runner.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/sdk/test/utils/ && file /app/sdk/test/utils/*"
+        },
+        {
+          "source": "agent",
+          "text": "The test-runner imports from `./save-generator` but the file doesn't exist. Let me check if this is a generated file or if I need to look in a different location."
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -rn \"WIND_STRIKE\" /app/sdk --include=\"*.ts\" 2>/dev/null"
+        },
+        {
+          "source": "agent",
+          "text": "The save-generator.ts doesn't exist in the utils folder. Let me search for any ts files that might contain Spells in the entire project."
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what the spell component actually is by examining the action implementation."
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: find /app/sdk -type f -name \"*.ts\" | xargs grep -l \"WIND_STRIKE\\|WATER_HIT\" 2>/dev/null"
+        },
+        {
+          "source": "agent",
+          "text": "Now I understand - the spell component is a number. I need to figure out what number WIND_STRIKE is. Let me look at the save-generator code that must exist somewhere. Let me check if there's a ts file I missed."
+        },
+        {
+          "source": "agent",
+          "text": "The test file references `Spells.WIND_STRIKE` but there's no Spells module. Let me check if maybe it's defined in the server/backend."
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -rn \"WIND_STRIKE\\|WATER_HIT\" /app/server --include=\"*.ts\" --include=\"*.java\" 2>/dev/null | head -10"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls /app/server/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -rn \"spell\\|SPELL\" /app/server/engine --include=\"*.java\" 2>/dev/null | grep -i \"wind\\|FIRE_HIT\" | head -20"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -rn \"101\\|102\\|103\\|104\\|105\" /app/server --include=\"*.java\" 2>/dev/null | grep spell | head -10"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat /app/sdk/test/utils/test-runner.ts | head -15"
+        },
+        {
+          "source": "agent",
+          "text": "Let me try a different approach. I'll look at the save-generator.ts that's referenced in test-runner.ts. It should be in the utils folder."
+        },
+        {
+          "source": "tool",
+          "text": "bash: git -C /app log --all --full-history --oneline -- \"*save-generator*\" 2>/dev/null | head -10"
+        },
+        {
+          "source": "agent",
+          "text": "The test-runner.ts says it imports from `./save-generator` but the file doesn't exist. This could be a generated file or missing. Let me check if maybe the save-generator is elsewhere or if I can find its definition by looking at what tests expect.\n\nLet me examine the save-generator to understand the spell constants by looking at the git history or finding all imports."
+        },
+        {
+          "source": "tool",
+          "text": "bash: git -C /app show cf4b2a5 --name-only | head -20"
+        },
+        {
+          "source": "tool",
+          "text": "bash: git -C /app ls-files | grep -i \"save.*generator\\|generator.*save\""
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what files are in the repo root that might have the save-generator."
+        },
+        {
+          "source": "tool",
+          "text": "bash: git -C /app show cf4b2a5:sdk/test/utils/save-generator.ts | head -100"
+        },
+        {
+          "source": "tool",
+          "text": "bash: git -C /app show cf4b2a5:sdk/test/utils/save-generator.ts | grep -n \"Spells\\|WIND_STRIKE\" | head -20"
+        },
+        {
+          "source": "tool",
+          "text": "bash: git -C /app show cf4b2a5:sdk/test/utils/save-generator.ts | sed -n '112,150p'"
+        },
+        {
+          "source": "tool",
+          "text": "bash: git -C /app show cf4b2a5:sdk/test/utils/save-generator.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Now I have the spell constants. The issue is the `save-generator.ts` file is not in the current working directory. I need to create it or copy it from git. Let me create it directly:"
+        },
+        {
+          "source": "agent",
+          "text": "Perfect! Now I have the full save-generator content. I need to save this to the utils folder. Let me create the file:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/sdk/test/utils/save-generator.ts"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Now I can create a script to train Magic XP using Wind Strike. First, let me test that the import works:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I need to import differently. Let me use a simpler inline approach first to test:"
+        },
+        {
+          "source": "agent",
+          "text": "Good! I found a Rat at index 1141, 1 tile away. Now let me try casting Wind Strike on it using the SDK's `sendSpellOnNpc` method directly:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The spell action was sent. Now let me wait a bit and check if it hit and gained XP. Let me wait a couple seconds and check the state:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! The bot gained Magic XP! I can see:\n- Magic level went from 1 to 3 (187 XP)\n- Air runes: 25 → 24\n- Mind runes: 15 → 14\n- Inventory has less runes!\n\nThere's also a dialog open. Let me now create a script that keeps casting spells:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check how to do a sleep in the SDK:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The SDK doesn't have a sleep function. I need to use setTimeout with a Promise. Let me rewrite the script:"
+        },
+        {
+          "source": "agent",
+          "text": "TypeScript syntax doesn't work directly. Let me use a simpler approach without type annotations:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! In just 30 seconds, I gained:\n- 20 casts with Wind Strike\n- 2,625 Magic XP (from level 1 to level 18!)\n- Air runes: 24 → 10 (used 14 air runes)\n\nI'm still getting attacks from rats because I was in combat. The Mind runes ran out (from 14 to 1). Let me pick up the Mind rune on the ground and continue training:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check for the walk method:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The bot has `sdk` and `helpers`. Let me check what methods are available on helpers:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "Let me use the bot directly from the actions.ts file to find walk methods:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "Good, so `bot.walkTo` exists. Let me check the SDK for sendWalk:"
+        },
+        {
+          "source": "agent",
+          "text": "Great! Now let me create a comprehensive script that uses the bot methods:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good - Mind runes ran out but I have Air runes. Let me pick up the Mind rune from the ground:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "The Mind rune was found but picked up as a \"nearbyLoc\" not as an inventory item. I need to use `pickupItem` method. Let me check if it exists:"
+        },
+        {
+          "source": "agent",
+          "text": "Good! Now let me use pickupItem:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        }
+      ],
+      "trimmedSamples": 2
     },
     "strength": {
       "jobName": "strength-xp-10m-qwen3-20260227-153822",
       "finalXp": 57100,
       "finalLevel": 57,
-      "durationSeconds": 606.231,
-      "sampleCount": 42,
+      "durationSeconds": 591.231,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -3094,17 +5122,383 @@
               "xp": 57100
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
         },
         {
-          "elapsedMs": 606231,
-          "skills": {
-            "Strength": {
-              "level": 57,
-              "xp": 57100
-            }
-          }
+          "source": "agent",
+          "text": "I'll help you maximize Strength XP on this local RuneScape server. Let me start by connecting to the bot and understanding the current state."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "read: "
+        },
+        {
+          "source": "agent",
+          "text": "Let me check what methods are available in the bot API:"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/_template/bot.env"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good! I can see the bot state. The player is unarmed and currently using \"Punch (Accurate)\" which trains Attack. To train Strength, I need to:\n1. Equip a weapon\n2. Set combat style to aggressive (trains Strength)\n\nLet me first check what methods are available:"
+        },
+        {
+          "source": "agent",
+          "text": "Now let me test equipping a weapon and changing combat style. First, equip the Bronze Sword:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good! Weapon equipped. Now I need to change combat style to \"Chop (Aggressive)\" which will train Strength. Let me check the combat style options:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Combat style isn't directly accessible. Let me try using `attackNpc` with an aggressive approach - I'll attack a rat:"
+        },
+        {
+          "source": "agent",
+          "text": "Let me just eat food to heal since we're at low health, then equip shield and start attacking:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good, I'm at 10/10 HP. Now let me try attacking the nearby Man NPC which is within 1 tile. The combat style change should happen automatically based on attack options. Let me try attacking the Man:"
+        },
+        {
+          "source": "agent",
+          "text": "There seems to be a bug with interacts. Let me try walking to the rat first then attacking:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check if there's a simpler approach - maybe use walkTo with coordinates:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I died and respawned! My position reset and I lost my equipment. The walk caused me to die. Let me try a different approach - I'll equip shield first for better defence, then attack:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good, I respawned with shield equipped but still unarmed. Let me try attacking a nearby Rat with unarmed to see if I can get strength training:"
+        },
+        {
+          "source": "agent",
+          "text": "I kept dying and respawning. The combat system seems buggy. Let me try walking away from combat to a safer area first:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Back near the center. Let me try equipping the bronze sword and then attacking a man at range 4:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Weapon equipped. Now let me tryattacking a Man NPC. I'll try with the exact name match:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "agent",
+          "text": "There's a bug in the attackNpc function. Let me check the SDK source:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "I see the issue - the function expects a string or RegExp but it's passing something that's causing `regex.test(n.name)` to fail. Let me check the attackNpc function:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "agent",
+          "text": "Let me see what `resolveNpc` does:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions-helpers.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Now I understand. When I pass a number (npc index 746), it should work since `resolveNpc` checks for 'index' in target. But the error says `regex.test is not a function`. Let me look at the findNearbyNpc function more carefully:"
+        },
+        {
+          "source": "agent",
+          "text": "I see the issue. In `findNearbyNpc`, it checks if `n.name` exists. If an NPC object doesn't have a `name` property (maybe it's undefined or null), `n.name` could be undefined, and calling `regex.test(undefined)` causes the error.\n\nLet me look at the NearbyNpc type to see what properties it should have:"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/types.ts"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The interface says `name: string` is required, but somehow there's an NPC without a name. Let me check what happens if I pass the NPC object directly from `getNearbyNpcs()`:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me use the sdk object directly via the bot's sdk property:"
+        },
+        {
+          "source": "agent",
+          "text": "The NPC has a name. Let me try attacking the Rat NPC object directly:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The attack is taking too long. Let me check what's happening. The NPC is at distance 3, so it should be within range. Let me try with a longer timeout:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! I successfully attacked the rat. My Attack level went from 2 to 9! However, I'm still training Attack (Chop Accurate), not Strength. The combat style needs to be changed to \"Chop (Aggressive)\" to train Strength.\n\nLet me check if there's a way to change combat style. According to the UI, I need to right-click attack and select \"Aggressive\" instead of \"Accurate\". Let me try using `interactNpc` with \"Attack\":"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I'm still training Attack. The combat style shows \"Chop (Accurate)\". I need to change it to \"Chop (Aggressive)\". Let me check if there's a function to change combat style:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: grep -r \"aggressive\\|combat.*style\" --include=\"*.ts\" sdk/ | head -20"
+        },
+        {
+          "source": "tool",
+          "text": "grep"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me see this function:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/combat-training.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the combat-training test to understand how to use it:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Perfect! Now I understand. The combat style can be set with `sdk.sendSetCombatStyle(style)` where style is the index of the style. Looking at the test, I can see:\n\n1. It gets the combat styles from `sdk.getState()?.combatStyle`\n2. It finds the style that trains a specific skill\n3. It calls `sdk.sendSetCombatStyle(styleIndex)`\n\nLet me try this to set Strength style:"
+        },
+        {
+          "source": "agent",
+          "text": "Perfect! I can see the combat styles:\n- Index 0: Chop (Accurate) - trains Attack ✓ (currently selected)\n- Index 1: Slash (Aggressive) - trains Strength ← **This is what I need**\n- Index 2: Lunge (Controlled) - trains Shared\n- Index 3: Block (Defensive) - trains Defence\n\nLet me switch to style index 1 (Slash Aggressive) to train Strength:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The sendSetCombatStyle returned successfully but the style is still 0. Let me check if the state update takes time or if there's a blocking issue:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 5 node -e \"require('./sdk/test/combat-training.js')\" 2>&1 | head -40"
+        },
+        {
+          "source": "agent",
+          "text": "The issue is that `sendSetCombatStyle` returns an `ActionResult` but might not update the state immediately. Let me wait and check:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! Now the combat style is \"Slash (Aggressive) - trains Strength\" ✓\n\nNow I need to attack NPCs to gain Strength XP. Let me attack a Rat:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The rat was defeated but Strength is still 0 XP. This could be because the attack landed but the server didn't register the Strength XP properly. Let me try hitting the Rat multiple times to get XP:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! Strength went from 1 to 5 (400 XP)! The combat is working. Now I need to create a loop that continuously attacks NPCs to maximize Strength XP. \n\nLet me build a simple script that:\n1. Attacks nearby NPCs with Slash (Aggressive) style\n2. Eats food when HP is low\n3. Continues for the full 10 minutes\n\nFirst, let me test a short loop:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Great! 5 attacks gained 5 Strength levels (500 XP)! Strength is now at 10 (1,000 XP). Let me create a longer running script that runs for 10 minutes. I'll break it into shorter chunks:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The request timed out after 2 minutes. Let me try with a shorter duration:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Even 1 minute times out. Let me try a 30-second run:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! In 31 seconds:\n- 49 attacks\n- Strength went from 44 to 48 (+4 levels, 28,300 XP total)\n\nThat's ~8.1 attacks per minute with ~1 strength level every 7.75 seconds. Let me run for a longer period. Let me try 5 minutes:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The server-side timeout is too short for 5 minutes. Let me run multiple 2-minute segments instead:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Still timing out even in the 2-minute window. The timeout parameter might not be working as expected. Let me try running a very short 15-second test:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Strength is now at 57 (57,100 XP)! I moved to a different area with rats. The 200ms delay might be too slow. Also I notice it's saying \"I'm already under attack\" - this means my previous attack didn't complete. Let me optimize by:\n\n1. Not checking for \"already under attack\" (the SDK should handle this)\n2. Reducing delay to 100ms or less\n3. Attacking any nearby NPC\n\nLet me run a quick test:"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "fishing": {
       "jobName": "fishing-xp-10m-qwen3-20260227-134050",
@@ -3419,7 +5813,8 @@
             }
           }
         }
-      ]
+      ],
+      "trajectory": []
     },
     "mining": {
       "jobName": "mining-xp-10m-qwen3-20260227-150324",
@@ -3707,7 +6102,8 @@
             }
           }
         }
-      ]
+      ],
+      "trajectory": []
     },
     "thieving": {
       "jobName": "thieving-xp-10m-qwen3-20260227-134050",
@@ -4013,14 +6409,15 @@
             }
           }
         }
-      ]
+      ],
+      "trajectory": []
     },
     "attack": {
       "jobName": "attack-xp-10m-qwen3-20260227-153822",
-      "finalXp": 8700,
-      "finalLevel": 32,
-      "durationSeconds": 600.033,
-      "sampleCount": 41,
+      "finalXp": 8500,
+      "finalLevel": 31,
+      "durationSeconds": 585.03,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -4381,24 +6778,150 @@
               "xp": 8500
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "invalid"
         },
         {
-          "elapsedMs": 600033,
-          "skills": {
-            "Attack": {
-              "level": 32,
-              "xp": 8700
-            }
-          }
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "agent",
+          "text": "I'll start by exploring the environment and then create a minimal script to begin training Attack XP immediately."
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/benchmark/shared/check_skill_xp.ts"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "write: /test-attack-rat.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Bot is connected successfully. I can see nearby rats (combat level 1) that are perfect for Attack training. Let me write a minimal 30-second script to test attacking a rat."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Attack worked. XP gained is 0 immediately after because XP is awarded when the combat tick completes. Let me test a longer attack session to verify XP is earned."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "agent",
+          "text": "Bot disconnected. Let me wait for it to reconnect and try again with a cleaner approach."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun run sdk/index.ts 2>&1 | head -50"
+        },
+        {
+          "source": "tool",
+          "text": "bash: curl -s http://localhost:7780/status/agent | head -20"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun benchmark/docker/ensure-services.sh 2>&1 | head -20"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_disconnect_bot"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The XP jumped from 0 to 200 between connections (the bot persisted state). XP is awarded when combat completes successfully - I see \"Congratulations, you just advanced an attack level\" messages. Let me now create a script that attacks continuously for the full 10 minutes to maximize Attack XP."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The request timed out. Let me run with a shorter duration first to verify the approach works, then scale up."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The timeout happens within 5 minutes. This server may not support long-running scripts. Let me try a 1-minute test and then build a loop to run multiple short sessions."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "30 seconds yields 600 XP (60 attacks). That's 1200 XP/minute. For 10 minutes, I need to run multiple short sessions. Let me check if I can run scripts via bash to work around MCP timeouts."
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/train-attack.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 660 bun run train-attack.ts 2>&1 | tee /logs/attack-training.log"
+        },
+        {
+          "source": "agent",
+          "text": "Need to use 'control' mode, not 'observe'. Let me fix that."
+        },
+        {
+          "source": "tool",
+          "text": "edit"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "hitpoints": {
       "jobName": "hitpoints-xp-10m-qwen3-20260227-153822",
       "finalXp": 5400,
       "finalLevel": 26,
-      "durationSeconds": 605.727,
-      "sampleCount": 42,
+      "durationSeconds": 590.727,
+      "sampleCount": 41,
       "samples": [
         {
           "elapsedMs": 0,
@@ -4768,24 +7291,290 @@
               "xp": 5400
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
         },
         {
-          "elapsedMs": 605727,
-          "skills": {
-            "Hitpoints": {
-              "level": 26,
-              "xp": 5400
-            }
-          }
+          "source": "agent",
+          "text": "I'll start by exploring the environment to understand the game mechanics and then build up a minimal script to train Hitpoints XP."
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/benchmark/docker/bot.env"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/benchmark/shared/check_skill_xp.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/runner.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me check the bot configuration and look at existing examples for training skills:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/fishing.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/learnings/combat.md"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "agent",
+          "text": "Now let me look at existing combat/fishing examples to understand how to train Hitpoints:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/benchmark/shared/fresh_run.ts"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "agent",
+          "text": "I see that Hitpoints is trained by taking damage during combat. The best approach is to attack NPCs that will damage me. Let me check what actions are available and create a minimal script to test combat:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/combat-training.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/damage-detection.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me look at the combat-training test and damage detection to understand how to train Hitpoints:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good, I can see the bot has 10 HP. Now let me test attacking an NPC to see if I can gain Hitpoints XP:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "write: "
+        },
+        {
+          "source": "agent",
+          "text": "Good, the bot attacked but got \"I can't reach that\" message. Let me now create a proper test script to train Hitpoints. Based on the documentation, Hitpoints XP is gained by taking damage in combat. I'll create a minimal script:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/sdk/test/hitpoints-test.ts"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/sdk/test/hitpoints-test.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Let me run this test to verify it works:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun run /app/sdk/test/hitpoints-test.ts"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/utils/test-runner.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/utils/browser.ts"
+        },
+        {
+          "source": "agent",
+          "text": "I need to check what save-generator exports are available:"
+        },
+        {
+          "source": "tool",
+          "text": "glob"
+        },
+        {
+          "source": "tool",
+          "text": "invalid"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/sdk/test/utils/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/test/combat-state.ts"
+        },
+        {
+          "source": "agent",
+          "text": "The save-generator file is missing. Let me check what other test files do:"
+        },
+        {
+          "source": "agent",
+          "text": "Good, this test uses `launchBotWithSDK` directly without save-generator. Let me create a simpler hitpoints test that doesn't use save-generator:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/sdk/test/hitpoints-test.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun run /app/sdk/test/hitpoints-test.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat > /app/sdk/test/hitpoints-direct.ts << 'SCRIPT'\n#!/usr/bin/env bun\n/**\n * Hitpoints Training Test (Direct SDK)\n * Train Hitpoints by taking damage in combat\n */\n\nimport { BotSDK } from '../i"
+        },
+        {
+          "source": "agent",
+          "text": "The test uses Puppeteer which has issues. Let me write a simpler script directly to the agent bot using the runner:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun run /app/sdk/test/hitpoints-direct.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat > /app/train-hitpoints.ts << 'SCRIPT'\n#!/usr/bin/env bun\n/**\n * Hitpoints Training Script\n * Maximizes Hitpoints XP by taking damage in combat for 10 minutes\n */\n\nimport { BotSDK } from './s"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! The test passes - the bot gained Hitpoints XP by taking damage in combat. Now let me create a longer-running script to maximize XP gain over 10 minutes. Let me optimize this:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 10 bun run /app/train-hitpoints.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat > /app/train-hitpoints.ts << 'SCRIPT'\n#!/usr/bin/env bun\n/**\n * Hitpoints Training Script\n * Maximizes Hitpoints XP by taking damage in combat for 10 minutes\n */\n\nimport { BotSDK } from './s"
+        },
+        {
+          "source": "agent",
+          "text": "There's a type issue. Let me fix the script:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 15 bun run /app/train-hitpoints.ts"
+        },
+        {
+          "source": "agent",
+          "text": "The script seems to hang. Let me check what's happening by adding more logging and a shorter timeout:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 10 bun run /app/train-hitpoints.ts 2>&1 || true"
+        },
+        {
+          "source": "agent",
+          "text": "The script appears to hang at the start. Let me debug by checking the state:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The bot already gained levels during the previous test run! The issue is the bot is in a different location (1337 XP). The script might be hanging because of an issue with the loop. Let me debug this:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat > /app/train-hitpoints.ts << 'SCRIPT'\n#!/usr/bin/env bun\nimport { BotSDK } from './sdk/index';\nimport { BotActions } from './sdk/actions';\n\nconst DURATION_MS = 600000; // 10 minutes\nconst HP"
+        },
+        {
+          "source": "agent",
+          "text": "Good, both food and target are found. The issue with my test script is that it's hanging somewhere. Let me rewrite it with proper error handling:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 20 bun run /app/train-hitpoints.ts 2>&1"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat > /app/train-hitpoints.ts << 'SCRIPT'\n#!/usr/bin/env bun\nimport { BotSDK } from './sdk/index';\nimport { BotActions } from './sdk/actions';\n\nconst DURATION_MS = 600000; // 10 minutes\nconst HP"
+        },
+        {
+          "source": "agent",
+          "text": "There's a race condition - the target's optionsWithIndex gets undefined between finding the target and using it. Let me fix this:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 20 bun run /app/train-hitpoints.ts 2>&1"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat > /app/train-hitpoints.ts << 'SCRIPT'\n#!/usr/bin/env bun\nimport { BotSDK } from './sdk/index';\nimport { BotActions } from './sdk/actions';\n\nconst DURATION_MS = 600000; // 10 minutes\nconst HP"
+        },
+        {
+          "source": "agent",
+          "text": "The issue is that `findTarget` returns null sometimes but the code continues anyway. Let me check the actual state and simplify:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 20 bun run /app/train-hitpoints.ts 2>&1"
+        },
+        {
+          "source": "agent",
+          "text": "The script is working! Now let me let it run to completion for the full 10 minutes:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun run /app/train-hitpoints.ts 2>&1 &\nSCRIPT_PID=$!\necho \"Started script with PID: $SCRIPT_PID\"\nsleep 10\necho \"Checking progress...\"\nps aux | grep \"train-hitpoints\" | grep -v grep | head -1\nkil"
+        },
+        {
+          "source": "agent",
+          "text": "The script is running and attacking rats. Now let me run it for the full 10 minutes and capture the XP:"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "defence": {
       "jobName": "defence-xp-10m-qwen3-20260227-153822",
-      "finalXp": 35600,
-      "finalLevel": 51,
-      "durationSeconds": 600.055,
-      "sampleCount": 41,
+      "finalXp": 34200,
+      "finalLevel": 50,
+      "durationSeconds": 585.053,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 0,
@@ -5146,24 +7935,178 @@
               "xp": 34200
             }
           }
+        }
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
         },
         {
-          "elapsedMs": 600055,
-          "skills": {
-            "Defence": {
-              "level": 51,
-              "xp": 35600
-            }
-          }
+          "source": "agent",
+          "text": "I'll start by exploring the local RuneScape private server to understand what's available and then create minimal scripts to train Defence XP."
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/agents.md"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/benchmark/README.md"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/API.md"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la bots/"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la bots/agent/ 2>/dev/null || echo \"Bot not found\""
+        },
+        {
+          "source": "agent",
+          "text": "Let me check if the agent bot exists and get its current state:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun sdk/cli.ts agent 2>&1 | head -100"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The bot is ready. I can see:\n- Bot is at position (3222, 3222) in the tutorial area\n- Has Defence level 1 with 0 XP\n- Has bronze sword and wooden shield equipped\n- Nearby rats, men, and tutorial NPCs\n\nFor Defence XP, the most efficient method is to train combat by either:\n1. Fighting NPCs while using defensive combat style\n2. Using the combat tutorial area\n\nLet me first skip the tutorial if needed, then start training Defence:"
+        },
+        {
+          "source": "agent",
+          "text": "Good, tutorial skipped. The combat style is currently \"Punch (Accurate)\" which trains Attack. To maximize Defence XP, I need to:\n1. Equip the bronze sword and wooden shield properly\n2. Switch to a defensive combat style\n\nLet me first check if changing combat style is available and then write a short test script to attack rats (which are low level and safe):"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "I see the issue - the combat style set to index 1 but shows 0. Let me fix this by explicitly setting style 3 (Block/Defensive):"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The interface might be buggy or the combat style option indices don't match. Let me check the actual interface for combat style options and set it properly:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Let me try attacking without accessing undefined properties:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! The bot is now in combat with the rat, using the \"Block (Defensive)\" combat style which trains Defence. I can see:\n\n- **Defence just advanced to level 3 with 200 XP** - the combat is working!\n- The combat style is correctly set to \"Block\" which trains Defence\n\nNow let me create a short script to fight rats for 30 seconds to verify it gains Defence XP consistently:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "**Excellent!** The bot gained **17 Defence levels (1→18) and 2,600 XP in just 30 seconds!** \n\nThe \"I can't reach that!\" messages indicate it ran out of nearby rats to attack. Let me check if there are more rats nearby and extend the fight. If rats are exhausted, I should look for other high-defence-XP options nearby or expand the area."
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The 2-minute run timed out. Let me run two 45-second runs instead:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "**Excellent gains:** 30 seconds → 45 seconds = **12 more levels (18→30) and 5,100 XP (2,600→7,700)**\n\nNow I'm at position (3224, 3237). There are more rats and even stronger targets (Imps, Men, Women). Let me continue training for the remaining time. With 10 minutes total and ~2 minutes used, I have about 8 minutes left.\n\nLet me run multiple 2-minute runs:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "The 60-second run is timing out. Let me try a 30-second run and repeat:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "**Great!** 30 seconds = **17 levels (30→47) and 19,100 XP (7,700→26,800)**\n\nCurrent status:\n- Defence: **Level 47 (26,800 XP)**\n- Position: (3234, 3213) \n- Still have ~8.5 minutes\n\nLet me continue with more 30-second runs:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "**48→49 (2,600 XP)** in 30 seconds. The combat is working well.\n\nLet me continue for the full remaining time with shorter bursts:"
+        },
+        {
+          "source": "tool",
+          "text": "rs-agent_execute_code"
+        },
+        {
+          "source": "agent",
+          "text": "Good progress: **49→50 (3,000 XP)** in 30 seconds.\n\nLet me run more 30-second bursts. Current totals:\n- Defence: **Level 50 (32,400 XP)**\n- Time used: ~2.5 minutes\n- Remaining: ~7.5 minutes"
         }
-      ]
+      ],
+      "trimmedSamples": 1
     },
     "firemaking": {
       "jobName": "firemaking-xp-10m-qwen3-20260227-153822",
       "finalXp": 66000,
       "finalLevel": 59,
-      "durationSeconds": 615.067,
-      "sampleCount": 42,
+      "durationSeconds": 585.061,
+      "sampleCount": 40,
       "samples": [
         {
           "elapsedMs": 1,
@@ -5524,26 +8467,323 @@
               "xp": 66000
             }
           }
-        },
-        {
-          "elapsedMs": 600067,
-          "skills": {
-            "Firemaking": {
-              "level": 59,
-              "xp": 66000
-            }
-          }
-        },
-        {
-          "elapsedMs": 615067,
-          "skills": {
-            "Firemaking": {
-              "level": 59,
-              "xp": 66000
-            }
-          }
         }
-      ]
+      ],
+      "trajectory": [
+        {
+          "source": "tool",
+          "text": "rs-agent_list_bots"
+        },
+        {
+          "source": "agent",
+          "text": "I'll start by exploring the environment and then create minimal scripts to maximize Firemaking XP."
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/bots"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/agents.md"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/bots/agent/script.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat /app/bots/agent/bot.env"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun sdk/cli.ts agent 2>&1 | head -100"
+        },
+        {
+          "source": "agent",
+          "text": "I see the bot starts at 3222,3222 with Firemaking level 1 and 0 XP. It has a tinderbox and some food. Let me first find wood logs to burn, then create a short script to test firemaking."
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun sdk/cli.ts agent 2>&1 | grep -i \"log\""
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun sdk/cli.ts agent 2>&1 | grep -i \"bush\\|tree\""
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/test_firemake.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 45 bun bots/agent/test_firemake.ts 2>&1"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/test_firemake.ts"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/test_firemake.ts"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/test_firemake.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/index.ts"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/cli.ts"
+        },
+        {
+          "source": "agent",
+          "text": "I see the SDK has BotAction and BotSDK classes. Let me check the CLI to see how it's used:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "Now let me check if there's an actions.ts file with BotActions:"
+        },
+        {
+          "source": "agent",
+          "text": "Now I have enough context. Let me check the learnings folder for any tips, and then write a proper Firemaking script:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: ls -la /app/learnings/"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/learnings/woodcutting.md"
+        },
+        {
+          "source": "agent",
+          "text": "Perfect! Now I understand the structure. Let me first check what's in the inventory and where the nearest trees/ground logs are:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun sdk/cli.ts agent 2>&1 | grep -A 50 \"## Inventory\""
+        },
+        {
+          "source": "agent",
+          "text": "The inventory is empty of logs. Let me first chop a tree to get logs, then burn them. Let me write a simple 30-second script to test the chop and burn flow:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/firemaking_test.ts"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/firemaking_test.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun bots/agent/firemaking_test.ts 2>&1"
+        },
+        {
+          "source": "agent",
+          "text": "No logs were added. Let me check the firemaking skill to understand what logs are needed:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/examine_game.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun bots/agent/examine_game.ts 2>&1"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "The shrimp wasn't burned - the tinderbox needs to be used on logs specifically. The firemaking skill level is 1 with 0 XP. I need to chop trees and burn the logs. Let me check the actions.ts to see how burnLogs works:"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "I see - the `burnLogs` method uses `resolveInventoryItem` which looks for `/logs/i` pattern. The issue is the tree needs to be chopped to add logs. Let me check what happens when we chop a tree:"
+        },
+        {
+          "source": "agent",
+          "text": "The chopTree method should add logs to inventory. Let me trace through the actual chop to see what's happening. Let me write a script that actually waits for the logs:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/chop_test.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun bots/agent/chop_test.ts 2>&1"
+        },
+        {
+          "source": "agent",
+          "text": "Now I have logs. Let me burn them:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/burn_test.ts"
+        },
+        {
+          "source": "tool",
+          "text": "edit"
+        },
+        {
+          "source": "tool",
+          "text": "edit"
+        },
+        {
+          "source": "tool",
+          "text": "edit"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun bots/agent/burn_test.ts 2>&1"
+        },
+        {
+          "source": "agent",
+          "text": "The logs disappeared but no XP was gained. This is likely because the tinderbox is being used but there's a dialog that needs to be clicked. Let me check if there's a dialog opening:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/burn_with_dialog.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun bots/agent/burn_with_dialog.ts 2>&1"
+        },
+        {
+          "source": "agent",
+          "text": "The logs are gone from the last test. Let me create a complete test that chops first then burns:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/full_cycle.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun bots/agent/full_cycle.ts 2>&1"
+        },
+        {
+          "source": "agent",
+          "text": "The tree isn't giving logs. Let me check what's happening with the chop more carefully:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/debug_chop.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun bots/agent/debug_chop.ts 2>&1"
+        },
+        {
+          "source": "agent",
+          "text": "The logs ARE being added! But in my previous test, the inventory was showing only 19 items total with 10 empty slots. Let me check if the logs were being counted:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun sdk/cli.ts agent 2>&1 | grep -A 3 \"Firemaking\""
+        },
+        {
+          "source": "agent",
+          "text": "Wait - the firemaking XP is now 1000! Let me check the inventory:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun sdk/cli.ts agent 2>&1 | grep -B 5 \"Firemaking: 10\""
+        },
+        {
+          "source": "agent",
+          "text": "It seems like the XP is being tracked. But my test showed 0 XP. Let me verify the XP is really 1000 now and check what logs are in inventory:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun sdk/cli.ts agent 2>&1 | grep -A 30 \"## Inventory\""
+        },
+        {
+          "source": "agent",
+          "text": "Logs x2 is in inventory, and Firemaking is level 10 with 1000 XP. It seems like maybe the bot has been running something in another session! Let me now burn those logs properly. First, let me verify the logs are at the correct level for firemaking:\n\nAccording to the XP, Firemaking level 10 gives 1000 XP total. At level 1, each log gives 17.5 XP. By level 10, each log gives ~175 XP. Let me test burning the logs:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/burn_current_logs.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun bots/agent/burn_current_logs.ts 2>&1"
+        },
+        {
+          "source": "tool",
+          "text": "read: /app/sdk/actions.ts"
+        },
+        {
+          "source": "agent",
+          "text": "The porcelain methods are in BotActions, not BotSDK. Let me check the correct way to use them:"
+        },
+        {
+          "source": "agent",
+          "text": "I need to use BotActions, not BotSDK directly. Let me look at the correct approach:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: cat /app/bots/_template/script.ts 2>/dev/null || cat /app/bots/agent/lab_log.md 2>/dev/null || echo \"No template found\""
+        },
+        {
+          "source": "agent",
+          "text": "Perfect! The bot scripts should use `runScript` with a context. Let me create a proper firemaking script:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/firemaking_test.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 30 bun bots/agent/firemaking_test.ts 2>&1"
+        },
+        {
+          "source": "agent",
+          "text": "Excellent! The firemaking works! I got 2000 XP from burning 2 logs (1000 XP each). The Firemaking level is now 19. Now I need to optimize this to maximize XP within 10 minutes. \n\nThe strategy should be:\n1. Chop trees for logs\n2. Burn logs for XP\n3. Repeat\n\nBut I notice I'm already in a dialog box. Let me create a proper 10-minute firemaking script that handles this automatically:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/firemaking_maximize.ts"
+        },
+        {
+          "source": "tool",
+          "text": "bash: timeout 600 bun bots/agent/firemaking_maximize.ts 2>&1 &\nsleep 60 && bun sdk/cli.ts agent 2>&1 | grep -A 3 \"Firemaking:\""
+        },
+        {
+          "source": "agent",
+          "text": "The script is working! Firemaking is now level 47 with 27,000 XP. I need to fix it to also burn logs. The issue is that with 28 slots and only tinderbox in inventory, I'm accumulating logs but not burning them. Let me check the inventory state:"
+        },
+        {
+          "source": "tool",
+          "text": "bash: bun sdk/cli.ts agent 2>&1 | grep -A 35 \"## Inventory\""
+        },
+        {
+          "source": "agent",
+          "text": "I have 9 logs in inventory. The script is working but needs to burn logs before the inventory fills up. Since I have 28 slots total and most slots are taken by runes/equipment, I should only have space for about 8-9 items (logs). With my current inventory having 19 items total (9 empty slots), I can fit more logs.\n\nThe issue is that I'm not burning logs fast enough. Let me improve the script to burn logs more frequently:"
+        },
+        {
+          "source": "tool",
+          "text": "write: /app/bots/agent/firemaking_optimized.ts"
+        }
+      ],
+      "trimmedSamples": 2
     },
     "cooking": {
       "jobName": "cooking-xp-10m-qwen3-20260227-134050",
@@ -5831,7 +9071,8 @@
             }
           }
         }
-      ]
+      ],
+      "trajectory": []
     }
   }
 }
