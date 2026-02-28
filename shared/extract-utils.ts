@@ -31,6 +31,17 @@ export interface TokenUsage {
   outputTokens: number;
 }
 
+// ── Sample trimming ──────────────────────────────────────────────
+
+/**
+ * Trim tracking samples to only those within the agent's intended time window.
+ * Returns the filtered samples array. horizonMs is the game-time window in ms
+ * (e.g. 600000 for 10m, 1800000 for 30m).
+ */
+export function trimSamplesToHorizon(samples: Sample[], horizonMs: number): Sample[] {
+  return samples.filter(s => s.elapsedMs <= horizonMs);
+}
+
 // ── Model detection ──────────────────────────────────────────────
 
 /** Detect model from directory name by scanning for known model slugs */
@@ -121,6 +132,88 @@ export function parseRewardFromStdout(content: string): any | null {
   try {
     return JSON.parse(content.slice(startIdx + startMarker.length, endIdx).trim());
   } catch {}
+  return null;
+}
+
+// ── Per-trial extraction helpers ─────────────────────────────────
+
+/** Find tracking data within a single trial directory */
+export function findTrackingInTrial(trialDir: string): { samples: Sample[]; botName?: string; startTime?: string } | null {
+  const rewardPath = join(trialDir, 'verifier', 'reward.json');
+  if (existsSync(rewardPath)) {
+    try {
+      const reward = JSON.parse(readFileSync(rewardPath, 'utf-8'));
+      if (reward.tracking?.samples?.length > 0) return reward.tracking;
+    } catch {}
+  }
+
+  const trackingPath = join(trialDir, 'verifier', 'skill_tracking.json');
+  if (existsSync(trackingPath)) {
+    try {
+      const tracking = JSON.parse(readFileSync(trackingPath, 'utf-8'));
+      if (tracking.samples?.length > 0) return tracking;
+    } catch {}
+  }
+
+  const stdoutPath = join(trialDir, 'verifier', 'test-stdout.txt');
+  if (existsSync(stdoutPath)) {
+    try {
+      const content = readFileSync(stdoutPath, 'utf-8');
+      const reward = parseRewardFromStdout(content);
+      if (reward?.tracking?.samples?.length > 0) return reward.tracking;
+    } catch {}
+  }
+
+  return null;
+}
+
+/** Find reward data within a single trial directory */
+export function findRewardInTrial(trialDir: string): { xp: number; level: number } | null {
+  const rewardPath = join(trialDir, 'verifier', 'reward.json');
+  if (existsSync(rewardPath)) {
+    try {
+      const reward = JSON.parse(readFileSync(rewardPath, 'utf-8'));
+      if (reward.xp !== undefined) return { xp: reward.xp, level: reward.level ?? 1 };
+    } catch {}
+  }
+
+  const stdoutPath = join(trialDir, 'verifier', 'test-stdout.txt');
+  if (existsSync(stdoutPath)) {
+    try {
+      const content = readFileSync(stdoutPath, 'utf-8');
+      const stdoutReward = parseRewardFromStdout(content);
+      if (stdoutReward?.xp !== undefined) return { xp: stdoutReward.xp, level: stdoutReward.level ?? 1 };
+    } catch {}
+  }
+
+  return null;
+}
+
+/** Find token usage within a single trial directory */
+export function findTokenUsageInTrial(trialDir: string, opts?: { geminiTrajectoryFallback?: boolean }): TokenUsage | null {
+  const resultPath = join(trialDir, 'result.json');
+  if (existsSync(resultPath)) {
+    try {
+      const result = JSON.parse(readFileSync(resultPath, 'utf-8'));
+      const ar = result.agent_result;
+      if (ar && (ar.n_input_tokens || ar.n_output_tokens)) {
+        return {
+          inputTokens: ar.n_input_tokens || 0,
+          cacheTokens: ar.n_cache_tokens || 0,
+          outputTokens: ar.n_output_tokens || 0,
+        };
+      }
+    } catch {}
+  }
+
+  if (opts?.geminiTrajectoryFallback) {
+    const geminiTraj = join(trialDir, 'agent', 'gemini-cli.trajectory.json');
+    if (existsSync(geminiTraj)) {
+      const usage = parseGeminiTrajectory(geminiTraj);
+      if (usage) return usage;
+    }
+  }
+
   return null;
 }
 

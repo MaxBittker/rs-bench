@@ -15,12 +15,13 @@
  *   results/skills-{horizon}/_combined.json  — { model: { skill: { finalXp, finalLevel, samples[], tokenUsage } } }
  */
 
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'fs';
 import { join, basename } from 'path';
 import {
   type Sample, type TrackingData, type TokenUsage,
   detectModel, detectModelFromConfig, getTrialDirs,
   findTrackingInTrial, findRewardInTrial, findTokenUsageInTrial,
+  trimSamplesToHorizon,
   parseCLIArgs, resolveJobDirs, writeResults,
 } from '../shared/extract-utils';
 
@@ -90,12 +91,16 @@ function extractTrajectoryFromTrial(trialDir: string): { steps: TrajectoryStep[]
     } catch {}
   }
 
-  const kimiPath = join(agentDir, 'opencode-kimi.txt');
-  if (existsSync(kimiPath)) {
-    try {
-      return parseKimiLog(readFileSync(kimiPath, 'utf-8'));
-    } catch {}
-  }
+  // Handle any opencode-*.txt variant (kimi, qwen3, qwen35, etc.)
+  try {
+    const agentFiles = readdirSync(agentDir);
+    const opencodePath = agentFiles.find(f => f.startsWith('opencode-') && f.endsWith('.txt'));
+    if (opencodePath) {
+      try {
+        return parseKimiLog(readFileSync(join(agentDir, opencodePath), 'utf-8'));
+      } catch {}
+    }
+  } catch {}
 
   const geminiPath = join(agentDir, 'gemini-cli.txt');
   if (existsSync(geminiPath)) {
@@ -166,7 +171,7 @@ function parseKimiLog(content: string): { steps: TrajectoryStep[] } {
     try {
       const entry = JSON.parse(line);
       if (entry.type === 'text') {
-        const text = entry.part?.content || '';
+        const text = entry.part?.content || entry.part?.text || '';
         if (text) {
           steps.push({ source: 'agent', text });
         }
@@ -253,9 +258,14 @@ const combined: Record<string, Record<string, {
   sampleCount: number;
   samples: Sample[];
   tokenUsage?: TokenUsage;
+  trimmedSamples?: number;
 }>> = {};
 
 let extracted = 0;
+
+// Parse horizon into milliseconds for sample trimming
+const horizonMatch = HORIZON.match(/^(\d+)m$/);
+const horizonMs = horizonMatch ? parseInt(horizonMatch[1]) * 60 * 1000 : 0;
 
 for (const dir of jobDirs) {
   const jobName = basename(dir);
@@ -301,13 +311,34 @@ for (const dir of jobDirs) {
       continue;
     }
 
-    const samples = tracking?.samples || [];
+    const allSamples = tracking?.samples || [];
+
+    // Trim samples to the intended game-time window
+    const samples = horizonMs > 0 ? trimSamplesToHorizon(allSamples, horizonMs) : allSamples;
+    const trimmedCount = allSamples.length - samples.length;
+
     const durationSeconds = samples.length > 0
       ? samples[samples.length - 1].elapsedMs / 1000
       : 0;
 
-    const finalXp = reward?.xp ?? 0;
-    const finalLevel = reward?.level ?? 1;
+    // Derive XP from the last in-window sample's skill data (more accurate than
+    // the verifier's post-timeout reading when orphaned scripts inflate XP)
+    let finalXp = reward?.xp ?? 0;
+    let finalLevel = reward?.level ?? 1;
+
+    if (samples.length > 0 && horizonMs > 0) {
+      const lastSample = samples[samples.length - 1];
+      if (lastSample.skills) {
+        for (const [sName, sData] of Object.entries(lastSample.skills)) {
+          if (sName.toLowerCase() === skill.toLowerCase()) {
+            const sd = sData as { level: number; xp: number };
+            finalXp = sd.xp;
+            finalLevel = sd.level;
+            break;
+          }
+        }
+      }
+    }
 
     // Slim down samples: only keep elapsedMs and the target skill's data
     const slimSamples = samples.map(s => {
@@ -339,11 +370,13 @@ for (const dir of jobDirs) {
         samples: slimSamples,
         ...(tokenUsage ? { tokenUsage } : {}),
         ...(trajectory ? { trajectory: trajectory.steps } : {}),
+        ...(trimmedCount > 0 ? { trimmedSamples: trimmedCount } : {}),
       };
     }
 
     const tokenStr = tokenUsage ? `, tokens: ${(tokenUsage.inputTokens / 1000).toFixed(0)}k in / ${(tokenUsage.outputTokens / 1000).toFixed(0)}k out` : '';
-    console.log(`  ${model}/${skill}: ${jobName} — xp=${finalXp}, level=${finalLevel}, ${samples.length} samples${tokenStr}`);
+    const trimStr = trimmedCount > 0 ? ` (trimmed ${trimmedCount} post-horizon samples)` : '';
+    console.log(`  ${model}/${skill}: ${jobName} — xp=${finalXp}, level=${finalLevel}, ${samples.length} samples${trimStr}${tokenStr}`);
     extracted++;
   }
 }
@@ -359,6 +392,32 @@ writeResults(RESULTS_DIR, combined, 'COMBINED_DATA');
 for (const [model, skills] of Object.entries(combined)) {
   const modelPath = join(RESULTS_DIR, `${model}.json`);
   writeFileSync(modelPath, JSON.stringify({ model, skills }, null, 2));
+}
+
+// ── Diagnostics ──────────────────────────────────────────────────
+
+const expectedMinSamples = horizonMs > 0 ? Math.floor(horizonMs / 30000) : 0; // rough: one sample per 30s
+
+console.log(`\n── Diagnostics ──`);
+for (const [model, skills] of Object.entries(combined)) {
+  const skillEntries = Object.entries(skills);
+  const withData = skillEntries.filter(([, v]) => v.sampleCount > 0).length;
+  const trimmedEntries = skillEntries.filter(([, v]) => (v as any).trimmedSamples > 0);
+  const shortEntries = expectedMinSamples > 0
+    ? skillEntries.filter(([, v]) => v.sampleCount > 0 && v.sampleCount < expectedMinSamples * 0.5)
+    : [];
+
+  console.log(`  ${model}: ${skillEntries.length} skills, ${withData} with tracking data`);
+  if (trimmedEntries.length > 0) {
+    for (const [sk, v] of trimmedEntries) {
+      console.log(`    ⚠ ${sk}: ${(v as any).trimmedSamples} samples trimmed (orphaned scripts ran past horizon)`);
+    }
+  }
+  if (shortEntries.length > 0) {
+    for (const [sk, v] of shortEntries) {
+      console.log(`    ⚠ ${sk}: only ${v.sampleCount} samples (expected ~${expectedMinSamples}+, possible early sandbox death)`);
+    }
+  }
 }
 
 console.log(`\n${extracted} result(s) extracted. View: open views/graph-skills.html?horizon=${HORIZON}`);

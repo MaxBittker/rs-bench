@@ -25,6 +25,8 @@ const TRACKING_PATHS = [
     '/logs/verifier/skill_tracking.json',
 ];
 
+const verifierStartTime = new Date().toISOString();
+
 async function main() {
     const sdk = new BotSDK({
         botUsername: 'agent',
@@ -53,7 +55,11 @@ async function main() {
             if (existsSync(trackingPath)) {
                 try {
                     trackingData = JSON.parse(readFileSync(trackingPath, 'utf-8')) as any;
-                    console.log(`Tracking data: ${trackingData?.samples?.length ?? 0} samples (from ${trackingPath})`);
+                    const sampleCount = trackingData?.samples?.length ?? 0;
+                    const lastSampleMs = sampleCount > 0
+                        ? trackingData.samples[sampleCount - 1].elapsedMs
+                        : 0;
+                    console.log(`Tracking data: ${sampleCount} samples, last at ${(lastSampleMs / 1000).toFixed(1)}s (from ${trackingPath})`);
                     break;
                 } catch (err) {
                     console.error(`Failed to read tracking data from ${trackingPath}:`, err);
@@ -68,6 +74,7 @@ async function main() {
             skill: SKILL_NAME,
             xp,
             level,
+            verifierStartTime,
             tracking: trackingData,
         };
 

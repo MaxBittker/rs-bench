@@ -99,6 +99,7 @@ for name in $SELECTED_MODELS; do
     -m '$model' \
     --job-name '$JOB_NAME' \
     --env modal \
+    --ek sandbox_timeout_secs=3600 \
     -n '$CONCURRENCY' \
     -k '$N_TRIALS' \
     $EXTRA_ARGS" > "$LOG_FILE" 2>&1 &

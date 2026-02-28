@@ -90,9 +90,20 @@ const GOLD_2H_INSTRUCTION = GOLD_INSTRUCTION(120);
 const GOLD_30M_INSTRUCTION = GOLD_INSTRUCTION(30);
 const GOLD_15M_INSTRUCTION = GOLD_INSTRUCTION(15);
 
-// Stop ffmpeg before verifier runs so the mp4 is finalized and downloadable.
-const VERIFIER_CLEANUP = `pkill -f ffmpeg 2>/dev/null || true
-sleep 1`;
+// Stop ffmpeg and kill orphaned agent scripts before verifier runs.
+// This ensures the bot stops training before the verifier takes its final measurement,
+// and the mp4 is finalized and downloadable.
+const VERIFIER_CLEANUP = `echo "VERIFIER_START_EPOCH=$(date +%s)"
+pkill -f ffmpeg 2>/dev/null || true
+# Kill orphaned agent-spawned scripts (bun/node processes that aren't core services)
+for pid in $(pgrep -f "bun" 2>/dev/null); do
+  cmdline=$(cat /proc/$pid/cmdline 2>/dev/null | tr '\\0' ' ')
+  case "$cmdline" in
+    *engine*|*gateway*|*skill_tracker*|*mcp/server*|*launch-bot*|*check_*|*ensure-services*) ;;
+    *) kill $pid 2>/dev/null || true ;;
+  esac
+done
+sleep 2`;
 
 // Tracker, start-with-tracker.sh, and SERVER=localhost are also in the base image.
 // Tasks only need to set SAMPLE_INTERVAL_MS via ENV

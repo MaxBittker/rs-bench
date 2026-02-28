@@ -1,8 +1,8 @@
 #!/bin/bash
 # Run 30-minute skill XP benchmarks across models.
 #
-# All models and skills launch in parallel.
-# Wall clock: ~35 min for everything.
+# Models run sequentially to avoid Modal App lock contention.
+# Within each model, harbor runs skills concurrently (-n 4).
 #
 # Usage:
 #   run-skills-30m.sh                      # all models, all skills
@@ -72,10 +72,13 @@ GLM_KEY="${GLM_API_KEY:-}"
 
 regenerate_tasks "$REPO_ROOT/generate-tasks.ts"
 
-# ── Launch all models × skills in parallel ──────────────────────────
+# ── Run models sequentially (avoid Modal App lock contention) ────────
+# Each model runs all its skills via harbor dataset mode with -n 4 concurrency.
+# Models run one at a time so only one harbor process uses the shared __harbor__
+# Modal App at any given time.
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-ALL_PIDS=""
-ALL_JOBS=""  # "pid|model_name|skill" entries
+TOTAL_MODELS=0
+TOTAL_FAILED=0
 
 for model_name in $SELECTED_MODELS; do
   entry=$(lookup_model "$model_name" "$ALL_MODELS")
@@ -115,70 +118,49 @@ for model_name in $SELECTED_MODELS; do
       echo "  WARNING: ~/.codex/auth.json not found, skipping codex53 (OAuth required)"
       continue
     fi
-    ENV_PREFIX="$ENV_PREFIX CODEX_AUTH_JSON=\$(cat '$CODEX_AUTH_FILE')"
+    # Base64-encode auth.json to safely pass OAuth tokens through shell/Modal env
+    CODEX_AUTH_B64=$(base64 < "$CODEX_AUTH_FILE")
+    ENV_PREFIX="$ENV_PREFIX CODEX_AUTH_JSON_B64='$CODEX_AUTH_B64'"
   fi
 
+  # Build -t flags for selected skills (dataset mode: one harbor process per model)
+  TASK_FLAGS=""
   for skill in $SELECTED_SKILLS; do
-    TASK="${skill}-xp-30m"
-    JOB_NAME="${TASK}-${label}-${TIMESTAMP}"
-    LOG_FILE="/tmp/harbor-${JOB_NAME}.log"
-
-    echo "  Launching: $model_name / $skill → $LOG_FILE"
-
-    eval "$ENV_PREFIX harbor run \
-      -p '$REPO_ROOT/tasks/$TASK' \
-      $AGENT_FLAG \
-      -m '$model' \
-      --job-name '$JOB_NAME' \
-      --env $HARBOR_ENV \
-      -n 1 \
-      -k 1 \
-      $EXTRA_ARGS $MODEL_EXTRA_ARGS" > "$LOG_FILE" 2>&1 &
-
-    PID=$!
-    ALL_PIDS="$ALL_PIDS $PID"
-    ALL_JOBS="$ALL_JOBS
-$PID|$model_name|$skill|$label"
+    TASK_FLAGS="$TASK_FLAGS -t '${skill}-xp-30m'"
   done
-done
 
-TOTAL=$(echo $ALL_PIDS | wc -w | tr -d ' ')
-echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  Waiting for $TOTAL runs to finish..."
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  JOB_NAME="skills-30m-${label}-${TIMESTAMP}"
+  LOG_FILE="/tmp/harbor-${JOB_NAME}.log"
+  N_SKILLS=$(echo $SELECTED_SKILLS | wc -w | tr -d ' ')
 
-TOTAL_FAILED=0
-for pid in $ALL_PIDS; do
-  if ! wait "$pid"; then
+  TOTAL_MODELS=$((TOTAL_MODELS + 1))
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "  [$TOTAL_MODELS] $model_name ($N_SKILLS skills)"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+  if ! eval "$ENV_PREFIX harbor run \
+    -p '$REPO_ROOT/tasks' \
+    $TASK_FLAGS \
+    $AGENT_FLAG \
+    -m '$model' \
+    --job-name '$JOB_NAME' \
+    --env $HARBOR_ENV \
+    --ek sandbox_timeout_secs=7200 \
+    -n 16 \
+    -k 1 \
+    $EXTRA_ARGS $MODEL_EXTRA_ARGS" 2>&1 | tee "$LOG_FILE"; then
     TOTAL_FAILED=$((TOTAL_FAILED + 1))
   fi
 done
 
-# ── Print summary per model ─────────────────────────────────────────
+# ── Print summary ─────────────────────────────────────────────────────
 echo ""
-for model_name in $SELECTED_MODELS; do
-  entry=$(lookup_model "$model_name" "$ALL_MODELS")
-  [ -z "$entry" ] && continue
-  IFS='|' read -r _agent _model label <<< "$entry"
-
-  echo "  $model_name:"
-  for skill in $SELECTED_SKILLS; do
-    TASK="${skill}-xp-30m"
-    LOG_FILE="/tmp/harbor-${TASK}-${label}-${TIMESTAMP}.log"
-    if [ -f "$LOG_FILE" ]; then
-      LAST_LINE=$(tail -1 "$LOG_FILE" 2>/dev/null || echo "")
-      echo "    $skill: $LAST_LINE"
-    fi
-  done
-  echo ""
-done
-
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 if [ "$TOTAL_FAILED" -eq 0 ]; then
-  echo "All skill benchmarks complete. ($TOTAL runs)"
+  echo "All skill benchmarks complete. ($TOTAL_MODELS models)"
 else
-  echo "All runs finished. $TOTAL_FAILED of $TOTAL run(s) had errors."
+  echo "All runs finished. $TOTAL_FAILED of $TOTAL_MODELS model(s) had errors."
 fi
 echo ""
 echo "Next steps:"
