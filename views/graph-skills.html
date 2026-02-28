@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="skill-icons/crafting.png">
 <title>Skill XP Benchmark</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script src="shared-constants.js"></script>
@@ -1108,7 +1109,7 @@ document.querySelectorAll('#horizonToggle button').forEach(btn => {
 // Set dynamic title/subtitle based on horizon
 document.title = `Skill XP Benchmark (${HORIZON_MINUTES} min)`;
 document.getElementById('pageDescription').textContent =
-  `Each agent is placed in a RuneScape private server (8x game speed) and given ${HORIZON_MINUTES} minutes to maximize XP in a single skill. ` +
+  `Each agent is placed in a RuneScape private server (8x game speed) and given ${HORIZON_MINUTES} minutes wall clock to maximize XP in a single skill. Best of 1. ` +
   `The agent controls a freshly-created character via writing and running TypeScript scripts against RS-SDK. `;
 
 // Auto-load on page open

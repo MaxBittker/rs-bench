@@ -148,7 +148,7 @@
    * @param {Object} opts.data - combined data (model -> skill -> {samples, finalXp, ...})
    * @param {number} opts.horizonMinutes - e.g. 30
    */
-  window.renderCumulativeChart = function({ canvasContainer, legendContainer, data, horizonMinutes }) {
+  window.renderCumulativeChart = function({ canvasContainer, legendContainer, data, horizonMinutes, onClick }) {
     const cumulativeSkillFinalXp = {};
     const hiddenModels = new Set();
     let chart = null;
@@ -260,6 +260,12 @@
           animation: false,
           layout: { padding: { top: 10, right: 120, bottom: 2 } },
           interaction: { mode: 'nearest', intersect: false },
+          onClick: onClick ? function(event, elements) {
+            if (elements.length > 0) {
+              var ds = datasets[elements[0].datasetIndex];
+              if (ds._modelKey) onClick(ds._modelKey);
+            }
+          } : undefined,
           scales: {
             x: {
               type: 'linear',
