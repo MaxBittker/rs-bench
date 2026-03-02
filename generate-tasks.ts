@@ -120,6 +120,22 @@ const gpFreshStartB64 = Buffer.from(
   readFileSync(join(SHARED_DIR, 'gp_fresh_start.ts'), 'utf-8')
 ).toString('base64');
 
+// Script run at Docker build time to create DB accounts for all GP bots.
+// Must run AFTER sqlite:migrate so the account table exists.
+// Placed in /app/server/engine/ so bun resolves bcrypt from engine/node_modules.
+const gpCreateAccountsScript = `import { Database } from 'bun:sqlite';
+import bcrypt from 'bcrypt';
+const db = new Database('/app/server/engine/db.sqlite');
+const hash = bcrypt.hashSync('test', 10);
+const now = new Date().toISOString();
+const bots = ['agent','l1a1','l1a2','l2a1','l2a2','l3a1','l3a2','l4a1','l4a2','l5a1','l5a2'];
+const stmt = db.prepare('INSERT OR IGNORE INTO account (username, password, registration_ip, registration_date) VALUES (?, ?, ?, ?)');
+for (const name of bots) stmt.run(name, hash, '127.0.0.1', now);
+console.log('[DB] Created accounts:', bots.join(', '));
+db.close();
+`;
+const gpCreateAccountsB64 = Buffer.from(gpCreateAccountsScript).toString('base64');
+
 const GP_INSTRUCTION = `You are running a 5-loop iterative GP-earning benchmark. Each loop, you spawn a sub-agent that writes ONE money-making script and runs it on 2 bots sequentially.
 
 ## Setup (do this ONCE before any loops)
@@ -182,6 +198,12 @@ RUN touch /app/learnings.md
 
 # Generate 10 save files with level 50 skills, starting items, and equipment
 RUN cd /app && bun run benchmark/shared/generate_gp_saves.ts
+
+# Initialize SQLite database and create bot accounts.
+# Without this, bots log in as new characters on Tutorial Island instead of
+# loading the pre-generated level-50 save files.
+RUN echo '${gpCreateAccountsB64}' | base64 -d > /app/server/engine/create_gp_accounts.ts && \\
+    cd /app/server/engine && bun run sqlite:migrate && bun create_gp_accounts.ts
 `;
 
 const SKILL_XP_30M_INSTRUCTION = (skillName: string) => `Gain as much ${skillName} XP as possible within 30 minutes. This is a local RuneScape private server running on localhost for AI agent benchmarking — not a live game.

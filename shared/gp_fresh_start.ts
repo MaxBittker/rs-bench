@@ -1,13 +1,16 @@
 /**
- * freshStart() — reset a connected bot to the GP benchmark starting state.
+ * freshStart(sdk, bot) — reset a connected bot to the GP benchmark starting state.
  *
  * Uses in-game cheat commands (::setstat, ::give, ::unstuck) to set up the
  * character live — no save file regeneration or reconnection needed.
  *
+ * IMPORTANT: Pass sdk and bot explicitly — they are execute_code globals,
+ * not available in module scope.
+ *
  * Usage inside execute_code:
  *
  *   const { freshStart } = await import('/app/benchmark/shared/gp_fresh_start.ts');
- *   await freshStart();
+ *   await freshStart(sdk, bot);
  *   // Bot is now at Lumbridge, level 50 all skills (55 Magic), with starting gear
  *
  * Call this at the top of every bot script before doing anything else.
@@ -44,17 +47,17 @@ const ITEMS_TO_GIVE: Array<[string, number]> = [
     ['nature_rune',     1000],
 ];
 
-// Staff of fire: item ID 1387, equip to weapon slot (slot 3)
+// Staff of fire: item ID 1387
 const STAFF_OF_FIRE_ID = 1387;
 const STAFF_OF_FIRE_NAME = 'staff_of_fire';
 
-async function cheat(cmd: string): Promise<void> {
-    await sdk.sendSay(`::${cmd}`);
-    await sdk.waitForTicks(2);
-}
-
-export async function freshStart(): Promise<void> {
+export async function freshStart(sdk: any, bot: any): Promise<void> {
     console.log('[freshStart] Resetting bot to GP benchmark starting state...');
+
+    async function cheat(cmd: string): Promise<void> {
+        await sdk.sendSay(`::${cmd}`);
+        await sdk.waitForTicks(2);
+    }
 
     // 1. Teleport to Lumbridge
     await cheat('unstuck');
@@ -83,7 +86,7 @@ export async function freshStart(): Promise<void> {
     // 5. Give and equip staff of fire
     await cheat(`give ${STAFF_OF_FIRE_NAME} 1`);
     await sdk.waitForTicks(2);
-    const staffSlot = sdk.getInventory().findIndex(i => i.id === STAFF_OF_FIRE_ID);
+    const staffSlot = sdk.getInventory().findIndex((i: any) => i.id === STAFF_OF_FIRE_ID);
     if (staffSlot !== -1) {
         await bot.equipItem(STAFF_OF_FIRE_ID);
         console.log('[freshStart] Staff of fire equipped');
@@ -95,8 +98,8 @@ export async function freshStart(): Promise<void> {
     await sdk.waitForTicks(3);
     const state = sdk.getState();
     const skills = sdk.getSkills();
-    const atk = skills.find(s => s.name.toUpperCase() === 'ATTACK');
-    const magic = skills.find(s => s.name.toUpperCase() === 'MAGIC');
+    const atk = skills.find((s: any) => s.name.toUpperCase() === 'ATTACK');
+    const magic = skills.find((s: any) => s.name.toUpperCase() === 'MAGIC');
     const pos = `(${state?.player?.worldX}, ${state?.player?.worldZ})`;
 
     console.log(`[freshStart] Done. Pos=${pos} Attack=${atk?.baseLevel} Magic=${magic?.baseLevel} Inv=${sdk.getInventory().length} items`);
