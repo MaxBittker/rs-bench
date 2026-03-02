@@ -12,7 +12,7 @@ This is a local RuneScape private server running on localhost for AI agent bench
 6. **Record results** to `/app/gp_results.json` (read existing file first, append your entry).
 7. **Update `/app/learnings.md`** with what you learned for the next agent.
 
-**TIME BUDGET: You have at most 25 minutes. Aim for 15.** Read docs (3 min) → Write script (5 min) → Run on all 5 bots in parallel (9 min) → Record results and learnings (3 min).
+**TIME BUDGET: You have at most 30 minutes. Aim for 15.** Read docs (3 min) → Write script (5 min) → Run on all 5 bots in parallel (9 min) → Record results and learnings (3 min).
 
 ## Your Bots
 

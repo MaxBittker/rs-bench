@@ -151,7 +151,7 @@ Do not finish until you have updated \\\`/app/learnings.md\\\` with what you lea
 
 Each sub-agent must start with fresh context — no memory of previous loops. Wait for each to complete before starting the next. If one fails, continue to the next loop.
 
-**Each loop should take at most 25 minutes.** If a sub-agent is taking longer, something is wrong.
+**Each loop should take at most 30 minutes.** If a sub-agent is taking longer, something is wrong.
 `;
 
 const GP_DOCKERFILE = () => `FROM ${DOCKER_IMAGE}
