@@ -30,7 +30,7 @@ Each loop uses a unique set of 5 bots. Bot names follow the pattern `l{loop}a{1-
 Each bot starts with:
 - **Level 50** in all skills (**55 Magic** — enough for High Level Alchemy)
 - **Position**: Lumbridge (3222, 3218)
-- **Inventory**: Rune axe, Knife, Tinderbox, Small fishing net, Hammer, 300 Nature runes, 200 Coins
+- **Inventory**: Rune axe, Knife, Tinderbox, Small fishing net, Hammer, 1000 Nature runes, 200 Coins
 - **Equipped**: Staff of fire (provides unlimited fire runes)
 
 You do NOT need to bootstrap (earn money for tools, etc.) — bots start fully equipped.
@@ -53,7 +53,7 @@ Your starting items enable several approaches:
 4. **Buy cheap → High Alch for profit** — Buy items from specialty shops with 200 coins, alch for more than purchase price.
 5. **Mine → Smith → Sell/Alch** — Mine ores, smith with hammer, sell or alch products.
 
-**High Alchemy**: Switch to magic tab `sdk.sendSetTab(6)`, then use the item on the spell. Each cast costs 1 nature rune (fire runes are free from equipped staff). You start with 300 nature runes.
+**High Alchemy**: Switch to magic tab `sdk.sendSetTab(6)`, then use the item on the spell. Each cast costs 1 nature rune (fire runes are free from equipped staff). You start with 1,000 nature runes.
 
 **Shop overstocking warning**: All 5 loops share the same game server. If loop 1 sells 500 longbows to Lumbridge general store, loop 2 will find those bows already in stock and get a much lower sell price. High Alchemy avoids this problem entirely.
 
