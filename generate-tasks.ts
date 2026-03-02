@@ -99,6 +99,11 @@ sleep 1`;
 // Tasks only need to set SAMPLE_INTERVAL_MS via ENV
 const TRACKER_DOCKERFILE = (sampleIntervalMs: number = 60000) => `FROM ${DOCKER_IMAGE}
 ENV SAMPLE_INTERVAL_MS=${sampleIntervalMs}
+
+# Fix engine timeouts: at 50ms tick rate the hardcoded 500/1000 tick timeouts
+# become 25s/50s instead of the intended 5m/10m. Scale to wall-clock time.
+RUN sed -i 's/Environment.NODE_DEBUG_SOCKET ? 60000 : 500;/Environment.NODE_DEBUG_SOCKET ? 60000 : Math.ceil(300_000 \\/ Environment.NODE_TICKRATE);/' /app/server/engine/src/engine/World.ts && \\
+    sed -i 's/Environment.NODE_DEBUG_SOCKET ? 60000 : 1000;/Environment.NODE_DEBUG_SOCKET ? 60000 : Math.ceil(600_000 \\/ Environment.NODE_TICKRATE);/' /app/server/engine/src/engine/World.ts
 `;
 
 // ── GP iterative benchmark ──────────────────────────────────────
@@ -157,6 +162,11 @@ Each sub-agent must start with fresh context — no memory of previous loops. Wa
 `;
 
 const GP_DOCKERFILE = () => `FROM ${DOCKER_IMAGE}
+
+# Fix engine timeouts: at 50ms tick rate the hardcoded 500/1000 tick timeouts
+# become 25s/50s instead of the intended 5m/10m. Scale to wall-clock time.
+RUN sed -i 's/Environment.NODE_DEBUG_SOCKET ? 60000 : 500;/Environment.NODE_DEBUG_SOCKET ? 60000 : Math.ceil(300_000 \\/ Environment.NODE_TICKRATE);/' /app/server/engine/src/engine/World.ts && \\
+    sed -i 's/Environment.NODE_DEBUG_SOCKET ? 60000 : 1000;/Environment.NODE_DEBUG_SOCKET ? 60000 : Math.ceil(600_000 \\/ Environment.NODE_TICKRATE);/' /app/server/engine/src/engine/World.ts
 
 # Create 10 bot directories (2 bots x 5 loops) with unique credentials
 # Bot names: l{loop}a{bot} — e.g. l1a1, l1a2
