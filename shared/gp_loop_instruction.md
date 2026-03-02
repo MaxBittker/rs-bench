@@ -7,45 +7,94 @@ This is a local RuneScape private server running on localhost for AI agent bench
 1. **Read `/app/gp_results.json`** to determine your loop number. Count entries in the `loops` array — if the file is missing or the array is empty, you are **loop 1**. Otherwise you are loop N+1.
 2. **Read `/app/learnings.md`** for what previous agents learned (empty on loop 1).
 3. **Read the SDK docs** at `/app/sdk/API.md` and files in `/app/learnings/` to understand available game APIs. On loop 1 especially, spend time here.
-4. **Write one money-making script** and run it on all 5 bots in parallel using `execute_code(bot_name, code)`.
-5. **Record results** to `/app/gp_results.json` (read existing file first, append your entry).
-6. **Update `/app/learnings.md`** with what you learned for the next agent.
+4. **Write one money-making script** — a single block of TypeScript code that earns as much GP as possible within 10,000 game ticks (~9 minutes at 50ms/tick).
+5. **Run it on all 5 bots at once** — send all 5 `execute_code(bot_name, code, timeout=9)` calls in a **SINGLE assistant message** so they execute in parallel. Do NOT run them one at a time.
+6. **Record results** to `/app/gp_results.json` (read existing file first, append your entry).
+7. **Update `/app/learnings.md`** with what you learned for the next agent.
+
+**TIME BUDGET: You have at most 25 minutes. Aim for 15.** Read docs (3 min) → Write script (5 min) → Run on all 5 bots in parallel (9 min) → Record results and learnings (3 min).
 
 ## Your Bots
 
-Each loop uses a unique set of 5 bots that start fresh (level 50 all skills, 0 coins, Lumbridge). Bot names follow the pattern `l{loop}a{1-5}`:
+Each loop uses a unique set of 5 bots. Bot names follow the pattern `l{loop}a{1-5}`:
 - Loop 1: `l1a1`, `l1a2`, `l1a3`, `l1a4`, `l1a5`
 - Loop 2: `l2a1`, `l2a2`, `l2a3`, `l2a4`, `l2a5`
 - Loop 3: `l3a1`, `l3a2`, `l3a3`, `l3a4`, `l3a5`
 - Loop 4: `l4a1`, `l4a2`, `l4a3`, `l4a4`, `l4a5`
 - Loop 5: `l5a1`, `l5a2`, `l5a3`, `l5a4`, `l5a5`
 
-Write **one script** and run it on all 5 of your loop's bots using `execute_code(bot_name, code)`.
+**Bots are pre-connected and ready to use.** Just call `execute_code(bot_name, code)` directly — no browser launch needed.
+
+## Starting Conditions
+
+Each bot starts with:
+- **Level 50** in all skills (**55 Magic** — enough for High Level Alchemy)
+- **Position**: Lumbridge (3222, 3218)
+- **Inventory**: Rune axe, Knife, Tinderbox, Small fishing net, Hammer, 300 Nature runes, 200 Coins
+- **Equipped**: Staff of fire (provides unlimited fire runes)
+
+You do NOT need to bootstrap (earn money for tools, etc.) — bots start fully equipped.
 
 ## Rules
 
 - **No pickpocketing** — any other money-making method is fair game
-- **10,000 tick limit** — each bot's script must finish within 10,000 game ticks
-- **GP is measured from inventory** — coins must be in inventory, not banked, at the end
-- **Same script on all 5 bots** — write one script, run it 5 times in parallel
+- **10,000 tick limit** — the game runs at 50ms/tick, so 10,000 ticks ≈ 8.3 minutes. Set execute_code timeout to **9** (minutes).
+- **GP is measured from inventory** — coins must be in inventory at the end
+- **Same script on all 5 bots** — write ONE script, run it 5 times in parallel
+- **All 5 execute_code calls in ONE tool response** — this ensures parallel execution
 
-## GP Tracking Within Scripts
+## Strategy Options
 
-Your scripts MUST track GP throughout execution. Every ~500 ticks, check coins and log the count. At the end, return the final coin count:
+Your starting items enable several approaches:
+
+1. **Woodcut → Fletch → High Alchemy** — Chop oak logs (rune axe), fletch into longbows (knife), cast High Alchemy for ~48 GP per bow. Uses nature runes + staff of fire. **No shop needed — avoids overstocking.**
+2. **Woodcut → Fletch → Sell to shop** — Same but sell to general store. 32 GP/bow at fresh shop, drops to ~8 GP when overstocked from prior loops.
+3. **Fish → Cook → Sell** — Net fishing, cook with tinderbox, sell cooked fish.
+4. **Buy cheap → High Alch for profit** — Buy items from specialty shops with 200 coins, alch for more than purchase price.
+5. **Mine → Smith → Sell/Alch** — Mine ores, smith with hammer, sell or alch products.
+
+**High Alchemy**: Switch to magic tab `sdk.sendSetTab(6)`, then use the item on the spell. Each cast costs 1 nature rune (fire runes are free from equipped staff). You start with 300 nature runes.
+
+**Shop overstocking warning**: All 5 loops share the same game server. If loop 1 sells 500 longbows to Lumbridge general store, loop 2 will find those bows already in stock and get a much lower sell price. High Alchemy avoids this problem entirely.
+
+## Script Template
+
+Use **game ticks** for timing, not wall-clock time:
 
 ```typescript
 const COINS_ID = 995;
-const inv = sdk.getInventory();
-const coins = inv?.filter(i => i.id === COINS_ID).reduce((sum, i) => sum + i.count, 0) ?? 0;
-console.log(\`[GP] \${coins} coins\`);
-return { gp: coins };
-```
+const startTick = sdk.getState()?.tick ?? 0;
+const MAX_TICKS = 9500; // 500 tick buffer under 10k limit
 
-If the script errors partway through, whatever GP was last measured still counts.
+function getCoins() {
+  return sdk.getState()?.inventory?.filter(i => i.id === COINS_ID)
+    .reduce((sum, i) => sum + i.count, 0) ?? 0;
+}
+
+function ticksElapsed() {
+  return (sdk.getState()?.tick ?? 0) - startTick;
+}
+
+console.log('[GP] Start:', getCoins(), 'coins at tick', startTick);
+
+// --- Your money-making loop ---
+while (ticksElapsed() < MAX_TICKS) {
+  // ... earn GP ...
+
+  // Log progress every ~1000 ticks
+  if (ticksElapsed() % 1000 < 50) {
+    console.log('[GP]', getCoins(), 'coins at tick', ticksElapsed());
+  }
+}
+
+const finalGp = getCoins();
+console.log('[GP] FINAL:', finalGp, 'coins in', ticksElapsed(), 'ticks');
+return { gp: finalGp };
+```
 
 ## Recording Results
 
-After all 5 bots finish, check final coins on each and write to `/app/gp_results.json`:
+After all 5 bots finish, write to `/app/gp_results.json`:
 ```json
 {
   "loops": [
@@ -53,7 +102,7 @@ After all 5 bots finish, check final coins on each and write to `/app/gp_results
       "loop": 1,
       "totalGp": 12500,
       "perBot": { "l1a1": 2500, "l1a2": 2500, "l1a3": 2500, "l1a4": 2500, "l1a5": 2500 },
-      "method": "sold oak logs to general store",
+      "method": "description of strategy used",
       "gpPerTick": 1.25
     }
   ]
@@ -67,14 +116,17 @@ After all 5 bots finish, check final coins on each and write to `/app/gp_results
 - **What method you tried** and exact GP earned / GP per tick
 - **What worked** — specific code patterns, coordinates, NPC interactions
 - **What failed** — errors, pathing issues, things that earned less than expected
-- **Recommendations for the next agent** — "try X instead of Y", "shop at Z overstocks after N sales"
-- **Working code snippets** — the next agent starts fresh, so include copy-pasteable code
+- **Recommendations for the next agent** — "try X instead of Y"
+- **The FULL working script** — include the complete script that worked best so the next agent can copy-paste and improve it
+- **Shop stock levels** — if you sold to shops, note how many items are now in stock
 
-## Strategy Suggestions
+## Key Coordinates
 
-- Selling to shops (beware overstocking!), high-alchemy, crafting + selling, resource gathering + selling, monster loot
-- Early loops should explore different methods. Later loops should exploit the best method found so far.
-- Think about bottlenecks: shop stock limits, resource competition between 5 bots, travel time
+- Lumbridge General Store: (3212, 3247) — shopkeeper + shop assistant
+- Bob's Axes (Lumbridge): (3230, 3203)
+- Oak trees near Lumbridge store: (3203, 3246) — 6 tiles from general store
+- Varrock General Store: (3219, 3415) — may have fresh stock if Lumbridge is overstocked
+- Draynor fishing: (3087, 3230) — **DANGEROUS: dark wizards nearby, avoid at low combat**
 
 ## Reference
 

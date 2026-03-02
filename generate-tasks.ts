@@ -116,7 +116,31 @@ const checkGpB64 = Buffer.from(
   readFileSync(join(SHARED_DIR, 'check_gp.ts'), 'utf-8')
 ).toString('base64');
 
-const GP_INSTRUCTION = `Run 5 loops sequentially. For each loop, spawn a fresh sub-agent with the following prompt:
+const GP_INSTRUCTION = `You are running a 5-loop iterative GP-earning benchmark. Each loop, you spawn a sub-agent that writes ONE money-making script and runs it on 5 bots in parallel.
+
+## Setup (do this ONCE before any loops)
+
+Launch browsers for ALL 25 bots so they are pre-connected when sub-agents need them:
+
+\\\`\\\`\\\`bash
+# Wait for gateway
+for i in $(seq 1 30); do curl -s http://localhost:8888/ >/dev/null 2>&1 && break; sleep 1; done
+
+# Launch all 25 bot browsers in background
+for loop in $(seq 1 5); do
+  for bot in $(seq 1 5); do
+    name="l\${loop}a\${bot}"
+    DISPLAY=:99 /usr/bin/chromium --no-sandbox --disable-gpu --disable-software-rasterizer --no-first-run --disable-extensions "http://localhost:8888/bot?bot=\${name}&password=test&fps=15" &
+  done
+  sleep 3
+done
+sleep 15
+echo "All 25 bots launched"
+\\\`\\\`\\\`
+
+## Loop Execution
+
+Run 5 loops sequentially. For each loop, spawn a fresh sub-agent with this prompt:
 
 "Read these files to understand your task, then do it:
 - \\\`/app/gp_loop_instruction.md\\\` — your instructions
@@ -126,6 +150,8 @@ const GP_INSTRUCTION = `Run 5 loops sequentially. For each loop, spawn a fresh s
 Do not finish until you have updated \\\`/app/learnings.md\\\` with what you learned."
 
 Each sub-agent must start with fresh context — no memory of previous loops. Wait for each to complete before starting the next. If one fails, continue to the next loop.
+
+**Each loop should take at most 25 minutes.** If a sub-agent is taking longer, something is wrong.
 `;
 
 const GP_DOCKERFILE = () => `FROM ${DOCKER_IMAGE}
@@ -149,7 +175,7 @@ RUN mkdir -p /app/benchmark/shared && \\
 # Create empty learnings file for loop 1
 RUN touch /app/learnings.md
 
-# Generate 25 save files with level 50 all skills (5 bots x 5 loops)
+# Generate 25 save files with level 50 skills, starting items, and equipment
 RUN cd /app && bun run benchmark/shared/generate_gp_saves.ts
 `;
 
@@ -236,7 +262,7 @@ cd /app && bun run /tests/check_gold.ts
   {
     slug: 'gp-10k-ticks',
     taskDescription: GP_INSTRUCTION,
-    agentTimeout: 18000, // 5 hours
+    agentTimeout: 10800, // 3 hours (5 loops × 25 min + buffer)
     verifier: 'check_gp.ts',
     testSh: `#!/bin/bash
 set -e

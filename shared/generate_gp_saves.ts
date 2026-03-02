@@ -1,7 +1,7 @@
 /**
  * Generate save files for the GP benchmark task.
- * Creates 25 bot saves (5 bots x 5 loops) with level 50 in all skills,
- * starting in Lumbridge with 0 coins.
+ * Creates 25 bot saves (5 bots x 5 loops) with level 50 in all skills
+ * (55 Magic for High Level Alchemy), starting in Lumbridge with tools and runes.
  *
  * Naming: l{loop}a{bot} — e.g. l1a1, l1a2, ..., l5a5
  * Each loop gets fresh usernames to avoid server caching issues.
@@ -15,7 +15,7 @@ const ALL_SKILLS: Record<string, number> = {
   STRENGTH: 50,
   DEFENCE: 50,
   HITPOINTS: 50,
-  MAGIC: 50,
+  MAGIC: 55,     // 55 enables High Level Alchemy
   RANGED: 50,
   PRAYER: 50,
   WOODCUTTING: 50,
@@ -32,6 +32,22 @@ const ALL_SKILLS: Record<string, number> = {
   AGILITY: 50,
 };
 
+// Starting inventory — gives strategic optionality
+const STARTING_INVENTORY = [
+  { id: 1359, count: 1 },   // Rune axe (woodcutting — level 41 req)
+  { id: 946, count: 1 },    // Knife (fletching)
+  { id: 590, count: 1 },    // Tinderbox (firemaking/cooking)
+  { id: 303, count: 1 },    // Small fishing net (fishing)
+  { id: 2347, count: 1 },   // Hammer (smithing)
+  { id: 561, count: 300 },  // Nature runes (alchemy — stackable)
+  { id: 995, count: 200 },  // Coins (seed money — stackable)
+];
+
+// Staff of fire equipped — unlimited fire runes for alchemy
+const STARTING_EQUIPMENT = [
+  { id: 1387, count: 1, slot: 3 },  // Staff of fire in weapon slot
+];
+
 const LOOPS = 5;
 const BOTS_PER_LOOP = 5;
 
@@ -43,6 +59,8 @@ async function main() {
       await generateSave(username, {
         skills: ALL_SKILLS,
         position: { x: 3222, z: 3218 }, // Lumbridge
+        inventory: STARTING_INVENTORY,
+        equipment: STARTING_EQUIPMENT,
       });
       count++;
     }
