@@ -205,12 +205,16 @@ RUN cd /app && bun run benchmark/shared/generate_gp_saves.ts
 RUN echo '${gpCreateAccountsB64}' | base64 -d > /app/server/engine/create_gp_accounts.ts && \\
     cd /app/server/engine && bun run sqlite:migrate && bun create_gp_accounts.ts
 
-# Wrap /start-services.sh to regenerate saves BEFORE the engine starts.
-# Harbor/Daytona uses start-services.sh (NOT Docker ENTRYPOINT), so saves
-# generated at Docker build time don't persist in Modal's container runtime.
-# This wrapper runs save generation + account creation, then calls the original.
-RUN mv /start-services.sh /start-services-base.sh && \\
-    printf '#!/bin/bash\\necho "[start-services] Regenerating bot saves..."\\ncd /app && bun run benchmark/shared/generate_gp_saves.ts\\ncd /app/server/engine && bun run sqlite:migrate 2>/dev/null; bun create_gp_accounts.ts 2>/dev/null\\necho "[start-services] Saves and accounts ready"\\nexec /start-services-base.sh "\\$@"\\n' > /start-services.sh && \\
+# Wrap BOTH /entrypoint.sh AND /start-services.sh to regenerate saves.
+# Harbor runs both paths: Docker ENTRYPOINT (/entrypoint.sh) AND
+# /start-services.sh. Saves generated at Docker build time don't persist
+# in Modal's container runtime, so we regenerate in both startup paths.
+# A lockfile prevents double-generation when both paths run.
+RUN mv /entrypoint.sh /entrypoint-base.sh && \\
+    printf '#!/bin/bash\\nif [ ! -f /tmp/.saves_generated ]; then\\n  echo "[entrypoint] Generating bot saves..."\\n  cd /app && bun run benchmark/shared/generate_gp_saves.ts\\n  cd /app/server/engine && bun run sqlite:migrate 2>/dev/null; bun create_gp_accounts.ts 2>/dev/null\\n  touch /tmp/.saves_generated\\n  echo "[entrypoint] Saves ready"\\nfi\\nexec /entrypoint-base.sh "\\$@"\\n' > /entrypoint.sh && \\
+    chmod +x /entrypoint.sh && \\
+    mv /start-services.sh /start-services-base.sh && \\
+    printf '#!/bin/bash\\nif [ ! -f /tmp/.saves_generated ]; then\\n  echo "[start-services] Generating bot saves..."\\n  cd /app && bun run benchmark/shared/generate_gp_saves.ts\\n  cd /app/server/engine && bun run sqlite:migrate 2>/dev/null; bun create_gp_accounts.ts 2>/dev/null\\n  touch /tmp/.saves_generated\\n  echo "[start-services] Saves ready"\\nfi\\nexec /start-services-base.sh "\\$@"\\n' > /start-services.sh && \\
     chmod +x /start-services.sh
 `;
 
