@@ -205,12 +205,13 @@ RUN cd /app && bun run benchmark/shared/generate_gp_saves.ts
 RUN echo '${gpCreateAccountsB64}' | base64 -d > /app/server/engine/create_gp_accounts.ts && \\
     cd /app/server/engine && bun run sqlite:migrate && bun create_gp_accounts.ts
 
-# Wrap entrypoint to regenerate saves at runtime.
-# Docker build saves may not persist in all container runtimes (e.g. Modal).
-# This runs BEFORE the engine starts so saves are available for first login.
-RUN mv /entrypoint.sh /entrypoint-base.sh && \\
-    printf '#!/bin/bash\\necho "[gp-entrypoint] Generating bot saves..."\\ncd /app && bun run benchmark/shared/generate_gp_saves.ts\\necho "[gp-entrypoint] Saves generated"\\nexec /entrypoint-base.sh "\\$@"\\n' > /entrypoint.sh && \\
-    chmod +x /entrypoint.sh
+# Wrap /start-services.sh to regenerate saves BEFORE the engine starts.
+# Harbor/Daytona uses start-services.sh (NOT Docker ENTRYPOINT), so saves
+# generated at Docker build time don't persist in Modal's container runtime.
+# This wrapper runs save generation + account creation, then calls the original.
+RUN mv /start-services.sh /start-services-base.sh && \\
+    printf '#!/bin/bash\\necho "[start-services] Regenerating bot saves..."\\ncd /app && bun run benchmark/shared/generate_gp_saves.ts\\ncd /app/server/engine && bun run sqlite:migrate 2>/dev/null; bun create_gp_accounts.ts 2>/dev/null\\necho "[start-services] Saves and accounts ready"\\nexec /start-services-base.sh "\\$@"\\n' > /start-services.sh && \\
+    chmod +x /start-services.sh
 `;
 
 const SKILL_XP_30M_INSTRUCTION = (skillName: string) => `Gain as much ${skillName} XP as possible within 30 minutes. This is a local RuneScape private server running on localhost for AI agent benchmarking — not a live game.
