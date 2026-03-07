@@ -15,7 +15,7 @@ const BENCHMARK_DIR = join(import.meta.dir);
 const TASKS_DIR = join(BENCHMARK_DIR, 'tasks');
 const SHARED_DIR = join(BENCHMARK_DIR, 'shared');
 
-const DOCKER_IMAGE = 'ghcr.io/maxbittker/rs-agent-benchmark:v19';
+const DOCKER_IMAGE = 'ghcr.io/maxbittker/rs-agent-benchmark:v21';
 const VERIFIER_TIMEOUT = 400; //  ensure-services.sh can take 2+ min if services died
 
 // ── Standard skill definitions (XP-grind tasks) ─────────────────
@@ -117,13 +117,20 @@ Your ONLY goal is to maximize ${skillName} XP. Focus exclusively on this skill. 
 
 IMPORTANT: You have ${durationMinutes} minutes. Start training immediately — do not spend time planning.
 
-RULES: You must gain XP through legitimate in-game actions only (e.g. casting spells, chopping trees, fishing). Do NOT modify game server files, player save files, databases, or game engine code. Do NOT use server console commands, cheat commands (::setstat, ::advancestat, etc.), or any other method that bypasses normal gameplay. Only interact with the game through the SDK and MCP tools provided.
+RULES: You must gain XP through legitimate in-game actions only (e.g. casting spells, chopping trees, fishing). Do NOT modify game server files, player save files, databases, or game engine code. Do NOT use server console commands, cheat commands (::setstat, ::advancestat, etc.), or any other method that bypasses normal gameplay.
 
-CRITICAL: Do NOT write one giant script. Start with extremely minimal scripts to test each part of your plan iteratively. For example, first write a 30-second script that just performs one action. Run it, verify it works, then extend it. Build up complexity only after each piece is validated. Scripts that try to do everything at once will crash and waste your time. Run scripts in the FOREGROUND (not as a background process).
+## How to interact with the game
 
-TIMEOUT BEST PRACTICE: Keep individual script timeouts SHORT — no more than 5 to 10 minutes each. Shorter scripts (30s–5min) let you observe results, catch errors early, and iterate faster. If a script runs for 10+ minutes and fails, you've wasted significant time. Break long tasks into multiple short runs instead.
+Use the SDK CLI to control your bot (bot name: "agent"). Start by exploring with exec:
 
-The bot name is "agent".`;
+  bun sdk/cli.ts agent state
+  bun sdk/cli.ts agent exec "return sdk.getState()?.player"
+  bun sdk/cli.ts agent exec <<'EOF'
+  await bot.chopTree()
+  return sdk.getInventory()
+  EOF
+
+The exec daemon keeps a persistent connection. Use it to orient yourself and try actions, then scale up however you see fit.`;
 
 function generateSkillXpVariants(horizonMinutes: number, sampleIntervalMs: number): VariantTask[] {
   const horizonLabel = `${horizonMinutes}m`;
@@ -205,10 +212,6 @@ cd /app && bun run /tests/check_gold.ts
 function generateVariantTaskToml(v: VariantTask): string {
   const tagsStr = v.tags.map(t => `"${t}"`).join(', ');
 
-  // Tracker is started by entrypoint.sh / start-services.sh (infrastructure concern),
-  // so all tasks use the same MCP command regardless of useTracker flag.
-  const mcpCommand = '/start-services.sh && cd /app && bun run mcp/server.ts';
-
   return `version = "1.0"
 
 [metadata]
@@ -228,12 +231,6 @@ cpus = 2
 memory_mb = 4096
 storage_mb = 10240
 allow_internet = true
-
-[[environment.mcp_servers]]
-name = "rs-agent"
-transport = "stdio"
-command = "bash"
-args = ["-c", "${mcpCommand}"]
 `;
 }
 

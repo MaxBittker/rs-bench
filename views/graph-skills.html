@@ -113,6 +113,104 @@
     flex-direction: column;
     align-items: center;
   }
+  .cumulative-shell {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 10px;
+    align-items: center;
+  }
+  .cumulative-main {
+    min-width: 0;
+  }
+  .chart-mode-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 24px;
+    margin-bottom: 8px;
+    padding: 0;
+    color: #666;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .skill-rail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    align-items: end;
+  }
+  .skill-rail-reset {
+    width: 56px;
+    min-height: 28px;
+    padding: 4px 6px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    background: #f3f3f3;
+    color: #555;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.3;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .skill-rail-reset:hover,
+  .skill-rail-reset.active {
+    background: #e8e8e8;
+    border-color: #cfcfcf;
+    color: #333;
+  }
+  .skill-rail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 28px);
+    gap: 0;
+    justify-content: end;
+  }
+  .skill-rail-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    cursor: pointer;
+    line-height: 1;
+    transition: background 0.15s, box-shadow 0.15s;
+  }
+  .skill-rail-item:hover,
+  .skill-rail-item:focus-visible {
+    background: #eef4ff;
+    box-shadow: inset 0 0 0 1px #9dbcfb;
+  }
+  .skill-rail-item.active-soft {
+    background: #eef4ff;
+    box-shadow: inset 0 0 0 1px #9dbcfb;
+  }
+  .skill-rail-item.active-hard {
+    background: #eaf2ff;
+    box-shadow: inset 0 0 0 2px #4f8df7;
+  }
+  .skill-rail-item:first-child {
+    border-top-left-radius: 4px;
+  }
+  .skill-rail-item:nth-child(2) {
+    border-top-right-radius: 4px;
+  }
+  .skill-rail-item:nth-last-child(2) {
+    border-bottom-left-radius: 4px;
+  }
+  .skill-rail-item:last-child {
+    border-bottom-right-radius: 4px;
+  }
+  .skill-rail-item img {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
   .cumulative-container canvas {
     width: 100% !important;
     max-width: 900px;
@@ -145,6 +243,128 @@
     border-radius: 3px;
     padding: 1px 6px;
     line-height: 1.5;
+  }
+  .traj-tool-detail {
+    margin: 4px 0;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .traj-tool-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    background: #fafafa;
+    cursor: pointer;
+    user-select: none;
+    font-family: monospace;
+    font-size: 11px;
+    color: #888;
+  }
+  .traj-tool-detail-header:hover {
+    background: #f0f0f0;
+  }
+  .traj-tool-detail-toggle {
+    font-size: 9px;
+    color: #bbb;
+    transition: transform 0.15s;
+  }
+  .traj-tool-detail.open .traj-tool-detail-toggle {
+    transform: rotate(90deg);
+  }
+  .traj-tool-code {
+    display: none;
+    margin: 0;
+    padding: 8px 12px;
+    background: #f8f8f8;
+    font-family: monospace;
+    font-size: 11px;
+    line-height: 1.4;
+    overflow-x: auto;
+    max-height: 300px;
+    overflow-y: auto;
+    white-space: pre;
+    color: #333;
+    border-top: 1px solid #eee;
+  }
+  .traj-tool-detail.open .traj-tool-code {
+    display: block;
+  }
+  .traj-skills-chart-wrap {
+    position: relative;
+    background: #111;
+    border-top: 1px solid #333;
+    height: 150px;
+    cursor: pointer;
+  }
+  .traj-skills-chart-wrap canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Video + transcript layout */
+  .traj-video-container {
+    display: flex;
+    gap: 0;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .traj-video-pane {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    background: #000;
+    border-right: 1px solid #e8e8e8;
+  }
+  .traj-video-pane video {
+    width: 400px;
+    height: 300px;
+    background: #000;
+  }
+  .traj-transcript-pane {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 24px;
+    min-width: 0;
+  }
+  .traj-step.active {
+    background: #f0f7ff;
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .traj-step[data-ts] {
+    cursor: pointer;
+  }
+  .traj-step[data-ts]:hover {
+    background: #fafafa;
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .traj-step.active:hover {
+    background: #f0f7ff;
+  }
+  .traj-tool-group[data-ts] {
+    cursor: pointer;
+  }
+  .traj-timestamp {
+    display: inline-block;
+    font-family: monospace;
+    font-size: 10px;
+    color: #999;
+    background: #f0f0f0;
+    border-radius: 3px;
+    padding: 1px 5px;
+    margin-right: 6px;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+  .traj-timestamp:hover {
+    background: #e0e0e0;
+    color: #555;
   }
 
   /* Skill picker */
@@ -185,22 +405,31 @@
   /* Legend */
   .bottom-legend {
     display: flex;
-    gap: 24px;
+    gap: 8px 14px;
     padding: 16px 0 12px;
     flex-wrap: wrap;
   }
   .legend-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 13px;
+    gap: 6px;
+    font-size: 11px;
     color: #555;
     cursor: pointer;
+    line-height: 1.2;
   }
   .legend-item.hidden { opacity: 0.35; }
+  .legend-label {
+    font-weight: 600;
+    color: #444;
+  }
+  .legend-value {
+    color: #999;
+    font-variant-numeric: tabular-nums;
+  }
   .legend-dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 2px;
     flex-shrink: 0;
   }
@@ -315,6 +544,34 @@
   .chart-tooltip-skill .xp.zero {
     color: #ccc;
   }
+
+  @media (max-width: 900px) {
+    .cumulative-shell {
+      grid-template-columns: 1fr;
+    }
+    .skill-rail-grid {
+      grid-template-columns: repeat(6, 28px);
+    }
+    .skill-rail {
+      gap: 5px;
+    }
+    .skill-rail-item {
+      width: 26px;
+      height: 26px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body {
+      padding: 20px 16px;
+    }
+    .skill-rail-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .cumulative-container canvas {
+      height: 320px !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -335,10 +592,19 @@
 <button class="download-btn" onclick="downloadView()" title="Download as PNG">&#8681;</button>
 
 <div id="gridContainer" class="grid-container" style="display:none"></div>
-<div id="cumulativeContainer" class="cumulative-container" style="display:none"></div>
+<div id="cumulativeShell" class="cumulative-shell" style="display:none">
+  <aside class="skill-rail">
+    <button id="skillRailReset" class="skill-rail-reset" onclick="clearActiveSkill()">Total</button>
+    <div id="skillRailGrid" class="skill-rail-grid" onmouseleave="clearSkillPreview()"></div>
+  </aside>
+  <div class="cumulative-main">
+    <div id="chartModeChip" class="chart-mode-chip">Total XP</div>
+    <div id="cumulativeContainer" class="cumulative-container"></div>
+  </div>
+</div>
 <!-- Trajectory modal -->
 <div id="trajectoryModal" style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.45); overflow:auto" onclick="if(event.target===this)closeTrajectory()">
-  <div style="max-width:640px; margin:40px auto; background:#fff; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.18); max-height:calc(100vh - 80px); display:flex; flex-direction:column">
+  <div id="trajModalInner" style="max-width:960px; margin:40px auto; background:#fff; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.18); max-height:calc(100vh - 80px); display:flex; flex-direction:column">
     <div id="trajHeader" style="padding:16px 24px; border-bottom:1px solid #e8e8e8; flex-shrink:0">
       <div style="display:flex; justify-content:space-between; align-items:center">
         <h3 id="trajTitle" style="font-size:16px; font-weight:600; margin:0"></h3>
@@ -346,7 +612,15 @@
       </div>
       <div id="trajSubtitle" style="font-size:12px; color:#999; margin-top:2px"></div>
     </div>
-    <div id="trajSteps" style="padding:16px 24px; overflow-y:auto; flex:1"></div>
+    <div id="trajBody" class="traj-video-container">
+      <div id="trajVideoPane" class="traj-video-pane" style="display:none">
+        <video id="trajVideo" controls preload="metadata" style="width:400px; height:300px"></video>
+        <div id="trajSkillsChartWrap" class="traj-skills-chart-wrap">
+          <canvas id="trajSkillsChart"></canvas>
+        </div>
+      </div>
+      <div id="trajSteps" class="traj-transcript-pane"></div>
+    </div>
   </div>
 </div>
 
@@ -380,6 +654,17 @@ let useLogScale = false;
 let hiddenModels = new Set();
 let gridCharts = [];
 let cumulativeChart = null;
+let pinnedSkill = null;
+let hoveredSkill = null;
+
+function getActiveSkill() {
+  return hoveredSkill || pinnedSkill;
+}
+
+function getActiveSkillLabel() {
+  const activeSkill = getActiveSkill();
+  return activeSkill ? `${SKILL_DISPLAY[activeSkill] || activeSkill} XP` : 'Total XP';
+}
 
 // Preload model icons as Image objects for canvas drawing
 const modelIconImages = {};
@@ -440,23 +725,36 @@ function externalTooltipCumulative(context) {
   const ds = item.dataset;
   const modelKey = ds._modelKey;
   const config = MODEL_CONFIG[modelKey] || { displayName: modelKey, color: '#999' };
-  const minute = item.parsed.x;
+  const minute = Math.floor(item.parsed.x * 10) / 10;
   const avgXp = item.parsed.y;
+  const activeSkill = getActiveSkill();
 
   let html = `<div class="chart-tooltip-title">`;
   if (config.icon) html += `<img src="${config.icon}">`;
   html += `${config.displayName} — ${minute} min</div>`;
-  html += `<div class="chart-tooltip-avg">Total: ${avgXp.toLocaleString()} XP</div>`;
 
-  const skills = cumulativeSkillFinalXp[modelKey] || [];
-  for (const s of skills) {
-    const iconSrc = 'skill-icons/' + s.skill + '.png';
-    const zeroClass = s.finalXp === 0 ? ' zero' : '';
+  if (activeSkill) {
+    const skillName = SKILL_DISPLAY[activeSkill] || activeSkill;
+    const iconSrc = 'skill-icons/' + activeSkill + '.png';
+    html += `<div class="chart-tooltip-avg">${skillName}: ${avgXp.toLocaleString()} XP</div>`;
     html += `<div class="chart-tooltip-skill">`;
     html += `<img src="${iconSrc}">`;
-    html += `<span>${s.label}</span>`;
-    html += `<span class="xp${zeroClass}">${formatXp(s.finalXp)}</span>`;
+    html += `<span>${skillName}</span>`;
+    html += `<span class="xp">${formatXp(avgXp)}</span>`;
     html += `</div>`;
+  } else {
+    html += `<div class="chart-tooltip-avg">Total: ${avgXp.toLocaleString()} XP</div>`;
+
+    const skills = cumulativeSkillFinalXp[modelKey] || [];
+    for (const s of skills) {
+      const iconSrc = 'skill-icons/' + s.skill + '.png';
+      const zeroClass = s.finalXp === 0 ? ' zero' : '';
+      html += `<div class="chart-tooltip-skill">`;
+      html += `<img src="${iconSrc}">`;
+      html += `<span>${s.label}</span>`;
+      html += `<span class="xp${zeroClass}">${formatXp(s.finalXp)}</span>`;
+      html += `</div>`;
+    }
   }
 
   el.innerHTML = html;
@@ -498,7 +796,8 @@ function externalTooltipGrid(skill) {
 
     let html = `<div class="chart-tooltip-title">`;
     html += `<img src="${iconSrc}">`;
-    html += `${skillName} — ${item.parsed.x.toFixed(1)} min</div>`;
+    const minute = Math.floor(item.parsed.x * 10) / 10;
+    html += `${skillName} — ${minute} min</div>`;
     html += `<div class="chart-tooltip-skill" style="padding:2px 0">`;
     if (config.icon) html += `<img src="${config.icon}">`;
     html += `<span>${config.displayName}</span>`;
@@ -562,6 +861,7 @@ fileInput.addEventListener('change', e => {
 function onDataLoaded() {
   document.getElementById('loadSection').style.display = 'none';
   document.getElementById('viewToggle').style.display = '';
+  renderSkillRail();
   renderLegend();
   renderCurrentView();
 }
@@ -581,6 +881,38 @@ function toggleModel(name) {
   renderCurrentView();
 }
 
+function setPinnedSkill(skill) {
+  pinnedSkill = pinnedSkill === skill ? null : skill;
+  hoveredSkill = null;
+  renderSkillRail();
+  renderLegend();
+  renderCurrentView();
+}
+
+function previewSkill(skill) {
+  if (hoveredSkill === skill) return;
+  hoveredSkill = skill;
+  renderSkillRail();
+  renderLegend();
+  renderCurrentView();
+}
+
+function clearSkillPreview() {
+  if (!hoveredSkill) return;
+  hoveredSkill = null;
+  renderSkillRail();
+  renderLegend();
+  renderCurrentView();
+}
+
+function clearActiveSkill() {
+  pinnedSkill = null;
+  hoveredSkill = null;
+  renderSkillRail();
+  renderLegend();
+  renderCurrentView();
+}
+
 function getModelTotalXp(model) {
   const skills = combinedData[model];
   if (!skills) return 0;
@@ -594,21 +926,29 @@ function getModelsInData() {
 }
 
 function getModelsByPerformance() {
+  const activeSkill = getActiveSkill();
   return Object.keys(combinedData)
-    .sort((a, b) => getModelTotalXp(b) - getModelTotalXp(a));
+    .sort((a, b) => {
+      const aXp = activeSkill ? (combinedData[a]?.[activeSkill]?.finalXp || 0) : getModelTotalXp(a);
+      const bXp = activeSkill ? (combinedData[b]?.[activeSkill]?.finalXp || 0) : getModelTotalXp(b);
+      return bXp - aXp;
+    });
 }
 
 function renderLegend() {
   const models = currentView === 'cumulative' ? getModelsByPerformance() : getModelsInData();
+  const activeSkill = getActiveSkill();
   const el = document.getElementById('bottomLegend');
   el.innerHTML = models.map(name => {
-    const config = MODEL_CONFIG[name] || { displayName: name, color: '#999' };
+    const config = MODEL_CONFIG[name] || { displayName: name, shortName: name, color: '#999' };
     const isHidden = hiddenModels.has(name);
-    const totalXp = getModelTotalXp(name);
-    const totalStr = currentView === 'cumulative' && totalXp > 0 ? ` (${formatXp(totalXp)})` : '';
+    const totalXp = activeSkill ? (combinedData[name]?.[activeSkill]?.finalXp || 0) : getModelTotalXp(name);
+    const showValue = currentView === 'cumulative';
+    const totalStr = showValue ? (totalXp > 0 ? formatXp(totalXp) : '-') : '';
     return `<div class="legend-item ${isHidden ? 'hidden' : ''}" onclick="toggleModel('${name}')">
       <div class="legend-dot" style="background:${config.color}"></div>
-      <span>${config.displayName}${totalStr}</span>
+      <span class="legend-label">${config.shortName || config.displayName}</span>
+      ${showValue ? `<span class="legend-value">${totalStr}</span>` : ''}
     </div>`;
   }).join('');
 }
@@ -618,15 +958,46 @@ function renderCurrentView() {
   if (tooltipEl) tooltipEl.style.opacity = '0';
 
   document.getElementById('gridContainer').style.display = 'none';
-  document.getElementById('cumulativeContainer').style.display = 'none';
+  document.getElementById('cumulativeShell').style.display = 'none';
 
   if (currentView === 'grid') {
     document.getElementById('gridContainer').style.display = 'grid';
     renderGrid();
   } else if (currentView === 'cumulative') {
-    document.getElementById('cumulativeContainer').style.display = 'flex';
+    document.getElementById('cumulativeShell').style.display = 'grid';
     renderCumulative();
   }
+}
+
+function renderSkillRail() {
+  const grid = document.getElementById('skillRailGrid');
+  const activeSkill = getActiveSkill();
+  const label = getActiveSkillLabel();
+  if (!grid) return;
+
+  document.getElementById('chartModeChip').textContent = label;
+  const resetBtn = document.getElementById('skillRailReset');
+  resetBtn.textContent = 'Total';
+  resetBtn.classList.toggle('active', activeSkill === null);
+
+  grid.innerHTML = SKILL_ORDER.map(skill => {
+    const iconSrc = 'skill-icons/' + skill + '.png';
+    const label = SKILL_DISPLAY[skill] || skill;
+    const className = [
+      'skill-rail-item',
+      pinnedSkill === skill ? 'active-hard' : '',
+      hoveredSkill === skill ? 'active-soft' : '',
+    ].filter(Boolean).join(' ');
+    return `<button
+      class="${className}"
+      title="${label}"
+      aria-label="${label}"
+      onmouseenter="previewSkill('${skill}')"
+      onclick="setPinnedSkill('${skill}')"
+    >
+      <img src="${iconSrc}" alt="${label}">
+    </button>`;
+  }).join('');
 }
 
 // ── Chart.js plugin: draw model icon at end of each line ────────
@@ -678,7 +1049,7 @@ const endIconPlugin = {
       if (icon && icon.complete) {
         ctx.drawImage(icon, label.x - size / 2, label.y - size / 2, size, size);
       }
-      ctx.font = '10px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
       ctx.fillStyle = label.color;
       ctx.textBaseline = 'middle';
       ctx.fillText(label.name, label.x + size / 2 + labelGap, label.drawY);
@@ -799,62 +1170,66 @@ function renderCumulative() {
 
   const container = document.getElementById('cumulativeContainer');
   container.innerHTML = '';
+  document.getElementById('chartModeChip').textContent = getActiveSkillLabel();
 
   const canvas = document.createElement('canvas');
   container.appendChild(canvas);
 
   const models = getModelsInData().filter(m => !hiddenModels.has(m));
   const datasets = [];
-
+  const activeSkill = getActiveSkill();
   // For each model, average XP across all 16 skills at each time bucket (1 min intervals)
   const BUCKET_COUNT = HORIZON_MINUTES + 1;
 
   for (const model of models) {
     const config = MODEL_CONFIG[model] || { displayName: model, color: '#999' };
-    const bucketSums = new Array(BUCKET_COUNT).fill(0);
-    const bucketCounts = new Array(BUCKET_COUNT).fill(0);
+    let avgPoints = [];
 
-    // Collect individual skill curves for hover reveal
-    const skillCurves = [];
+    if (activeSkill) {
+      avgPoints = extractSkillPoints(combinedData[model]?.[activeSkill], activeSkill, HORIZON_MINUTES);
+    } else {
+      const bucketSums = new Array(BUCKET_COUNT).fill(0);
+      const bucketCounts = new Array(BUCKET_COUNT).fill(0);
 
-    for (const skill of SKILL_ORDER) {
-      const points = extractSkillPoints(combinedData[model]?.[skill], skill, HORIZON_MINUTES);
-      if (points.length === 0) continue;
+      // Collect individual skill curves for hover reveal
+      const skillCurves = [];
 
-      // Bucket this skill's points
-      const skillBuckets = [];
-      for (let min = 0; min < BUCKET_COUNT; min++) {
-        let lastXp = 0;
-        for (const p of points) {
-          if (p.x <= min) lastXp = p.y;
-          else break;
+      for (const skill of SKILL_ORDER) {
+        const points = extractSkillPoints(combinedData[model]?.[skill], skill, HORIZON_MINUTES);
+        if (points.length === 0) continue;
+
+        const skillBuckets = [];
+        for (let min = 0; min < BUCKET_COUNT; min++) {
+          let lastXp = 0;
+          for (const p of points) {
+            if (p.x <= min) lastXp = p.y;
+            else break;
+          }
+          bucketSums[min] += lastXp;
+          bucketCounts[min]++;
+          skillBuckets.push({ x: min, y: lastXp });
         }
-        bucketSums[min] += lastXp;
-        bucketCounts[min]++;
-        skillBuckets.push({ x: min, y: lastXp });
+
+        skillCurves.push({
+          label: SKILL_DISPLAY[skill] || skill,
+          data: skillBuckets,
+        });
       }
 
-      skillCurves.push({
-        label: SKILL_DISPLAY[skill] || skill,
-        data: skillBuckets,
-      });
-    }
+      cumulativeSkillDatasets[model] = skillCurves;
 
-    cumulativeSkillDatasets[model] = skillCurves;
+      const skillFinals = [];
+      for (const skill of SKILL_ORDER) {
+        const sd = combinedData[model]?.[skill];
+        if (sd) skillFinals.push({ skill, label: SKILL_DISPLAY[skill] || skill, finalXp: sd.finalXp || 0 });
+      }
+      skillFinals.sort((a, b) => b.finalXp - a.finalXp);
+      cumulativeSkillFinalXp[model] = skillFinals;
 
-    // Build sorted skill final XP list for tooltip
-    const skillFinals = [];
-    for (const skill of SKILL_ORDER) {
-      const sd = combinedData[model]?.[skill];
-      if (sd) skillFinals.push({ skill, label: SKILL_DISPLAY[skill] || skill, finalXp: sd.finalXp || 0 });
-    }
-    skillFinals.sort((a, b) => b.finalXp - a.finalXp);
-    cumulativeSkillFinalXp[model] = skillFinals;
-
-    const avgPoints = [];
-    for (let min = 0; min < BUCKET_COUNT; min++) {
-      if (bucketCounts[min] > 0) {
-        avgPoints.push({ x: min, y: Math.round(bucketSums[min]) });
+      for (let min = 0; min < BUCKET_COUNT; min++) {
+        if (bucketCounts[min] > 0) {
+          avgPoints.push({ x: min, y: Math.round(bucketSums[min]) });
+        }
       }
     }
 
@@ -914,12 +1289,14 @@ function renderCumulative() {
       responsive: true,
       maintainAspectRatio: false,
       animation: false,
-      layout: { padding: { top: 10, right: 120, bottom: 2 } },
+      layout: { padding: { top: 10, right: 96, bottom: 2 } },
       interaction: { mode: 'nearest', intersect: false },
       onClick: (event, elements) => {
         if (elements.length > 0) {
           const ds = datasets[elements[0].datasetIndex];
-          if (ds._modelKey) openSkillPicker(ds._modelKey);
+          if (!ds._modelKey) return;
+          if (activeSkill) openTrajectory(ds._modelKey, activeSkill);
+          else openSkillPicker(ds._modelKey);
         }
       },
       onHover: (event, elements, chart) => {
@@ -946,13 +1323,13 @@ function renderCumulative() {
           min: 0,
           ticks: {
             color: '#999',
-            font: { size: 11 },
+            font: { size: 11, family: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace' },
             maxTicksLimit: 8,
             callback: v => v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v,
           },
           grid: { color: '#f0f0f0', drawTicks: false },
           border: { color: '#e0e0e0' },
-          title: { display: true, text: 'Total XP', color: '#999', font: { size: 12 } },
+          title: { display: false },
         },
       },
       plugins: {
@@ -997,6 +1374,209 @@ function closeSkillPicker() {
 
 // ── Trajectory Viewer ────────────────────────────────────────────
 
+// Video sync state
+let trajVideoOffset = 0; // videoTime = step.ts + trajVideoOffset
+let trajVideoReady = false;
+let trajUserScrolling = false;
+let trajScrollTimer = null;
+let trajSamples = []; // tracking samples for skills chart
+let trajTargetSkill = ''; // the skill being trained
+let trajSkillsChart = null; // Chart.js instance for skill levels
+let trajChartDragging = false;
+let trajChartMouseUp = null; // stored handler for cleanup
+
+function formatTimestamp(seconds) {
+  if (seconds == null || isNaN(seconds) || seconds < 0) return '';
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return m + ':' + String(s).padStart(2, '0');
+}
+
+// Update all timestamp badges to show video time instead of agent-relative time
+function updateBadgeTimestamps() {
+  const stepsEl = document.getElementById('trajSteps');
+  if (!stepsEl) return;
+  const badges = stepsEl.querySelectorAll('.traj-timestamp');
+  for (const badge of badges) {
+    const stepEl = badge.closest('[data-ts]');
+    if (!stepEl) continue;
+    const ts = parseFloat(stepEl.dataset.ts);
+    if (isNaN(ts)) continue;
+    badge.textContent = formatTimestamp(ts + trajVideoOffset);
+  }
+}
+
+const SKILL_COLORS = {
+  attack:'#e04040', defence:'#6090d0', strength:'#40a040', hitpoints:'#d04070',
+  ranged:'#50b050', prayer:'#d0d060', magic:'#6060d0', woodcutting:'#8b6040',
+  fishing:'#40a0c0', mining:'#a07840', cooking:'#b04080', fletching:'#408060',
+  crafting:'#c09040', smithing:'#707070', firemaking:'#e08020', thieving:'#a040a0',
+};
+
+function findSkillLevel(sample, skillKey) {
+  if (!sample || !sample.skills) return 1;
+  const skillName = SKILL_DISPLAY[skillKey] || skillKey;
+  for (const [sName, sData] of Object.entries(sample.skills)) {
+    if (sName.toLowerCase() === skillKey || sName.toLowerCase() === skillName.toLowerCase()) {
+      return sData.level || 1;
+    }
+  }
+  return 1;
+}
+
+function getActiveSkills(samples, targetSkill) {
+  const seen = new Set();
+  for (const s of samples) {
+    if (!s.skills) continue;
+    for (const sk of SKILL_ORDER) {
+      const lvl = findSkillLevel(s, sk);
+      const threshold = sk === 'hitpoints' ? 10 : 1;
+      if (lvl > threshold) seen.add(sk);
+    }
+  }
+  seen.add(targetSkill);
+  return SKILL_ORDER.filter(sk => seen.has(sk));
+}
+
+function makeSkillIcon(skill, size) {
+  const img = new Image(size, size);
+  img.src = 'skill-icons/' + skill + '.png';
+  return img;
+}
+
+function seekChartToX(canvas, clientX) {
+  if (!trajSkillsChart || !trajVideoReady) return;
+  const rect = canvas.getBoundingClientRect();
+  const area = trajSkillsChart.chartArea;
+  const xPx = clientX - rect.left;
+  const ratio = (xPx - area.left) / (area.right - area.left);
+  if (ratio < 0 || ratio > 1) return;
+  const videoEl = document.getElementById('trajVideo');
+  if (!videoEl) return;
+  const xScale = trajSkillsChart.scales.x;
+  const gameMinutes = xScale.min + ratio * (xScale.max - xScale.min);
+  videoEl.currentTime = gameMinutes * 60 + trajVideoOffset;
+}
+
+function initStatsBar(samples, targetSkill) {
+  trajSamples = samples || [];
+  trajTargetSkill = targetSkill;
+  const wrap = document.getElementById('trajSkillsChartWrap');
+  if (!wrap) return;
+  if (trajSkillsChart) { trajSkillsChart.destroy(); trajSkillsChart = null; }
+  if (trajSamples.length === 0) { wrap.style.display = 'none'; return; }
+  wrap.style.display = '';
+
+  const activeSkills = getActiveSkills(trajSamples, targetSkill);
+  const lastElapsed = trajSamples[trajSamples.length - 1].elapsedMs || 1;
+
+  const datasets = activeSkills.map(sk => {
+    const color = SKILL_COLORS[sk] || '#888';
+    const isTarget = sk === targetSkill;
+    return {
+      label: SKILL_DISPLAY[sk] || sk,
+      _skillKey: sk,
+      data: trajSamples.map(s => ({ x: s.elapsedMs / 60000, y: findSkillLevel(s, sk) })),
+      borderColor: color,
+      backgroundColor: color,
+      borderWidth: isTarget ? 2.5 : 1.2,
+      pointRadius: 0,
+      pointStyle: makeSkillIcon(sk, 14),
+      tension: 0.3,
+      order: isTarget ? 0 : 1,
+    };
+  });
+
+  const canvas = document.getElementById('trajSkillsChart');
+  trajSkillsChart = new Chart(canvas, {
+    type: 'line',
+    data: { datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: false,
+      scales: {
+        x: { type: 'linear', min: 0, max: lastElapsed / 60000,
+          title: { display: false },
+          ticks: { display: false },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+        },
+        y: { min: 1,
+          title: { display: false },
+          ticks: { color: '#888', font: { size: 10 } },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+        },
+      },
+      plugins: {
+        legend: {
+          display: true, position: 'right',
+          labels: {
+            color: '#aaa', font: { size: 9 }, boxWidth: 14, boxHeight: 14, padding: 3,
+            usePointStyle: true,
+          },
+        },
+        tooltip: { enabled: false },
+      },
+      interaction: { mode: 'nearest', intersect: false },
+    },
+    plugins: [{
+      id: 'playhead',
+      afterDraw(chart) {
+        if (chart._playheadX == null) return;
+        const { ctx, chartArea } = chart;
+        const x = chart._playheadX;
+        if (x < chartArea.left || x > chartArea.right) return;
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(x, chartArea.top);
+        ctx.lineTo(x, chartArea.bottom);
+        ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.restore();
+      }
+    }],
+  });
+
+  // Click + drag on chart scrubs video
+  if (trajChartMouseUp) document.removeEventListener('mouseup', trajChartMouseUp);
+  trajChartMouseUp = () => { trajChartDragging = false; };
+  canvas.addEventListener('mousedown', e => {
+    trajChartDragging = true;
+    seekChartToX(canvas, e.clientX);
+  });
+  canvas.addEventListener('mousemove', e => {
+    if (trajChartDragging) seekChartToX(canvas, e.clientX);
+  });
+  document.addEventListener('mouseup', trajChartMouseUp);
+}
+
+function updateStatsBar(videoTime) {
+  if (!trajSkillsChart || trajSamples.length === 0) return;
+  const videoEl = document.getElementById('trajVideo');
+  if (!videoEl) return;
+  const agentTime = Math.max(0, videoTime - trajVideoOffset);
+  const gameMinutes = agentTime / 60;
+  const xPixel = trajSkillsChart.scales.x.getPixelForValue(gameMinutes);
+  trajSkillsChart._playheadX = xPixel;
+  trajSkillsChart.draw();
+}
+
+function renderToolStep(step) {
+  const label = step.text.replace(/^mcp__rs-agent__/, '').replace(/^mcp__\w+__/, '');
+  if (step.detail) {
+    // Render as expandable code block
+    const tsAttr = step.ts != null ? ` data-ts="${step.ts}"` : '';
+    return `<div class="traj-tool-detail"${tsAttr}>` +
+      `<div class="traj-tool-detail-header" onclick="this.parentElement.classList.toggle('open')">` +
+      `<span class="traj-tool-detail-toggle">&#9654;</span>` +
+      `<span>${escapeHtml(label)}</span>` +
+      `</div>` +
+      `<pre class="traj-tool-code">${escapeHtml(step.detail)}</pre>` +
+      `</div>`;
+  }
+  return null; // no detail — will be batched into chip group
+}
+
 function openTrajectory(model, skill) {
   const data = combinedData[model]?.[skill];
   if (!data) return;
@@ -1008,44 +1588,214 @@ function openTrajectory(model, skill) {
   document.getElementById('trajSubtitle').textContent =
     `${formatXp(data.finalXp)} XP (Lv ${data.finalLevel}) · ${data.jobName || ''}`;
 
-  // Steps — group consecutive tool calls into chip rows
+  // Set up video
+  const videoPane = document.getElementById('trajVideoPane');
+  const videoEl = document.getElementById('trajVideo');
+  const modalInner = document.getElementById('trajModalInner');
+  const hasVideo = data.videoAvailable && data.trialDir;
+  trajVideoReady = false;
+  trajVideoOffset = 0;
+
+  if (hasVideo) {
+    const videoSrc = '../' + data.trialDir + '/verifier/recording.mp4';
+    videoEl.src = videoSrc;
+    videoPane.style.display = '';
+    modalInner.style.maxWidth = '960px';
+
+    videoEl.onloadedmetadata = function() {
+      trajVideoReady = true;
+      if (data.containerFinishedAt) {
+        const finishedMs = new Date(data.containerFinishedAt).getTime();
+        const videoStartWallclock = finishedMs - (videoEl.duration * 1000);
+        if (data.agentStartedAt) {
+          const agentStartMs = new Date(data.agentStartedAt).getTime();
+          trajVideoOffset = (agentStartMs - videoStartWallclock) / 1000;
+        }
+      }
+      // Update badge text to match video timecode
+      updateBadgeTimestamps();
+    };
+    videoEl.onerror = function() {
+      videoPane.style.display = 'none';
+      modalInner.style.maxWidth = '640px';
+      trajVideoReady = false;
+    };
+  } else {
+    videoEl.removeAttribute('src');
+    videoEl.load();
+    videoPane.style.display = 'none';
+    modalInner.style.maxWidth = '640px';
+  }
+
+  // Initialize stats bar with tracking samples
+  initStatsBar(data.samples, skill);
+
+  // Steps — render agent text, tool chips, and code blocks
   const stepsEl = document.getElementById('trajSteps');
   const steps = data.trajectory || [];
   if (steps.length === 0) {
     stepsEl.innerHTML = '<div style="color:#999; text-align:center; padding:32px">No trajectory data available for this run.</div>';
   } else {
     let html = '';
-    let toolBuffer = [];
+    let toolBuffer = [];  // steps without detail → chips
+    let toolTsBuffer = [];
 
     function flushTools() {
       if (toolBuffer.length === 0) return;
-      html += '<div class="traj-tool-group">';
+      const groupTs = toolTsBuffer.find(t => t != null);
+      html += `<div class="traj-tool-group"${groupTs != null ? ` data-ts="${groupTs}"` : ''}>`;
       for (const t of toolBuffer) {
-        // Shorten common tool prefixes for readability
         const label = t.replace(/^mcp__rs-agent__/, '').replace(/^mcp__\w+__/, '');
         html += `<span class="traj-tool-chip">${escapeHtml(label)}</span>`;
       }
       html += '</div>';
       toolBuffer = [];
+      toolTsBuffer = [];
     }
 
     for (const step of steps) {
       if (step.source === 'tool') {
-        toolBuffer.push(step.text);
+        const detailHtml = renderToolStep(step);
+        if (detailHtml) {
+          // This tool has a code block — flush chip buffer first, then render block
+          flushTools();
+          html += detailHtml;
+        } else {
+          toolBuffer.push(step.text);
+          toolTsBuffer.push(step.ts);
+        }
       } else {
         flushTools();
-        html += `<div class="traj-step agent">${escapeHtml(step.text)}</div>`;
+        const tsAttr = step.ts != null ? ` data-ts="${step.ts}"` : '';
+        const tsBadge = step.ts != null
+          ? `<span class="traj-timestamp">${formatTimestamp(step.ts)}</span>`
+          : '';
+        html += `<div class="traj-step agent"${tsAttr}>${tsBadge}${escapeHtml(step.text)}</div>`;
       }
     }
     flushTools();
     stepsEl.innerHTML = html;
+
+    // Click on any step or tool group with a timestamp → seek video
+    stepsEl.addEventListener('click', trajStepClickHandler);
+  }
+
+  // Set up two-way sync
+  if (hasVideo) {
+    videoEl.ontimeupdate = function() {
+      updateStatsBar(videoEl.currentTime);
+      if (trajUserScrolling) return;
+      const currentStepTs = videoEl.currentTime - trajVideoOffset;
+      highlightAndScrollToStep(stepsEl, currentStepTs, true);
+    };
+
+    trajUserScrolling = false;
+    stepsEl.addEventListener('scroll', trajScrollHandler);
   }
 
   document.getElementById('trajectoryModal').style.display = 'block';
   document.body.style.overflow = 'hidden';
 }
 
+function trajStepClickHandler(e) {
+  // Don't seek if clicking inside an open code block (allow text selection)
+  if (e.target.closest('.traj-tool-code')) return;
+  // Toggle code block open/close if clicking header
+  if (e.target.closest('.traj-tool-detail-header')) return;
+  const target = e.target.closest('[data-ts]');
+  if (!target) return;
+  const ts = parseFloat(target.dataset.ts);
+  if (isNaN(ts)) return;
+  seekVideo(ts);
+}
+
+function trajScrollHandler() {
+  trajUserScrolling = true;
+  clearTimeout(trajScrollTimer);
+  trajScrollTimer = setTimeout(() => {
+    const stepsEl = document.getElementById('trajSteps');
+    if (!stepsEl) return;
+    const videoEl = document.getElementById('trajVideo');
+    if (!videoEl || !trajVideoReady || videoEl.paused === false) {
+      trajUserScrolling = false;
+      return;
+    }
+    const containerRect = stepsEl.getBoundingClientRect();
+    const allStepEls = stepsEl.querySelectorAll('[data-ts]');
+    let topStep = null;
+    for (const el of allStepEls) {
+      const rect = el.getBoundingClientRect();
+      if (rect.top >= containerRect.top - 10) {
+        topStep = el;
+        break;
+      }
+    }
+    if (topStep) {
+      const ts = parseFloat(topStep.dataset.ts);
+      if (!isNaN(ts)) {
+        const targetTime = ts + trajVideoOffset;
+        if (targetTime >= 0 && targetTime <= (videoEl.duration || Infinity)) {
+          videoEl.currentTime = targetTime;
+        }
+        highlightAndScrollToStep(stepsEl, ts, false);
+      }
+    }
+    trajUserScrolling = false;
+  }, 150);
+}
+
+function highlightAndScrollToStep(stepsEl, currentStepTs, doScroll) {
+  const allStepEls = stepsEl.querySelectorAll('[data-ts]');
+  let activeEl = null;
+  for (const el of allStepEls) {
+    el.classList.remove('active');
+    const ts = parseFloat(el.dataset.ts);
+    if (ts <= currentStepTs) activeEl = el;
+  }
+  if (activeEl) {
+    activeEl.classList.add('active');
+    if (doScroll) {
+      const paneRect = stepsEl.getBoundingClientRect();
+      const elRect = activeEl.getBoundingClientRect();
+      const elCenter = elRect.top + elRect.height / 2;
+      const paneCenter = paneRect.top + paneRect.height / 2;
+      if (Math.abs(elCenter - paneCenter) > paneRect.height * 0.35) {
+        activeEl.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }
+    }
+  }
+}
+
+function seekVideo(stepTs) {
+  const videoEl = document.getElementById('trajVideo');
+  if (!videoEl || !trajVideoReady) return;
+  const targetTime = stepTs + trajVideoOffset;
+  if (targetTime >= 0 && targetTime <= (videoEl.duration || Infinity)) {
+    videoEl.currentTime = targetTime;
+  }
+  const stepsEl = document.getElementById('trajSteps');
+  if (stepsEl) highlightAndScrollToStep(stepsEl, stepTs, false);
+}
+
 function closeTrajectory() {
+  const videoEl = document.getElementById('trajVideo');
+  if (videoEl) {
+    videoEl.pause();
+    videoEl.ontimeupdate = null;
+    videoEl.onloadedmetadata = null;
+    videoEl.onerror = null;
+  }
+  const stepsEl = document.getElementById('trajSteps');
+  if (stepsEl) {
+    stepsEl.removeEventListener('click', trajStepClickHandler);
+    stepsEl.removeEventListener('scroll', trajScrollHandler);
+  }
+  clearTimeout(trajScrollTimer);
+  trajUserScrolling = false;
+  trajVideoReady = false;
+  if (trajSkillsChart) { trajSkillsChart.destroy(); trajSkillsChart = null; }
+  if (trajChartMouseUp) { document.removeEventListener('mouseup', trajChartMouseUp); trajChartMouseUp = null; }
+  trajChartDragging = false;
   document.getElementById('trajectoryModal').style.display = 'none';
   document.body.style.overflow = '';
 }

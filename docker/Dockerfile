@@ -40,7 +40,7 @@ RUN cd server/engine && bun install
 RUN cd server/gateway && bun install
 RUN cd server/webclient && bun install && bun run build
 RUN cp -r server/webclient/out/bot server/engine/public/bot
-RUN cd mcp && bun install
+RUN cd sdk && bun install
 
 # Remove scripts/ directory — benchmark agents waste budget reading/running these
 RUN rm -rf /app/scripts
@@ -77,13 +77,8 @@ COPY skill_tracker.ts /app/benchmark/shared/skill_tracker.ts
 # Ensure bot.env has SERVER=localhost so scripts connect to the local gateway
 RUN echo 'SERVER=localhost' >> /app/bots/agent/bot.env
 
-# Wrapper: start services, launch tracker in background (fully detached), then run MCP server.
-# Tracker writes to /logs/tracking/ (outside /app/ so agents don't see benchmark infra files).
-RUN printf '#!/bin/bash\n/start-services.sh\nmkdir -p /logs/verifier /logs/tracking\ncd /app\nexport TRACKING_FILE=/logs/tracking/skill_tracking.json\nnohup bun run benchmark/shared/skill_tracker.ts > /logs/tracking/skill_tracker.log 2>&1 &\nexec bun run mcp/server.ts\n' > /start-with-tracker.sh && chmod +x /start-with-tracker.sh
-
-# Override .mcp.json so Claude Code starts game services before the MCP server.
-# Services start in background (&) so the MCP server is immediately responsive.
-RUN echo '{"mcpServers":{"rs-agent":{"command":"bash","args":["-c","/start-services.sh & cd /app && bun run mcp/server.ts"]}}}' > /app/.mcp.json
+# Remove .mcp.json so Claude Code doesn't try to start a nonexistent MCP server.
+RUN rm -f /app/.mcp.json
 
 # Idempotent service starter for agents that don't use MCP (e.g. gemini-cli)
 COPY ensure-services.sh /ensure-services.sh

@@ -26,6 +26,7 @@ import {
 } from '../shared/extract-utils';
 
 const JOBS_DIR = join(import.meta.dir, '..', 'jobs');
+const RESULTS_ROOT = join(import.meta.dir, '..', 'results');
 
 const KNOWN_MODELS = ['opus', 'opus45', 'sonnet46', 'sonnet45', 'haiku', 'codex53', 'codex', 'gpt54', 'gemini31', 'gemini', 'glm', 'kimi', 'qwen35', 'qwen3'];
 
@@ -70,9 +71,11 @@ function detectSkillFromConfig(jobDir: string, horizon: string): string | null {
 interface TrajectoryStep {
   source: 'agent' | 'tool' | 'user';
   text: string;
+  ts?: number; // seconds since first agent step (for video sync)
+  detail?: string; // code content for Write/Edit tools
 }
 
-function extractTrajectoryFromTrial(trialDir: string): { steps: TrajectoryStep[] } | null {
+function extractTrajectoryFromTrial(trialDir: string): { steps: TrajectoryStep[]; firstStepAt?: string } | null {
   const agentDir = join(trialDir, 'agent');
   if (!existsSync(agentDir)) return null;
 
@@ -80,7 +83,8 @@ function extractTrajectoryFromTrial(trialDir: string): { steps: TrajectoryStep[]
   if (existsSync(trajectoryPath)) {
     try {
       const traj = JSON.parse(readFileSync(trajectoryPath, 'utf-8'));
-      return parseClaudeTrajectory(traj);
+      const result = parseClaudeTrajectory(traj);
+      return result;
     } catch {}
   }
 
@@ -112,26 +116,109 @@ function extractTrajectoryFromTrial(trialDir: string): { steps: TrajectoryStep[]
   return null;
 }
 
-function parseClaudeTrajectory(traj: any): { steps: TrajectoryStep[] } {
+function truncateLines(text: string, maxLines: number, maxChars: number): string {
+  const lines = text.split('\n');
+  let result = lines.slice(0, maxLines).join('\n');
+  if (result.length > maxChars) result = result.slice(0, maxChars);
+  if (lines.length > maxLines || text.length > maxChars) result += '\n...';
+  return result;
+}
+
+/** Extract a tool step from a tool_calls entry */
+function extractToolStep(toolCall: any, ts?: number): TrajectoryStep | null {
+  const toolName = toolCall?.function_name || 'unknown';
+  const args = toolCall?.arguments || {};
+
+  let text = toolName;
+  let detail: string | undefined;
+
+  if (toolName === 'Bash' || toolName === 'run_shell_command' || toolName === 'exec_command') {
+    const cmd: string = args.command || args.cmd || '';
+    // Detect heredoc file writes: cat << 'EOF' > filename.ts
+    const heredocMatch = cmd.match(/^cat\s+<<\s*'?EOF'?\s*>\s*(.+)/);
+    if (heredocMatch) {
+      const filePath = heredocMatch[1].trim();
+      text = `write: ${filePath}`;
+      // Extract content between first newline and EOF
+      const eofIdx = cmd.lastIndexOf('\nEOF');
+      if (eofIdx > 0) {
+        const content = cmd.slice(cmd.indexOf('\n') + 1, eofIdx);
+        if (content) detail = truncateLines(content, 25, 2000);
+      }
+    } else {
+      text = `bash: ${cmd.slice(0, 300)}`;
+    }
+  } else if (toolName === 'write_stdin') {
+    const chars: string = args.chars || '';
+    if (!chars) return null; // skip empty stdin polls (just waiting for output)
+    // Show control characters readably
+    const display = chars.replace(/\x03/g, '^C').replace(/\x04/g, '^D').replace(/\r/g, '\\r').replace(/\n/g, '\\n');
+    text = `stdin: ${display.slice(0, 300)}`;
+  } else if (toolName === 'Write' || toolName === 'write_file') {
+    text = `write: ${args.file_path || args.path || ''}`;
+    const content = args.content || '';
+    if (content) detail = truncateLines(content, 25, 2000);
+  } else if (toolName === 'Edit') {
+    text = `edit: ${args.file_path || ''}`;
+    const newStr = args.new_string || '';
+    if (newStr) detail = truncateLines(newStr, 25, 2000);
+  } else if (toolName === 'Read' || toolName === 'read_file') {
+    text = `read: ${args.file_path || args.path || ''}`;
+  }
+
+  return { source: 'tool', text, ...(ts !== undefined ? { ts } : {}), ...(detail ? { detail } : {}) };
+}
+
+function parseClaudeTrajectory(traj: any): { steps: TrajectoryStep[]; firstStepAt?: string } {
   const rawSteps = traj.steps || [];
   const steps: TrajectoryStep[] = [];
 
+  // Find the first timestamp to compute relative offsets
+  let firstTs: number | null = null;
+  let firstStepAt: string | undefined;
+  for (const step of rawSteps) {
+    if (step.timestamp) {
+      firstTs = new Date(step.timestamp).getTime();
+      firstStepAt = step.timestamp;
+      break;
+    }
+  }
+
   for (const step of rawSteps) {
     const src = step.source;
-    const msg: string = step.message || '';
-    if (!msg) continue;
+    if (src !== 'agent') continue;
 
-    if (src === 'agent') {
-      if (msg.startsWith('Executed ')) {
-        const toolName = msg.replace('Executed ', '').split(' ')[0];
-        steps.push({ source: 'tool', text: toolName });
-      } else {
-        steps.push({ source: 'agent', text: msg });
+    const msg: string = step.message || '';
+    const toolCalls: any[] = step.tool_calls || [];
+
+    // Skip steps with no message and no tool calls
+    if (!msg && toolCalls.length === 0) continue;
+
+    // Compute seconds since first step
+    let ts: number | undefined;
+    if (firstTs !== null && step.timestamp) {
+      ts = Math.round((new Date(step.timestamp).getTime() - firstTs) / 1000);
+    }
+
+    if (msg.startsWith('Executed ')) {
+      // Claude format: "Executed ToolName tool_call_id" — tool call is the step
+      const step = extractToolStep(toolCalls[0] || { function_name: msg.replace('Executed ', '').split(' ')[0] }, ts);
+      if (step) steps.push(step);
+    } else {
+      // Gemini/other/Codex format: message is thinking text, tool_calls are separate
+      // Emit agent text if present
+      if (msg) {
+        steps.push({ source: 'agent', text: msg, ...(ts !== undefined ? { ts } : {}) });
+      }
+      // Emit tool calls (skip null — e.g. empty write_stdin polls)
+      for (const tc of toolCalls) {
+        const step = extractToolStep(tc, ts);
+        if (step) steps.push(step);
       }
     }
   }
 
-  return { steps: steps.slice(0, 200) };
+  return { steps: steps.slice(0, 200), firstStepAt };
 }
 
 function parseCodexLog(content: string): { steps: TrajectoryStep[] } {
@@ -148,7 +235,24 @@ function parseCodexLog(content: string): { steps: TrajectoryStep[] } {
         } else if (item.type === 'reasoning' && item.text) {
           steps.push({ source: 'agent', text: item.text });
         } else if (item.type === 'command_execution' && item.command) {
-          steps.push({ source: 'tool', text: item.command });
+          // Strip /bin/bash -lc prefix to get actual command
+          let cmd: string = item.command;
+          const bashPrefix = cmd.match(/^\/bin\/\w*sh\s+(-\w+\s+)*/);
+          if (bashPrefix) cmd = cmd.slice(bashPrefix[0].length);
+          // Detect heredoc writes
+          let detail: string | undefined;
+          const heredocMatch = cmd.match(/^cat\s+<<\s*'?EOF'?\s*>\s*(.+)/);
+          if (heredocMatch) {
+            const filePath = heredocMatch[1].trim();
+            const eofIdx = cmd.lastIndexOf('\nEOF');
+            if (eofIdx > 0) {
+              const hContent = cmd.slice(cmd.indexOf('\n') + 1, eofIdx);
+              if (hContent) detail = truncateLines(hContent, 25, 2000);
+            }
+            steps.push({ source: 'tool', text: `write: ${filePath}`, ...(detail ? { detail } : {}) });
+          } else {
+            steps.push({ source: 'tool', text: `bash: ${cmd.slice(0, 300)}` });
+          }
         } else if (item.type === 'file_change') {
           steps.push({ source: 'tool', text: `file_change: ${item.filename || 'unknown'}` });
         }
@@ -199,28 +303,58 @@ function parseGeminiCliLog(content: string): { steps: TrajectoryStep[] } {
   const lines = content.split('\n');
 
   let inBashBlock = false;
+  let bashFileName = '';
+  let bashCodeLines: string[] = [];
+  let inSyntaxErrors = false;
+
+  function flushBashBlock() {
+    if (!bashFileName && bashCodeLines.length === 0) return;
+    const label = bashFileName ? `write: ${bashFileName}` : 'bash';
+    let detail: string | undefined;
+    if (bashCodeLines.length > 0) {
+      detail = truncateLines(bashCodeLines.join('\n'), 25, 2000);
+    }
+    steps.push({ source: 'tool', text: label, ...(detail ? { detail } : {}) });
+    bashFileName = '';
+    bashCodeLines = [];
+  }
 
   for (const line of lines) {
     const trimmed = line.trimEnd();
-    if (!trimmed) continue;
 
     // Detect start of a bash command block (heredoc file content + syntax errors)
     if (trimmed.startsWith('Bash command parsing error detected')) {
+      // Flush any previous block
+      flushBashBlock();
       inBashBlock = true;
-      // Extract the filename from the command as a tool step
+      inSyntaxErrors = false;
       const fileMatch = trimmed.match(/> ([\w/./-]+\.\w+)$/);
-      const label = fileMatch ? `write: ${fileMatch[1]}` : 'bash';
-      steps.push({ source: 'tool', text: label });
+      bashFileName = fileMatch ? fileMatch[1] : '';
       continue;
     }
 
-    // End of bash block: the closing bracket of "EOF Syntax Errors: [...]"
     if (inBashBlock) {
-      if (trimmed === ']') inBashBlock = false;
+      // Detect start of syntax error array
+      if (trimmed.startsWith('EOF Syntax Errors:') || trimmed === 'EOF Syntax Errors: [') {
+        inSyntaxErrors = true;
+        continue;
+      }
+      if (inSyntaxErrors) {
+        if (trimmed === ']') {
+          inSyntaxErrors = false;
+          inBashBlock = false;
+          flushBashBlock();
+        }
+        continue;
+      }
+      // Collect code lines (skip EOF marker)
+      if (trimmed === 'EOF') continue;
+      bashCodeLines.push(line);
       continue;
     }
 
     // Skip noise lines
+    if (!trimmed) continue;
     if (trimmed.startsWith('YOLO mode is enabled')) continue;
     if (trimmed.startsWith('[agent-loop]')) continue;
     if (trimmed.startsWith('missing pgrep output')) continue;
@@ -229,7 +363,9 @@ function parseGeminiCliLog(content: string): { steps: TrajectoryStep[] } {
     steps.push({ source: 'agent', text: trimmed });
   }
 
-  return { steps: steps.slice(0, 200) };
+  flushBashBlock();
+  const trimmed = steps.slice(0, 200);
+  return { steps: trimmed };
 }
 
 // ── Main ─────────────────────────────────────────────────────────
@@ -237,6 +373,12 @@ function parseGeminiCliLog(content: string): { steps: TrajectoryStep[] } {
 const { filter, horizon: horizonArg, explicitDirs } = parseCLIArgs(process.argv.slice(2));
 const HORIZON = horizonArg || '30m';
 const RESULTS_DIR = join(import.meta.dir, '..', 'results', `skills-${HORIZON}`);
+
+// Load video URL manifest (written by scripts/upload-videos.ts)
+const videoManifestPath = join(RESULTS_ROOT, 'video-urls.json');
+const videoManifest: Record<string, string> = existsSync(videoManifestPath)
+  ? JSON.parse(readFileSync(videoManifestPath, 'utf-8'))
+  : {};
 
 console.log(`Extracting skill-xp-${HORIZON} results...\n`);
 
@@ -259,7 +401,15 @@ const combined: Record<string, Record<string, {
   samples: Sample[];
   tokenUsage?: TokenUsage;
   trimmedSamples?: number;
+  trialDir?: string;
+  videoAvailable?: boolean;
+  videoUrl?: string;
+  containerStartedAt?: string;
+  containerFinishedAt?: string;
+  agentStartedAt?: string;
 }>> = {};
+
+const REPO_ROOT = join(import.meta.dir, '..');
 
 let extracted = 0;
 
@@ -305,7 +455,40 @@ for (const dir of jobDirs) {
     const tracking = findTrackingInTrial(trialDir);
     const reward = findRewardInTrial(trialDir);
     const tokenUsage = findTokenUsageInTrial(trialDir);
+
+    // Read timing metadata from result.json (needed for trajectory timestamp interpolation)
+    let containerStartedAt: string | undefined;
+    let containerFinishedAt: string | undefined;
+    let agentStartedAt: string | undefined;
+    const resultPath = join(trialDir, 'result.json');
+    if (existsSync(resultPath)) {
+      try {
+        const result = JSON.parse(readFileSync(resultPath, 'utf-8'));
+        containerStartedAt = result.started_at;
+        containerFinishedAt = result.finished_at;
+        agentStartedAt = result.agent_execution?.started_at;
+      } catch {}
+    }
+
     const trajectory = extractTrajectoryFromTrial(trialDir);
+
+    // Video and timing metadata
+    const videoPath = join(trialDir, 'verifier', 'recording.mp4');
+    const videoAvailable = existsSync(videoPath);
+    let videoDuration: number | undefined;
+    if (videoAvailable) {
+      try {
+        const probe = require('child_process').execSync(
+          `ffprobe -v quiet -show_entries format=duration -of csv=p=0 "${videoPath}"`,
+          { timeout: 5000 }
+        ).toString().trim();
+        videoDuration = parseFloat(probe);
+        if (isNaN(videoDuration)) videoDuration = undefined;
+      } catch {}
+    }
+    const relTrialDir = trialDir.startsWith(REPO_ROOT)
+      ? trialDir.slice(REPO_ROOT.length + 1)
+      : trialDir;
 
     if (!tracking && !reward) {
       continue;
@@ -340,14 +523,16 @@ for (const dir of jobDirs) {
       }
     }
 
-    // Slim down samples: only keep elapsedMs and the target skill's data
+    // Slim down samples: keep elapsedMs and all skills (level only for non-target, level+xp for target)
     const slimSamples = samples.map(s => {
-      const slimSkills: Record<string, { level: number; xp: number }> = {};
+      const slimSkills: Record<string, { level: number; xp?: number }> = {};
       if (s.skills) {
         for (const [sName, sData] of Object.entries(s.skills)) {
+          const sd = sData as { level: number; xp: number };
           if (sName.toLowerCase() === skill.toLowerCase()) {
-            slimSkills[sName] = sData as { level: number; xp: number };
-            break;
+            slimSkills[sName] = { level: sd.level, xp: sd.xp };
+          } else if (sd.level > 1) {
+            slimSkills[sName] = { level: sd.level };
           }
         }
       }
@@ -360,6 +545,8 @@ for (const dir of jobDirs) {
     const shouldReplace = !existing
       || (samples.length > existing.sampleCount * 2)
       || (existing.sampleCount <= samples.length * 2 && finalXp > existing.finalXp);
+    const videoUrl = videoManifest[`${HORIZON}/${model}/${skill}`];
+
     if (shouldReplace) {
       combined[model][skill] = {
         jobName,
@@ -370,7 +557,15 @@ for (const dir of jobDirs) {
         samples: slimSamples,
         ...(tokenUsage ? { tokenUsage } : {}),
         ...(trajectory ? { trajectory: trajectory.steps } : {}),
+        ...(trajectory?.firstStepAt ? { firstStepAt: trajectory.firstStepAt } : {}),
         ...(trimmedCount > 0 ? { trimmedSamples: trimmedCount } : {}),
+        trialDir: relTrialDir,
+        videoAvailable,
+        ...(videoDuration ? { videoDuration } : {}),
+        ...(videoUrl ? { videoUrl } : {}),
+        ...(containerStartedAt ? { containerStartedAt } : {}),
+        ...(containerFinishedAt ? { containerFinishedAt } : {}),
+        ...(agentStartedAt ? { agentStartedAt } : {}),
       };
     }
 
