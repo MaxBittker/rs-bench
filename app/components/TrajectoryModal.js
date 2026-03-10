@@ -329,7 +329,9 @@ export function TrajectoryModal({ model, skill, data }) {
             highlightAndScrollToStep(el, ts, false);
           }
         }
-        userScrollingRef.current = false;
+        // Keep the flag true a bit longer so the async timeupdate from the
+        // video seek above doesn't trigger a scrollIntoView snap-back.
+        setTimeout(() => { userScrollingRef.current = false; }, 500);
       }, 150);
     };
 

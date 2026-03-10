@@ -8,14 +8,14 @@
  *
  * Usage: bun generate-tasks.ts
  */
-import { mkdirSync, writeFileSync, copyFileSync } from 'fs';
+import { mkdirSync, writeFileSync, copyFileSync, rmSync } from 'fs';
 import { join } from 'path';
 
 const BENCHMARK_DIR = join(import.meta.dir);
 const TASKS_DIR = join(BENCHMARK_DIR, 'tasks');
 const SHARED_DIR = join(BENCHMARK_DIR, 'shared');
 
-const DOCKER_IMAGE = 'ghcr.io/maxbittker/rs-agent-benchmark:v31';
+const DOCKER_IMAGE = 'ghcr.io/maxbittker/rs-agent-benchmark:v33';
 const VERIFIER_TIMEOUT = 400;
 
 // ── Standard skill definitions (XP-grind tasks) ─────────────────
@@ -235,6 +235,8 @@ build_timeout_sec = 1200.0
 
 console.log(`Generating ${VARIANTS.length} benchmark tasks...`);
 
+// Wipe tasks/ first so stale files from previous generations don't linger
+rmSync(TASKS_DIR, { recursive: true, force: true });
 mkdirSync(TASKS_DIR, { recursive: true });
 
 // All tasks (10m skill, 30m skill, gold)
