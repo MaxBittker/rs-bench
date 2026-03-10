@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 /**
  * CLI tool to check peak XP rate for a skill.
- * Reads skill tracking data and computes peak XP/hr from 15-second windows.
+ * Reads skill tracking data and computes peak XP/min from 15-second windows.
  *
  * Usage: bun /cli/check_xp_rate.ts <SkillName>
  * Example: bun /cli/check_xp_rate.ts Woodcutting
@@ -38,7 +38,7 @@ function computePeakRate(samples: any[], skill: string, startIdx: number = 0): n
     const deltaXp = getSkillXp(curr, skill) - getSkillXp(prev, skill);
     const deltaMs = curr.elapsedMs - prev.elapsedMs;
     if (deltaMs <= 0 || deltaXp <= 0) continue;
-    const rate = (deltaXp / deltaMs) * 3600000; // XP/hr
+    const rate = (deltaXp / deltaMs) * 60000 / 8 / 25; // real-game XP/min (÷8 game speed, ÷25 XP rate)
     if (rate > peak) peak = rate;
   }
   return Math.round(peak);
@@ -91,9 +91,9 @@ const fmtTime = (s: number) => {
 };
 
 console.log(`Peak XP rate for ${skillName}:`);
-console.log(`  Overall:          ${overallPeak.toLocaleString()} XP/hr`);
+console.log(`  Overall:          ${overallPeak.toLocaleString()} XP/min`);
 if (lastCheckIdx > 0) {
-  console.log(`  Since last check: ${recentPeak.toLocaleString()} XP/hr`);
+  console.log(`  Since last check: ${recentPeak.toLocaleString()} XP/min`);
 }
 if (benchmarkDuration > 0) {
   console.log(`  Time elapsed:     ${fmtTime(elapsedSecs)} / ${fmtTime(benchmarkDuration)}`);

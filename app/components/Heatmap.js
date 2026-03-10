@@ -1,10 +1,6 @@
 import { html, useMemo } from '../html.js';
 import { navigate } from '../router.js';
 
-// Normalize XP/hr → display units (÷60 for per-minute, ÷25, ÷8)
-function normRate(xpPerHr) {
-  return xpPerHr / 12000;
-}
 
 function formatNorm(v, pad) {
   return String(Math.round(v)).padStart(pad || 1, '\u2007');
@@ -37,19 +33,25 @@ export function Heatmap({ data }) {
     const models = Object.keys(data).map(key => {
       const skills = {};
       let sum = 0;
+      let logSum = 0;
       let count = 0;
       for (const skill of SKILL_ORDER) {
         const rate = peakRateAtHorizon(data[key]?.[skill], skill);
         skills[skill] = rate;
         sum += rate;
+        logSum += Math.log(1 + rate);
         count++;
       }
-      return { key, avgRate: sum / count, skills };
+      return { key, avgRate: sum / count, logMean: logSum / count, skills };
     });
 
-    models.sort((a, b) => b.avgRate - a.avgRate);
+    models.sort((a, b) => b.logMean - a.logMean);
 
     const skillOrder = SKILL_ORDER.slice().sort((a, b) => {
+      const nonZeroA = models.filter(m => m.skills[a] > 0).length;
+      const nonZeroB = models.filter(m => m.skills[b] > 0).length;
+      if (nonZeroB !== nonZeroA) return nonZeroB - nonZeroA;
+      // tie-break by average rate
       const avgA = models.reduce((s, m) => s + m.skills[a], 0) / models.length;
       const avgB = models.reduce((s, m) => s + m.skills[b], 0) / models.length;
       return avgB - avgA;
@@ -59,7 +61,7 @@ export function Heatmap({ data }) {
     const skillPad = {};
     for (const skill of skillOrder) {
       skillMax[skill] = Math.max(...models.map(m => m.skills[skill]));
-      const maxDigits = Math.max(...models.map(m => String(Math.round(normRate(m.skills[skill]))).length));
+      const maxDigits = Math.max(...models.map(m => String(Math.round(m.skills[skill])).length));
       skillPad[skill] = maxDigits;
     }
 
@@ -84,7 +86,7 @@ export function Heatmap({ data }) {
           <div className="column">
             <h2 className="title is-3">Per-Skill Breakdown</h2>
             <p className="subtitle is-6" style=${{ color: '#888' }}>
-              Normalized peak XP rate per skill per model. Best of 1. Color = relative ranking within each column.
+              Peak XP/min (real-game equivalent) per skill. <b>Best of 1.</b> Sorted by log-scaled mean.
             </p>
           </div>
         </div>
@@ -99,7 +101,10 @@ export function Heatmap({ data }) {
                          alt=${SKILL_DISPLAY[skill]} width="16" height="16" />
                   </th>
                 `)}
-                <th style=${{ fontWeight: 700 }}>Avg</th>
+                <th style=${{ fontWeight: 700 }} className="heatmap-th-tip">
+                  \u27e8ln\u27e9
+                  <span className="tip-text">avg of ln(1 + XP/min) across skills</span>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -121,11 +126,11 @@ export function Heatmap({ data }) {
                         <td key=${skill}
                             style=${{ background: s.bg, color: s.color, fontVariantNumeric: 'tabular-nums', cursor: 'pointer', fontSize: '11px' }}
                             onClick=${() => handleCellClick(m.key, skill)}>
-                          ${formatNorm(normRate(rate), skillPad[skill])}
+                          ${formatNorm(rate, skillPad[skill])}
                         </td>
                       `;
                     })}
-                    <td className="heatmap-total">${formatNorm(normRate(m.avgRate))}</td>
+                    <td className="heatmap-total">${m.logMean.toFixed(1)}</td>
                   </tr>
                 `;
               })}

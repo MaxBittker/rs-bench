@@ -23,6 +23,14 @@ export function Footer() {
                 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
               </p>
             </div>
+            <div className="content" style=${{ marginTop: '24px', background: '#f5f5f5', borderRadius: '8px', padding: '16px 20px', fontSize: '0.8em', fontFamily: 'monospace', color: '#555', whiteSpace: 'pre-wrap' }}>
+${`@misc{bittker2025rsbench,
+  title   = {rs-bench: AI Agent Benchmark for RuneScape Gameplay Tasks},
+  author  = {Max Bittker},
+  year    = {2025},
+  note    = {Websim}
+}`}
+            </div>
           </div>
         </div>
       </div>

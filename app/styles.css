@@ -7,6 +7,11 @@ body {
   margin-bottom: 5px;
 }
 
+.hero > .hero-body {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .teaser .hero-body {
   padding-top: 0;
   padding-bottom: 3rem;
@@ -279,6 +284,29 @@ body {
   display: block;
   margin: 0 auto;
 }
+.heatmap-th-tip {
+  position: relative;
+  cursor: help;
+}
+.heatmap-th-tip .tip-text {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 10;
+  pointer-events: none;
+}
+.heatmap-th-tip:hover .tip-text {
+  display: block;
+}
 .heatmap-model {
   position: sticky;
   left: 0;
@@ -424,18 +452,20 @@ body {
 }
 .traj-video-pane {
   flex-shrink: 0;
+  width: 420px;
   display: flex;
   flex-direction: column;
   background: #fff;
   border-right: 1px solid #e8e8e8;
+  overflow: hidden;
 }
 .traj-video-pane video {
-  width: 400px;
-  height: 300px;
-  background: #000;
+  width: 100%;
+  aspect-ratio: 367/240;
 }
 .traj-transcript-pane {
   flex: 1;
+  overflow: hidden;
   overflow-y: auto;
   padding: 16px 24px;
   min-width: 0;
@@ -564,20 +594,111 @@ body {
   z-index: 999;
 }
 
-/* Trajectory modal inner */
-.traj-modal-inner {
-  margin: 40px auto;
+/* Fullscreen trajectory viewer */
+.traj-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  max-height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
-.traj-header {
-  padding: 16px 24px;
+.traj-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  padding: 6px 12px;
+  background: #fafafa;
   border-bottom: 1px solid #e8e8e8;
   flex-shrink: 0;
+  z-index: 10;
+}
+.traj-back-btn {
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.12s;
+}
+.traj-back-btn:hover {
+  color: #111;
+}
+.traj-pane-title {
+  padding: 10px 12px;
+  border-top: 1px solid #e8e8e8;
+}
+.traj-title-main {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}
+.traj-title-icon {
+  width: 16px;
+  height: 16px;
+}
+.traj-title-date {
+  font-size: 10px;
+  color: #aaa;
+  font-weight: 400;
+  margin-top: 2px;
+  display: block;
+}
+.traj-nav-chips {
+  display: contents;
+}
+.traj-chip {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 7px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  background: #fff;
+  font-size: 11px;
+  color: #666;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  white-space: nowrap;
+}
+.traj-chip:hover {
+  background: #f0f4ff;
+  border-color: #b0c4f7;
+  color: #333;
+}
+.traj-chip.active {
+  background: #e8efff;
+  border-color: #5b8def;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+.traj-chip.icon-only {
+  padding: 3px;
+}
+.traj-chip-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.traj-chip-label {
+  line-height: 1;
+}
+.traj-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 .close-btn {
   background: none;

@@ -10,7 +10,7 @@ export function Teaser() {
                alt="rs-sdk demo" />
           <h2 className="subtitle has-text-centered" style=${{ marginTop: '1rem' }}>
             Agents write code to play RuneScape — training skills
-            and navigating the game world within fixed time horizons.
+            and navigating the game world.
           </h2>
         </div>
       </div>

@@ -6,9 +6,13 @@ export function CumulativeChart({ data }) {
   const legendRef = useRef(null);
   const [pinnedSkill, setPinnedSkill] = useState(null);
   const [hoveredSkill, setHoveredSkill] = useState(null);
+  const [selectedModel, setSelectedModel] = useState(null);
 
-  const activeSkill = (hoveredSkill && hoveredSkill !== '__total__') ? hoveredSkill : pinnedSkill;
-  const activeLabel = activeSkill ? `${SKILL_DISPLAY[activeSkill] || activeSkill} Peak Rate` : 'Total Peak Rate';
+  const activeSkill = selectedModel ? null : ((hoveredSkill && hoveredSkill !== '__total__') ? hoveredSkill : pinnedSkill);
+  const selectedConfig = selectedModel ? (MODEL_CONFIG[selectedModel] || { displayName: selectedModel }) : null;
+  const activeLabel = selectedModel
+    ? `${selectedConfig.displayName} \u2014 Per-Skill Peak Rate`
+    : activeSkill ? `${SKILL_DISPLAY[activeSkill] || activeSkill} Peak Rate` : 'Total Peak Rate';
 
   useEffect(() => {
     if (!data || !chartRef.current || !legendRef.current) return;
@@ -23,12 +27,16 @@ export function CumulativeChart({ data }) {
       data,
       horizonMinutes: 30,
       activeSkill,
-      onClick: function(modelKey) {
-        if (activeSkill) navigate('trajectory/' + modelKey + '/' + activeSkill);
-        else navigate('model/' + modelKey);
-      },
+      selectedModel,
+      onLegendClick: (model) => setSelectedModel(model),
+      onClick: selectedModel
+        ? function(skillKey) { navigate('trajectory/' + selectedModel + '/' + skillKey); }
+        : function(modelKey) {
+            if (activeSkill) navigate('trajectory/' + modelKey + '/' + activeSkill);
+            else navigate('model/' + modelKey);
+          },
     });
-  }, [data, activeSkill]);
+  }, [data, activeSkill, selectedModel]);
 
   if (!data) return null;
 
@@ -39,7 +47,7 @@ export function CumulativeChart({ data }) {
           <div className="column">
             <h2 className="title is-3">Peak XP Rate \u2014 30 min wall clock</h2>
             <p className="subtitle is-6" style=${{ color: '#888' }}>
-              Peak training rate (XP/hr) across 16 skills in 30 minutes wall clock (8x game speed). Best of 1.${' '}
+              Peak training rate (real-game XP/min) across 16 skills in 30 minutes wall clock (8x game speed). Best of 1.${' '}
               <a href="views/graph-skills.html?horizon=30m">Full interactive view \u2192</a>
             </p>
           </div>
@@ -48,9 +56,9 @@ export function CumulativeChart({ data }) {
           <aside className="skill-rail" aria-label="Skill chart filter">
             <button
               type="button"
-              className=${`skill-rail-reset${!pinnedSkill ? ' active' : ''}${hoveredSkill === '__total__' ? ' hovered' : ''}`}
-              onClick=${() => { setPinnedSkill(null); setHoveredSkill(null); }}
-              onMouseEnter=${() => { if (pinnedSkill) setHoveredSkill('__total__'); }}
+              className=${`skill-rail-reset${!selectedModel && !pinnedSkill ? ' active' : ''}${hoveredSkill === '__total__' ? ' hovered' : ''}`}
+              onClick=${() => { if (selectedModel) { setSelectedModel(null); } setPinnedSkill(null); setHoveredSkill(null); }}
+              onMouseEnter=${() => { if (pinnedSkill || selectedModel) setHoveredSkill('__total__'); }}
               onMouseLeave=${() => { if (hoveredSkill === '__total__') setHoveredSkill(null); }}
             >
               Total
@@ -62,8 +70,8 @@ export function CumulativeChart({ data }) {
               ${SKILL_ORDER.map((skill) => {
                 const label = SKILL_DISPLAY[skill] || skill;
                 const iconSrc = VIEWS_BASE + 'skill-icons/' + skill + '.png';
-                const isPinned = pinnedSkill === skill;
-                const isHovered = hoveredSkill === skill;
+                const isPinned = !selectedModel && pinnedSkill === skill;
+                const isHovered = !selectedModel && hoveredSkill === skill;
                 const className = [
                   'skill-rail-item',
                   isPinned ? ' active-hard' : '',
@@ -76,11 +84,17 @@ export function CumulativeChart({ data }) {
                     className=${className}
                     title=${label}
                     aria-label=${label}
-                    onMouseEnter=${() => setHoveredSkill(skill)}
-                    onFocus=${() => setHoveredSkill(skill)}
+                    onMouseEnter=${() => { if (!selectedModel) setHoveredSkill(skill); }}
+                    onFocus=${() => { if (!selectedModel) setHoveredSkill(skill); }}
                     onClick=${() => {
-                      setPinnedSkill((current) => current === skill ? null : skill);
-                      setHoveredSkill(null);
+                      if (selectedModel) {
+                        setSelectedModel(null);
+                        setPinnedSkill(skill);
+                        setHoveredSkill(null);
+                      } else {
+                        setPinnedSkill((current) => current === skill ? null : skill);
+                        setHoveredSkill(null);
+                      }
                     }}
                   >
                     <img src=${iconSrc} alt=${label} />

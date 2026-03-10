@@ -22,6 +22,7 @@ codex|openai/gpt-5.3-codex|codex53
 codex|openai/gpt-5.4|gpt54
 gemini-cli|google/gemini-3-pro-preview|gemini
 gemini-cli|google/gemini-3.1-pro-preview|gemini31
+gemini-cli|google/gemini-3-flash-preview|geminiflash
 claude-code|glm-5|glm
 kimi-opencode|openrouter/moonshotai/kimi-k2.5|kimi
 qwen3-opencode|openrouter/qwen/qwen3-coder-next|qwen3
@@ -43,7 +44,7 @@ echo "Staggered 10m skill run — ${TIMESTAMP}"
 echo "Logs: $LOG_DIR"
 echo ""
 
-MODEL_LIST="opus opus45 sonnet46 sonnet45 haiku codex codex53 gpt54 gemini gemini31 glm kimi qwen3 qwen35"
+MODEL_LIST="opus opus45 sonnet46 sonnet45 haiku codex codex53 gpt54 gemini gemini31 geminiflash glm kimi qwen3 qwen35"
 PIDS=()
 MODEL_NAMES=()
 DELAY=0

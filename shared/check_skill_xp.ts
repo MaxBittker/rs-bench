@@ -45,7 +45,7 @@ function computePeakXpRate(samples: any[], skill: string): number {
         const deltaXp = getSkillXpFromSample(curr, skill) - getSkillXpFromSample(prev, skill);
         const deltaMs = curr.elapsedMs - prev.elapsedMs;
         if (deltaMs <= 0 || deltaXp <= 0) continue;
-        const rate = (deltaXp / deltaMs) * 3600000; // XP/hr
+        const rate = (deltaXp / deltaMs) * 60000 / 8 / 25; // real-game XP/min (÷8 game speed, ÷25 XP rate)
         if (rate > peak) peak = rate;
     }
     return Math.round(peak);
@@ -97,7 +97,7 @@ async function main() {
         // Compute peak XP rate from tracking samples
         const trackingSamples = trackingData?.samples || [];
         const peakXpRate = computePeakXpRate(trackingSamples, SKILL_NAME as string);
-        console.log(`Peak XP rate: ${peakXpRate.toLocaleString()} XP/hr`);
+        console.log(`Peak XP rate: ${peakXpRate.toLocaleString()} XP/min`);
 
         const rewardObj = {
             skill: SKILL_NAME,
@@ -111,7 +111,7 @@ async function main() {
         writeFileSync('/logs/verifier/reward.json', JSON.stringify(rewardObj, null, 2));
         writeFileSync('/logs/verifier/reward.txt', peakXpRate.toString());
 
-        console.log(`Reward: peakXpRate=${peakXpRate} XP/hr, xp=${xp}, level=${level}`);
+        console.log(`Reward: peakXpRate=${peakXpRate} XP/min, xp=${xp}, level=${level}`);
 
         // Print reward JSON to stdout for recovery from test-stdout.txt
         console.log(`__REWARD_JSON_START__`);

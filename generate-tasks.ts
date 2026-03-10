@@ -15,7 +15,7 @@ const BENCHMARK_DIR = join(import.meta.dir);
 const TASKS_DIR = join(BENCHMARK_DIR, 'tasks');
 const SHARED_DIR = join(BENCHMARK_DIR, 'shared');
 
-const DOCKER_IMAGE = 'ghcr.io/maxbittker/rs-agent-benchmark:v33';
+const DOCKER_IMAGE = 'ghcr.io/maxbittker/rs-agent-benchmark:v37';
 const VERIFIER_TIMEOUT = 400;
 
 // ── Standard skill definitions (XP-grind tasks) ─────────────────
@@ -76,15 +76,23 @@ Your goal is to maximize the TOTAL COINS you have across both your inventory and
 - High Alchemy (casting on crafted items to convert them to gold)
 - Any creative money-making approach you can think of
 
+You control the bot via the \`rs-agent\` MCP server. Use the \`execute_code\` tool with \`bot_name: "agent"\`. Two globals are available in the code context:
+- \`bot\` (BotActions) — high-level actions: \`await bot.chopTree()\`, \`await bot.openShop()\`, \`await bot.openBank()\`, etc.
+- \`sdk\` (BotSDK) — low-level state & actions: \`sdk.getState()\`, \`sdk.getInventory()\`, \`sdk.findNearbyNpc(/shopkeeper/i)\`, etc.
+
+Read the MCP resources ("Bot API", "SDK API") for the full list of available methods.
+
 IMPORTANT: You have ${durationMinutes} minutes. Start earning money immediately — do not spend too long planning. Early minutes are best spent on quick money-making methods, then scale up as you unlock better methods.
 
-CRITICAL: Do NOT write one giant script. Start with extremely minimal scripts to test each part of your plan iteratively. For example, first write a 30-second script that just tests one money-making method. Run it, verify it works, then extend it. Build up complexity only after each piece is validated. Scripts that try to do everything at once will crash and waste your time. Run scripts in the FOREGROUND (not as a background process).
+CRITICAL: Do NOT write one giant script. Start with extremely minimal execute_code calls to test each part of your plan iteratively. For example, first try one money-making action. Verify it works, then extend. Build up complexity only after each piece is validated.
 
-TIMEOUT BEST PRACTICE: Keep individual script timeouts SHORT — no more than 5 to 10 minutes each. Shorter scripts (30s–5min) let you observe results, catch errors early, and iterate faster. If a script runs for 10+ minutes and fails, you've wasted significant time. Break long tasks into multiple short runs instead.
+For long-running strategies, write a script file and run it:
+\`\`\`bash
+bun /tmp/my_script.ts > /tmp/gold.log 2>&1 &
+\`\`\`
+Keep individual scripts SHORT (5-10 min max) so you can observe results and iterate.
 
-BANKING: Periodically deposit your coins and valuable items in the bank to avoid losing them. The verifier counts coins in BOTH inventory and bank.
-
-The bot name is "agent".`;
+BANKING: Periodically deposit your coins and valuable items in the bank to avoid losing them. The verifier counts coins in BOTH inventory and bank.`;
 
 const GOLD_2H_INSTRUCTION = GOLD_INSTRUCTION(120);
 const GOLD_30M_INSTRUCTION = GOLD_INSTRUCTION(30);
@@ -114,15 +122,41 @@ COPY agent.sav /app/server/engine/data/players/main/agent.sav
 
 const SKILL_XP_INSTRUCTION = (skillName: string, durationMinutes: number) => `Train ${skillName} as efficiently as possible for ${durationMinutes} minutes. This is a local RuneScape private server (8x speed) for AI benchmarking.
 
-Your score is your **peak XP rate** — the best XP/hr measured in any 15-second window. Optimize for training speed and try different approaches.
+Your score is your **peak XP rate** — the best XP/min measured in any 15-second window. Optimize for training speed and try different approaches.
 
 Check your peak rate anytime: \`bun /app/benchmark/shared/check_xp_rate.ts ${skillName}\`
 
+You control the bot via the \`rs-agent\` MCP server. Use the \`execute_code\` tool with \`bot_name: "agent"\`. Two globals are available in the code context:
+- \`bot\` (BotActions) — high-level actions: \`await bot.chopTree()\`, \`await bot.mineRock()\`, \`await bot.attackNpc("chicken")\`, etc.
+- \`sdk\` (BotSDK) — low-level state & actions: \`sdk.getState()\`, \`sdk.getInventory()\`, \`sdk.findNearbyLoc(/tree/i)\`, etc.
+
+Read the MCP resources ("Bot API", "SDK API") for the full list of available methods.
+
 IMPORTANT: You have ${durationMinutes} minutes. Start experimenting immediately. Try to get a non-zero baseline then optimize or find new strategies.
 
-RULES: Gain XP through legitimate in-game actions only. Do NOT modify server files, save files, or use cheat commands.
+Start simple — your first execute_code call should be ONE action:
 
-Start your first script with \`await bot.skipTutorial()\` to clear the tutorial/character creation screen.`;
+\`\`\`
+await bot.skipTutorial();
+\`\`\`
+
+Then try training:
+
+\`\`\`
+const result = await bot.chopTree();
+return result;
+\`\`\`
+
+If it works, iterate and build loops. If it errors, fix the ONE thing that broke. Do NOT spend time planning before you have a working baseline.
+
+For long-running training, write a script file and run it in the background:
+\`\`\`bash
+bun /tmp/my_script.ts > /tmp/train.log 2>&1 &
+\`\`\`
+Then check progress with \`bun /app/benchmark/shared/check_xp_rate.ts ${skillName}\` and \`tail /tmp/train.log\`.
+Do NOT use the \`timeout\` command — it sends SIGTERM which kills the game connection.
+
+RULES: Gain XP through legitimate in-game actions only. Do NOT modify server files, save files, or use cheat commands.`;
 
 function generateSkillXpVariants(horizonMinutes: number, sampleIntervalMs: number): VariantTask[] {
   const horizonLabel = `${horizonMinutes}m`;
@@ -228,6 +262,12 @@ memory_mb = 4096
 storage_mb = 10240
 allow_internet = true
 build_timeout_sec = 1200.0
+
+[[environment.mcp_servers]]
+name = "rs-agent"
+transport = "stdio"
+command = "bun"
+args = ["run", "/app/mcp/server.ts"]
 `;
 }
 

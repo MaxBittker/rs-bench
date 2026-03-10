@@ -22,6 +22,7 @@ codex|openai/gpt-5.3-codex|codex53
 codex|openai/gpt-5.4|gpt54
 gemini-cli|google/gemini-3-pro-preview|gemini
 gemini-cli|google/gemini-3.1-pro-preview|gemini31
+gemini-cli|google/gemini-3-flash-preview|geminiflash
 claude-code|glm-5|glm
 kimi-opencode|openrouter/moonshotai/kimi-k2.5|kimi
 qwen3-opencode|openrouter/qwen/qwen3-coder-next|qwen3
@@ -43,7 +44,7 @@ echo "Staggered 30m skill run — ${TIMESTAMP}"
 echo "Logs: $LOG_DIR"
 echo ""
 
-MODEL_LIST="opus opus45 sonnet46 sonnet45 haiku codex codex53 gpt54 gemini gemini31 glm kimi qwen3 qwen35"
+MODEL_LIST="opus opus45 sonnet46 sonnet45 haiku codex codex53 gpt54 gemini gemini31 geminiflash glm kimi qwen3 qwen35"
 PIDS=()
 MODEL_NAMES=()
 DELAY=0
@@ -144,6 +145,177 @@ if [ "$FAILED" -eq 0 ]; then
 else
   echo "$FAILED of ${#PIDS[@]} model(s) had errors. Check logs in $LOG_DIR"
 fi
+
+# ── Retry phase: re-run skills that failed during setup ──────────
+echo ""
+echo "Scanning for failed skills..."
+
+RETRY_TOTAL=0
+RETRY_DIR=$(mktemp -d)
+
+for model_name in $MODEL_LIST; do
+  entry=$(lookup_model "$model_name" "$ALL_MODELS")
+  [ -z "$entry" ] && continue
+  IFS='|' read -r agent model label <<< "$entry"
+  JOB_DIR="$REPO_ROOT/jobs/skills-30m-${label}-${TIMESTAMP}"
+  [ ! -d "$JOB_DIR" ] && continue
+
+  MISSING=""
+  for skill in $ALL_SKILLS; do
+    # Check if any task dir for this skill has a reward file
+    found_reward=false
+    for taskdir in "$JOB_DIR"/${skill}-xp-30m__*; do
+      [ -d "$taskdir" ] && [ -f "$taskdir/verifier/reward.json" ] && found_reward=true && break
+    done
+    if ! $found_reward; then
+      MISSING="$MISSING $skill"
+    fi
+  done
+
+  if [ -n "$MISSING" ]; then
+    echo "$MISSING" > "$RETRY_DIR/$model_name"
+    n=$(echo $MISSING | wc -w | tr -d ' ')
+    RETRY_TOTAL=$((RETRY_TOTAL + n))
+    echo "  $model_name: $n missing —$MISSING"
+  fi
+done
+
+if [ "$RETRY_TOTAL" -eq 0 ]; then
+  echo "No failed skills — all results complete."
+else
+  echo ""
+  echo "Retrying $RETRY_TOTAL failed skill(s)..."
+
+  RETRY_PIDS=()
+  RETRY_LABELS=()
+
+  for model_name in $MODEL_LIST; do
+    [ ! -f "$RETRY_DIR/$model_name" ] && continue
+    RETRY_SKILLS=$(cat "$RETRY_DIR/$model_name")
+
+    entry=$(lookup_model "$model_name" "$ALL_MODELS")
+    [ -z "$entry" ] && continue
+    IFS='|' read -r agent model label <<< "$entry"
+
+    # Re-configure model env
+    ENV_PREFIX=""
+    AGENT_FLAG="-a '$agent'"
+    HARBOR_ENV="modal"
+    MODEL_EXTRA_ARGS=""
+
+    if ! configure_model_env "$model_name" "$REPO_ROOT/agents" "$entry"; then
+      continue
+    fi
+
+    case "$model_name" in
+      codex|codex53|gpt54)
+        MODEL_EXTRA_ARGS="--ak run_timeout_sec=1900"
+        ;;
+      kimi|qwen3|qwen35)
+        MODEL_EXTRA_ARGS="--ak run_timeout_sec=1800"
+        ;;
+    esac
+
+    if [ "$model_name" = "codex53" ]; then
+      CODEX_AUTH_FILE="$HOME/.codex/auth.json"
+      if [ ! -f "$CODEX_AUTH_FILE" ]; then
+        echo "  WARNING: ~/.codex/auth.json not found, skipping codex53 retry"
+        continue
+      fi
+      CODEX_AUTH_B64=$(base64 < "$CODEX_AUTH_FILE")
+      ENV_PREFIX="$ENV_PREFIX CODEX_AUTH_JSON_B64='$CODEX_AUTH_B64'"
+    fi
+
+    # Build task flags for missing skills only
+    TASK_FLAGS=""
+    for skill in $RETRY_SKILLS; do
+      TASK_FLAGS="$TASK_FLAGS -t '${skill}-xp-30m'"
+    done
+
+    RETRY_JOB_NAME="skills-30m-${label}-${TIMESTAMP}-retry"
+    RETRY_LOG_FILE="${LOG_DIR}/${label}-retry.log"
+    RETRY_N=$(echo $RETRY_SKILLS | wc -w | tr -d ' ')
+
+    echo "  Retrying $model_name ($RETRY_N skills) → $RETRY_LOG_FILE"
+
+    (
+      echo "[$(date '+%H:%M:%S')] Retry starting $model_name ($model)" >> "$RETRY_LOG_FILE"
+      eval "$ENV_PREFIX harbor run \
+        -p '$REPO_ROOT/tasks' \
+        $TASK_FLAGS \
+        $AGENT_FLAG \
+        -m '$model' \
+        --job-name '$RETRY_JOB_NAME' \
+        --env $HARBOR_ENV \
+        --ek sandbox_timeout_secs=7200 \
+        -n $RETRY_N \
+        -k 1 \
+        $MODEL_EXTRA_ARGS" >> "$RETRY_LOG_FILE" 2>&1
+      echo "[$(date '+%H:%M:%S')] Retry finished $model_name (exit=$?)" >> "$RETRY_LOG_FILE"
+    ) &
+
+    RETRY_PIDS+=($!)
+    RETRY_LABELS+=("$model_name")
+  done
+
+  # Wait for all retries
+  echo ""
+  echo "Waiting for ${#RETRY_PIDS[@]} retry job(s)..."
+  RETRY_FAILED=0
+  for i in "${!RETRY_PIDS[@]}"; do
+    if ! wait "${RETRY_PIDS[$i]}"; then
+      echo "  RETRY FAILED: ${RETRY_LABELS[$i]}"
+      RETRY_FAILED=$((RETRY_FAILED + 1))
+    else
+      echo "  RETRY DONE: ${RETRY_LABELS[$i]}"
+    fi
+  done
+
+  # Final scan to see how many gaps were filled
+  echo ""
+  echo "Post-retry scan..."
+  STILL_MISSING=0
+  for model_name in $MODEL_LIST; do
+    [ ! -f "$RETRY_DIR/$model_name" ] && continue
+    RETRY_SKILLS=$(cat "$RETRY_DIR/$model_name")
+
+    entry=$(lookup_model "$model_name" "$ALL_MODELS")
+    [ -z "$entry" ] && continue
+    IFS='|' read -r agent model label <<< "$entry"
+
+    # Check both original and retry job dirs
+    ORIG_JOB_DIR="$REPO_ROOT/jobs/skills-30m-${label}-${TIMESTAMP}"
+    RETRY_JOB_DIR="$REPO_ROOT/jobs/skills-30m-${label}-${TIMESTAMP}-retry"
+
+    MODEL_STILL_MISSING=""
+    for skill in $RETRY_SKILLS; do
+      found_reward=false
+      for jobdir in "$ORIG_JOB_DIR" "$RETRY_JOB_DIR"; do
+        for taskdir in "$jobdir"/${skill}-xp-30m__*; do
+          [ -d "$taskdir" ] && [ -f "$taskdir/verifier/reward.json" ] && found_reward=true && break 2
+        done
+      done
+      if ! $found_reward; then
+        MODEL_STILL_MISSING="$MODEL_STILL_MISSING $skill"
+        STILL_MISSING=$((STILL_MISSING + 1))
+      fi
+    done
+
+    if [ -n "$MODEL_STILL_MISSING" ]; then
+      echo "  $model_name: still missing —$MODEL_STILL_MISSING"
+    fi
+  done
+
+  rm -rf "$RETRY_DIR"
+
+  FILLED=$((RETRY_TOTAL - STILL_MISSING))
+  echo ""
+  echo "Retry summary: $FILLED of $RETRY_TOTAL gaps filled."
+  if [ "$STILL_MISSING" -gt 0 ]; then
+    echo "  $STILL_MISSING skill(s) still missing after retry."
+  fi
+fi
+
 echo ""
 echo "Next steps:"
 echo "  bun extractors/extract-skill-results.ts --horizon 30m"

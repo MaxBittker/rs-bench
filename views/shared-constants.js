@@ -10,6 +10,7 @@ const MODEL_CONFIG = {
   'sonnet45': { displayName: 'Claude Sonnet 4.5', shortName: 'Sonnet 4.5',  color: '#e07850', order: 4, icon: VIEWS_BASE + 'model-icons/anthropic.svg' },
   'gemini':   { displayName: 'Gemini 3 Pro',      shortName: 'Gemini 3',    color: '#4285f4', order: 5, icon: VIEWS_BASE + 'model-icons/gemini.webp' },
   'gemini31': { displayName: 'Gemini 3.1 Pro',    shortName: 'Gemini 3.1',  color: '#1a57c4', order: 6, icon: VIEWS_BASE + 'model-icons/gemini.webp' },
+  'geminiflash': { displayName: 'Gemini 3 Flash', shortName: 'Gemini Flash', color: '#7baaf7', order: 6.5, icon: VIEWS_BASE + 'model-icons/gemini.webp' },
   'haiku':    { displayName: 'Claude Haiku 3.5',   shortName: 'Haiku 3.5',  color: '#e06090', order: 7, icon: VIEWS_BASE + 'model-icons/anthropic.svg' },
   'codex':    { displayName: 'Codex CLI 5.2',       shortName: 'Codex 5.2', color: '#10a37f', order: 8, icon: VIEWS_BASE + 'model-icons/openai.png' },
   'codex53':  { displayName: 'Codex CLI 5.3',       shortName: 'Codex 5.3', color: '#0d8c6b', order: 9, icon: VIEWS_BASE + 'model-icons/openai.png' },
@@ -41,9 +42,10 @@ function formatXp(xp) {
 }
 
 function formatRate(rate) {
-  if (rate >= 1_000_000) return (rate / 1_000_000).toFixed(1) + 'M/hr';
-  if (rate >= 1_000) return (rate / 1_000).toFixed(1) + 'k/hr';
-  return Math.round(rate) + '/hr';
+  if (rate >= 1000) return (rate / 1000).toFixed(1) + 'k/min';
+  if (rate >= 1) return Math.round(rate) + '/min';
+  if (rate > 0) return rate.toFixed(1) + '/min';
+  return '0/min';
 }
 
 function sanitizePoints(points) {
@@ -84,7 +86,7 @@ function extractSkillPoints(skillData, skill, horizonMinutes) {
 }
 
 /**
- * Extract peak XP rate (XP/hr) over time for a skill.
+ * Extract peak XP rate (XP/min) over time for a skill.
  * Returns monotonically increasing points: at each sample, the running max of
  * per-window XP rates seen so far.
  */
@@ -117,7 +119,7 @@ function extractPeakRatePoints(skillData, skill, horizonMinutes) {
       const deltaXp = getXp(s) - getXp(prev);
       const deltaMs = s.elapsedMs - prev.elapsedMs;
       if (deltaMs > 0 && deltaXp > 0) {
-        const rate = (deltaXp / deltaMs) * 3600000;
+        const rate = (deltaXp / deltaMs) * 60000 / 8 / 25; // real-game XP/min
         if (rate > peakRate) peakRate = rate;
       }
     }

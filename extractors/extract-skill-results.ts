@@ -28,7 +28,7 @@ import {
 const JOBS_DIR = join(import.meta.dir, '..', 'jobs');
 const RESULTS_ROOT = join(import.meta.dir, '..', 'results');
 
-const KNOWN_MODELS = ['opus', 'opus45', 'sonnet46', 'sonnet45', 'haiku', 'codex53', 'codex', 'gpt54', 'gemini31', 'gemini', 'glm', 'kimi', 'qwen35', 'qwen3'];
+const KNOWN_MODELS = ['opus', 'opus45', 'sonnet46', 'sonnet45', 'haiku', 'codex53', 'gpt54', 'gemini31', 'geminiflash', 'gemini', 'glm', 'kimi', 'qwen35', 'qwen3'];
 
 const KNOWN_SKILLS = [
   'attack', 'defence', 'strength', 'hitpoints', 'ranged', 'prayer', 'magic',
@@ -410,7 +410,7 @@ const combined: Record<string, Record<string, {
   agentStartedAt?: string;
 }>> = {};
 
-/** Compute peak XP rate (XP/hr) from tracking samples for a given skill */
+/** Compute peak XP rate (XP/min) from tracking samples for a given skill */
 function computePeakXpRate(samples: Sample[], skill: string): number {
   let peak = 0;
   for (let i = 1; i < samples.length; i++) {
@@ -421,7 +421,7 @@ function computePeakXpRate(samples: Sample[], skill: string): number {
     const deltaXp = currXp - prevXp;
     const deltaMs = curr.elapsedMs - prev.elapsedMs;
     if (deltaMs <= 0 || deltaXp <= 0) continue;
-    const rate = (deltaXp / deltaMs) * 3600000;
+    const rate = (deltaXp / deltaMs) * 60000 / 8 / 25; // real-game XP/min
     if (rate > peak) peak = rate;
   }
   return Math.round(peak);
@@ -456,6 +456,7 @@ for (const dir of jobDirs) {
   if (model === 'unknown') model = detectModelFromConfig(dir, KNOWN_MODELS, {
     preMatch: (lower) => {
       if (lower.includes('gemini-3.1') || lower.includes('gemini-3_1')) return 'gemini31';
+      if (lower.includes('gemini-3-flash') || lower.includes('gemini-3_flash')) return 'geminiflash';
       return null;
     },
   });
@@ -465,27 +466,34 @@ for (const dir of jobDirs) {
     continue;
   }
 
-  // Extract timestamp from dir name (YYYYMMDD-HHMMSS at the end)
-  const tsMatch = jobName.match(/(\d{8}-\d{6})$/);
+  // Extract timestamp from dir name (YYYYMMDD-HHMMSS, optionally followed by -retry)
+  const tsMatch = jobName.match(/(\d{8}-\d{6})(-retry)?$/);
   const timestamp = tsMatch ? tsMatch[1] : '00000000-000000';
+  const isRetry = !!tsMatch?.[2];
 
   if (!jobsByModel[model]) jobsByModel[model] = [];
-  jobsByModel[model].push({ dir, timestamp });
+  jobsByModel[model].push({ dir, timestamp, isRetry });
 }
 
-// Keep only the latest job dir per model
-const latestJobDirs: { dir: string; model: string }[] = [];
+// Process all job dirs per model, newest first. Newest result wins per skill;
+// older runs fill in any gaps (so partial re-runs merge with previous full runs).
+const allJobDirs: { dir: string; model: string }[] = [];
 for (const [model, jobs] of Object.entries(jobsByModel)) {
-  jobs.sort((a, b) => b.timestamp.localeCompare(a.timestamp));
-  latestJobDirs.push({ dir: jobs[0].dir, model });
-  if (jobs.length > 1) {
-    console.log(`  ${model}: using latest job ${basename(jobs[0].dir)} (skipping ${jobs.length - 1} older)`);
+  // Sort newest first; within same timestamp, retries after main (so main wins)
+  jobs.sort((a, b) => {
+    const tsCmp = b.timestamp.localeCompare(a.timestamp);
+    if (tsCmp !== 0) return tsCmp;
+    return (a.isRetry ? 1 : 0) - (b.isRetry ? 1 : 0);
+  });
+  for (const j of jobs) {
+    allJobDirs.push({ dir: j.dir, model });
   }
+  console.log(`  ${model}: ${jobs.length} job dir(s), newest: ${basename(jobs[0].dir)}`);
 }
 
 // ── Phase 2: Extract results from latest job per model ──
 
-for (const { dir, model } of latestJobDirs) {
+for (const { dir, model } of allJobDirs) {
   const jobName = basename(dir);
 
   // Detect skill at job level (old single-task format: {skill}-xp-{horizon}-{model}-...)
@@ -613,8 +621,9 @@ for (const { dir, model } of latestJobDirs) {
 
     const videoUrl = videoManifest[`${HORIZON}/${model}/${skill}`];
 
-    // No shouldReplace heuristic — since we only process the latest job per
-    // model, each skill within a job is taken as-is (no cross-run mixing).
+    // Skip if this skill already has data from a newer run
+    if (combined[model][skill]) continue;
+
     combined[model][skill] = {
       jobName,
       peakXpRate,
@@ -638,7 +647,7 @@ for (const { dir, model } of latestJobDirs) {
 
     const tokenStr = tokenUsage ? `, tokens: ${(tokenUsage.inputTokens / 1000).toFixed(0)}k in / ${(tokenUsage.outputTokens / 1000).toFixed(0)}k out` : '';
     const trimStr = trimmedCount > 0 ? ` (trimmed ${trimmedCount} post-horizon samples)` : '';
-    console.log(`  ${model}/${skill}: ${jobName} — peakRate=${peakXpRate} XP/hr, xp=${finalXp}, level=${finalLevel}, ${samples.length} samples${trimStr}${tokenStr}`);
+    console.log(`  ${model}/${skill}: ${jobName} — peakRate=${peakXpRate} XP/min, xp=${finalXp}, level=${finalLevel}, ${samples.length} samples${trimStr}${tokenStr}`);
     extracted++;
   }
 }

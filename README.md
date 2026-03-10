@@ -1,4 +1,4 @@
-# rs-bench
+# runescape-bench
 
 Benchmark suite for evaluating AI coding agents on RuneScape gameplay tasks via [rs-sdk](https://github.com/MaxBittker/rs-sdk).
 
@@ -63,7 +63,7 @@ Agent (Claude, GPT, Gemini, etc.)
 ## Project Structure
 
 ```
-rs-bench/
+runescape-bench/
 ├── generate-tasks.ts     # Source of truth for task generation
 ├── shared/               # Verifiers and shared utilities
 ├── docker/               # Base Docker image source

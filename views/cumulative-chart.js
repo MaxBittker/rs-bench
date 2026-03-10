@@ -6,6 +6,11 @@
   const modelIconImages = {};
   const skillIconImages = {};
 
+  // Skill line colors for single-model view
+  const SKILL_LINE_COLORS = {};
+  const _palette = ['#e6194b','#3cb44b','#4363d8','#f58231','#911eb4','#42d4f4','#f032e6','#bcbd22','#17becf','#469990','#e377c2','#9A6324','#800000','#aaffc3','#808000','#000075'];
+  SKILL_ORDER.forEach(function(skill, i) { SKILL_LINE_COLORS[skill] = _palette[i]; });
+
   function preloadIcons(onReady) {
     let remaining = 0;
 
@@ -41,7 +46,7 @@
 
       const labels = [];
       for (const dataset of chart.data.datasets) {
-        if (!dataset._modelKey) continue;
+        if (!dataset._modelKey && !dataset._skillKey) continue;
         const meta = chart.getDatasetMeta(chart.data.datasets.indexOf(dataset));
         if (!meta.visible) continue;
         const elements = meta.data;
@@ -49,13 +54,23 @@
         const last = elements[elements.length - 1];
         if (!last) continue;
 
-        const config = MODEL_CONFIG[dataset._modelKey] || { shortName: dataset._modelKey, color: '#999' };
-        labels.push({
-          x: last.x, y: last.y, drawY: last.y,
-          modelKey: dataset._modelKey,
-          name: config.shortName || config.displayName,
-          color: config.color,
-        });
+        if (dataset._skillKey) {
+          const skill = dataset._skillKey;
+          labels.push({
+            x: last.x, y: last.y, drawY: last.y,
+            iconImg: skillIconImages[skill],
+            name: SKILL_DISPLAY[skill] || skill,
+            color: SKILL_LINE_COLORS[skill] || '#999',
+          });
+        } else {
+          const config = MODEL_CONFIG[dataset._modelKey] || { shortName: dataset._modelKey, color: '#999' };
+          labels.push({
+            x: last.x, y: last.y, drawY: last.y,
+            iconImg: modelIconImages[dataset._modelKey],
+            name: config.shortName || config.displayName,
+            color: config.color,
+          });
+        }
       }
 
       labels.sort((a, b) => a.y - b.y);
@@ -65,7 +80,7 @@
       }
 
       for (const label of labels) {
-        const icon = modelIconImages[label.modelKey];
+        const icon = label.iconImg;
         ctx.save();
         ctx.globalAlpha = 0.9;
         if (icon && icon.complete) {
@@ -91,7 +106,7 @@
     return tooltipEl;
   }
 
-  function makeTooltipHandler(cumulativeSkillPeakRate, activeSkill) {
+  function makeTooltipHandler(cumulativeSkillPeakRate, activeSkill, selectedModel) {
     return function(context) {
       const { chart, tooltip } = context;
       const el = getTooltipEl();
@@ -102,36 +117,44 @@
       if (!item) return;
 
       const ds = item.dataset;
-      const modelKey = ds._modelKey;
-      const config = MODEL_CONFIG[modelKey] || { displayName: modelKey, color: '#999' };
       const minute = Math.floor(item.parsed.x * 10) / 10;
       const rateValue = item.parsed.y;
+      let html;
 
-      let html = `<div class="chart-tooltip-title">`;
-      if (config.icon) html += `<img src="${config.icon}">`;
-      html += `${config.displayName} — ${minute} min</div>`;
-
-      if (activeSkill) {
-        const skillName = SKILL_DISPLAY[activeSkill] || activeSkill;
-        const iconSrc = VIEWS_BASE + 'skill-icons/' + activeSkill + '.png';
-        html += `<div class="chart-tooltip-avg">${skillName}: ${formatRate(rateValue)}</div>`;
-        html += `<div class="chart-tooltip-skill">`;
-        html += `<img src="${iconSrc}">`;
-        html += `<span>${skillName}</span>`;
-        html += `<span class="xp">${formatRate(rateValue)}</span>`;
-        html += `</div>`;
+      if (ds._skillKey) {
+        const skillName = SKILL_DISPLAY[ds._skillKey] || ds._skillKey;
+        const iconSrc = VIEWS_BASE + 'skill-icons/' + ds._skillKey + '.png';
+        html = `<div class="chart-tooltip-title"><img src="${iconSrc}">${skillName} — ${minute} min</div>`;
+        html += `<div class="chart-tooltip-avg">${formatRate(rateValue)}</div>`;
       } else {
-        html += `<div class="chart-tooltip-avg">Total: ${formatRate(rateValue)}</div>`;
+        const modelKey = ds._modelKey;
+        const config = MODEL_CONFIG[modelKey] || { displayName: modelKey, color: '#999' };
+        html = `<div class="chart-tooltip-title">`;
+        if (config.icon) html += `<img src="${config.icon}">`;
+        html += `${config.displayName} — ${minute} min</div>`;
 
-        const skills = cumulativeSkillPeakRate[modelKey] || [];
-        for (const s of skills) {
-          const iconSrc = VIEWS_BASE + 'skill-icons/' + s.skill + '.png';
-          const zeroClass = s.peakRate === 0 ? ' zero' : '';
+        if (activeSkill) {
+          const skillName = SKILL_DISPLAY[activeSkill] || activeSkill;
+          const iconSrc = VIEWS_BASE + 'skill-icons/' + activeSkill + '.png';
+          html += `<div class="chart-tooltip-avg">${skillName}: ${formatRate(rateValue)}</div>`;
           html += `<div class="chart-tooltip-skill">`;
           html += `<img src="${iconSrc}">`;
-          html += `<span>${s.label}</span>`;
-          html += `<span class="xp${zeroClass}">${formatRate(s.peakRate)}</span>`;
+          html += `<span>${skillName}</span>`;
+          html += `<span class="xp">${formatRate(rateValue)}</span>`;
           html += `</div>`;
+        } else {
+          html += `<div class="chart-tooltip-avg">Total: ${formatRate(rateValue)}</div>`;
+
+          const skills = cumulativeSkillPeakRate[modelKey] || [];
+          for (const s of skills) {
+            const iconSrc = VIEWS_BASE + 'skill-icons/' + s.skill + '.png';
+            const zeroClass = s.peakRate === 0 ? ' zero' : '';
+            html += `<div class="chart-tooltip-skill">`;
+            html += `<img src="${iconSrc}">`;
+            html += `<span>${s.label}</span>`;
+            html += `<span class="xp${zeroClass}">${formatRate(s.peakRate)}</span>`;
+            html += `</div>`;
+          }
         }
       }
 
@@ -161,7 +184,7 @@
    * @param {number} opts.horizonMinutes - e.g. 30
    * @param {string|null} [opts.activeSkill] - selected skill key, or null for total
    */
-  window.renderCumulativeChart = function({ canvasContainer, legendContainer, data, horizonMinutes, activeSkill = null, onClick }) {
+  window.renderCumulativeChart = function({ canvasContainer, legendContainer, data, horizonMinutes, activeSkill = null, onClick, selectedModel = null, onLegendClick = null }) {
     const cumulativeSkillPeakRate = {};
     const hiddenModels = new Set();
     let chart = null;
@@ -190,16 +213,15 @@
     }
 
     function renderLegend() {
-      const models = getModelsByPerformance();
+      const models = getModels();
       legendContainer.innerHTML = models.map(name => {
         const config = MODEL_CONFIG[name] || { displayName: name, shortName: name, color: '#999' };
-        const isHidden = hiddenModels.has(name);
-        const totalRate = getLegendRate(name);
-        const totalStr = totalRate > 0 ? formatRate(totalRate) : '-';
-        return `<div class="legend-item ${isHidden ? 'hidden' : ''}" data-model="${name}">
-          <div class="legend-dot" style="background:${config.color}"></div>
-          <span class="legend-label">${config.shortName || config.displayName}</span>
-          <span class="legend-value">${totalStr}</span>
+        const iconSrc = config.icon || '';
+        const isActive = selectedModel === name;
+        const activeStyle = isActive ? 'background:#eaf2ff;border-radius:6px;box-shadow:inset 0 0 0 2px #4f8df7;padding:3px 8px' : '';
+        return `<div class="legend-item" data-model="${name}" style="${activeStyle}">
+          ${iconSrc ? `<img src="${iconSrc}" style="width:14px;height:14px" />` : ''}
+          <span class="legend-label" style="border-bottom:2px solid ${config.color};padding-bottom:1px">${config.shortName || config.displayName}</span>
         </div>`;
       }).join('');
 
@@ -207,10 +229,14 @@
         el.style.cursor = 'pointer';
         el.addEventListener('click', () => {
           const model = el.dataset.model;
-          if (hiddenModels.has(model)) hiddenModels.delete(model);
-          else hiddenModels.add(model);
-          renderLegend();
-          renderChart();
+          if (onLegendClick) {
+            onLegendClick(selectedModel === model ? null : model);
+          } else {
+            if (hiddenModels.has(model)) hiddenModels.delete(model);
+            else hiddenModels.add(model);
+            renderLegend();
+            renderChart();
+          }
         });
       });
     }
@@ -222,57 +248,82 @@
       const canvas = document.createElement('canvas');
       canvasContainer.appendChild(canvas);
 
-      const models = getModels().filter(m => !hiddenModels.has(m));
       const datasets = [];
-      for (const model of models) {
-        const config = MODEL_CONFIG[model] || { displayName: model, color: '#999' };
-        let ratePoints = [];
 
-        if (activeSkill) {
-          ratePoints = extractPeakRatePoints(data[model]?.[activeSkill], activeSkill, horizonMinutes);
-        } else {
-          const BUCKET_COUNT = horizonMinutes + 1;
-          const bucketSums = new Array(BUCKET_COUNT).fill(0);
+      if (selectedModel) {
+        for (const skill of SKILL_ORDER) {
+          if (hiddenModels.has(skill)) continue;
+          const skillData = data[selectedModel]?.[skill];
+          if (!skillData || !skillData.peakXpRate) continue;
+          let ratePoints = extractPeakRatePoints(skillData, skill, horizonMinutes);
+          if (ratePoints.length === 0) continue;
+          if (ratePoints[0].x > 0) ratePoints = [{ x: 0, y: 0 }, ...ratePoints];
+          const color = SKILL_LINE_COLORS[skill] || '#999';
+          datasets.push({
+            label: SKILL_DISPLAY[skill] || skill,
+            data: ratePoints,
+            borderColor: color,
+            backgroundColor: color,
+            fill: false,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            borderWidth: 2.5,
+            tension: 0,
+            _skillKey: skill,
+          });
+        }
+      } else {
+        const models = getModels().filter(m => !hiddenModels.has(m));
+        for (const model of models) {
+          const config = MODEL_CONFIG[model] || { displayName: model, color: '#999' };
+          let ratePoints = [];
 
-          for (const skill of SKILL_ORDER) {
-            const points = extractPeakRatePoints(data[model]?.[skill], skill, horizonMinutes);
-            if (points.length === 0) continue;
+          if (activeSkill) {
+            ratePoints = extractPeakRatePoints(data[model]?.[activeSkill], activeSkill, horizonMinutes);
+          } else {
+            const BUCKET_COUNT = horizonMinutes + 1;
+            const bucketSums = new Array(BUCKET_COUNT).fill(0);
+
+            for (const skill of SKILL_ORDER) {
+              const points = extractPeakRatePoints(data[model]?.[skill], skill, horizonMinutes);
+              if (points.length === 0) continue;
+
+              for (let min = 0; min < BUCKET_COUNT; min++) {
+                let lastRate = 0;
+                for (const p of points) {
+                  if (p.x <= min) lastRate = p.y;
+                  else break;
+                }
+                bucketSums[min] += lastRate;
+              }
+            }
+
+            const skillRates = [];
+            for (const skill of SKILL_ORDER) {
+              const sd = data[model]?.[skill];
+              if (sd) skillRates.push({ skill, label: SKILL_DISPLAY[skill] || skill, peakRate: sd.peakXpRate || 0 });
+            }
+            skillRates.sort((a, b) => b.peakRate - a.peakRate);
+            cumulativeSkillPeakRate[model] = skillRates;
 
             for (let min = 0; min < BUCKET_COUNT; min++) {
-              let lastRate = 0;
-              for (const p of points) {
-                if (p.x <= min) lastRate = p.y;
-                else break;
-              }
-              bucketSums[min] += lastRate;
+              ratePoints.push({ x: min, y: Math.round(bucketSums[min]) });
             }
           }
 
-          const skillRates = [];
-          for (const skill of SKILL_ORDER) {
-            const sd = data[model]?.[skill];
-            if (sd) skillRates.push({ skill, label: SKILL_DISPLAY[skill] || skill, peakRate: sd.peakXpRate || 0 });
-          }
-          skillRates.sort((a, b) => b.peakRate - a.peakRate);
-          cumulativeSkillPeakRate[model] = skillRates;
-
-          for (let min = 0; min < BUCKET_COUNT; min++) {
-            ratePoints.push({ x: min, y: Math.round(bucketSums[min]) });
-          }
+          datasets.push({
+            label: config.displayName,
+            data: ratePoints,
+            borderColor: config.color,
+            backgroundColor: config.color,
+            fill: false,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            borderWidth: 2.5,
+            tension: 0,
+            _modelKey: model,
+          });
         }
-
-        datasets.push({
-          label: config.displayName,
-          data: ratePoints,
-          borderColor: config.color,
-          backgroundColor: config.color,
-          fill: false,
-          pointRadius: 0,
-          pointHoverRadius: 4,
-          borderWidth: 2.5,
-          tension: 0,
-          _modelKey: model,
-        });
       }
 
       chart = new Chart(canvas, {
@@ -288,7 +339,8 @@
           onClick: onClick ? function(event, elements) {
             if (elements.length > 0) {
               var ds = datasets[elements[0].datasetIndex];
-              if (ds._modelKey) onClick(ds._modelKey);
+              if (ds._skillKey) onClick(ds._skillKey);
+              else if (ds._modelKey) onClick(ds._modelKey);
             }
           } : undefined,
           scales: {
@@ -302,12 +354,13 @@
               title: { display: true, text: 'Elapsed Time', color: '#999', font: { size: 12 } },
             },
             y: {
+              type: 'linear',
               min: 0,
               ticks: {
                 color: '#999',
                 font: { size: 11, family: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace' },
                 maxTicksLimit: 8,
-                callback: v => v >= 1000 ? (v / 1000).toFixed(0) + 'k/hr' : v + '/hr',
+                callback: v => v >= 1000 ? (v / 1000).toFixed(0) + 'k/min' : Math.round(v) + '/min',
               },
               grid: { color: '#f0f0f0', drawTicks: false },
               border: { color: '#e0e0e0' },
@@ -318,7 +371,7 @@
             legend: { display: false },
             tooltip: {
               enabled: false,
-              external: makeTooltipHandler(cumulativeSkillPeakRate, activeSkill),
+              external: makeTooltipHandler(cumulativeSkillPeakRate, activeSkill, selectedModel),
             },
           },
         },

@@ -1,5 +1,5 @@
 import { html, useState, useEffect, useRef, useCallback, useMemo } from '../html.js';
-import { closeModal } from '../router.js';
+import { closeModal, navigate } from '../router.js';
 
 const SKILL_COLORS = {
   attack:'#e04040', defence:'#6090d0', strength:'#40a040', hitpoints:'#d04070',
@@ -38,8 +38,8 @@ function findSkillXp(sample, skillKey) {
 }
 
 function computeRateData(samples, skillKey) {
-  const rates = [];    // { x: minutes, y: XP/hr }
-  const peakRates = []; // { x: minutes, y: running max XP/hr }
+  const rates = [];    // { x: minutes, y: XP/min }
+  const peakRates = []; // { x: minutes, y: running max XP/min }
   let peak = 0;
   for (let i = 1; i < samples.length; i++) {
     const prev = samples[i - 1];
@@ -47,7 +47,7 @@ function computeRateData(samples, skillKey) {
     const dxp = findSkillXp(curr, skillKey) - findSkillXp(prev, skillKey);
     const dms = curr.elapsedMs - prev.elapsedMs;
     if (dms <= 0) continue;
-    const rate = (dxp / dms) * 3600000; // XP/hr
+    const rate = (dxp / dms) * 60000 / 8 / 25; // real-game XP/min
     const mins = curr.elapsedMs / 60000;
     rates.push({ x: mins, y: Math.max(0, rate) });
     peak = Math.max(peak, rate);
@@ -157,6 +157,16 @@ function highlightAndScrollToStep(container, currentStepTs, doScroll) {
   }
 }
 
+function getNavLists(data, model, skill) {
+  // Models that have data for this skill (in config order)
+  const modelsForSkill = Object.keys(MODEL_CONFIG)
+    .filter(m => data?.[m]?.[skill])
+    .sort((a, b) => (MODEL_CONFIG[a]?.order || 99) - (MODEL_CONFIG[b]?.order || 99));
+  // Skills that have data for this model (in SKILL_ORDER)
+  const skillsForModel = SKILL_ORDER.filter(s => data?.[model]?.[s]);
+  return { modelsForSkill, skillsForModel };
+}
+
 export function TrajectoryModal({ model, skill, data }) {
   const trajData = data?.[model]?.[skill];
   const config = MODEL_CONFIG[model] || { displayName: model, color: '#999' };
@@ -164,6 +174,10 @@ export function TrajectoryModal({ model, skill, data }) {
   const videoSrc = trajData?.videoUrl || (trajData?.trialDir ? trajData.trialDir + '/verifier/recording.mp4' : null);
   const hasVideo = !!(trajData?.videoUrl || (trajData?.videoAvailable && trajData?.trialDir));
   const steps = useMemo(() => prepareSteps(trajData?.trajectory), [trajData]);
+
+  const { modelsForSkill, skillsForModel } = useMemo(
+    () => getNavLists(data, model, skill), [data, model, skill]
+  );
 
   const [videoOffset, setVideoOffset] = useState(0);
 
@@ -180,13 +194,14 @@ export function TrajectoryModal({ model, skill, data }) {
   const scrollTimerRef = useRef(null);
   const chartDraggingRef = useRef(false);
 
-  // Prevent body scroll
+  // Prevent body/html scroll
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
+    document.documentElement.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; document.documentElement.style.overflow = ''; };
   }, []);
 
-  // Escape key
+  // Escape key to close
   useEffect(() => {
     const handler = (e) => { if (e.key === 'Escape') closeModal(); };
     document.addEventListener('keydown', handler);
@@ -553,9 +568,9 @@ export function TrajectoryModal({ model, skill, data }) {
     if (rates.length === 0) return;
 
     const lastElapsed = trajData.samples[trajData.samples.length - 1].elapsedMs || 1;
-    // Normalize: XP/hr → display units (÷60 for per-min, ÷25, ÷8 = ÷12000)
-    const normRates = rates.map(p => ({ x: p.x, y: p.y / 12000 }));
-    const normPeakRates = peakRates.map(p => ({ x: p.x, y: p.y / 12000 }));
+    // Rates are already real-game XP/min (normalized at computation time)
+    const normRates = rates;
+    const normPeakRates = peakRates;
     const maxRate = normPeakRates.length > 0 ? normPeakRates[normPeakRates.length - 1].y : 0;
 
     const datasets = [
@@ -676,18 +691,42 @@ export function TrajectoryModal({ model, skill, data }) {
     };
   }, [trajData?.samples, skill]);
 
+  const horizonMin = trajData?.durationSeconds ? Math.round(trajData.durationSeconds / 60) : 30;
+  const runDate = trajData?.containerFinishedAt || trajData?.agentStartedAt || trajData?.firstStepAt;
+  const dateStr = runDate ? new Date(runDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+
+  const navBar = html`
+    <div className="traj-topbar">
+      <button onClick=${closeModal} className="traj-back-btn">\u2190 RuneScape-Bench</button>
+      <div className="traj-nav-chips">
+        ${skillsForModel.map(s => html`
+          <button key=${s}
+            className=${`traj-chip icon-only${s === skill ? ' active' : ''}`}
+            onClick=${() => navigate('trajectory/' + model + '/' + s)}
+            title=${SKILL_DISPLAY[s] || s}>
+            <img src=${VIEWS_BASE + 'skill-icons/' + s + '.png'} className="traj-chip-icon" />
+          </button>
+        `)}
+        ${modelsForSkill.map(m => {
+          const mc = MODEL_CONFIG[m] || { shortName: m };
+          return html`
+            <button key=${m}
+              className=${`traj-chip model${m === model ? ' active' : ''}`}
+              onClick=${() => navigate('trajectory/' + m + '/' + skill)}>
+              ${mc.icon && html`<img src=${mc.icon} className="traj-chip-icon" />`}
+              <span className="traj-chip-label">${mc.shortName || mc.displayName || m}</span>
+            </button>
+          `;
+        })}
+      </div>
+    </div>
+  `;
+
   if (!trajData) {
     return html`
-      <div className="modal-backdrop" onClick=${(e) => { if (e.target === e.currentTarget) closeModal(); }}>
-        <div className="traj-modal-inner" style=${{ maxWidth: '640px' }}>
-          <div className="traj-header">
-            <div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style=${{ fontSize: '16px', fontWeight: 600, margin: 0 }}>
-                ${config.displayName} \u2014 ${skillName}
-              </h3>
-              <button onClick=${closeModal} className="close-btn">\u00d7</button>
-            </div>
-          </div>
+      <div className="traj-fullscreen">
+        ${navBar}
+        <div className="traj-body">
           <div style=${{ padding: '32px', textAlign: 'center', color: '#999' }}>
             No data available for this run.
           </div>
@@ -697,25 +736,14 @@ export function TrajectoryModal({ model, skill, data }) {
   }
 
   return html`
-    <div className="modal-backdrop" onClick=${(e) => { if (e.target === e.currentTarget) closeModal(); }}>
-      <div className="traj-modal-inner" style=${{ maxWidth: hasVideo ? '960px' : '640px' }}>
-        <div className="traj-header">
-          <div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style=${{ fontSize: '16px', fontWeight: 600, margin: 0 }}>
-              ${config.displayName} \u2014 ${skillName}
-            </h3>
-            <button onClick=${closeModal} className="close-btn">\u00d7</button>
-          </div>
-          <div style=${{ fontSize: '12px', color: '#999', marginTop: '2px' }}>
-            Peak: ${formatRate(trajData.peakXpRate || 0)} \u00b7 ${formatXp(trajData.finalXp)} XP (Lv ${trajData.finalLevel})${trajData.jobName ? ' \u00b7 ' + trajData.jobName : ''}
-          </div>
-        </div>
+    <div className="traj-fullscreen">
+      ${navBar}
+      <div className="traj-body">
         <div className="traj-video-container">
           ${hasVideo && html`
             <div className="traj-video-pane">
               <video ref=${videoRef} controls preload="auto"
-                     src=${videoSrc}
-                     style=${{ width: '400px', height: '300px' }} />
+                     src=${videoSrc} />
               <div className="traj-skills-chart-wrap">
                 <div className="traj-rate-legend">
                   <span className="traj-rate-legend-item">
@@ -731,6 +759,13 @@ export function TrajectoryModal({ model, skill, data }) {
               </div>
               <div className="traj-skills-chart-wrap">
                 <canvas ref=${chartCanvasRef}></canvas>
+              </div>
+              <div className="traj-pane-title">
+                <div className="traj-title-main">
+                  <img src=${VIEWS_BASE + 'skill-icons/' + skill + '.png'} className="traj-title-icon" />
+                  ${skillName} \u00b7 ${horizonMin}m \u00b7 ${config.shortName || config.displayName}
+                </div>
+                ${dateStr && html`<span className="traj-title-date">${dateStr}</span>`}
               </div>
             </div>
           `}

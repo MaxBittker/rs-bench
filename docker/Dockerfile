@@ -22,6 +22,10 @@ RUN cd sdk && bun install
 # Remove scripts/ and sdk/test/ — benchmark agents waste budget reading/running these
 RUN rm -rf /app/scripts /app/sdk/test
 
+# Replace upstream instruction files with our simplified benchmark version
+RUN rm -f /app/agents.md /app/claude.md /app/GEMINI.md
+COPY agents.md /app/agents.md
+
 # Pre-pack game cache and let engine fully start so all data files are generated.
 # Wait for "World ready" in output, then kill. This ensures maps, scripts, configs are all packed.
 RUN cd server/engine && \
@@ -52,14 +56,17 @@ COPY check_xp_rate.ts /app/benchmark/shared/check_xp_rate.ts
 # Ensure bot.env has SERVER=localhost so scripts connect to the local gateway
 RUN echo 'SERVER=localhost' >> /app/bots/agent/bot.env
 
-# Remove .mcp.json so Claude Code doesn't try to start a nonexistent MCP server.
-RUN rm -f /app/.mcp.json
+# Install MCP server deps (mcp/ comes from the rs-sdk clone)
+RUN cd /app/mcp && bun install
 
-# Patch GEMINI.md: heredoc syntax is rejected by gemini-cli's bash parser,
-# so add guidance on writing files without heredocs.
-RUN cat >> /app/GEMINI.md <<'PATCH'
+# Write .mcp.json so Claude Code can use the MCP server
+RUN echo '{"mcpServers":{"rs-agent":{"command":"bun","args":["run","/app/mcp/server.ts"]}}}' > /app/.mcp.json
 
-## Writing Files (Important!)
+# GEMINI.md: heredoc syntax is rejected by gemini-cli's bash parser,
+# so create a Gemini-specific file with writefile guidance.
+RUN cp /app/agents.md /app/GEMINI.md && cat >> /app/GEMINI.md <<'PATCH'
+
+## Writing Files (Important — Gemini CLI)
 
 **Do NOT use heredoc syntax (`<< 'EOF'`).** It will be rejected by the shell parser.
 

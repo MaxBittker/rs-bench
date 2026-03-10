@@ -22,7 +22,7 @@ import {
 const RESULTS_DIR = join(import.meta.dir, '..', 'results', 'gold');
 const JOBS_DIR = join(import.meta.dir, '..', 'jobs');
 
-const KNOWN_MODELS = ['opus', 'sonnet46', 'sonnet45', 'haiku', 'codex', 'gemini', 'glm', 'kimi'];
+const KNOWN_MODELS = ['opus', 'sonnet46', 'sonnet45', 'haiku', 'codex', 'geminiflash', 'gemini', 'glm', 'kimi'];
 
 const MODEL_LABELS: Record<string, string> = {
   opus: 'Claude Opus 4.6',
@@ -31,6 +31,7 @@ const MODEL_LABELS: Record<string, string> = {
   haiku: 'Claude Haiku 4.5',
   codex: 'GPT-5.3 Codex',
   gemini: 'Gemini 3 Pro',
+  geminiflash: 'Gemini 3 Flash',
   glm: 'GLM-5',
   kimi: 'Kimi K2.5',
 };
