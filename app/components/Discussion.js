@@ -49,7 +49,7 @@ export function Discussion() {
 
 <br/>
 
-              <h4>Thank you!</h4>
+              <h4>Thank you</h4>
               Thanks to Rob Haisfield, Sean Lee, Christopher Settles, Alex Duffy, and Erik Quintanilla for critical feedback and input, and to LostCity and Harbor RL communities for providing critical open source ecosystem.
 
 
