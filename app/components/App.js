@@ -1,7 +1,7 @@
 import { html } from '../html.js';
 import { useRoute } from '../router.js';
 import { Hero } from './Hero.js';
-import { Teaser } from './Teaser.js';
+import { PromoPlayer } from './PromoPlayer.js';
 import { Overview } from './Overview.js';
 import { CumulativeChart } from './CumulativeChart.js';
 import { Heatmap } from './Heatmap.js';
@@ -18,7 +18,7 @@ export function App() {
   return html`
     <${React.Fragment}>
       <${Hero} />
-      <${Teaser} />
+      <${PromoPlayer} data=${data} />
       <${Overview} />
       <${AgentInterface} />
       <${CumulativeChart} data=${data} />

@@ -12,11 +12,11 @@ function MarkdownContent({ text }) {
   while (i < lines.length) {
     const line = lines[i];
     if (line.startsWith('# ')) {
-      parts.push(html`<div key=${i} style=${{ fontWeight: 600, fontSize: 13, marginBottom: 4, marginTop: i > 0 ? 8 : 0 }}>${line.slice(2)}</div>`);
+      parts.push(html`<div key=${i} style=${{ fontWeight: 600, fontSize: 15, marginBottom: 4, marginTop: i > 0 ? 8 : 0 }}>${line.slice(2)}</div>`);
     } else if (line.startsWith('## ')) {
-      parts.push(html`<div key=${i} style=${{ fontWeight: 600, fontSize: 12, color: '#555', marginBottom: 2, marginTop: 8 }}>${line.slice(3)}</div>`);
+      parts.push(html`<div key=${i} style=${{ fontWeight: 600, fontSize: 14, color: '#555', marginBottom: 2, marginTop: 8 }}>${line.slice(3)}</div>`);
     } else if (line.startsWith('### ')) {
-      parts.push(html`<div key=${i} style=${{ fontWeight: 600, fontSize: 11, color: '#666', marginBottom: 2, marginTop: 6 }}>${line.slice(4)}</div>`);
+      parts.push(html`<div key=${i} style=${{ fontWeight: 600, fontSize: 13, color: '#666', marginBottom: 2, marginTop: 6 }}>${line.slice(4)}</div>`);
     } else if (line.startsWith('|')) {
       const rows = [];
       while (i < lines.length && lines[i].startsWith('|')) {
@@ -36,9 +36,9 @@ function MarkdownContent({ text }) {
       </table>`);
       continue;
     } else if (line.startsWith('- ')) {
-      parts.push(html`<div key=${i} style=${{ fontSize: 11, color: '#666', paddingLeft: 10 }}>${'· ' + line.slice(2)}</div>`);
+      parts.push(html`<div key=${i} style=${{ fontSize: 13, color: '#666', paddingLeft: 10 }}>${'· ' + line.slice(2)}</div>`);
     } else if (line.trim()) {
-      parts.push(html`<div key=${i} style=${{ fontSize: 11, color: '#666', lineHeight: 1.5 }}>${line.replace(/^\*(.+)\*$/, '$1')}</div>`);
+      parts.push(html`<div key=${i} style=${{ fontSize: 13, color: '#666', lineHeight: 1.5 }}>${line.replace(/^\*(.+)\*$/, '$1')}</div>`);
     }
     i++;
   }

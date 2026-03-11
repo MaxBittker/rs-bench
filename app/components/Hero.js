@@ -7,7 +7,7 @@ export function Hero() {
         <div className="container is-max-desktop">
           <div className="columns is-centered">
             <div className="column has-text-centered">
-              <h1 className="title is-1 publication-title">runescape-bench</h1>
+              <h1 className="title is-1 publication-title">Runescape-Bench</h1>
               <p className="subtitle is-3" style=${{ marginTop: '-0.5rem', marginBottom: 0 }}>
                 AI Agent Benchmark for RuneScape Gameplay Tasks
               </p>
