@@ -86,7 +86,10 @@ export function Heatmap({ data }) {
           <div className="column">
             <h2 className="title is-3">Per-Skill Breakdown</h2>
             <p className="subtitle is-6" style=${{ color: '#888' }}>
-              Peak XP/min (real-game equivalent) per skill. <b>Best of 1.</b> Sorted by log-scaled mean.
+              Peak XP/min (real-game equivalent) per skill.  
+              Skills are ordered by difficulty.
+              <br />
+              <b>Best of 1.</b> Please treat these numbers with a wide error margin.
             </p>
           </div>
         </div>

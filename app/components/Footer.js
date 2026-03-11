@@ -7,6 +7,13 @@ export function Footer() {
         <div className="columns is-centered">
           <div className="column is-8">
             <div className="content has-text-centered" style=${{ fontSize: '0.85em', color: '#888' }}>
+            <p style=${{ marginTop: '16px' }}>
+            Thanks to${' '}
+            Rob Haisfield,
+            Sean Lee,
+            Christopher Settles, and Alex Duffy
+            ${' '}for critical feedback and input
+          </p>
               <p>
                 rs-bench is built on${' '}
                 <a href="https://github.com/MaxBittker/rs-sdk">rs-sdk</a>,
@@ -22,6 +29,10 @@ export function Footer() {
                 ${' '}licensed under${' '}
                 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
               </p>
+              <p>
+                Benchmarks run using the <a href="https://harborframework.com/">Harbor</a> framework.
+              </p>
+            
             </div>
             <div className="content" style=${{ marginTop: '24px', background: '#f5f5f5', borderRadius: '8px', padding: '16px 20px', fontSize: '0.8em', fontFamily: 'monospace', color: '#555', whiteSpace: 'pre-wrap' }}>
 ${`@misc{bittker2025rsbench,

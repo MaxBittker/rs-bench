@@ -1,0 +1,10 @@
+# Green dye
+
+*A little bottle of green dye.*
+
+| Detail | |
+|---|---|
+| **Type** | Other |
+| **Members** | No |
+| **Weight** | 20g |
+| **Value** | 5 gp |

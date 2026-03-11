@@ -25,6 +25,7 @@ class OpenCodeAdapter(BaseInstalledAgent):
     _default_model: str = ""
     _log_prefix: str = "opencode"
     _log_file: str = "opencode.txt"
+    _model_options: dict = {}  # extra options merged into the model config
 
     def __init__(self, run_timeout_sec: int | None = None, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -56,7 +57,7 @@ class OpenCodeAdapter(BaseInstalledAgent):
                         "timeout": 180000,  # 3 min hard cutoff to avoid hung API calls
                     },
                     "models": {
-                        model_suffix: {}
+                        model_suffix: {"options": self._model_options} if self._model_options else {}
                     }
                 }
             },

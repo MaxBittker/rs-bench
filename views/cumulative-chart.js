@@ -143,7 +143,7 @@
           html += `<span class="xp">${formatRate(rateValue)}</span>`;
           html += `</div>`;
         } else {
-          html += `<div class="chart-tooltip-avg">Total: ${formatRate(rateValue)}</div>`;
+          html += `<div class="chart-tooltip-avg">\u27e8ln\u27e9: ${rateValue.toFixed(1)}</div>`;
 
           const skills = cumulativeSkillPeakRate[modelKey] || [];
           for (const s of skills) {
@@ -197,7 +197,10 @@
     function getModelTotalRate(model) {
       const skills = data[model];
       if (!skills) return 0;
-      return Object.values(skills).map(s => s.peakXpRate || 0).reduce((a, b) => a + b, 0);
+      const rates = Object.values(skills).map(s => s.peakXpRate || 0);
+      if (rates.length === 0) return 0;
+      const logSum = rates.reduce((sum, r) => sum + Math.log(1 + r), 0);
+      return logSum / rates.length;
     }
 
     function getModelSkillRate(model, skill) {
@@ -282,7 +285,8 @@
             ratePoints = extractPeakRatePoints(data[model]?.[activeSkill], activeSkill, horizonMinutes);
           } else {
             const BUCKET_COUNT = horizonMinutes + 1;
-            const bucketSums = new Array(BUCKET_COUNT).fill(0);
+            const bucketLogSums = new Array(BUCKET_COUNT).fill(0);
+            const bucketCounts = new Array(BUCKET_COUNT).fill(0);
 
             for (const skill of SKILL_ORDER) {
               const points = extractPeakRatePoints(data[model]?.[skill], skill, horizonMinutes);
@@ -294,7 +298,8 @@
                   if (p.x <= min) lastRate = p.y;
                   else break;
                 }
-                bucketSums[min] += lastRate;
+                bucketLogSums[min] += Math.log(1 + lastRate);
+                bucketCounts[min]++;
               }
             }
 
@@ -307,7 +312,9 @@
             cumulativeSkillPeakRate[model] = skillRates;
 
             for (let min = 0; min < BUCKET_COUNT; min++) {
-              ratePoints.push({ x: min, y: Math.round(bucketSums[min]) });
+              if (bucketCounts[min] > 0) {
+                ratePoints.push({ x: min, y: +(bucketLogSums[min] / bucketCounts[min]).toFixed(2) });
+              }
             }
           }
 
@@ -360,7 +367,7 @@
                 color: '#999',
                 font: { size: 11, family: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace' },
                 maxTicksLimit: 8,
-                callback: v => v >= 1000 ? (v / 1000).toFixed(0) + 'k/min' : Math.round(v) + '/min',
+                callback: v => activeSkill ? (v >= 1000 ? (v / 1000).toFixed(0) + 'k/min' : Math.round(v) + '/min') : v,
               },
               grid: { color: '#f0f0f0', drawTicks: false },
               border: { color: '#e0e0e0' },

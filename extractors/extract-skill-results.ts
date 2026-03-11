@@ -621,8 +621,16 @@ for (const { dir, model } of allJobDirs) {
 
     const videoUrl = videoManifest[`${HORIZON}/${model}/${skill}`];
 
-    // Skip if this skill already has data from a newer run
-    if (combined[model][skill]) continue;
+    // Merge logic: keep whichever result has better data.
+    // A newer run wins only if it has meaningful tracking data (>5 samples);
+    // otherwise keep the existing result to avoid replacing good data with failed re-runs.
+    const existing = combined[model][skill];
+    if (existing) {
+      const newHasData = samples.length > 5;
+      const existingHasData = existing.sampleCount > 5;
+      if (existingHasData && !newHasData) continue; // keep existing good data
+      if (existingHasData && newHasData) continue;   // both good, keep newer (already set)
+    }
 
     combined[model][skill] = {
       jobName,

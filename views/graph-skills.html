@@ -138,15 +138,16 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 6px;
+    gap: 0;
     align-items: end;
   }
   .skill-rail-reset {
-    width: 56px;
+    grid-column: 1 / -1;
+    width: 100%;
     min-height: 28px;
     padding: 4px 6px;
     border: 1px solid #dddddd;
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
     background: #f3f3f3;
     color: #555;
     font-size: 11px;
@@ -194,10 +195,10 @@
     background: #eaf2ff;
     box-shadow: inset 0 0 0 2px #4f8df7;
   }
-  .skill-rail-item:first-child {
+  .skill-rail-item:nth-child(2) {
     border-top-left-radius: 4px;
   }
-  .skill-rail-item:nth-child(2) {
+  .skill-rail-item:nth-child(3) {
     border-top-right-radius: 4px;
   }
   .skill-rail-item:nth-last-child(2) {
@@ -549,27 +550,88 @@
     .cumulative-shell {
       grid-template-columns: 1fr;
     }
-    .skill-rail-grid {
-      grid-template-columns: repeat(6, 28px);
-    }
     .skill-rail {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-start;
       gap: 5px;
     }
+    .skill-rail-reset {
+      width: auto;
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+    .skill-rail-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+    }
     .skill-rail-item {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
+    }
+    .skill-rail-item:nth-child(2),
+    .skill-rail-item:nth-child(3) {
+      border-radius: 0;
     }
   }
 
   @media (max-width: 640px) {
     body {
-      padding: 20px 16px;
+      padding: 20px 12px;
+    }
+    .cumulative-shell {
+      grid-template-columns: 1fr;
+    }
+    .skill-rail {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 4px;
+    }
+    .skill-rail-reset {
+      width: auto;
+      min-height: 28px;
+      padding: 4px 10px;
+      font-size: 11px;
+      border-radius: 8px;
     }
     .skill-rail-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+    .skill-rail-item {
+      width: 28px;
+      height: 28px;
+    }
+    .skill-rail-item img {
+      width: 18px;
+      height: 18px;
     }
     .cumulative-container canvas {
-      height: 320px !important;
+      height: 280px !important;
+    }
+    .legend-item {
+      font-size: 9px;
+      gap: 4px;
+    }
+    .legend-label {
+      font-size: 9px;
+    }
+    .legend-value {
+      font-size: 9px;
+    }
+    .legend-dot {
+      width: 6px;
+      height: 6px;
+    }
+    .bottom-legend {
+      gap: 4px 10px;
+      padding: 10px 0 8px;
+    }
+    .page-header h1 {
+      font-size: 16px;
     }
   }
 </style>
@@ -583,7 +645,7 @@
       <button data-horizon="30m" onclick="setHorizon('30m')">30 min</button>
     </span>
     <span class="pill-toggle" id="viewToggle" style="display:none; margin-left:8px">
-      <button data-view="cumulative" class="active" onclick="setView('cumulative')">Total</button>
+      <button data-view="cumulative" class="active" onclick="setView('cumulative')">Average</button>
       <button data-view="grid" onclick="setView('grid')">Per Skill</button>
     </span>
   </h1>
@@ -594,11 +656,12 @@
 <div id="gridContainer" class="grid-container" style="display:none"></div>
 <div id="cumulativeShell" class="cumulative-shell" style="display:none">
   <aside class="skill-rail">
-    <button id="skillRailReset" class="skill-rail-reset" onclick="clearActiveSkill()">Total</button>
-    <div id="skillRailGrid" class="skill-rail-grid" onmouseleave="clearSkillPreview()"></div>
+    <div id="skillRailGrid" class="skill-rail-grid" onmouseleave="clearSkillPreview()">
+      <button id="skillRailReset" class="skill-rail-reset" onclick="clearActiveSkill()">Average</button>
+    </div>
   </aside>
   <div class="cumulative-main">
-    <div id="chartModeChip" class="chart-mode-chip">Total Peak Rate</div>
+    <div id="chartModeChip" class="chart-mode-chip">⟨ln⟩ Average</div>
     <div id="cumulativeContainer" class="cumulative-container"></div>
   </div>
 </div>
@@ -649,6 +712,7 @@
 
 <script>
 let combinedData = {};
+function isMobile() { return window.innerWidth <= 640; }
 let currentView = 'cumulative';
 let useLogScale = false;
 let hiddenModels = new Set();
@@ -663,7 +727,7 @@ function getActiveSkill() {
 
 function getActiveSkillLabel() {
   const activeSkill = getActiveSkill();
-  return activeSkill ? `${SKILL_DISPLAY[activeSkill] || activeSkill} Peak Rate` : 'Total Peak Rate';
+  return activeSkill ? `${SKILL_DISPLAY[activeSkill] || activeSkill} Peak Rate` : '\u27e8ln\u27e9 Average';
 }
 
 // Preload model icons as Image objects for canvas drawing
@@ -743,7 +807,7 @@ function externalTooltipCumulative(context) {
     html += `<span class="xp">${formatRate(rateValue)}</span>`;
     html += `</div>`;
   } else {
-    html += `<div class="chart-tooltip-avg">Total: ${formatRate(rateValue)}</div>`;
+    html += `<div class="chart-tooltip-avg">⟨ln⟩: ${rateValue.toFixed(1)}</div>`;
 
     const skills = cumulativeSkillPeakRate[modelKey] || [];
     for (const s of skills) {
@@ -917,7 +981,9 @@ function getModelTotalRate(model) {
   const skills = combinedData[model];
   if (!skills) return 0;
   const rates = Object.values(skills).map(s => s.peakXpRate || 0);
-  return rates.reduce((a, b) => a + b, 0);
+  if (rates.length === 0) return 0;
+  const logSum = rates.reduce((sum, r) => sum + Math.log(1 + r), 0);
+  return logSum / rates.length;
 }
 
 function getModelsInData() {
@@ -944,7 +1010,7 @@ function renderLegend() {
     const isHidden = hiddenModels.has(name);
     const totalRate = activeSkill ? (combinedData[name]?.[activeSkill]?.peakXpRate || 0) : getModelTotalRate(name);
     const showValue = currentView === 'cumulative';
-    const totalStr = showValue ? (totalRate > 0 ? formatRate(totalRate) : '-') : '';
+    const totalStr = showValue ? (totalRate > 0 ? (activeSkill ? formatRate(totalRate) : totalRate.toFixed(1)) : '-') : '';
     return `<div class="legend-item ${isHidden ? 'hidden' : ''}" onclick="toggleModel('${name}')">
       <div class="legend-dot" style="background:${config.color}"></div>
       <span class="legend-label">${config.shortName || config.displayName}</span>
@@ -977,10 +1043,10 @@ function renderSkillRail() {
 
   document.getElementById('chartModeChip').textContent = label;
   const resetBtn = document.getElementById('skillRailReset');
-  resetBtn.textContent = 'Total';
+  resetBtn.textContent = 'Average';
   resetBtn.classList.toggle('active', activeSkill === null);
 
-  grid.innerHTML = SKILL_ORDER.map(skill => {
+  const skillItems = SKILL_ORDER.map(skill => {
     const iconSrc = 'skill-icons/' + skill + '.png';
     const label = SKILL_DISPLAY[skill] || skill;
     const className = [
@@ -998,6 +1064,9 @@ function renderSkillRail() {
       <img src="${iconSrc}" alt="${label}">
     </button>`;
   }).join('');
+  grid.innerHTML = resetBtn.outerHTML + skillItems;
+  // Re-bind reference since innerHTML replaced the DOM node
+  document.getElementById('skillRailReset').classList.toggle('active', activeSkill === null);
 }
 
 // ── Chart.js plugin: draw model icon at end of each line ────────
@@ -1006,9 +1075,10 @@ const endIconPlugin = {
   id: 'endIcon',
   afterDraw(chart) {
     const ctx = chart.ctx;
-    const size = 14;
+    const mobile = isMobile();
+    const size = mobile ? 10 : 14;
     const labelGap = 3;
-    const minSpacing = 12; // minimum vertical pixels between labels
+    const minSpacing = mobile ? 10 : 12; // minimum vertical pixels between labels
 
     // Collect all visible label positions
     const labels = [];
@@ -1049,7 +1119,7 @@ const endIconPlugin = {
       if (icon && icon.complete) {
         ctx.drawImage(icon, label.x - size / 2, label.y - size / 2, size, size);
       }
-      ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.font = (mobile ? '9px' : '12px') + ' -apple-system, BlinkMacSystemFont, sans-serif';
       ctx.fillStyle = label.color;
       ctx.textBaseline = 'middle';
       ctx.fillText(label.name, label.x + size / 2 + labelGap, label.drawY);
@@ -1188,7 +1258,7 @@ function renderCumulative() {
     if (activeSkill) {
       ratePoints = extractPeakRatePoints(combinedData[model]?.[activeSkill], activeSkill, HORIZON_MINUTES);
     } else {
-      const bucketSums = new Array(BUCKET_COUNT).fill(0);
+      const bucketLogSums = new Array(BUCKET_COUNT).fill(0);
       const bucketCounts = new Array(BUCKET_COUNT).fill(0);
 
       // Collect individual skill peak rate curves for hover reveal
@@ -1205,7 +1275,7 @@ function renderCumulative() {
             if (p.x <= min) lastRate = p.y;
             else break;
           }
-          bucketSums[min] += lastRate;
+          bucketLogSums[min] += Math.log(1 + lastRate);
           bucketCounts[min]++;
           skillBuckets.push({ x: min, y: lastRate });
         }
@@ -1228,7 +1298,7 @@ function renderCumulative() {
 
       for (let min = 0; min < BUCKET_COUNT; min++) {
         if (bucketCounts[min] > 0) {
-          ratePoints.push({ x: min, y: Math.round(bucketSums[min]) });
+          ratePoints.push({ x: min, y: +(bucketLogSums[min] / bucketCounts[min]).toFixed(2) });
         }
       }
     }
@@ -1289,7 +1359,7 @@ function renderCumulative() {
       responsive: true,
       maintainAspectRatio: false,
       animation: false,
-      layout: { padding: { top: 10, right: 96, bottom: 2 } },
+      layout: { padding: { top: 10, right: isMobile() ? 60 : 96, bottom: 2 } },
       interaction: { mode: 'nearest', intersect: false },
       onClick: (event, elements) => {
         if (elements.length > 0) {
@@ -1314,18 +1384,19 @@ function renderCumulative() {
           type: 'linear',
           min: 0,
           max: HORIZON_MINUTES,
-          ticks: { color: '#999', font: { size: 11 }, stepSize: HORIZON_MINUTES <= 10 ? 2 : 5, callback: v => v + ' min' },
+          ticks: { color: '#999', font: { size: isMobile() ? 9 : 11 }, stepSize: HORIZON_MINUTES <= 10 ? 2 : 5, callback: v => v + ' min' },
           grid: { color: '#f0f0f0', drawTicks: false },
           border: { color: '#e0e0e0' },
-          title: { display: true, text: 'Elapsed Time', color: '#999', font: { size: 12 } },
+          title: { display: !isMobile(), text: 'Elapsed Time', color: '#999', font: { size: 12 } },
         },
         y: {
           min: 0,
           ticks: {
+            display: !isMobile(),
             color: '#999',
             font: { size: 11, family: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace' },
             maxTicksLimit: 8,
-            callback: v => v >= 1000 ? (v / 1000).toFixed(0) + 'k/min' : v + '/min',
+            callback: v => activeSkill ? (v >= 1000 ? (v / 1000).toFixed(0) + 'k/min' : v + '/min') : v,
           },
           grid: { color: '#f0f0f0', drawTicks: false },
           border: { color: '#e0e0e0' },

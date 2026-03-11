@@ -39,11 +39,12 @@ configure_model_env() {
 
   case "$model_name" in
     glm)
-      if [ -z "${GLM_API_KEY:-}" ]; then
-        echo "  WARNING: GLM_API_KEY not found in .env, skipping glm"
+      if [ -z "${OPENROUTER_API_KEY:-}" ]; then
+        echo "  WARNING: OPENROUTER_API_KEY not found in .env, skipping glm"
         return 1
       fi
-      ENV_PREFIX="ANTHROPIC_API_KEY=$GLM_API_KEY ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic API_TIMEOUT_MS=3000000"
+      ENV_PREFIX="PYTHONPATH=$agents_dir:\${PYTHONPATH:-}"
+      AGENT_FLAG="--agent-import-path 'glm_adapter:GlmOpenCode'"
       ;;
     codex|codex53|gpt54)
       ENV_PREFIX="PYTHONPATH=$agents_dir:\${PYTHONPATH:-}"

@@ -12,7 +12,7 @@ export function CumulativeChart({ data }) {
   const selectedConfig = selectedModel ? (MODEL_CONFIG[selectedModel] || { displayName: selectedModel }) : null;
   const activeLabel = selectedModel
     ? `${selectedConfig.displayName} \u2014 Per-Skill Peak Rate`
-    : activeSkill ? `${SKILL_DISPLAY[activeSkill] || activeSkill} Peak Rate` : 'Total Peak Rate';
+    : activeSkill ? `${SKILL_DISPLAY[activeSkill] || activeSkill} Peak Rate` : 'Average';
 
   useEffect(() => {
     if (!data || !chartRef.current || !legendRef.current) return;
@@ -33,7 +33,7 @@ export function CumulativeChart({ data }) {
         ? function(skillKey) { navigate('trajectory/' + selectedModel + '/' + skillKey); }
         : function(modelKey) {
             if (activeSkill) navigate('trajectory/' + modelKey + '/' + activeSkill);
-            else navigate('model/' + modelKey);
+            else setSelectedModel(modelKey);
           },
     });
   }, [data, activeSkill, selectedModel]);
@@ -45,28 +45,27 @@ export function CumulativeChart({ data }) {
       <div className="container is-max-widescreen">
         <div className="columns is-centered has-text-centered">
           <div className="column">
-            <h2 className="title is-3">Peak XP Rate \u2014 30 min wall clock</h2>
+            <h2 className="title is-3">Peak XP Rate Over Time</h2>
             <p className="subtitle is-6" style=${{ color: '#888' }}>
-              Peak training rate (real-game XP/min) across 16 skills in 30 minutes wall clock (8x game speed). Best of 1.${' '}
-              <a href="views/graph-skills.html?horizon=30m">Full interactive view \u2192</a>
+              Peak training rate (real-game XP/min) across 16 skills in 30 minutes wall clock (8x game speed). Best of 1.
             </p>
           </div>
         </div>
         <div className="benchmark-chart-wrap benchmark-chart-layout">
           <aside className="skill-rail" aria-label="Skill chart filter">
-            <button
-              type="button"
-              className=${`skill-rail-reset${!selectedModel && !pinnedSkill ? ' active' : ''}${hoveredSkill === '__total__' ? ' hovered' : ''}`}
-              onClick=${() => { if (selectedModel) { setSelectedModel(null); } setPinnedSkill(null); setHoveredSkill(null); }}
-              onMouseEnter=${() => { if (pinnedSkill || selectedModel) setHoveredSkill('__total__'); }}
-              onMouseLeave=${() => { if (hoveredSkill === '__total__') setHoveredSkill(null); }}
-            >
-              Total
-            </button>
             <div
               className="skill-rail-grid"
               onMouseLeave=${() => setHoveredSkill(null)}
             >
+              <button
+                type="button"
+                className=${`skill-rail-reset${!selectedModel && !pinnedSkill ? ' active' : ''}${hoveredSkill === '__total__' ? ' hovered' : ''}`}
+                onClick=${() => { if (selectedModel) { setSelectedModel(null); } setPinnedSkill(null); setHoveredSkill(null); }}
+                onMouseEnter=${() => { if (pinnedSkill || selectedModel) setHoveredSkill('__total__'); }}
+                onMouseLeave=${() => { if (hoveredSkill === '__total__') setHoveredSkill(null); }}
+              >
+                Average
+              </button>
               ${SKILL_ORDER.map((skill) => {
                 const label = SKILL_DISPLAY[skill] || skill;
                 const iconSrc = VIEWS_BASE + 'skill-icons/' + skill + '.png';

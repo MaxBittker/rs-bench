@@ -1,5 +1,5 @@
 import { html, useState, useEffect, useRef, useCallback, useMemo } from '../html.js';
-import { closeModal, navigate } from '../router.js';
+import { navigate } from '../router.js';
 
 const SKILL_COLORS = {
   attack:'#e04040', defence:'#6090d0', strength:'#40a040', hitpoints:'#d04070',
@@ -181,6 +181,7 @@ export function TrajectoryModal({ model, skill, data }) {
 
   const [videoOffset, setVideoOffset] = useState(0);
 
+  const containerRef = useRef(null);
   const videoRef = useRef(null);
   const transcriptRef = useRef(null);
   const chartCanvasRef = useRef(null);
@@ -190,23 +191,7 @@ export function TrajectoryModal({ model, skill, data }) {
   const videoOffsetRef = useRef(0);
   const maxVideoTimeRef = useRef(Infinity);
   const videoReadyRef = useRef(false);
-  const userScrollingRef = useRef(false);
-  const scrollTimerRef = useRef(null);
   const chartDraggingRef = useRef(false);
-
-  // Prevent body/html scroll
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; document.documentElement.style.overflow = ''; };
-  }, []);
-
-  // Escape key to close
-  useEffect(() => {
-    const handler = (e) => { if (e.key === 'Escape') closeModal(); };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
-  }, []);
 
   // Seek video to a step timestamp
   const seekVideo = useCallback((stepTs) => {
@@ -296,10 +281,9 @@ export function TrajectoryModal({ model, skill, data }) {
         }
       }
 
-      // Auto-scroll transcript
-      if (userScrollingRef.current) return;
+      // Auto-highlight current transcript step (no forced scroll)
       const currentStepTs = videoEl.currentTime - videoOffsetRef.current;
-      highlightAndScrollToStep(transcriptRef.current, currentStepTs, true);
+      highlightAndScrollToStep(transcriptRef.current, currentStepTs, false);
     };
 
     return () => {
@@ -310,53 +294,6 @@ export function TrajectoryModal({ model, skill, data }) {
     };
   }, [hasVideo, trajData]);
 
-  // Transcript scroll handler (scroll → seek video)
-  useEffect(() => {
-    if (!hasVideo) return;
-    const el = transcriptRef.current;
-    if (!el) return;
-
-    const handler = () => {
-      userScrollingRef.current = true;
-      clearTimeout(scrollTimerRef.current);
-      scrollTimerRef.current = setTimeout(() => {
-        const videoEl = videoRef.current;
-        if (!videoEl || !videoReadyRef.current || !videoEl.paused) {
-          userScrollingRef.current = false;
-          return;
-        }
-        const containerRect = el.getBoundingClientRect();
-        const allSteps = el.querySelectorAll('[data-ts]');
-        let topStep = null;
-        for (const step of allSteps) {
-          if (step.getBoundingClientRect().top >= containerRect.top - 10) {
-            topStep = step;
-            break;
-          }
-        }
-        if (topStep) {
-          const ts = parseFloat(topStep.dataset.ts);
-          if (!isNaN(ts)) {
-            const targetTime = ts + videoOffsetRef.current;
-            if (targetTime >= 0 && targetTime <= (videoEl.duration || Infinity)) {
-              videoEl.currentTime = targetTime;
-            }
-            highlightAndScrollToStep(el, ts, false);
-          }
-        }
-        // Keep the flag true a bit longer so the async timeupdate from the
-        // video seek above doesn't trigger a scrollIntoView snap-back.
-        setTimeout(() => { userScrollingRef.current = false; }, 500);
-      }, 150);
-    };
-
-    el.addEventListener('scroll', handler);
-    return () => {
-      el.removeEventListener('scroll', handler);
-      clearTimeout(scrollTimerRef.current);
-    };
-  }, [hasVideo]);
-
   // Skills chart setup
   useEffect(() => {
     const canvas = chartCanvasRef.current;
@@ -365,6 +302,7 @@ export function TrajectoryModal({ model, skill, data }) {
     const samples = trajData.samples;
     const activeSkills = getActiveSkills(samples, skill);
     const lastElapsed = samples[samples.length - 1].elapsedMs || 1;
+    const chartMaxMinutes = trajData.durationSeconds ? trajData.durationSeconds / 60 : lastElapsed / 60000;
 
     // Find data min/max for y-axis padding
     let yMin = Infinity, yMax = -Infinity;
@@ -404,7 +342,7 @@ export function TrajectoryModal({ model, skill, data }) {
         animation: false,
         scales: {
           x: {
-            type: 'linear', min: 0, max: lastElapsed / 60000,
+            type: 'linear', min: 0, max: chartMaxMinutes,
             title: { display: false },
             ticks: { display: false },
             grid: { display: false },
@@ -568,6 +506,7 @@ export function TrajectoryModal({ model, skill, data }) {
     if (rates.length === 0) return;
 
     const lastElapsed = trajData.samples[trajData.samples.length - 1].elapsedMs || 1;
+    const rateChartMaxMinutes = trajData.durationSeconds ? trajData.durationSeconds / 60 : lastElapsed / 60000;
     // Rates are already real-game XP/min (normalized at computation time)
     const normRates = rates;
     const normPeakRates = peakRates;
@@ -608,7 +547,7 @@ export function TrajectoryModal({ model, skill, data }) {
         animation: false,
         scales: {
           x: {
-            type: 'linear', min: 0, max: lastElapsed / 60000,
+            type: 'linear', min: 0, max: rateChartMaxMinutes,
             title: { display: false },
             ticks: { display: false },
             grid: { display: false },
@@ -695,18 +634,23 @@ export function TrajectoryModal({ model, skill, data }) {
   const runDate = trajData?.containerFinishedAt || trajData?.agentStartedAt || trajData?.firstStepAt;
   const dateStr = runDate ? new Date(runDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
 
+  const skillRail = html`
+    <aside className="traj-skill-rail" aria-label="Skill navigation">
+      ${skillsForModel.map(s => html`
+        <button key=${s}
+          type="button"
+          className=${`traj-skill-rail-btn${s === skill ? ' active' : ''}`}
+          title=${SKILL_DISPLAY[s] || s}
+          onClick=${() => navigate('trajectory/' + model + '/' + s)}>
+          <img src=${VIEWS_BASE + 'skill-icons/' + s + '.png'} alt=${SKILL_DISPLAY[s] || s} />
+        </button>
+      `)}
+    </aside>
+  `;
+
   const navBar = html`
     <div className="traj-topbar">
-      <button onClick=${closeModal} className="traj-back-btn">\u2190 RuneScape-Bench</button>
       <div className="traj-nav-chips">
-        ${skillsForModel.map(s => html`
-          <button key=${s}
-            className=${`traj-chip icon-only${s === skill ? ' active' : ''}`}
-            onClick=${() => navigate('trajectory/' + model + '/' + s)}
-            title=${SKILL_DISPLAY[s] || s}>
-            <img src=${VIEWS_BASE + 'skill-icons/' + s + '.png'} className="traj-chip-icon" />
-          </button>
-        `)}
         ${modelsForSkill.map(m => {
           const mc = MODEL_CONFIG[m] || { shortName: m };
           return html`
@@ -722,13 +666,25 @@ export function TrajectoryModal({ model, skill, data }) {
     </div>
   `;
 
+  const trajHeader = html`
+    <section className="section" style=${{ paddingBottom: '0.75rem' }}>
+      <div className="container is-max-widescreen has-text-centered">
+        <h2 className="title is-3">Trajectories</h2>
+      </div>
+    </section>
+  `;
+
   if (!trajData) {
     return html`
-      <div className="traj-fullscreen">
-        ${navBar}
-        <div className="traj-body">
-          <div style=${{ padding: '32px', textAlign: 'center', color: '#999' }}>
-            No data available for this run.
+      <div ref=${containerRef}>
+        ${trajHeader}
+        <div className="traj-inline">
+          ${navBar}
+          <div className="traj-body">
+            ${skillRail}
+            <div style=${{ flex: 1, padding: '32px', textAlign: 'center', color: '#999' }}>
+              No data available for this run.
+            </div>
           </div>
         </div>
       </div>
@@ -736,72 +692,74 @@ export function TrajectoryModal({ model, skill, data }) {
   }
 
   return html`
-    <div className="traj-fullscreen">
-      ${navBar}
-      <div className="traj-body">
-        <div className="traj-video-container">
-          ${hasVideo && html`
-            <div className="traj-video-pane">
-              <video ref=${videoRef} controls preload="auto"
-                     src=${videoSrc} />
-              <div className="traj-skills-chart-wrap">
-                <div className="traj-rate-legend">
-                  <span className="traj-rate-legend-item">
-                    <span className="traj-rate-legend-line" style=${{ borderColor: SKILL_COLORS[skill] || '#888', background: (SKILL_COLORS[skill] || '#888') + '20' }}></span>
-                    XP Rate
-                  </span>
-                  <span className="traj-rate-legend-item">
-                    <span className="traj-rate-legend-line dashed" style=${{ borderColor: '#333' }}></span>
-                    Peak Rate
-                  </span>
+    <div ref=${containerRef}>
+      ${trajHeader}
+      <div className="traj-inline">
+        ${navBar}
+        <div className="traj-body">
+          ${skillRail}
+          <div className="traj-video-container">
+            ${hasVideo && html`
+              <div className="traj-video-pane">
+                <video ref=${videoRef} controls preload="auto"
+                       src=${videoSrc} />
+                <div className="traj-skills-chart-wrap">
+                  <div className="traj-rate-legend">
+                    <span className="traj-rate-legend-item">
+                      <span className="traj-rate-legend-line" style=${{ borderColor: SKILL_COLORS[skill] || '#888', background: (SKILL_COLORS[skill] || '#888') + '20' }}></span>
+                      XP Rate
+                    </span>
+                    <span className="traj-rate-legend-item">
+                      <span className="traj-rate-legend-line dashed" style=${{ borderColor: '#333' }}></span>
+                      Peak Rate
+                    </span>
+                  </div>
+                  <canvas ref=${rateChartCanvasRef}></canvas>
                 </div>
-                <canvas ref=${rateChartCanvasRef}></canvas>
-              </div>
-              <div className="traj-skills-chart-wrap">
-                <canvas ref=${chartCanvasRef}></canvas>
-              </div>
-              <div className="traj-pane-title">
-                <div className="traj-title-main">
-                  <img src=${VIEWS_BASE + 'skill-icons/' + skill + '.png'} className="traj-title-icon" />
-                  ${skillName} \u00b7 ${horizonMin}m \u00b7 ${config.shortName || config.displayName}
+                <div className="traj-skills-chart-wrap">
+                  <canvas ref=${chartCanvasRef}></canvas>
                 </div>
-                ${dateStr && html`<span className="traj-title-date">${dateStr}</span>`}
               </div>
+            `}
+            <div className="traj-transcript-pane" ref=${transcriptRef} onClick=${handleStepClick}>
+              <div className="traj-transcript-header">
+                <img src=${VIEWS_BASE + 'skill-icons/' + skill + '.png'} className="traj-transcript-header-icon" />
+                <span>${skillName} \u00b7 ${horizonMin}m \u00b7 ${config.shortName || config.displayName}</span>
+                ${dateStr && html`<span className="traj-transcript-header-date">\u00b7 ${dateStr}</span>`}
+              </div>
+              ${steps.length === 0
+                ? html`<div style=${{ color: '#999', textAlign: 'center', padding: '32px' }}>No trajectory data available for this run.</div>`
+                : steps.map((step, i) => {
+                    if (step.type === 'agent') {
+                      return html`
+                        <div key=${i} className="traj-step agent" data-ts=${step.ts != null ? String(step.ts) : undefined}>
+                          ${step.ts != null && html`
+                            <span className="traj-timestamp">${formatTimestamp(step.ts + videoOffset)}</span>
+                          `}
+                          ${step.text}
+                        </div>
+                      `;
+                    }
+                    if (step.type === 'tool-group') {
+                      return html`
+                        <div key=${i} className="traj-tool-group" data-ts=${step.ts != null ? String(step.ts) : undefined}>
+                          ${step.tools.map((t, j) => html`
+                            <span key=${j} className="traj-tool-chip">${t}</span>
+                          `)}
+                        </div>
+                      `;
+                    }
+                    if (step.type === 'tool-detail') {
+                      return html`
+                        <div key=${i} data-ts=${step.ts != null ? String(step.ts) : undefined}>
+                          <${ToolDetail} label=${step.label} detail=${step.detail} />
+                        </div>
+                      `;
+                    }
+                    return null;
+                  })
+              }
             </div>
-          `}
-          <div className="traj-transcript-pane" ref=${transcriptRef} onClick=${handleStepClick}>
-            ${steps.length === 0
-              ? html`<div style=${{ color: '#999', textAlign: 'center', padding: '32px' }}>No trajectory data available for this run.</div>`
-              : steps.map((step, i) => {
-                  if (step.type === 'agent') {
-                    return html`
-                      <div key=${i} className="traj-step agent" data-ts=${step.ts != null ? String(step.ts) : undefined}>
-                        ${step.ts != null && html`
-                          <span className="traj-timestamp">${formatTimestamp(step.ts + videoOffset)}</span>
-                        `}
-                        ${step.text}
-                      </div>
-                    `;
-                  }
-                  if (step.type === 'tool-group') {
-                    return html`
-                      <div key=${i} className="traj-tool-group" data-ts=${step.ts != null ? String(step.ts) : undefined}>
-                        ${step.tools.map((t, j) => html`
-                          <span key=${j} className="traj-tool-chip">${t}</span>
-                        `)}
-                      </div>
-                    `;
-                  }
-                  if (step.type === 'tool-detail') {
-                    return html`
-                      <div key=${i} data-ts=${step.ts != null ? String(step.ts) : undefined}>
-                        <${ToolDetail} label=${step.label} detail=${step.detail} />
-                      </div>
-                    `;
-                  }
-                  return null;
-                })
-            }
           </div>
         </div>
       </div>

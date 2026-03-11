@@ -5,7 +5,7 @@ import { Teaser } from './Teaser.js';
 import { Overview } from './Overview.js';
 import { CumulativeChart } from './CumulativeChart.js';
 import { Heatmap } from './Heatmap.js';
-import { BenchmarkDesign } from './BenchmarkDesign.js';
+import { AgentInterface } from './AgentInterface.js';
 import { Footer } from './Footer.js';
 import { TrajectoryModal } from './TrajectoryModal.js';
 import { SkillPicker } from './SkillPicker.js';
@@ -19,17 +19,15 @@ export function App() {
       <${Hero} />
       <${Teaser} />
       <${Overview} />
+      <${AgentInterface} />
       <${CumulativeChart} data=${data} />
       <${Heatmap} data=${data} />
-      <${BenchmarkDesign} />
+        <${TrajectoryModal} model=${route.model || 'opus'} skill=${route.skill || 'woodcutting'} data=${data} />
+
       <${Footer} />
 
       ${route.page === 'model' && html`
         <${SkillPicker} model=${route.model} data=${data} />
-      `}
-
-      ${route.page === 'trajectory' && html`
-        <${TrajectoryModal} model=${route.model} skill=${route.skill} data=${data} />
       `}
     </${React.Fragment}>
   `;

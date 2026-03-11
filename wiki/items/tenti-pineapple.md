@@ -1,0 +1,11 @@
+# Tenti pineapple
+
+*The most delicious of pineapples.*
+
+| Detail | |
+|---|---|
+| **Type** | Quest Item |
+| **Members** | Yes |
+| **Weight** | 2lb |
+| **Value** | 1 gp |
+| **Tradeable** | No |
