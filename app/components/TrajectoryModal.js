@@ -266,6 +266,36 @@ export function TrajectoryModal({ model, skill, data }) {
     seekVideo(ts);
   }, [seekVideo]);
 
+  // Handle hover on transcript step → show ghost playhead on charts
+  const handleStepHover = useCallback((e) => {
+    const target = e.target.closest('[data-ts]');
+    if (!target) return;
+    const ts = parseFloat(target.dataset.ts);
+    if (isNaN(ts)) return;
+    const gameMinutes = ts / 60;
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current._ghostPlayheadX =
+        chartInstanceRef.current.scales.x.getPixelForValue(gameMinutes);
+      chartInstanceRef.current.draw();
+    }
+    if (rateChartInstanceRef.current) {
+      rateChartInstanceRef.current._ghostPlayheadX =
+        rateChartInstanceRef.current.scales.x.getPixelForValue(gameMinutes);
+      rateChartInstanceRef.current.draw();
+    }
+  }, []);
+
+  const handleStepHoverEnd = useCallback(() => {
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current._ghostPlayheadX = null;
+      chartInstanceRef.current.draw();
+    }
+    if (rateChartInstanceRef.current) {
+      rateChartInstanceRef.current._ghostPlayheadX = null;
+      rateChartInstanceRef.current.draw();
+    }
+  }, []);
+
   // Video setup
   useEffect(() => {
     if (!hasVideo || !videoRef.current) return;
@@ -447,9 +477,25 @@ export function TrajectoryModal({ model, skill, data }) {
       }, {
         id: 'playhead',
         afterDraw(chart) {
-          if (chart._playheadX == null) return;
           const ctx = chart.ctx;
           const area = chart.chartArea;
+          // Ghost playhead (transcript hover)
+          if (chart._ghostPlayheadX != null) {
+            const gx = chart._ghostPlayheadX;
+            if (gx >= area.left && gx <= area.right) {
+              ctx.save();
+              ctx.beginPath();
+              ctx.moveTo(gx, area.top);
+              ctx.lineTo(gx, area.bottom);
+              ctx.strokeStyle = 'rgba(0,0,0,0.18)';
+              ctx.lineWidth = 1;
+              ctx.setLineDash([4, 3]);
+              ctx.stroke();
+              ctx.restore();
+            }
+          }
+          // Main playhead (video position)
+          if (chart._playheadX == null) return;
           const x = chart._playheadX;
           if (x < area.left || x > area.right) return;
           ctx.save();
@@ -629,9 +675,25 @@ export function TrajectoryModal({ model, skill, data }) {
       plugins: [{
         id: 'ratePlayhead',
         afterDraw(chart) {
-          if (chart._playheadX == null) return;
           const ctx = chart.ctx;
           const area = chart.chartArea;
+          // Ghost playhead (transcript hover)
+          if (chart._ghostPlayheadX != null) {
+            const gx = chart._ghostPlayheadX;
+            if (gx >= area.left && gx <= area.right) {
+              ctx.save();
+              ctx.beginPath();
+              ctx.moveTo(gx, area.top);
+              ctx.lineTo(gx, area.bottom);
+              ctx.strokeStyle = 'rgba(0,0,0,0.18)';
+              ctx.lineWidth = 1;
+              ctx.setLineDash([4, 3]);
+              ctx.stroke();
+              ctx.restore();
+            }
+          }
+          // Main playhead (video position)
+          if (chart._playheadX == null) return;
           const x = chart._playheadX;
           if (x < area.left || x > area.right) return;
           ctx.save();
@@ -778,7 +840,8 @@ export function TrajectoryModal({ model, skill, data }) {
                 </div>
               </div>
             `}
-            <div className="traj-transcript-pane" ref=${transcriptRef} onClick=${handleStepClick}>
+            <div className="traj-transcript-pane" ref=${transcriptRef} onClick=${handleStepClick}
+                 onMouseOver=${handleStepHover} onMouseLeave=${handleStepHoverEnd}>
               <div className="traj-transcript-header">
                 <img src=${VIEWS_BASE + 'skill-icons/' + skill + '.png'} className="traj-transcript-header-icon" />
                 <span>${skillName} \u00b7 ${horizonMin}m \u00b7 ${config.shortName || config.displayName}</span>

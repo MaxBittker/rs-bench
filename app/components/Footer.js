@@ -2,7 +2,7 @@ import { html } from '../html.js';
 
 export function Footer() {
   return html`
-    <footer className="footer">
+    <footer className="footer" style=${{ backgroundColor: '#f0f0f0', marginTop: '60px' }}>
       <div className="container">
         <div className="columns is-centered">
           <div className="column is-8">
@@ -11,7 +11,7 @@ export function Footer() {
             Thanks to${' '}
             Rob Haisfield,
             Sean Lee,
-            Christopher Settles, and Alex Duffy
+            Christopher Settles, Alex Duffy, and Erik Quintanilla
             ${' '}for critical feedback and input
 
           </p>

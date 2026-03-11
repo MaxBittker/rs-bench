@@ -488,6 +488,55 @@
   }
   .download-btn:hover { color: #333; }
 
+  /* Interesting trajectories section */
+  .interesting-section {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #e8e8e8;
+    max-width: 720px;
+  }
+  .interesting-section h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+  }
+  .interesting-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .interesting-item {
+    padding: 10px 14px;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .interesting-item:hover {
+    border-color: #999;
+    background: #fafafa;
+  }
+  .interesting-item-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+  }
+  .interesting-item-header img {
+    width: 16px;
+    height: 16px;
+  }
+  .interesting-item-desc {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.5;
+  }
+
   /* Custom tooltip */
   .chart-tooltip {
     position: absolute;
@@ -710,7 +759,20 @@
 
 <div class="bottom-legend" id="bottomLegend"></div>
 
+<div class="interesting-section" id="interestingSection" style="display:none">
+  <h2>Interesting Trajectories</h2>
+  <ul class="interesting-list" id="interestingList"></ul>
+</div>
+
 <script>
+const INTERESTING_TRAJECTORIES = [
+  {
+    model: 'geminiflash',
+    skill: 'fishing',
+    description: 'Gemini Flash discovers an incredibly efficient fishing strategy almost immediately, rapidly outpacing models with far more compute. A masterclass in doing more with less.',
+  },
+];
+
 let combinedData = {};
 function isMobile() { return window.innerWidth <= 640; }
 let currentView = 'cumulative';
@@ -928,6 +990,7 @@ function onDataLoaded() {
   renderSkillRail();
   renderLegend();
   renderCurrentView();
+  renderInteresting();
 }
 
 function setView(view) {
@@ -948,9 +1011,11 @@ function toggleModel(name) {
 function setPinnedSkill(skill) {
   pinnedSkill = pinnedSkill === skill ? null : skill;
   hoveredSkill = null;
+  const scrollY = window.scrollY;
   renderSkillRail();
   renderLegend();
   renderCurrentView();
+  window.scrollTo(0, scrollY);
 }
 
 function previewSkill(skill) {
@@ -972,9 +1037,11 @@ function clearSkillPreview() {
 function clearActiveSkill() {
   pinnedSkill = null;
   hoveredSkill = null;
+  const scrollY = window.scrollY;
   renderSkillRail();
   renderLegend();
   renderCurrentView();
+  window.scrollTo(0, scrollY);
 }
 
 function getModelTotalRate(model) {
@@ -1935,6 +2002,36 @@ document.title = `Peak XP Rate Benchmark (${HORIZON_MINUTES} min)`;
 document.getElementById('pageDescription').textContent =
   `Each agent trains a single skill for ${HORIZON_MINUTES} minutes wall clock (8x game speed). ` +
   `Score = peak XP/min measured in any 15-second window. Best of 1.`;
+
+// ── Interesting Trajectories ─────────────────────────────────────
+
+function renderInteresting() {
+  const section = document.getElementById('interestingSection');
+  const list = document.getElementById('interestingList');
+  if (!section || !list) return;
+
+  // Only show entries where data exists
+  const entries = INTERESTING_TRAJECTORIES.filter(t => combinedData[t.model]?.[t.skill]);
+  if (entries.length === 0) { section.style.display = 'none'; return; }
+
+  section.style.display = '';
+  list.innerHTML = entries.map(t => {
+    const mc = MODEL_CONFIG[t.model] || { displayName: t.model, color: '#999' };
+    const skillName = SKILL_DISPLAY[t.skill] || t.skill;
+    const skillIcon = 'skill-icons/' + t.skill + '.png';
+    const modelIcon = mc.icon || '';
+    return `<li class="interesting-item" onclick="openTrajectory('${t.model}','${t.skill}')">
+      <div class="interesting-item-header">
+        ${modelIcon ? `<img src="${modelIcon}">` : ''}
+        <span>${mc.displayName}</span>
+        <span style="color:#aaa;font-weight:400">&mdash;</span>
+        <img src="${skillIcon}">
+        <span>${skillName}</span>
+      </div>
+      <div class="interesting-item-desc">${t.description}</div>
+    </li>`;
+  }).join('');
+}
 
 // Auto-load on page open
 loadResults();
