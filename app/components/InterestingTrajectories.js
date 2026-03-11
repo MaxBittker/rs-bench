@@ -5,14 +5,55 @@ const INTERESTING = [
   {
     model: 'geminiflash',
     skill: 'fishing',
-    description: 'Gemini Flash discovers an incredibly efficient fishing strategy almost immediately, rapidly outpacing models with far more compute. A masterclass in doing more with less.',
+    description: 'Gemini Flash discovers an efficient fishing strategy almost immediately, outpacing models with far more compute. A masterclass in doing more with less.',
+    moments: [
+      { ts: 44, label: 'net fishing at Draynor' },
+      { ts: 337, label: 'fly fishing at Barbarian Village' },
+      { ts: 729, label: 'harpoon fishing' },
+    ],
+  },
+  {
+    model: 'opus',
+    skill: 'fletching',
+    description: 'Opus 4.6 needs a knife to fletch but doesn\'t have one. It checks wiki, tries shops, reads game source to find spawn locations, and problem-solves its way to one.',
+    moments: [
+      { ts: 29, label: 'Realizes it needs a knife' },
+      { ts: 406, label: 'Discovers muggers drop knives' },
+      { ts: 570, label: 'Parses binary map files to find spawn' },
+      { ts: 600, label: 'Starts fletching' },
+    ],
+  },
+  {
+    model: 'sonnet45',
+    skill: 'smithing',
+    description: `Sonnet 4.5 tries to write a single mega-script that mines, smelts, and smiths all at once. Rewrites it over and over but never validates the basics, ending 30 minutes with 0 XP. 
+    \"The session serves as a reminder to validate each step of a process works independently before combining them into a larger system.\"
+    `,
+    moments: [
+     
+    ],
+  },
+  {
+    model: 'gemini31',
+    skill: 'mining',
+    description: 'Gemini 3.1 mines to level 75 and ventures into the Dwarven Mine seeking better ore. Stumbles into the wilderness, dies to Ice Giants, but recovers and gets back to work.',
+    moments: [
+      { ts: 449, label: 'Seeks Runite' },
+      { ts: 689, label: 'Dies in deep wildy' },
+      { ts: 815, label: 'Recovers and resumes training' },
+    ],
   },
 ];
+
+function formatMomentTs(ts) {
+  const m = Math.floor(ts / 60);
+  const s = Math.floor(ts % 60);
+  return m + ':' + String(s).padStart(2, '0');
+}
 
 export function InterestingTrajectories({ data }) {
   if (!data) return null;
 
-  // Only show entries whose data exists
   const entries = INTERESTING.filter(t => data[t.model]?.[t.skill]);
   if (entries.length === 0) return null;
 
@@ -20,23 +61,35 @@ export function InterestingTrajectories({ data }) {
     <section className="section">
       <div className="container is-max-widescreen">
         <h2 className="title is-3 has-text-centered">Interesting Trajectories</h2>
-        <div className="interesting-list">
+        <div className="interesting-grid">
           ${entries.map((t, i) => {
             const mc = MODEL_CONFIG[t.model] || { displayName: t.model, color: '#999' };
             const skillName = SKILL_DISPLAY[t.skill] || t.skill;
             const skillIcon = VIEWS_BASE + 'skill-icons/' + t.skill + '.png';
             const modelIcon = mc.icon || '';
+            const basePath = 'trajectory/' + t.model + '/' + t.skill;
             return html`
-              <div key=${i} className="interesting-item"
-                   onClick=${() => navigate('trajectory/' + t.model + '/' + t.skill)}>
-                <div className="interesting-item-header">
+              <div key=${i} className="interesting-card"
+                   onClick=${() => navigate(basePath)}>
+                <div className="interesting-card-header">
                   ${modelIcon && html`<img src=${modelIcon} />`}
-                  <span>${mc.displayName}</span>
-                  <span style=${{ color: '#aaa', fontWeight: 400 }}>\u2014</span>
+                  <span>${mc.shortName || mc.displayName}</span>
+                  <span style=${{ color: '#bbb', fontWeight: 400 }}>\u00b7</span>
                   <img src=${skillIcon} />
                   <span>${skillName}</span>
                 </div>
-                <div className="interesting-item-desc">${t.description}</div>
+                <div className="interesting-card-desc">${t.description}</div>
+                ${t.moments && html`
+                  <div className="interesting-moments">
+                    ${t.moments.map((m, j) => html`
+                      <a key=${j} className="interesting-moment"
+                         onClick=${(e) => { e.stopPropagation(); navigate(basePath + '@' + m.ts); }}>
+                        <span className="interesting-moment-ts">${formatMomentTs(m.ts)}</span>
+                        ${' ' + m.label}
+                      </a>
+                    `)}
+                  </div>
+                `}
               </div>
             `;
           })}

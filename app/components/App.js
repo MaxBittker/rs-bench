@@ -23,7 +23,7 @@ export function App() {
       <${AgentInterface} />
       <${CumulativeChart} data=${data} />
       <${Heatmap} data=${data} activeModel=${route.model} activeSkill=${route.skill} />
-        <${TrajectoryModal} model=${route.model || 'opus'} skill=${route.skill || 'woodcutting'} data=${data} />
+        <${TrajectoryModal} model=${route.model || 'opus'} skill=${route.skill || 'woodcutting'} data=${data} seekTs=${route.seekTs} />
       <${InterestingTrajectories} data=${data} />
 
       <${Footer} />

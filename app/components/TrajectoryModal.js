@@ -182,7 +182,7 @@ function getNavLists(data, model, skill) {
   return { modelsForSkill, skillsForModel };
 }
 
-export function TrajectoryModal({ model, skill, data }) {
+export function TrajectoryModal({ model, skill, data, seekTs }) {
   const trajData = data?.[model]?.[skill];
   const config = MODEL_CONFIG[model] || { displayName: model, color: '#999' };
   const skillName = SKILL_DISPLAY[skill] || skill;
@@ -243,6 +243,16 @@ export function TrajectoryModal({ model, skill, data }) {
       containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [model, skill]);
+
+  // Scroll transcript to seekTs when navigating with a timestamp
+  useEffect(() => {
+    if (seekTs == null || !transcriptRef.current) return;
+    // Small delay to let the transcript render
+    const timer = setTimeout(() => {
+      highlightAndScrollToStep(transcriptRef.current, seekTs, true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [model, skill, seekTs]);
 
   // Seek video to a step timestamp
   const seekVideo = useCallback((stepTs) => {
@@ -487,8 +497,8 @@ export function TrajectoryModal({ model, skill, data }) {
               ctx.beginPath();
               ctx.moveTo(gx, area.top);
               ctx.lineTo(gx, area.bottom);
-              ctx.strokeStyle = 'rgba(0,0,0,0.18)';
-              ctx.lineWidth = 1;
+              ctx.strokeStyle = 'rgba(100,100,255,0.5)';
+              ctx.lineWidth = 1.5;
               ctx.setLineDash([4, 3]);
               ctx.stroke();
               ctx.restore();
@@ -685,8 +695,8 @@ export function TrajectoryModal({ model, skill, data }) {
               ctx.beginPath();
               ctx.moveTo(gx, area.top);
               ctx.lineTo(gx, area.bottom);
-              ctx.strokeStyle = 'rgba(0,0,0,0.18)';
-              ctx.lineWidth = 1;
+              ctx.strokeStyle = 'rgba(100,100,255,0.5)';
+              ctx.lineWidth = 1.5;
               ctx.setLineDash([4, 3]);
               ctx.stroke();
               ctx.restore();
@@ -854,7 +864,7 @@ export function TrajectoryModal({ model, skill, data }) {
                       return html`
                         <div key=${i} className="traj-step agent" data-ts=${step.ts != null ? String(step.ts) : undefined}>
                           ${step.ts != null && html`
-                            <span className="traj-timestamp">${formatTimestamp(step.ts + videoOffset)}</span>
+                            <span className="traj-timestamp">${formatTimestamp(step.ts)}</span>
                           `}
                           ${step.text}
                         </div>
