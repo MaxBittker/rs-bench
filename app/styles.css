@@ -552,7 +552,7 @@ body {
 }
 .traj-video-pane {
   flex-shrink: 0;
-  width: 420px;
+  width: 500px;
   display: flex;
   flex-direction: column;
   background: #fff;
