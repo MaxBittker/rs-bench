@@ -24,7 +24,7 @@ All task directories are generated from `generate-tasks.ts` and should not be ed
 
 ## Tested Models
 
-Claude Opus 4.6, Claude Opus 4.5, Claude Sonnet 4.6, Claude Sonnet 4.5, Claude Haiku 3.5, Gemini 3 Pro, Gemini 3.1 Pro, Gemini 3 Flash, Codex CLI 5.2, Codex CLI 5.3, GPT-5.4, GLM 5, Kimi K2.5, Qwen3 Coder Next, Qwen3.5 35B
+Claude Opus 4.6, Claude Opus 4.5, Claude Sonnet 4.6, Claude Sonnet 4.5, Claude Haiku 4.5, Gemini 3 Pro, Gemini 3.1 Pro, Gemini 3 Flash, Codex CLI 5.2, Codex CLI 5.3, GPT-5.4, GLM 5, Kimi K2.5, Qwen3 Coder Next, Qwen3.5 35B
 
 ## Quick Start
 

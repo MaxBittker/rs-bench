@@ -11,7 +11,7 @@ const MODEL_CONFIG = {
   'gemini':   { displayName: 'Gemini 3 Pro',      shortName: 'Gemini 3',    color: '#4285f4', order: 5, icon: VIEWS_BASE + 'model-icons/gemini.webp' },
   'gemini31': { displayName: 'Gemini 3.1 Pro',    shortName: 'Gemini 3.1',  color: '#1a57c4', order: 6, icon: VIEWS_BASE + 'model-icons/gemini.webp' },
   'geminiflash': { displayName: 'Gemini 3 Flash', shortName: 'Gemini Flash', color: '#7baaf7', order: 6.5, icon: VIEWS_BASE + 'model-icons/gemini.webp' },
-  'haiku':    { displayName: 'Claude Haiku 3.5',   shortName: 'Haiku 3.5',  color: '#e06090', order: 7, icon: VIEWS_BASE + 'model-icons/anthropic.svg' },
+  'haiku':    { displayName: 'Claude Haiku 4.5',   shortName: 'Haiku 4.5',  color: '#e06090', order: 7, icon: VIEWS_BASE + 'model-icons/anthropic.svg' },
   'codex':    { displayName: 'Codex CLI 5.2',       shortName: 'Codex 5.2', color: '#10a37f', order: 8, icon: VIEWS_BASE + 'model-icons/openai.png' },
   'codex53':  { displayName: 'Codex CLI 5.3',       shortName: 'Codex 5.3', color: '#0d8c6b', order: 9, icon: VIEWS_BASE + 'model-icons/openai.png' },
   'gpt54':    { displayName: 'GPT-5.4',             shortName: 'GPT-5.4',  color: '#0a7a5a', order: 10, icon: VIEWS_BASE + 'model-icons/openai.png' },
